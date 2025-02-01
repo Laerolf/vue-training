@@ -1,0 +1,115 @@
+[
+    {
+        "id": "00000000-0000-1000-8000-000000000001",
+        "name": "Cape Canaveral Space Force Station",
+        "code": "CCS",
+        "country": "United States",
+        "locationId": "00000000-0000-1000-8000-000000000001"
+    },
+    {
+        "id": "00000000-0000-1000-8000-000000000002",
+        "name": "Satish Dhawan Space Centre",
+        "code": "SDC",
+        "country": "India",
+        "locationId": "00000000-0000-1000-8000-000000000001"
+    },
+    {
+        "id": "00000000-0000-1000-8000-000000000003",
+        "name": "Tanegashima Space Center",
+        "code": "TNS",
+        "country": "Japan",
+        "locationId": "00000000-0000-1000-8000-000000000001"
+    },
+    {
+        "id": "00000000-0000-1000-8000-000000000004",
+        "name": "Guiana Space Centre",
+        "code": "GSC",
+        "country": "French Guiana",
+        "locationId": "00000000-0000-1000-8000-000000000001"
+    },
+    {
+        "id": "00000000-0000-1000-8000-000000000005",
+        "name": "Rocket Lab Launch Complex 1",
+        "code": "RL1",
+        "country": "New Zealand",
+        "locationId": "00000000-0000-1000-8000-000000000001"
+    },
+    {
+        "id": "00000000-0000-1000-8000-000000000006",
+        "name": "Naro Space Center",
+        "code": "NSC",
+        "country": "South Korea",
+        "locationId": "00000000-0000-1000-8000-000000000001"
+    },
+    {
+        "id": "00000000-0000-1000-8000-000000000007",
+        "name": "Sutherland Space Hub",
+        "code": "SSH",
+        "country": "Scotland",
+        "locationId": "00000000-0000-1000-8000-000000000001"
+    },
+    {
+        "id": "00000000-0000-1000-8000-000000000008",
+        "name": "Arnhem Space Centre",
+        "code": "ASC",
+        "country": "Australia",
+        "locationId": "00000000-0000-1000-8000-000000000001"
+    },
+    {
+        "id": "00000000-0000-1000-8000-000000000009",
+        "name": "Azores Spaceport",
+        "code": "AZP",
+        "country": "Portugal",
+        "locationId": "00000000-0000-1000-8000-000000000001"
+    },
+    {
+        "id": "00000000-0000-1000-8000-000000000010",
+        "name": "German Offshore Platform",
+        "code": "GOP",
+        "country": "Germany",
+        "locationId": "00000000-0000-1000-8000-000000000001"
+    },
+    {
+        "id": "00000000-0000-1000-8000-000000000011",
+        "name": "Esrange Space Center",
+        "code": "ESC",
+        "country": "Sweden",
+        "locationId": "00000000-0000-1000-8000-000000000001"
+    },
+    {
+        "id": "00000000-0000-1000-8000-000000000012",
+        "name": "Red Haven - Mars",
+        "code": "RHV",
+        "locationId": "00000000-0000-1000-8000-000000000004"
+    },
+    {
+        "id": "00000000-0000-1000-8000-000000000013",
+        "name": "Venus Skybridge - Venus",
+        "code": "VSB",
+        "locationId": "00000000-0000-1000-8000-000000000003"
+    },
+    {
+        "id": "00000000-0000-1000-8000-000000000014",
+        "name": "Artemis Base One - Moon",
+        "code": "AB1",
+        "locationId": "00000000-0000-1000-8000-000000000002"
+    },
+    {
+        "id": "00000000-0000-1000-8000-000000000015",
+        "name": "Saturn's Watch - Titan",
+        "code": "SWC",
+        "locationId": "00000000-0000-1000-8000-000000000007"
+    },
+    {
+        "id": "00000000-0000-1000-8000-000000000016",
+        "name": "Ice Bridge Alpha - Europa",
+        "code": "IBA",
+        "locationId": "00000000-0000-1000-8000-000000000005"
+    },
+    {
+        "id": "00000000-0000-1000-8000-000000000017",
+        "name": "Callisto Prime - Callisto",
+        "code": "CLP",
+        "locationId": "00000000-0000-1000-8000-000000000006"
+    }
+]

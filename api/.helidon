@@ -1,0 +1,6 @@
+#Helidon Project Configuration
+#Mon Jan 20 11:16:12 UTC 2025
+schema.version=1.1.0
+helidon.version=4.1.6
+project.flavor=mp
+project.archetype=custom
