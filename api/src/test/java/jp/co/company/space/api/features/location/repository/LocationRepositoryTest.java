@@ -34,15 +34,9 @@ public class LocationRepositoryTest {
     @Inject
     private LocationRepository repository;
 
-    /**
-     * The locations entity manager.
-     */
-    @PersistenceContext(unitName = "locations")
+    @PersistenceContext(unitName = "domain")
     private EntityManager entityManager;
 
-    /**
-     * The transaction to use.
-     */
     private EntityTransaction transaction;
 
     @BeforeEach

@@ -40,15 +40,9 @@ public class SpaceShuttleRepositoryTest {
         @Inject
         private SpaceShuttleRepository repository;
 
-        /**
-         * The space shuttles entity manager.
-         */
-        @PersistenceContext(unitName = "spaceShuttles")
+        @PersistenceContext(unitName = "domain")
         private EntityManager entityManager;
 
-        /**
-         * The transaction to use.
-         */
         private EntityTransaction transaction;
 
         @BeforeEach

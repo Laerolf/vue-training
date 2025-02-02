@@ -11,6 +11,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
@@ -75,6 +76,7 @@ public class SpaceStation {
     private String country;
 
     @ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+    @JoinColumn(name = "location_id", table = "space_stations", nullable = false, unique = true)
     @Schema(description = "The location of the space station.", required = true, implementation = Location.class)
     private Location location;
 

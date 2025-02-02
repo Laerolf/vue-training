@@ -9,6 +9,7 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TransactionRequiredException;
+import jakarta.transaction.Transactional;
 import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 import jp.co.company.space.shared.PersistenceRepository;
@@ -20,10 +21,7 @@ import jp.co.company.space.shared.QueryRepository;
 @ApplicationScoped
 public class SpaceShuttleRepository implements QueryRepository<SpaceShuttle>, PersistenceRepository<SpaceShuttle> {
 
-    /**
-     * The space shuttles entity manager.
-     */
-    @PersistenceContext(unitName = "spaceShuttles")
+    @PersistenceContext(unitName = "domain")
     private EntityManager entityManager;
 
     protected SpaceShuttleRepository() {}
@@ -56,6 +54,7 @@ public class SpaceShuttleRepository implements QueryRepository<SpaceShuttle>, Pe
      * @return The saved {@link SpaceStation} instance.
      */
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public SpaceShuttle save(SpaceShuttle spaceShuttle) {
         if (!findById(spaceShuttle.getId()).isPresent()) {
             try {
@@ -77,6 +76,7 @@ public class SpaceShuttleRepository implements QueryRepository<SpaceShuttle>, Pe
      * @return The merged {@link SpaceShuttle} instance.
      */
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public SpaceShuttle merge(SpaceShuttle spaceShuttle) {
         try {
             return entityManager.merge(spaceShuttle);
@@ -92,6 +92,7 @@ public class SpaceShuttleRepository implements QueryRepository<SpaceShuttle>, Pe
      * @return The {@link List} of saved {@link SpaceShuttle} instances.
      */
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public List<SpaceShuttle> save(List<SpaceShuttle> spaceShuttles) {
         try {
             return spaceShuttles.stream().map(this::save).toList();

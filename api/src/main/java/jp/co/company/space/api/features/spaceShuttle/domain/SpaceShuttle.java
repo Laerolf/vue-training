@@ -11,6 +11,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
@@ -70,6 +71,7 @@ public class SpaceShuttle {
      * The model of the space shuttle.
      */
     @ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+    @JoinColumn(name = "model_id", table = "space_shuttles", nullable = false, unique = true)
     @Schema(description = "The model of the space shuttle", required = true, implementation = SpaceShuttleModel.class)
     private SpaceShuttleModel model;
 

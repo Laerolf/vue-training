@@ -4,26 +4,13 @@
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_1.xsd"
              version="3.1">
 
-    <persistence-unit name="default" transaction-type="JTA">
-        <jta-data-source>spaceApiDs</jta-data-source>
-        <properties>
-            <property name="hibernate.column_ordering_strategy" value="legacy"/>
-        </properties>
-    </persistence-unit>
-
-    <persistence-unit name="spaceShuttles" transaction-type="JTA">
+    <persistence-unit name="domain" transaction-type="JTA">
         <jta-data-source>spaceApiDs</jta-data-source>
         <class>jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle</class>
         <class>jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel</class>
-        <properties>
-            <property name="hibernate.column_ordering_strategy" value="legacy"/>
-        </properties>
-    </persistence-unit>
-
-    <persistence-unit name="locations" transaction-type="JTA">
-        <jta-data-source>spaceApiDs</jta-data-source>
         <class>jp.co.company.space.api.features.location.domain.Location</class>
         <class>jp.co.company.space.api.features.spaceStation.domain.SpaceStation</class>
+        <class>jp.co.company.space.api.features.route.domain.Route</class>
         <properties>
             <property name="hibernate.column_ordering_strategy" value="legacy"/>
         </properties>

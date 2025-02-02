@@ -1,14 +1,10 @@
 package jp.co.company.space.api.application.checks.readiness;
 
-import java.time.ZonedDateTime;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
-import org.eclipse.microprofile.health.HealthCheckResponseBuilder;
 import org.eclipse.microprofile.health.Readiness;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.Initialized;
-import jakarta.enterprise.event.Observes;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
@@ -18,25 +14,14 @@ import jakarta.persistence.PersistenceContext;
 @Readiness
 @ApplicationScoped
 public class DbReadinessCheck implements HealthCheck {
-    private ZonedDateTime readyTime;
 
-    @PersistenceContext(unitName = "default")
+    @PersistenceContext(unitName = "domain")
     private EntityManager entityManager;
-
-    public void onStartUp(@Observes @Initialized(ApplicationScoped.class) Object init) {
-        readyTime = ZonedDateTime.now();
-    }
 
     @Override
     public HealthCheckResponse call() {
-        HealthCheckResponseBuilder responseBuilder = HealthCheckResponse.named("DbReadinessCheck")
-                .withData("description", "Tests if the database is ready to be used.");
-
-        if (isReady()) {
-            return responseBuilder.up().withData("readyTime", readyTime.toString()).build();
-        } else {
-            return responseBuilder.down().build();
-        }
+        return HealthCheckResponse.named("DbReadinessCheck")
+                .withData("description", "Tests if the database is ready to be used.").status(isReady()).build();
     }
 
     /**

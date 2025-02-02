@@ -14,7 +14,6 @@ public interface PersistenceRepository<T> {
      * @param entity The {@link T} instance to save.
      * @return The saved {@link T} instance.
      */
-    @Transactional(Transactional.TxType.REQUIRED)
     public T save(T entity);
 
     /**
@@ -23,7 +22,6 @@ public interface PersistenceRepository<T> {
      * @param entity The {@link T} instance to merge.
      * @return The merged {@link T} instance.
      */
-    @Transactional(Transactional.TxType.REQUIRED)
     public T merge(T entity);
 
     /**

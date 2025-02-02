@@ -9,6 +9,7 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TransactionRequiredException;
+import jakarta.transaction.Transactional;
 import jp.co.company.space.api.features.location.domain.Location;
 import jp.co.company.space.shared.PersistenceRepository;
 import jp.co.company.space.shared.QueryRepository;
@@ -19,10 +20,7 @@ import jp.co.company.space.shared.QueryRepository;
 @ApplicationScoped
 public class LocationRepository implements QueryRepository<Location>, PersistenceRepository<Location> {
 
-    /**
-     * The locations entity manager.
-     */
-    @PersistenceContext(unitName = "locations")
+    @PersistenceContext(unitName = "domain")
     private EntityManager entityManager;
 
     protected LocationRepository() {}
@@ -55,6 +53,7 @@ public class LocationRepository implements QueryRepository<Location>, Persistenc
      * @return The saved {@link Location} instance.
      */
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public Location save(Location location) {
         if (!findById(location.getId()).isPresent()) {
             try {
@@ -76,6 +75,7 @@ public class LocationRepository implements QueryRepository<Location>, Persistenc
      * @return The merged {@link Location} instance.
      */
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public Location merge(Location location) {
         try {
             return entityManager.merge(location);
@@ -91,6 +91,7 @@ public class LocationRepository implements QueryRepository<Location>, Persistenc
      * @return The {@link List} of saved {@link Location} instances.
      */
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public List<Location> save(List<Location> locations) {
         try {
             return locations.stream().map(this::save).toList();
