@@ -9,14 +9,16 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TransactionRequiredException;
-import jakarta.transaction.Transactional;
 import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
+import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
+import jp.co.company.space.shared.PersistenceRepository;
+import jp.co.company.space.shared.QueryRepository;
 
 /**
  * The class for {@link SpaceShuttle} DB actions.
  */
 @ApplicationScoped
-public class SpaceShuttleRepository {
+public class SpaceShuttleRepository implements QueryRepository<SpaceShuttle>, PersistenceRepository<SpaceShuttle> {
 
     /**
      * The space shuttles entity manager.
@@ -32,6 +34,7 @@ public class SpaceShuttleRepository {
      * @param id The ID of the space shuttle to search for.
      * @return An {@link Optional} {@link SpaceShuttle}.
      */
+    @Override
     public Optional<SpaceShuttle> findById(String id) {
         return Optional.ofNullable(entityManager.find(SpaceShuttle.class, id));
     }
@@ -41,6 +44,7 @@ public class SpaceShuttleRepository {
      * 
      * @return A {@link List} of {@link SpaceShuttle} instances.
      */
+    @Override
     public List<SpaceShuttle> getAll() {
         return entityManager.createNamedQuery("selectAllSpaceShuttles", SpaceShuttle.class).getResultList();
     }
@@ -51,7 +55,7 @@ public class SpaceShuttleRepository {
      * @param spaceShuttle The {@link SpaceStation} instance to save.
      * @return The saved {@link SpaceStation} instance.
      */
-    @Transactional(Transactional.TxType.SUPPORTS)
+    @Override
     public SpaceShuttle save(SpaceShuttle spaceShuttle) {
         if (!findById(spaceShuttle.getId()).isPresent()) {
             try {
@@ -72,7 +76,7 @@ public class SpaceShuttleRepository {
      * @param spaceShuttle The {@link SpaceShuttle} instance to merge.
      * @return The merged {@link SpaceShuttle} instance.
      */
-    @Transactional(Transactional.TxType.REQUIRED)
+    @Override
     public SpaceShuttle merge(SpaceShuttle spaceShuttle) {
         try {
             return entityManager.merge(spaceShuttle);
@@ -87,7 +91,7 @@ public class SpaceShuttleRepository {
      * @param spaceShuttles The {@link List} of {@link SpaceShuttle} to save.
      * @return The {@link List} of saved {@link SpaceShuttle} instances.
      */
-    @Transactional(Transactional.TxType.REQUIRED)
+    @Override
     public List<SpaceShuttle> save(List<SpaceShuttle> spaceShuttles) {
         try {
             return spaceShuttles.stream().map(this::save).toList();

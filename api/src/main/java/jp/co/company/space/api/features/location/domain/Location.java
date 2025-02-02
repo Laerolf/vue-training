@@ -56,7 +56,7 @@ public class Location {
      * The ID of the location.
      */
     @Id
-    @Column(name = "id", nullable = false, updatable = false, unique = true)
+    @Column(nullable = false, updatable = false, unique = true)
     @Schema(description = "The ID of the location.", required = true, example = "1")
     private String id;
 
@@ -64,7 +64,7 @@ public class Location {
      * The name of the location.
      */
     @Basic(optional = false)
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     @Schema(description = "The name of the location.", required = true, example = "Earth")
     private String name;
 
@@ -72,7 +72,7 @@ public class Location {
      * The galatic latitude of the location.
      */
     @Basic(optional = false)
-    @Column(name = "latitude", nullable = false)
+    @Column(nullable = false)
     @Schema(description = "The galatic latitude of the location.", required = true, example = "0.0")
     private double latitude;
 
@@ -80,7 +80,7 @@ public class Location {
      * The galatic longitude of the location.
      */
     @Basic(optional = false)
-    @Column(name = "longitude", nullable = false)
+    @Column(nullable = false)
     @Schema(description = "The galatic longitude of the location.", required = true, example = "0.0")
     private double longitude;
 
@@ -88,7 +88,7 @@ public class Location {
      * The galatic radial distance of the location.
      */
     @Basic(optional = false)
-    @Column(name = "radialDistance", nullable = false)
+    @Column(nullable = false)
     @Schema(description = "The galatic radial distance of the location.", required = true, example = "27000")
     private double radialDistance;
 

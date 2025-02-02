@@ -9,14 +9,15 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TransactionRequiredException;
-import jakarta.transaction.Transactional;
 import jp.co.company.space.api.features.location.domain.Location;
+import jp.co.company.space.shared.PersistenceRepository;
+import jp.co.company.space.shared.QueryRepository;
 
 /**
  * The class for {@link Location} DB actions.
  */
 @ApplicationScoped
-public class LocationRepository {
+public class LocationRepository implements QueryRepository<Location>, PersistenceRepository<Location> {
 
     /**
      * The locations entity manager.
@@ -32,6 +33,7 @@ public class LocationRepository {
      * @param id The ID of the location to search for.
      * @return An {@link Optional} {@link Location}.
      */
+    @Override
     public Optional<Location> findById(String id) {
         return Optional.ofNullable(entityManager.find(Location.class, id));
     }
@@ -41,6 +43,7 @@ public class LocationRepository {
      * 
      * @return A {@link List} of {@link Location} instances.
      */
+    @Override
     public List<Location> getAll() {
         return entityManager.createNamedQuery("selectAllLocations", Location.class).getResultList();
     }
@@ -51,7 +54,7 @@ public class LocationRepository {
      * @param location The {@link Location} instance to save.
      * @return The saved {@link Location} instance.
      */
-    @Transactional(Transactional.TxType.SUPPORTS)
+    @Override
     public Location save(Location location) {
         if (!findById(location.getId()).isPresent()) {
             try {
@@ -72,7 +75,7 @@ public class LocationRepository {
      * @param location The {@link Location} instance to merge.
      * @return The merged {@link Location} instance.
      */
-    @Transactional(Transactional.TxType.REQUIRED)
+    @Override
     public Location merge(Location location) {
         try {
             return entityManager.merge(location);
@@ -87,7 +90,7 @@ public class LocationRepository {
      * @param locations The {@link List} of {@link Location} to save.
      * @return The {@link List} of saved {@link Location} instances.
      */
-    @Transactional(Transactional.TxType.REQUIRED)
+    @Override
     public List<Location> save(List<Location> locations) {
         try {
             return locations.stream().map(this::save).toList();

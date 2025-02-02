@@ -7,6 +7,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -53,7 +54,7 @@ public class SpaceShuttle {
      * The ID of the space shuttle.
      */
     @Id
-    @Column(name = "id", nullable = false, updatable = false, unique = true)
+    @Column(nullable = false, updatable = false, unique = true)
     @Schema(description = "The ID of the space shuttle", required = true, example = "1")
     private String id;
 
@@ -61,19 +62,18 @@ public class SpaceShuttle {
      * The name of the space shuttle.
      */
     @Basic(optional = false)
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     @Schema(description = "The name of the space shuttle", required = true, example = "From Hell with love")
     private String name;
 
     /**
      * The model of the space shuttle.
      */
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE, optional = false)
     @Schema(description = "The model of the space shuttle", required = true, implementation = SpaceShuttleModel.class)
     private SpaceShuttleModel model;
 
-    protected SpaceShuttle() {
-    }
+    protected SpaceShuttle() {}
 
     private SpaceShuttle(String id, String name, SpaceShuttleModel model) {
         if (id == null) {

@@ -29,8 +29,7 @@ public class SpaceShuttleModel {
      * 
      * @param name        The name of the space shuttle model.
      * @param maxCapacity The maximum seating capacity of the space shuttle model.
-     * @param maxSpeed    The maximum speed of the space shuttle model in
-     *                    kilometers.
+     * @param maxSpeed    The maximum speed of the space shuttle model in kilometers.
      * @return a new {@link SpaceShuttleModel} entity.
      */
     public static SpaceShuttleModel create(String name, int maxCapacity, long maxSpeed) {
@@ -43,8 +42,7 @@ public class SpaceShuttleModel {
      * @param id          The ID of the space shuttle model.
      * @param name        The name of the space shuttle model.
      * @param maxCapacity The maximum seating capacity of the space shuttle model.
-     * @param maxSpeed    The maximum speed of the space shuttle model in
-     *                    kilometers.
+     * @param maxSpeed    The maximum speed of the space shuttle model in kilometers.
      * @return a {@link SpaceShuttleModel} entity.
      */
     public static SpaceShuttleModel reconstruct(String id, String name, int maxCapacity, long maxSpeed) {
@@ -55,7 +53,7 @@ public class SpaceShuttleModel {
      * The ID of the space shuttle model.
      */
     @Id
-    @Column(name = "id", nullable = false, updatable = false, unique = true)
+    @Column(nullable = false, updatable = false, unique = true)
     @Schema(description = "The ID of the space shuttle model", required = true, example = "1")
     private String id;
 
@@ -63,7 +61,7 @@ public class SpaceShuttleModel {
      * The name of the space shuttle model.
      */
     @Basic(optional = false)
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     @Schema(description = "The name of the space shuttle model", required = true, example = "Morningstar X-666")
     private String name;
 
@@ -83,8 +81,7 @@ public class SpaceShuttleModel {
     @Schema(description = "The maximum speed of the space shuttle model in kilometers per hour", required = true, example = "90000")
     private long maxSpeed;
 
-    protected SpaceShuttleModel() {
-    }
+    protected SpaceShuttleModel() {}
 
     private SpaceShuttleModel(String id, String name, int maxCapacity, long maxSpeed) {
         if (id == null) {

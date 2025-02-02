@@ -7,6 +7,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -54,26 +55,26 @@ public class SpaceStation {
     }
 
     @Id
-    @Column(name = "id", nullable = false, updatable = false, unique = true)
+    @Column(nullable = false, updatable = false, unique = true)
     @Schema(description = "The ID of the space station.", required = true, example = "1")
     private String id;
 
     @Basic(optional = false)
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     @Schema(description = "The name of the space station.", required = true, example = "Tanegashima Space Center")
     private String name;
 
     @Basic(optional = false)
-    @Column(name = "code", nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     @Schema(description = "The code of the space station.", required = true, example = "TNS")
     private String code;
 
     @Basic(optional = false)
-    @Column(name = "country", nullable = true)
+    @Column(nullable = true)
     @Schema(description = "The country of the space station.", required = true, example = "Japan")
     private String country;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE, optional = false)
     @Schema(description = "The location of the space station.", required = true, implementation = Location.class)
     private Location location;
 
