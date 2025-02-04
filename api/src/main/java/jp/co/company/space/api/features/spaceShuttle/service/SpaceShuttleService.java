@@ -14,7 +14,7 @@ import jakarta.json.JsonReader;
 import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
 import jp.co.company.space.api.features.spaceShuttle.repository.SpaceShuttleRepository;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
-import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleServiceInit;
+import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModelServiceInit;
 
 /**
  * A service class handling the {@link SpaceStation} topic.
@@ -35,7 +35,7 @@ public class SpaceShuttleService {
      * 
      * @param init The event that triggers the initialization.
      */
-    protected void onStartUp(@Observes SpaceShuttleServiceInit init) {
+    protected void onStartUp(@Observes SpaceShuttleModelServiceInit init) {
         try {
             loadSpaceShuttles();
         } catch (Exception exception) {

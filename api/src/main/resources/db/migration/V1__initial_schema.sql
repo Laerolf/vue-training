@@ -28,3 +28,13 @@ CREATE TABLE IF NOT EXISTS space_stations (
   location_id VARCHAR(50) NOT NULL,
   FOREIGN KEY (location_id) REFERENCES locations(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS routes (
+  id VARCHAR(50) NOT NULL PRIMARY KEY,
+  origin_id VARCHAR(50) NOT NULL,
+  destination_id VARCHAR(50) NOT NULL,
+  space_shuttle_model_id VARCHAR(50) NOT NULL,
+  FOREIGN KEY (origin_id) REFERENCES space_stations(id) ON DELETE CASCADE,
+  FOREIGN KEY (destination_id) REFERENCES space_stations(id) ON DELETE CASCADE,
+  FOREIGN KEY (space_shuttle_model_id) REFERENCES space_shuttle_models(id) ON DELETE CASCADE
+);

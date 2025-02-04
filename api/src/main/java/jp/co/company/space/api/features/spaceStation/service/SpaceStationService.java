@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Event;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.json.Json;
@@ -16,6 +17,7 @@ import jp.co.company.space.api.features.location.domain.Location;
 import jp.co.company.space.api.features.location.domain.LocationServiceInit;
 import jp.co.company.space.api.features.location.service.LocationService;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
+import jp.co.company.space.api.features.spaceStation.domain.SpaceStationServiceInit;
 import jp.co.company.space.api.features.spaceStation.repository.SpaceStationRepository;
 
 /**
@@ -36,13 +38,20 @@ public class SpaceStationService {
     private LocationService locationService;
 
     /**
-     * The start-up logic for this service.
+     * This service's initialisation event.
+     */
+    @Inject
+    private Event<SpaceStationServiceInit> event;
+
+    /**
+     * The start-up logic for this service, after the start-up it emits its initialisation event.
      * 
      * @param init The event that triggers the start-up of this service.
      */
     protected void onStartUp(@Observes LocationServiceInit init) {
         try {
             loadSpaceStations();
+            event.fire(SpaceStationServiceInit.create());
         } catch (Exception exception) {
             throw new RuntimeException("Failed to load the initial data into the database", exception);
         }

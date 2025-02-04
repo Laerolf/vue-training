@@ -14,7 +14,7 @@ import jakarta.json.JsonException;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
-import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleServiceInit;
+import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModelServiceInit;
 import jp.co.company.space.api.features.spaceShuttleModel.repository.SpaceShuttleModelRepository;
 
 /**
@@ -33,7 +33,7 @@ public class SpaceShuttleModelService {
      * This service's initialisation event.
      */
     @Inject
-    private Event<SpaceShuttleServiceInit> spaceShuttleServiceInitEvent;
+    private Event<SpaceShuttleModelServiceInit> spaceShuttleServiceInitEvent;
 
     protected SpaceShuttleModelService() {}
 
@@ -45,7 +45,7 @@ public class SpaceShuttleModelService {
     protected void onStartUp(@Observes @Initialized(ApplicationScoped.class) Object init) {
         try {
             loadSpaceShuttleModels();
-            spaceShuttleServiceInitEvent.fire(SpaceShuttleServiceInit.create());
+            spaceShuttleServiceInitEvent.fire(SpaceShuttleModelServiceInit.create());
         } catch (Exception exception) {
             throw new RuntimeException("Failed to load the initial space shuttle models into the database", exception);
         }
