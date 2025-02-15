@@ -9,7 +9,6 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TransactionRequiredException;
-import jakarta.transaction.Transactional;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
 import jp.co.company.space.shared.PersistenceRepository;
 import jp.co.company.space.shared.QueryRepository;
@@ -54,7 +53,6 @@ public class SpaceShuttleModelRepository
      * @return The saved {@link SpaceShuttleModel} instance.
      */
     @Override
-    @Transactional(Transactional.TxType.REQUIRED)
     public SpaceShuttleModel save(SpaceShuttleModel spaceShuttleModel) {
         if (!findById(spaceShuttleModel.getId()).isPresent()) {
             try {
@@ -76,7 +74,6 @@ public class SpaceShuttleModelRepository
      * @return The merged {@link SpaceShuttleModel} instance.
      */
     @Override
-    @Transactional(Transactional.TxType.REQUIRED)
     public SpaceShuttleModel merge(SpaceShuttleModel spaceShuttleModel) {
         try {
             return entityManager.merge(spaceShuttleModel);
@@ -92,7 +89,6 @@ public class SpaceShuttleModelRepository
      * @return The {@link List} of saved {@link SpaceShuttleModel} instances.
      */
     @Override
-    @Transactional(Transactional.TxType.REQUIRED)
     public List<SpaceShuttleModel> save(List<SpaceShuttleModel> spaceShuttleModels) {
         try {
             return spaceShuttleModels.stream().map(this::save).toList();

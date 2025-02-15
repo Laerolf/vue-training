@@ -1,6 +1,5 @@
 package jp.co.company.space.utils.features.spaceShuttleModel;
 
-import jakarta.persistence.EntityManager;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
 
 /**
@@ -9,20 +8,21 @@ import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleMod
 public class SpaceShuttleModelTestDataBuilder {
 
     /**
-     * The test data build to use.
+     * The default name for the space shuttle model.
      */
-    private SpaceShuttleModelTestDataBuild testDataBuild;
+    private static String DEFAULT_NAME = "A";
 
     /**
-     * The entity manager to use.
+     * The default maximum capacity for the space shuttle model.
      */
-    private EntityManager entityManager;
+    private static int DEFAULT_MAX_CAPACITY = 100;
+
+    /**
+     * The default maximum speed for the space shuttle model.
+     */
+    private static long DEFAULT_MAX_SPEED = 100000;
 
     public SpaceShuttleModelTestDataBuilder() {}
-
-    public SpaceShuttleModelTestDataBuilder(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
 
     /**
      * Creates a new {@link SpaceShuttleModel} instance.
@@ -30,18 +30,6 @@ public class SpaceShuttleModelTestDataBuilder {
      * @return a new {@link SpaceShuttleModel} instance
      */
     public SpaceShuttleModel create() {
-        testDataBuild = SpaceShuttleModelTestDataBuild.create();
-        return testDataBuild.getInstance();
-    }
-
-    /**
-     * Creates a new {@link SpaceShuttleModel} instance and persists it.
-     * 
-     * @return a new persisted {@link SpaceShuttleModel} instance
-     */
-    public SpaceShuttleModel createAndPersist() {
-        testDataBuild = SpaceShuttleModelTestDataBuild.create();
-        entityManager.persist(testDataBuild.getInstance());
-        return entityManager.find(SpaceShuttleModel.class, testDataBuild.getInstance().getId());
+        return SpaceShuttleModel.create(DEFAULT_NAME, DEFAULT_MAX_CAPACITY, DEFAULT_MAX_SPEED);
     }
 }

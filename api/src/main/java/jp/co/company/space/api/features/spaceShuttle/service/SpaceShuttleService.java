@@ -11,10 +11,13 @@ import jakarta.json.Json;
 import jakarta.json.JsonException;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
+import jakarta.transaction.Transactional;
 import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
 import jp.co.company.space.api.features.spaceShuttle.repository.SpaceShuttleRepository;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModelServiceInit;
+import jp.co.company.space.api.features.spaceShuttleModel.repository.SpaceShuttleModelRepository;
+import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 
 /**
  * A service class handling the {@link SpaceStation} topic.
@@ -28,6 +31,9 @@ public class SpaceShuttleService {
     @Inject
     private SpaceShuttleRepository repository;
 
+    @Inject
+    private SpaceShuttleModelRepository spaceShuttleModelRepository;
+
     protected SpaceShuttleService() {}
 
     /**
@@ -35,6 +41,7 @@ public class SpaceShuttleService {
      * 
      * @param init The event that triggers the initialization.
      */
+    @Transactional
     protected void onStartUp(@Observes SpaceShuttleModelServiceInit init) {
         try {
             loadSpaceShuttles();
@@ -56,7 +63,7 @@ public class SpaceShuttleService {
                 String name = shuttleJson.getString("name");
                 String modelId = shuttleJson.getString("modelId");
 
-                SpaceShuttleModel shuttleModel = SpaceShuttleModel.reconstruct(modelId, "init", 0, 0);
+                SpaceShuttleModel shuttleModel = spaceShuttleModelRepository.findById(modelId).orElseThrow();
                 return SpaceShuttle.reconstruct(id, name, shuttleModel);
             }).collect(Collectors.toList());
 

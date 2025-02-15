@@ -13,6 +13,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonException;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
+import jakarta.transaction.Transactional;
 import jp.co.company.space.api.features.location.domain.Location;
 import jp.co.company.space.api.features.location.domain.LocationServiceInit;
 import jp.co.company.space.api.features.location.repository.LocationRepository;
@@ -41,6 +42,7 @@ public class LocationService {
      * 
      * @param init The event that triggers the initialization.
      */
+    @Transactional
     public void onStartUp(@Observes @Initialized(ApplicationScoped.class) Object init) {
         try {
             loadLocations();

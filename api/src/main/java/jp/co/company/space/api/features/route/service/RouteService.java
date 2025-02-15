@@ -11,14 +11,18 @@ import jakarta.json.Json;
 import jakarta.json.JsonException;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
-import jp.co.company.space.api.features.location.domain.Location;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import jp.co.company.space.api.features.route.domain.Route;
 import jp.co.company.space.api.features.route.repository.RouteRepository;
 import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModelServiceInit;
+import jp.co.company.space.api.features.spaceShuttleModel.repository.SpaceShuttleModelRepository;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStationServiceInit;
+import jp.co.company.space.api.features.spaceStation.repository.SpaceStationRepository;
 import jp.co.company.space.api.features.spaceStation.service.SpaceStationService;
 
 /**
@@ -30,6 +34,12 @@ public class RouteService {
     @Inject
     private RouteRepository repository;
 
+    @Inject
+    private SpaceStationRepository spaceStationRepository;
+
+    @Inject
+    private SpaceShuttleModelRepository spaceShuttleModelRepository;
+
     /**
      * Is the {@link SpaceStationService} ready to be used?
      */
@@ -40,6 +50,9 @@ public class RouteService {
      */
     private boolean isSpaceShuttleModelServiceReady;
 
+    @PersistenceContext(unitName = "domain")
+    private EntityManager entityManager;
+
     protected RouteService() {}
 
     /**
@@ -47,6 +60,7 @@ public class RouteService {
      * 
      * @param init An event that triggers the initialization.
      */
+    @Transactional
     protected void onStartUp(@Observes SpaceStationServiceInit spaceStationServiceInit) {
         try {
             isSpaceStationServiceReady = true;
@@ -64,6 +78,7 @@ public class RouteService {
      * 
      * @param init An event that triggers the initialization.
      */
+    @Transactional
     protected void onStartUp(@Observes SpaceShuttleModelServiceInit spaceShuttleServiceInit) {
         try {
             isSpaceShuttleModelServiceReady = true;
@@ -98,10 +113,10 @@ public class RouteService {
                 String destinationId = routeJson.getString("destinationId");
                 String spaceShuttleModelId = routeJson.getString("spaceShuttleModelId");
 
-                Location earth = Location.create("Earth", 0, 0, 0);
-                SpaceStation origin = SpaceStation.reconstruct(originId, "", "", "", earth);
-                SpaceStation destination = SpaceStation.reconstruct(destinationId, "", "", "", earth);
-                SpaceShuttleModel shuttleModel = SpaceShuttleModel.reconstruct(spaceShuttleModelId, "init", 0, 0);
+                SpaceStation origin = spaceStationRepository.findById(originId).orElseThrow();
+                SpaceStation destination = spaceStationRepository.findById(destinationId).orElseThrow();
+                SpaceShuttleModel shuttleModel = spaceShuttleModelRepository.findById(spaceShuttleModelId)
+                        .orElseThrow();
 
                 return Route.reconstruct(id, origin, destination, shuttleModel);
             }).collect(Collectors.toList());

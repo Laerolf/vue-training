@@ -9,7 +9,6 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TransactionRequiredException;
-import jakarta.transaction.Transactional;
 import jp.co.company.space.api.features.route.domain.Route;
 import jp.co.company.space.shared.PersistenceRepository;
 import jp.co.company.space.shared.QueryRepository;
@@ -53,7 +52,6 @@ public class RouteRepository implements QueryRepository<Route>, PersistenceRepos
      * @return The saved {@link Route} instance.
      */
     @Override
-    @Transactional(Transactional.TxType.REQUIRED)
     public Route save(Route route) {
         if (!findById(route.getId()).isPresent()) {
             try {
@@ -75,7 +73,6 @@ public class RouteRepository implements QueryRepository<Route>, PersistenceRepos
      * @return The merged {@link Route} instance.
      */
     @Override
-    @Transactional(Transactional.TxType.REQUIRED)
     public Route merge(Route route) {
         try {
             return entityManager.merge(route);
@@ -91,7 +88,6 @@ public class RouteRepository implements QueryRepository<Route>, PersistenceRepos
      * @return The {@link List} of saved {@link Route} instances.
      */
     @Override
-    @Transactional(Transactional.TxType.REQUIRED)
     public List<Route> save(List<Route> routes) {
         try {
             return routes.stream().map(this::save).toList();

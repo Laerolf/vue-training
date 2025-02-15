@@ -13,6 +13,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonException;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
+import jakarta.transaction.Transactional;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModelServiceInit;
 import jp.co.company.space.api.features.spaceShuttleModel.repository.SpaceShuttleModelRepository;
@@ -42,9 +43,11 @@ public class SpaceShuttleModelService {
      * 
      * @param init The event that triggers the start-up of this service.
      */
+    @Transactional
     protected void onStartUp(@Observes @Initialized(ApplicationScoped.class) Object init) {
         try {
             loadSpaceShuttleModels();
+
             spaceShuttleServiceInitEvent.fire(SpaceShuttleModelServiceInit.create());
         } catch (Exception exception) {
             throw new RuntimeException("Failed to load the initial space shuttle models into the database", exception);

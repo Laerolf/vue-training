@@ -9,7 +9,6 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TransactionRequiredException;
-import jakarta.transaction.Transactional;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 import jp.co.company.space.shared.PersistenceRepository;
 import jp.co.company.space.shared.QueryRepository;
@@ -53,7 +52,6 @@ public class SpaceStationRepository implements QueryRepository<SpaceStation>, Pe
      * @return The saved {@link SpaceStation} instance.
      */
     @Override
-    @Transactional(Transactional.TxType.REQUIRED)
     public SpaceStation save(SpaceStation spaceStation) {
         if (!findById(spaceStation.getId()).isPresent()) {
             try {
@@ -75,7 +73,6 @@ public class SpaceStationRepository implements QueryRepository<SpaceStation>, Pe
      * @return The merged {@link SpaceStation} instance.
      */
     @Override
-    @Transactional(Transactional.TxType.REQUIRED)
     public SpaceStation merge(SpaceStation spaceStation) {
         try {
             return entityManager.merge(spaceStation);
@@ -91,7 +88,6 @@ public class SpaceStationRepository implements QueryRepository<SpaceStation>, Pe
      * @return The {@link List} of saved {@link SpaceStation} instances.
      */
     @Override
-    @Transactional(Transactional.TxType.REQUIRED)
     public List<SpaceStation> save(List<SpaceStation> spaceStations) {
         try {
             return spaceStations.stream().map(this::save).toList();

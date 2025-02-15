@@ -1,6 +1,5 @@
 package jp.co.company.space.utils.features.spaceStation;
 
-import jakarta.persistence.EntityManager;
 import jp.co.company.space.api.features.location.domain.Location;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 
@@ -9,20 +8,16 @@ import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
  */
 public class SpaceStationTestDataBuilder {
     /**
-     * The test data build to use.
+     * The default name for the space station.
      */
-    private SpaceStationTestDataBuild testDataBuild;
+    private static final String DEFAULT_NAME = "Station 1";
 
     /**
-     * The entity manager to use.
+     * The default country name for the space staton.
      */
-    private EntityManager entityManager;
+    private static final String DEFAULT_COUNTRY = null;
 
     public SpaceStationTestDataBuilder() {}
-
-    public SpaceStationTestDataBuilder(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
 
     /**
      * Creates a new {@link SpaceStation} instance.
@@ -31,19 +26,6 @@ public class SpaceStationTestDataBuilder {
      * @return a new {@link SpaceStation} instance
      */
     public SpaceStation create(Location location) {
-        testDataBuild = SpaceStationTestDataBuild.create(location);
-        return testDataBuild.getInstance();
-    }
-
-    /**
-     * Creates a new {@link SpaceStation} instance and persists it.
-     * 
-     * @param location The location of the space station
-     * @return a new persisted {@link SpaceStation} instance
-     */
-    public SpaceStation createAndPersist(Location location) {
-        testDataBuild = SpaceStationTestDataBuild.create(location);
-        entityManager.persist(testDataBuild.getInstance());
-        return entityManager.find(SpaceStation.class, testDataBuild.getInstance().getId());
+        return SpaceStation.create(DEFAULT_NAME, DEFAULT_NAME, DEFAULT_COUNTRY, location);
     }
 }
