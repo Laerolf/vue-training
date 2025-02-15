@@ -1,0 +1,26 @@
+:root {
+    --border-color: #747474;
+    --border-normal: 0.02rem solid var(--border-color);
+    --border-accent: 0.01rem solid var(--border-color);
+    --border-radius-normal: 0.5rem;
+
+    --padding-normal: 0.25rem 0.5rem;
+
+    --color-primary: #00509E;
+    --color-secondary: #43B3AE;
+    --color-accent: #FF6F61;
+    --color-text: #0F0F0F;
+    --color-background: #FFFBFE;
+    --color-background-accent: #EFE9E7;
+
+    --font-weight-thin: 200;
+    --font-weight-light: 300;
+    --font-weight-normal: normal;
+    --font-weight-medium: 500;
+    --font-weight-bold: 700;
+    --font-weight-extra-bold: 800;
+
+    --line-height-normal: 1.5rem;
+
+    --margin-normal: 1rem;
+}

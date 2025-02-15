@@ -1,0 +1,10 @@
+.content {
+    ul {
+        list-style: circle;
+        list-style-position: inside;
+
+       li ul {
+        margin-left: 1rem;
+       }
+    }
+}

@@ -1,0 +1,45 @@
+{
+  "name": "test-runner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "prettier": "prettier .",
+    "prettier:fix": "prettier --write .",
+    "format": "pnpm lint && pnpm prettier",
+    "format:fix": "pnpm lint:fix && pnpm prettier:fix",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "dev": "ts-node-dev -r tsconfig-paths/register ./src/api/main.ts",
+    "start": "ts-node -r tsconfig-paths/register ./src/api/main.ts"
+  },
+  "dependencies": {
+    "@koa/cors": "^5.0.0",
+    "@koa/router": "^13.1.0",
+    "koa": "^2.15.3",
+    "koa-bodyparser": "^4.4.1",
+    "tsconfig-paths": "^4.2.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.16.0",
+    "@playwright/test": "^1.49.0",
+    "@types/koa": "^2.15.0",
+    "@types/koa-bodyparser": "^4.3.12",
+    "@types/koa__cors": "^5.0.0",
+    "@types/koa__router": "^12.0.4",
+    "@types/node": "^22.10.1",
+    "dotenv": "^16.4.5",
+    "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.12.0",
+    "prettier": "^3.4.1",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.16.0",
+    "vitest": "^2.1.6"
+  }
+}

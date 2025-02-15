@@ -1,0 +1,54 @@
+# Voyage information
+
+- Depart date
+    - Type: text
+- Return date
+    - Type: text
+- Departure location
+    - Type: text
+    - Options:
+        - Cape Canaveral Space Force Station - United States
+        - Satish Dhawan Space Centre - India
+        - Tanegashima Space Center - Japan
+        - Guiana Space Centre - France Guiana
+        - Rocket Lab Launch Complex 1 - New Zealand
+        - Naro Space Center - South Korea
+        - Sutherland Space Hub - Scotland
+        - Arnhem Space Centre - Australia
+        - Azores spaceport - Portugal
+        - German Offshore Platform - Germany
+        - Esrange Space Center - Sweden
+- Destination location
+    - Type: text
+    - Options:
+        - Red Haven - Mars
+        - Venus Skybridge - Venus
+        - Artemis Base One - Moon
+        - Saturn's Watch - Titan
+        - Ice Bridge Alpha- Europa
+        - Callisto Prime - Callisto
+- Round trip
+    - Type: boolean
+- Package type
+    - Type: text
+    - Options:
+        - Economy
+        - Business
+        - First class
+- Seat preference
+    - Type: text
+    - Options:
+        - Window seat
+        - Aisle seat
+        - Middle seat
+        - Rear seat
+- Meal preference
+    - Type: text
+    - Options:
+        - No meal (it's allowed to bring your own food)
+        - Bangers and mash
+        - Fried chicken and rice
+        - Potato salad
+        - Spaghetti and meatballs
+        - Salmon and potatoes
+        - Mentaiko cream pasta

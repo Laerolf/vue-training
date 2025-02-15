@@ -1,0 +1,30 @@
+# Personal information
+
+- Last name
+    - Type: text
+- first name
+    - Type: text
+- Phone number
+    - Type: text
+- Email address
+    - Type: text
+- Date of birth
+    - Type: text
+- Nationality
+    - Type: text
+    - Options:
+        - Japan
+        - United States
+        - France
+        - Belgium
+        - Myanmar
+        - India
+        - Canada
+- Gender
+    - Type: text
+    - Options:
+        - Male
+        - Female
+        - Prefer not to say
+- Passport number
+    - Type: text
