@@ -96,18 +96,30 @@ public class SpaceShuttleModel {
         this.maxSpeed = maxSpeed;
     }
 
+    /**
+     * @return The ID of the space shuttle model.
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * @return The name of the space shuttle model.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return The maximum seating capacity of a space shuttle model.
+     */
     public int getMaxCapacity() {
         return maxCapacity;
     }
 
+    /**
+     * @return The maximum speed of a space shuttle model in kilometers per hour.
+     */
     public long getMaxSpeed() {
         return maxSpeed;
     }

@@ -60,7 +60,7 @@ public class User {
      * The last name of the user.
      */
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "last_name", nullable = false)
     @Schema(description = "The last name of the user.", example = "Jekyll")
     private String lastName;
 
@@ -68,7 +68,7 @@ public class User {
      * The first name of the user.
      */
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "first_name", nullable = false)
     @Schema(description = "The first name of the user.", example = "Henry")
     private String firstName;
 
@@ -76,7 +76,7 @@ public class User {
      * The email address of the user.
      */
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "email_address", nullable = false)
     @Schema(description = "The email address name of the user.", example = "edward.hyde@example.com")
     private String emailAddress;
 

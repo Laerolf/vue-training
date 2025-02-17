@@ -19,10 +19,9 @@ import jp.co.company.space.api.features.route.repository.RouteRepository;
 import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModelServiceInit;
-import jp.co.company.space.api.features.spaceShuttleModel.repository.SpaceShuttleModelRepository;
+import jp.co.company.space.api.features.spaceShuttleModel.service.SpaceShuttleModelService;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStationServiceInit;
-import jp.co.company.space.api.features.spaceStation.repository.SpaceStationRepository;
 import jp.co.company.space.api.features.spaceStation.service.SpaceStationService;
 
 /**
@@ -35,10 +34,10 @@ public class RouteService {
     private RouteRepository repository;
 
     @Inject
-    private SpaceStationRepository spaceStationRepository;
+    private SpaceStationService spaceStationService;
 
     @Inject
-    private SpaceShuttleModelRepository spaceShuttleModelRepository;
+    private SpaceShuttleModelService spaceShuttleModelService;
 
     /**
      * Is the {@link SpaceStationService} ready to be used?
@@ -113,10 +112,9 @@ public class RouteService {
                 String destinationId = routeJson.getString("destinationId");
                 String spaceShuttleModelId = routeJson.getString("spaceShuttleModelId");
 
-                SpaceStation origin = spaceStationRepository.findById(originId).orElseThrow();
-                SpaceStation destination = spaceStationRepository.findById(destinationId).orElseThrow();
-                SpaceShuttleModel shuttleModel = spaceShuttleModelRepository.findById(spaceShuttleModelId)
-                        .orElseThrow();
+                SpaceStation origin = spaceStationService.findById(originId).orElseThrow();
+                SpaceStation destination = spaceStationService.findById(destinationId).orElseThrow();
+                SpaceShuttleModel shuttleModel = spaceShuttleModelService.findById(spaceShuttleModelId).orElseThrow();
 
                 return Route.reconstruct(id, origin, destination, shuttleModel);
             }).collect(Collectors.toList());

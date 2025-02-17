@@ -1,5 +1,7 @@
 package jp.co.company.space.utils.features.spaceShuttleModel;
 
+import java.util.Optional;
+
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
 
 /**
@@ -22,7 +24,20 @@ public class SpaceShuttleModelTestDataBuilder {
      */
     private static long DEFAULT_MAX_SPEED = 100000;
 
+    private Integer maxCapacity;
+    private Long maxSpeed;
+
     public SpaceShuttleModelTestDataBuilder() {}
+
+    public SpaceShuttleModelTestDataBuilder withMaxCapacity(Integer maxCapacity) {
+        this.maxCapacity = maxCapacity;
+        return this;
+    }
+
+    public SpaceShuttleModelTestDataBuilder withMaxSpeed(Integer maxSpeed) {
+        this.maxSpeed = Long.valueOf(maxSpeed);
+        return this;
+    }
 
     /**
      * Creates a new {@link SpaceShuttleModel} instance.
@@ -30,6 +45,16 @@ public class SpaceShuttleModelTestDataBuilder {
      * @return a new {@link SpaceShuttleModel} instance
      */
     public SpaceShuttleModel create() {
-        return SpaceShuttleModel.create(DEFAULT_NAME, DEFAULT_MAX_CAPACITY, DEFAULT_MAX_SPEED);
+        SpaceShuttleModel spaceShuttleModel = SpaceShuttleModel.create(DEFAULT_NAME,
+                Optional.ofNullable(maxCapacity).orElse(DEFAULT_MAX_CAPACITY),
+                Optional.ofNullable(maxSpeed).orElse(DEFAULT_MAX_SPEED));
+
+        cleanUp();
+        return spaceShuttleModel;
+    }
+
+    private void cleanUp() {
+        maxCapacity = null;
+        maxSpeed = null;
     }
 }

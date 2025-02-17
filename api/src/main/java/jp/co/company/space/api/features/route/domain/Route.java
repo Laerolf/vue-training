@@ -31,7 +31,7 @@ public class Route {
     /**
      * An example value for a route's destination.
      */
-    private static final String ROUTE_DESTINATION_EXAMPLE = "{ \"code\": \"RHV\", \"country\": \"null\", \"id\": \"12\", \"location\": { \"id\": \"4\", \"latitude\": 0.5, \"longitude\": 1, \"name\": \"Mars\", \"radialDistance\": 27010},\"name\": \"Red Haven - Mars\"}";
+    private static final String ROUTE_DESTINATION_EXAMPLE = "{ \"code\": \"RHV\", \"country\": \"null\", \"id\": \"12\", \"location\": { \"id\": \"4\", \"latitude\": 0, \"longitude\": 13.1, \"name\": \"Mars\", \"radialDistance\": 1.5},\"name\": \"Red Haven - Mars\"}";
 
     /**
      * Creates a new {@link Route} instance.
@@ -54,8 +54,7 @@ public class Route {
      * @param shuttleModel The space shuttle model for the route.
      * @return the recreated {@link Route} instance.
      */
-    public static Route reconstruct(String id, SpaceStation origin, SpaceStation destination,
-            SpaceShuttleModel shuttleModel) {
+    public static Route reconstruct(String id, SpaceStation origin, SpaceStation destination, SpaceShuttleModel shuttleModel) {
         return new Route(id, origin, destination, shuttleModel);
     }
 

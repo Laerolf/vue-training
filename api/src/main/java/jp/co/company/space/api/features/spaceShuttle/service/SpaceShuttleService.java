@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Event;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.json.Json;
@@ -13,10 +14,11 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import jakarta.transaction.Transactional;
 import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
+import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttleServiceInit;
 import jp.co.company.space.api.features.spaceShuttle.repository.SpaceShuttleRepository;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModelServiceInit;
-import jp.co.company.space.api.features.spaceShuttleModel.repository.SpaceShuttleModelRepository;
+import jp.co.company.space.api.features.spaceShuttleModel.service.SpaceShuttleModelService;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 
 /**
@@ -32,7 +34,13 @@ public class SpaceShuttleService {
     private SpaceShuttleRepository repository;
 
     @Inject
-    private SpaceShuttleModelRepository spaceShuttleModelRepository;
+    private SpaceShuttleModelService spaceShuttleModelService;
+
+    /**
+     * The space shuttle service initialization event.
+     */
+    @Inject
+    private Event<SpaceShuttleServiceInit> spaceShuttleServiceInitEvent;
 
     protected SpaceShuttleService() {}
 
@@ -45,6 +53,7 @@ public class SpaceShuttleService {
     protected void onStartUp(@Observes SpaceShuttleModelServiceInit init) {
         try {
             loadSpaceShuttles();
+            spaceShuttleServiceInitEvent.fire(SpaceShuttleServiceInit.create());
         } catch (Exception exception) {
             throw new RuntimeException("Failed to load the initial data into the database", exception);
         }
@@ -54,8 +63,7 @@ public class SpaceShuttleService {
      * Loads all initial {@link SpaceShuttle} instances into the database.
      */
     private void loadSpaceShuttles() {
-        try (JsonReader reader = Json
-                .createReader(SpaceShuttleService.class.getResourceAsStream("/static/space-shuttles.json"))) {
+        try (JsonReader reader = Json.createReader(SpaceShuttleService.class.getResourceAsStream("/static/space-shuttles.json"))) {
             List<SpaceShuttle> parsedSpaceShuttles = reader.readArray().stream().map(shuttleJsonValue -> {
                 JsonObject shuttleJson = shuttleJsonValue.asJsonObject();
 
@@ -63,7 +71,7 @@ public class SpaceShuttleService {
                 String name = shuttleJson.getString("name");
                 String modelId = shuttleJson.getString("modelId");
 
-                SpaceShuttleModel shuttleModel = spaceShuttleModelRepository.findById(modelId).orElseThrow();
+                SpaceShuttleModel shuttleModel = spaceShuttleModelService.findById(modelId).orElseThrow();
                 return SpaceShuttle.reconstruct(id, name, shuttleModel);
             }).collect(Collectors.toList());
 

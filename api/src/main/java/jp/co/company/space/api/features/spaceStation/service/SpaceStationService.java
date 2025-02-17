@@ -16,7 +16,7 @@ import jakarta.json.JsonValue;
 import jakarta.transaction.Transactional;
 import jp.co.company.space.api.features.location.domain.Location;
 import jp.co.company.space.api.features.location.domain.LocationServiceInit;
-import jp.co.company.space.api.features.location.repository.LocationRepository;
+import jp.co.company.space.api.features.location.service.LocationService;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStationServiceInit;
 import jp.co.company.space.api.features.spaceStation.repository.SpaceStationRepository;
@@ -36,7 +36,7 @@ public class SpaceStationService {
      * The location service.
      */
     @Inject
-    private LocationRepository locationRepository;
+    private LocationService locationService;
 
     /**
      * This service's initialisation event.
@@ -64,8 +64,7 @@ public class SpaceStationService {
      * Loads all initial {@link SpaceStation} instances into the database.
      */
     private void loadSpaceStations() {
-        try (JsonReader reader = Json
-                .createReader(SpaceStationService.class.getResourceAsStream("/static/space-stations.json"))) {
+        try (JsonReader reader = Json.createReader(SpaceStationService.class.getResourceAsStream("/static/space-stations.json"))) {
             List<SpaceStation> parsedSpaceStations = reader.readArray().stream().map(spaceStationJsonValue -> {
                 JsonObject spaceStationJson = spaceStationJsonValue.asJsonObject();
 
@@ -75,7 +74,7 @@ public class SpaceStationService {
                 String country = spaceStationJson.getOrDefault("country", JsonValue.NULL).toString();
 
                 String locationId = spaceStationJson.getString("locationId");
-                Location location = locationRepository.findById(locationId).orElseThrow();
+                Location location = locationService.findById(locationId).orElseThrow();
 
                 return SpaceStation.reconstruct(id, name, code, country, location);
             }).collect(Collectors.toList());

@@ -41,9 +41,19 @@ public class UserTestDataBuilder {
     }
 
     public User create() {
-        return User.create(Optional.ofNullable(lastName).orElse(DEFAULT_LAST_NAME),
+        User user = User.create(Optional.ofNullable(lastName).orElse(DEFAULT_LAST_NAME),
                 Optional.ofNullable(firstName).orElse(DEFAULT_FIRST_NAME),
                 Optional.ofNullable(emailAddress).orElse(DEFAULT_EMAIL_ADDRESS),
                 Optional.ofNullable(password).orElse(DEFAULT_PASSWORD));
+
+        cleanUp();
+        return user;
+    }
+
+    private void cleanUp() {
+        lastName = null;
+        firstName = null;
+        emailAddress = null;
+        password = null;
     }
 }
