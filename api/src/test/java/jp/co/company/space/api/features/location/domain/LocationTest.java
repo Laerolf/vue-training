@@ -29,8 +29,7 @@ public class LocationTest {
         @Test
         void whenNameIsMissing() {
             // When
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                    () -> Location.create(null, 0, 0, 27000));
+            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Location.create(null, 0, 0, 27000));
 
             // Then
             assertEquals("The name of the location is missing.", exception.getMessage());
@@ -55,8 +54,7 @@ public class LocationTest {
         @Test
         void whenIdIsMissing() {
             // When
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                    () -> Location.reconstruct(null, "Earth", 0, 0, 27000));
+            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Location.reconstruct(null, "Earth", 0, 0, 27000));
 
             // Then
             assertEquals("The ID of the location is missing.", exception.getMessage());
@@ -65,8 +63,7 @@ public class LocationTest {
         @Test
         void whenNameIsMissing() {
             // When
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                    () -> Location.reconstruct("1", null, 0, 0, 27000));
+            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Location.reconstruct("1", null, 0, 0, 27000));
 
             // Then
             assertEquals("The name of the location is missing.", exception.getMessage());
@@ -86,8 +83,8 @@ public class LocationTest {
     @Test
     void whenNotMatched() {
         // Given
-        Location earth = Location.create("Earth", 0, 0, 27000);
-        Location mars = Location.create("Mars", 1, 0.5, 27010);
+        Location earth = Location.create("Earth", 0, 326, 1);
+        Location mars = Location.create("Mars", 0, 13.1, 1.5);
 
         // Then
         assertNotEquals(mars, earth);

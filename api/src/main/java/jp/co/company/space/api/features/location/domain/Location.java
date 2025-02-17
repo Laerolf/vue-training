@@ -28,9 +28,9 @@ public class Location {
      * Creates a new {@link Location} instance.
      * 
      * @param name           The name of the location.
-     * @param latitude       The galactic latitude of the location.
-     * @param longitude      The galactic longitude of the location.
-     * @param radialDistance The radial distance of the location
+     * @param latitude       The ecliptic latitude of the location.
+     * @param longitude      The ecliptic longitude of the location.
+     * @param radialDistance The radial distance of the location in astronomical units.
      * @return A new {@link Location}.
      */
     public static Location create(String name, double latitude, double longitude, double radialDistance) {
@@ -42,13 +42,12 @@ public class Location {
      * 
      * @param id             The ID of the location.
      * @param name           The name of the location.
-     * @param latitude       The galactic latitude of the location.
-     * @param longitude      The galactic longitude of the location.
-     * @param radialDistance The radial distance of the location
+     * @param latitude       The ecliptic latitude of the location.
+     * @param longitude      The ecliptic longitude of the location.
+     * @param radialDistance The radial distance of the location in astronomical units.
      * @return A new {@link Location}.
      */
-    public static Location reconstruct(String id, String name, double latitude, double longitude,
-            double radialDistance) {
+    public static Location reconstruct(String id, String name, double latitude, double longitude, double radialDistance) {
         return new Location(id, name, latitude, longitude, radialDistance);
     }
 
@@ -69,27 +68,27 @@ public class Location {
     private String name;
 
     /**
-     * The galatic latitude of the location.
+     * The ecliptic latitude of the location.
      */
     @Basic(optional = false)
     @Column(nullable = false)
-    @Schema(description = "The galatic latitude of the location.", required = true, example = "0.0")
+    @Schema(description = "The ecliptic latitude of the location.", required = true, example = "0.0")
     private double latitude;
 
     /**
-     * The galatic longitude of the location.
+     * The ecliptic longitude of the location.
      */
     @Basic(optional = false)
     @Column(nullable = false)
-    @Schema(description = "The galatic longitude of the location.", required = true, example = "0.0")
+    @Schema(description = "The ecliptic longitude of the location.", required = true, example = "0.0")
     private double longitude;
 
     /**
-     * The galatic radial distance of the location.
+     * The radial distance of the location in astronomical units.
      */
     @Basic(optional = false)
-    @Column(nullable = false)
-    @Schema(description = "The galatic radial distance of the location.", required = true, example = "27000")
+    @Column(name = "radial_distance", nullable = false)
+    @Schema(description = "The radial distance of the location in astronomical units.", required = true, example = "27000")
     private double radialDistance;
 
     protected Location() {}
@@ -108,22 +107,37 @@ public class Location {
         this.radialDistance = radialDistance;
     }
 
+    /**
+     * @return The ID of the location.
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * @return The name of the location.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return The ecliptic latitude of the location.
+     */
     public double getLatitude() {
         return latitude;
     }
 
+    /**
+     * @return The ecliptic longitude of the location.
+     */
     public double getLongitude() {
         return longitude;
     }
 
+    /**
+     * @return The radial distance of the location in astronomical units.
+     */
     public double getRadialDistance() {
         return radialDistance;
     }

@@ -64,8 +64,7 @@ public class RouteTest {
             SpaceShuttleModel shuttleModel = spaceShuttleModelBuilder.create();
 
             // Then
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                    () -> Route.create(null, destination, shuttleModel));
+            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Route.create(null, destination, shuttleModel));
 
             assertEquals("The origin of the route is missing.", exception.getMessage());
         }
@@ -78,8 +77,7 @@ public class RouteTest {
             SpaceShuttleModel shuttleModel = spaceShuttleModelBuilder.create();
 
             // Then
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                    () -> Route.create(origin, null, shuttleModel));
+            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Route.create(origin, null, shuttleModel));
 
             assertEquals("The destination of the route is missing.", exception.getMessage());
         }
@@ -92,8 +90,7 @@ public class RouteTest {
             SpaceStation destination = spaceStationBuilder.create(earth);
 
             // Then
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                    () -> Route.create(origin, destination, null));
+            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Route.create(origin, destination, null));
 
             assertEquals("The space shuttle model for the route is missing.", exception.getMessage());
         }
@@ -129,8 +126,7 @@ public class RouteTest {
             SpaceShuttleModel shuttleModel = spaceShuttleModelBuilder.create();
 
             // Then
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                    () -> Route.reconstruct(null, origin, destination, shuttleModel));
+            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Route.reconstruct(null, origin, destination, shuttleModel));
 
             assertEquals("The ID of the route is missing.", exception.getMessage());
         }
@@ -144,8 +140,7 @@ public class RouteTest {
             SpaceShuttleModel shuttleModel = spaceShuttleModelBuilder.create();
 
             // Then
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                    () -> Route.reconstruct(id, null, destination, shuttleModel));
+            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Route.reconstruct(id, null, destination, shuttleModel));
 
             assertEquals("The origin of the route is missing.", exception.getMessage());
         }
@@ -159,8 +154,7 @@ public class RouteTest {
             SpaceShuttleModel shuttleModel = spaceShuttleModelBuilder.create();
 
             // Then
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                    () -> Route.reconstruct(id, origin, null, shuttleModel));
+            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Route.reconstruct(id, origin, null, shuttleModel));
 
             assertEquals("The destination of the route is missing.", exception.getMessage());
         }
@@ -174,43 +168,41 @@ public class RouteTest {
             SpaceStation destination = spaceStationBuilder.create(earth);
 
             // Then
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                    () -> Route.reconstruct(id, origin, destination, null));
+            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Route.reconstruct(id, origin, destination, null));
 
             assertEquals("The space shuttle model for the route is missing.", exception.getMessage());
         }
+    }
 
-        @Test
-        void whenMatched() {
-            // Given
-            Location earth = locationBuilder.create();
-            Location moon = locationBuilder.create();
-            SpaceStation earthStation = spaceStationBuilder.create(earth);
-            SpaceStation moonStation = spaceStationBuilder.create(moon);
-            SpaceShuttleModel shuttleModel = spaceShuttleModelBuilder.create();
+    @Test
+    void whenMatched() {
+        // Given
+        Location earth = locationBuilder.create();
+        Location moon = locationBuilder.create();
+        SpaceStation earthStation = spaceStationBuilder.create(earth);
+        SpaceStation moonStation = spaceStationBuilder.create(moon);
+        SpaceShuttleModel shuttleModel = spaceShuttleModelBuilder.create();
 
-            Route routeToTheMoon = Route.create(earthStation, moonStation, shuttleModel);
-            Route duplicatedRouteToTheMoon = Route.reconstruct(routeToTheMoon.getId(), earthStation, moonStation,
-                    shuttleModel);
+        Route routeToTheMoon = Route.create(earthStation, moonStation, shuttleModel);
+        Route duplicatedRouteToTheMoon = Route.reconstruct(routeToTheMoon.getId(), earthStation, moonStation, shuttleModel);
 
-            // Then
-            assertEquals(routeToTheMoon, duplicatedRouteToTheMoon);
-        }
+        // Then
+        assertEquals(routeToTheMoon, duplicatedRouteToTheMoon);
+    }
 
-        @Test
-        void whenNotMatched() {
-            // Given
-            Location earth = locationBuilder.create();
-            Location moon = locationBuilder.create();
-            SpaceStation earthStation = spaceStationBuilder.create(earth);
-            SpaceStation moonStation = spaceStationBuilder.create(moon);
-            SpaceShuttleModel shuttleModel = spaceShuttleModelBuilder.create();
+    @Test
+    void whenNotMatched() {
+        // Given
+        Location earth = locationBuilder.create();
+        Location moon = locationBuilder.create();
+        SpaceStation earthStation = spaceStationBuilder.create(earth);
+        SpaceStation moonStation = spaceStationBuilder.create(moon);
+        SpaceShuttleModel shuttleModel = spaceShuttleModelBuilder.create();
 
-            Route routeToTheMoon = Route.create(earthStation, moonStation, shuttleModel);
-            Route routeToEarth = Route.create(moonStation, earthStation, shuttleModel);
+        Route routeToTheMoon = Route.create(earthStation, moonStation, shuttleModel);
+        Route routeToEarth = Route.create(moonStation, earthStation, shuttleModel);
 
-            // Then
-            assertNotEquals(routeToTheMoon, routeToEarth);
-        }
+        // Then
+        assertNotEquals(routeToTheMoon, routeToEarth);
     }
 }

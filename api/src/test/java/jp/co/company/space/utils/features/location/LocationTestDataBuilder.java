@@ -1,5 +1,7 @@
 package jp.co.company.space.utils.features.location;
 
+import java.util.Optional;
+
 import jp.co.company.space.api.features.location.domain.Location;
 
 /**
@@ -9,24 +11,49 @@ public class LocationTestDataBuilder {
     /**
      * The default name for the location.
      */
-    private static String DEFAULT_NAME = "A";
+    private final static String DEFAULT_NAME = "Earth";
 
     /**
-     * The default galatic latitude for the location.
+     * The default ecliptic latitude for the location.
      */
-    private static double DEFAULT_LATITUDE = 0;
+    private final static double DEFAULT_LATITUDE = 0;
 
     /**
-     * The default galatic longitude for the location.
+     * The default ecliptic longitude for the location.
      */
-    private static double DEFAULT_LONGITUDE = 0;
+    private final static double DEFAULT_LONGITUDE = 326;
 
     /**
      * The default radial distance for the location.
      */
-    private static double DEFAULT_RADIAL_DISTANCE = 27000;
+    private final static double DEFAULT_RADIAL_DISTANCE = 1;
+
+    private String name;
+    private Double latitude;
+    private Double longitude;
+    private Double radialDistance;
 
     public LocationTestDataBuilder() {}
+
+    public LocationTestDataBuilder withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public LocationTestDataBuilder withLatitude(double latitude) {
+        this.latitude = latitude;
+        return this;
+    }
+
+    public LocationTestDataBuilder withLongitude(double longitude) {
+        this.longitude = longitude;
+        return this;
+    }
+
+    public LocationTestDataBuilder withRadialDistance(double radialDistance) {
+        this.radialDistance = radialDistance;
+        return this;
+    }
 
     /**
      * Creates a new {@link Location} instance.
@@ -34,6 +61,17 @@ public class LocationTestDataBuilder {
      * @return a new {@link Location} instance
      */
     public Location create() {
-        return Location.create(DEFAULT_NAME, DEFAULT_LATITUDE, DEFAULT_LONGITUDE, DEFAULT_RADIAL_DISTANCE);
+        Location location = Location.create(Optional.ofNullable(name).orElse(DEFAULT_NAME), Optional.ofNullable(latitude).orElse(DEFAULT_LATITUDE),
+                Optional.ofNullable(longitude).orElse(DEFAULT_LONGITUDE), Optional.ofNullable(radialDistance).orElse(DEFAULT_RADIAL_DISTANCE));
+
+        cleanUp();
+        return location;
+    }
+
+    private void cleanUp() {
+        name = null;
+        latitude = null;
+        longitude = null;
+        radialDistance = null;
     }
 }
