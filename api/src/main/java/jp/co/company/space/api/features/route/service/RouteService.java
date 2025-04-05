@@ -5,15 +5,15 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Event;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.json.Json;
 import jakarta.json.JsonException;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import jp.co.company.space.api.features.route.events.RouteServiceInit;
 import jp.co.company.space.api.features.route.domain.Route;
 import jp.co.company.space.api.features.route.repository.RouteRepository;
 import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
@@ -40,6 +40,12 @@ public class RouteService {
     private SpaceShuttleModelService spaceShuttleModelService;
 
     /**
+     * The route service initialization event.
+     */
+    @Inject
+    private Event<RouteServiceInit> routeServiceInitEvent;
+
+    /**
      * Is the {@link SpaceStationService} ready to be used?
      */
     private boolean isSpaceStationServiceReady;
@@ -49,15 +55,12 @@ public class RouteService {
      */
     private boolean isSpaceShuttleModelServiceReady;
 
-    @PersistenceContext(unitName = "domain")
-    private EntityManager entityManager;
-
     protected RouteService() {}
 
     /**
      * Initializes the {@link RouteService} by loading the initial data into the database.
      * 
-     * @param init An event that triggers the initialization.
+     * @param spaceStationServiceInit An event that triggers the initialization.
      */
     @Transactional
     protected void onStartUp(@Observes SpaceStationServiceInit spaceStationServiceInit) {
@@ -75,7 +78,7 @@ public class RouteService {
     /**
      * Initializes the {@link RouteService} by loading the initial data into the database.
      * 
-     * @param init An event that triggers the initialization.
+     * @param spaceShuttleServiceInit An event that triggers the initialization.
      */
     @Transactional
     protected void onStartUp(@Observes SpaceShuttleModelServiceInit spaceShuttleServiceInit) {
@@ -120,6 +123,8 @@ public class RouteService {
             }).collect(Collectors.toList());
 
             repository.save(parsedRoutes);
+
+            routeServiceInitEvent.fire(RouteServiceInit.create());
         } catch (JsonException | NullPointerException exception) {
             throw new RuntimeException("Failed to load the initial routes into the database", exception);
         }

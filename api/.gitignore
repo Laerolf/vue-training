@@ -38,5 +38,6 @@ nb-configuration.xml
 .classpath
 .factorypath
 
-# VS Code
-.vscode
+# IDE's
+/.vscode/
+/.idea/

@@ -20,7 +20,7 @@ CREATE TABLE
     name VARCHAR(50) NOT NULL,
     latitude DOUBLE NOT NULL,
     longitude DOUBLE NOT NULL,
-    radialDistance DOUBLE NOT NULL
+    radial_distance DOUBLE NOT NULL
   );
 
 CREATE TABLE
@@ -47,8 +47,20 @@ CREATE TABLE
 CREATE TABLE
   IF NOT EXISTS users (
     id VARCHAR(50) NOT NULL PRIMARY KEY,
-    lastName VARCHAR(50) NOT NULL,
-    firstName VARCHAR(50) NOT NULL,
-    emailAddress VARCHAR(100) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    email_address VARCHAR(100) NOT NULL,
     password VARCHAR(50) NOT NULL
+  );
+
+CREATE TABLE
+  IF NOT EXISTS voyages (
+    id VARCHAR(50) NOT NULL PRIMARY KEY,
+    departure_date TIMESTAMP NOT NULL,
+    arrival_date TIMESTAMP NOT NULL,
+    status VARCHAR(50) NOT NULL,
+    route_id VARCHAR(50) NOT NULL,
+    space_shuttle_id VARCHAR(50) NOT NULL,
+    FOREIGN KEY (route_id) REFERENCES routes (id) ON DELETE CASCADE,
+    FOREIGN KEY (space_shuttle_id) REFERENCES space_shuttles (id) ON DELETE CASCADE
   );

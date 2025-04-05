@@ -12,6 +12,7 @@
         <class>jp.co.company.space.api.features.spaceStation.domain.SpaceStation</class>
         <class>jp.co.company.space.api.features.route.domain.Route</class>
         <class>jp.co.company.space.api.features.user.domain.User</class>
+        <class>jp.co.company.space.api.features.voyage.domain.Voyage</class>
         <properties>
             <property name="hibernate.column_ordering_strategy" value="legacy"/>
         </properties>
