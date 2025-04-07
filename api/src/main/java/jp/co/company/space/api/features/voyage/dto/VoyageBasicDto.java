@@ -83,7 +83,7 @@ public class VoyageBasicDto {
 
     protected VoyageBasicDto() {}
 
-    private VoyageBasicDto(String id, String departureDate, String arrivalDate, Long duration, String status, String routeId, String originId, String destinationId, String spaceShuttleId) {
+    protected VoyageBasicDto(String id, String departureDate, String arrivalDate, Long duration, String status, String routeId, String originId, String destinationId, String spaceShuttleId) {
         if (id == null) {
             throw new IllegalArgumentException("The ID of the voyage is missing.");
         } else if (departureDate == null) {

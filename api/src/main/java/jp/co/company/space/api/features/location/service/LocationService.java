@@ -87,7 +87,7 @@ public class LocationService {
 
     /**
      * Gets an {@link Optional} {@link Location} instance for the provided ID.
-     * 
+     *
      * @param id The ID to search with.
      * @return An {@link Optional} {@link Location} instance.
      */

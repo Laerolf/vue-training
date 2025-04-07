@@ -71,7 +71,7 @@ public class VoyageDto {
 
     protected VoyageDto() {}
 
-    private VoyageDto(String id, String departureDate, String arrivalDate, Long duration, String status, Route route, SpaceShuttle spaceShuttle) {
+    protected VoyageDto(String id, String departureDate, String arrivalDate, Long duration, String status, Route route, SpaceShuttle spaceShuttle) {
         if (id == null) {
             throw new IllegalArgumentException("The ID of the voyage is missing.");
         } else if (departureDate == null) {

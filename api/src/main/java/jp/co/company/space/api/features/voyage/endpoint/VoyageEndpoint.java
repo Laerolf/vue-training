@@ -45,7 +45,6 @@ public class VoyageEndpoint {
      * 
      * @return A {@link List} of all existing {@link Voyage} instances.
      */
-    @Path("/")
     @GET
     @Operation(summary = "Returns all space voyages.", description = "Gives a list of all space voyages.")
     @APIResponse(description = "A JSON list of all space voyages.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = SchemaType.ARRAY, implementation = VoyageBasicDto.class)))

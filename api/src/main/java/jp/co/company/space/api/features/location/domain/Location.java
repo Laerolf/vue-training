@@ -1,8 +1,7 @@
 package jp.co.company.space.api.features.location.domain;
 
+import java.util.Objects;
 import java.util.UUID;
-
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
@@ -20,8 +19,7 @@ import jakarta.persistence.Table;
 @Entity(name = "Location")
 @Table(name = "locations")
 @Access(AccessType.FIELD)
-@NamedQueries({ @NamedQuery(name = "selectAllLocations", query = "select l from Location l") })
-@Schema(name = "Location", description = "A location.")
+@NamedQueries({ @NamedQuery(name = "Location.getAll", query = "SELECT l FROM Location l") })
 public class Location {
 
     /**
@@ -56,7 +54,6 @@ public class Location {
      */
     @Id
     @Column(nullable = false, updatable = false, unique = true)
-    @Schema(description = "The ID of the location.", required = true, example = "1")
     private String id;
 
     /**
@@ -64,7 +61,6 @@ public class Location {
      */
     @Basic(optional = false)
     @Column(nullable = false)
-    @Schema(description = "The name of the location.", required = true, example = "Earth")
     private String name;
 
     /**
@@ -72,7 +68,6 @@ public class Location {
      */
     @Basic(optional = false)
     @Column(nullable = false)
-    @Schema(description = "The ecliptic latitude of the location.", required = true, example = "0.0")
     private double latitude;
 
     /**
@@ -80,7 +75,6 @@ public class Location {
      */
     @Basic(optional = false)
     @Column(nullable = false)
-    @Schema(description = "The ecliptic longitude of the location.", required = true, example = "0.0")
     private double longitude;
 
     /**
@@ -88,12 +82,11 @@ public class Location {
      */
     @Basic(optional = false)
     @Column(name = "radial_distance", nullable = false)
-    @Schema(description = "The radial distance of the location in astronomical units.", required = true, example = "27000")
     private double radialDistance;
 
     protected Location() {}
 
-    private Location(String id, String name, double latitude, double longitude, double radialDistance) {
+    protected Location(String id, String name, double latitude, double longitude, double radialDistance) {
         if (id == null) {
             throw new IllegalArgumentException("The ID of the location is missing.");
         } else if (name == null) {
@@ -143,57 +136,14 @@ public class Location {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        long temp;
-        temp = Double.doubleToLongBits(latitude);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(longitude);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(radialDistance);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        return result;
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Location location = (Location) o;
+        return Double.compare(latitude, location.latitude) == 0 && Double.compare(longitude, location.longitude) == 0 && Double.compare(radialDistance, location.radialDistance) == 0 && Objects.equals(id, location.id) && Objects.equals(name, location.name);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Location other = (Location) obj;
-        if (id == null) {
-            if (other.id != null) {
-                return false;
-            }
-        } else if (!id.equals(other.id)) {
-            return false;
-        }
-        if (name == null) {
-            if (other.name != null) {
-                return false;
-            }
-        } else if (!name.equals(other.name)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(latitude) != Double.doubleToLongBits(other.latitude)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(longitude) != Double.doubleToLongBits(other.longitude)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(radialDistance) != Double.doubleToLongBits(other.radialDistance)) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+        return Objects.hash(id, name, latitude, longitude, radialDistance);
     }
-
 }
