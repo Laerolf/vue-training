@@ -52,7 +52,8 @@ public class VoyageEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllVoyages() {
         try {
-            return Response.ok().entity(voyageService.getAll()).build();
+            List<VoyageBasicDto> voyages = voyageService.getAll().stream().map(VoyageBasicDto::create).toList();
+            return Response.ok().entity(voyages).build();
         } catch (Exception exception) {
             return Response.serverError().build();
         }
@@ -72,7 +73,7 @@ public class VoyageEndpoint {
     public Response findVoyageById(@PathParam("id") String id) {
         try {
             return voyageService.findById(id)
-                    .map(voyage -> Response.ok(voyage).build())
+                    .map(voyage -> Response.ok(VoyageDto.create(voyage)).build())
                     .orElse(Response.status(Response.Status.NOT_FOUND).build());
         } catch (Exception exception) {
             return Response.serverError().build();
@@ -93,7 +94,8 @@ public class VoyageEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllVoyagesFrom(@PathParam("originId") String originId) {
         try {
-            return Response.ok().entity(voyageService.getAllFrom(originId)).build();
+            List<VoyageBasicDto> voyages = voyageService.getAllFrom(originId).stream().map(VoyageBasicDto::create).toList();
+            return Response.ok().entity(voyages).build();
         } catch (Exception exception) {
             return Response.serverError().build();
         }
@@ -113,7 +115,8 @@ public class VoyageEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllVoyagesTo(@PathParam("destinationId") String destinationId) {
         try {
-            return Response.ok().entity(voyageService.getAllTo(destinationId)).build();
+            List<VoyageBasicDto> voyages = voyageService.getAllTo(destinationId).stream().map(VoyageBasicDto::create).toList();
+            return Response.ok().entity(voyages).build();
         } catch (Exception exception) {
             return Response.serverError().build();
         }
@@ -134,7 +137,8 @@ public class VoyageEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllVoyagesFromTo(@PathParam("originId") String originId, @PathParam("destinationId") String destinationId) {
         try {
-            return Response.ok().entity(voyageService.getAllFromTo(originId, destinationId)).build();
+            List<VoyageBasicDto> voyages = voyageService.getAllFromTo(originId, destinationId).stream().map(VoyageBasicDto::create).toList();
+            return Response.ok().entity(voyages).build();
         } catch (Exception exception) {
             return Response.serverError().build();
         }

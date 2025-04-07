@@ -21,8 +21,6 @@ import jp.co.company.space.api.features.spaceShuttle.service.SpaceShuttleService
 import jp.co.company.space.api.features.spaceShuttleModel.service.SpaceShuttleModelService;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
 import jp.co.company.space.api.features.voyage.domain.VoyageStatus;
-import jp.co.company.space.api.features.voyage.dto.VoyageBasicDto;
-import jp.co.company.space.api.features.voyage.dto.VoyageDto;
 import jp.co.company.space.api.features.voyage.repository.VoyageRepository;
 import jp.co.company.space.shared.DomainException;
 
@@ -89,7 +87,7 @@ public class VoyageService {
      */
     private void loadVoyages() {
         try (JsonReader reader = Json.createReader(VoyageService.class.getResourceAsStream("/static/voyages.json"))) {
-            List<Voyage> parsedSpaceShuttleModels = reader.readArray().stream().map(voyageJsonValue -> {
+            List<Voyage> parsedVoyages = reader.readArray().stream().map(voyageJsonValue -> {
                 try {
                     JsonObject voyageJson = voyageJsonValue.asJsonObject();
 
@@ -111,7 +109,7 @@ public class VoyageService {
                 }
             }).collect(Collectors.toList());
 
-            repository.save(parsedSpaceShuttleModels);
+            repository.save(parsedVoyages);
         } catch (JsonException | NullPointerException exception) {
             throw new RuntimeException("Failed to load the initial space voyages into the database", exception);
         }
@@ -132,57 +130,57 @@ public class VoyageService {
      */
 
     /**
-     * Gets all existing {@link Voyage} instances and maps them to {@link VoyageBasicDto} instances..
+     * Gets all existing {@link Voyage} instances and maps them to {@link Voyage} instances.
      * 
-     * @return A {@link List} of all {@link VoyageBasicDto} instances.
+     * @return A {@link List} of all {@link Voyage} instances.
      */
-    public List<VoyageBasicDto> getAll() {
-        return repository.getAll().stream().map(VoyageBasicDto::create).toList();
+    public List<Voyage> getAll() {
+        return repository.getAll();
     }
 
     /**
-     * Returns an {@link Optional} {@link VoyageDto} instance for the provided ID.
+     * Returns an {@link Optional} {@link Voyage} instance for the provided ID.
      * 
      * @param id The ID to search with.
-     * @return An {@link Optional} {@link VoyageDto} instance.
+     * @return An {@link Optional} {@link Voyage} instance.
      */
-    public Optional<VoyageDto> findById(String id) {
-        return repository.findById(id).map(VoyageDto::create);
+    public Optional<Voyage> findById(String id) {
+        return repository.findById(id);
     }
 
     /**
      * Returns a {@link List} of {@link Voyage} instances having an origin space station matching the provided space station
-     * ID and maps them to a {@link List} of {@link VoyageBasicDto} instances.
+     * ID and maps them to a {@link List} of {@link Voyage} instances.
      * 
      * @param originId The space station ID to search with.
-     * @return A {@link List} of {@link VoyageBasicDto} instances.
+     * @return A {@link List} of {@link Voyage} instances.
      */
-    public List<VoyageBasicDto> getAllFrom(String originId) {
-        return repository.getAllVoyagesFromOriginId(originId).stream().map(VoyageBasicDto::create).toList();
+    public List<Voyage> getAllFrom(String originId) {
+        return repository.getAllVoyagesFromOriginId(originId);
     }
 
     /**
      * Returns a {@link List} of {@link Voyage} instances having a destination space station matching the provided space
-     * station ID and maps them to a {@link List} of {@link VoyageBasicDto} instances.
+     * station ID and maps them to a {@link List} of {@link Voyage} instances.
      * 
      * @param destinationId The space station ID to search with.
-     * @return A {@link List} of {@link VoyageBasicDto} instances.
+     * @return A {@link List} of {@link Voyage} instances.
      */
-    public List<VoyageBasicDto> getAllTo(String destinationId) {
-        return repository.getAllVoyagesToDestinationId(destinationId).stream().map(VoyageBasicDto::create).toList();
+    public List<Voyage> getAllTo(String destinationId) {
+        return repository.getAllVoyagesToDestinationId(destinationId);
     }
 
     /**
      * Returns a {@link List} of {@link Voyage} instances having an origin space station matching the provided origin space
      * station ID and a destination space station matching the provided destination space station ID and maps them to a
-     * {@link List} of {@link VoyageBasicDto} instances.
+     * {@link List} of {@link Voyage} instances.
      * 
      * @param originId      The origin space station ID to search with.
      * @param destinationId The destination space station ID to search with.
-     * @return A {@link List} of {@link VoyageBasicDto} instances.
+     * @return A {@link List} of {@link Voyage} instances.
      */
-    public List<VoyageBasicDto> getAllFromTo(String originId, String destinationId) {
-        return repository.getAllVoyagesFromOriginIdToDestinationId(originId, destinationId).stream().map(VoyageBasicDto::create).toList();
+    public List<Voyage> getAllFromTo(String originId, String destinationId) {
+        return repository.getAllVoyagesFromOriginIdToDestinationId(originId, destinationId);
     }
 
 }

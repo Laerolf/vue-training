@@ -42,7 +42,7 @@ public class VoyageRepository implements QueryRepository<Voyage>, PersistenceRep
      */
     @Override
     public List<Voyage> getAll() {
-        return entityManager.createNamedQuery("getAllVoyages", Voyage.class).getResultList();
+        return entityManager.createNamedQuery("Voyage.getAll", Voyage.class).getResultList();
     }
 
     /**
@@ -53,7 +53,7 @@ public class VoyageRepository implements QueryRepository<Voyage>, PersistenceRep
      * @return A {@link List} of {@link Voyage} instances.
      */
     public List<Voyage> getAllVoyagesFromOriginId(String originId) {
-        return entityManager.createNamedQuery("getAllVoyagesFromOriginId", Voyage.class).setParameter("originId", originId).getResultList();
+        return entityManager.createNamedQuery("Voyage.getAllFromOriginId", Voyage.class).setParameter("originId", originId).getResultList();
     }
 
     /**
@@ -64,7 +64,7 @@ public class VoyageRepository implements QueryRepository<Voyage>, PersistenceRep
      * @return A {@link List} of {@link Voyage} instances.
      */
     public List<Voyage> getAllVoyagesToDestinationId(String destinationId) {
-        return entityManager.createNamedQuery("getAllVoyagesToDestinationId", Voyage.class).setParameter("destinationId", destinationId).getResultList();
+        return entityManager.createNamedQuery("Voyage.getAllToDestinationId", Voyage.class).setParameter("destinationId", destinationId).getResultList();
     }
 
     /**
@@ -76,7 +76,7 @@ public class VoyageRepository implements QueryRepository<Voyage>, PersistenceRep
      * @return A {@link List} of {@link Voyage} instances.
      */
     public List<Voyage> getAllVoyagesFromOriginIdToDestinationId(String originId, String destinationId) {
-        return entityManager.createNamedQuery("getAllVoyagesFromOriginIdToDestinationId", Voyage.class).setParameter("originId", originId).setParameter("destinationId", destinationId).getResultList();
+        return entityManager.createNamedQuery("Voyage.getAllFromOriginIdToDestinationId", Voyage.class).setParameter("originId", originId).setParameter("destinationId", destinationId).getResultList();
     }
 
     /**

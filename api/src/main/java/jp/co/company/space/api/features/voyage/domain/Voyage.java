@@ -2,6 +2,7 @@ package jp.co.company.space.api.features.voyage.domain;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 import jakarta.persistence.Access;
@@ -26,10 +27,12 @@ import jp.co.company.space.shared.DomainException;
 @Entity(name = "Voyage")
 @Table(name = "voyages")
 @Access(AccessType.FIELD)
-@NamedQueries({ @NamedQuery(name = "getAllVoyages", query = "SELECT v FROM Voyage v"),
-        @NamedQuery(name = "getAllVoyagesFromOriginId", query = "SELECT v FROM Voyage v WHERE v.route.origin.id = :originId"),
-        @NamedQuery(name = "getAllVoyagesToDestinationId", query = "SELECT v FROM Voyage v WHERE v.route.destination.id = :destinationId"),
-        @NamedQuery(name = "getAllVoyagesFromOriginIdToDestinationId", query = "SELECT v FROM Voyage v WHERE v.route.origin.id = :originId AND v.route.destination.id = :destinationId") })
+@NamedQueries({
+        @NamedQuery(name = "Voyage.getAll", query = "SELECT v FROM Voyage v"),
+        @NamedQuery(name = "Voyage.getAllFromOriginId", query = "SELECT v FROM Voyage v WHERE v.route.origin.id = :originId"),
+        @NamedQuery(name = "Voyage.getAllToDestinationId", query = "SELECT v FROM Voyage v WHERE v.route.destination.id = :destinationId"),
+        @NamedQuery(name = "Voyage.getAllFromOriginIdToDestinationId", query = "SELECT v FROM Voyage v WHERE v.route.origin.id = :originId AND v.route.destination.id = :destinationId")
+})
 public class Voyage {
 
     /**
@@ -115,7 +118,7 @@ public class Voyage {
 
     protected Voyage() {}
 
-    public Voyage(String id, ZonedDateTime departureDate, ZonedDateTime arrivalDate, VoyageStatus status, Route route, SpaceShuttle spaceShuttle) {
+    protected Voyage(String id, ZonedDateTime departureDate, ZonedDateTime arrivalDate, VoyageStatus status, Route route, SpaceShuttle spaceShuttle) {
         if (id == null) {
             throw new IllegalArgumentException("The ID of the voyage is missing.");
         } else if (departureDate == null) {
@@ -176,66 +179,14 @@ public class Voyage {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((departureDate == null) ? 0 : departureDate.hashCode());
-        result = prime * result + ((arrivalDate == null) ? 0 : arrivalDate.hashCode());
-        result = prime * result + ((status == null) ? 0 : status.hashCode());
-        result = prime * result + ((route == null) ? 0 : route.hashCode());
-        result = prime * result + ((spaceShuttle == null) ? 0 : spaceShuttle.hashCode());
-        return result;
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Voyage voyage = (Voyage) o;
+        return Objects.equals(id, voyage.id) && Objects.equals(departureDate, voyage.departureDate) && Objects.equals(arrivalDate, voyage.arrivalDate) && status == voyage.status && Objects.equals(route, voyage.route) && Objects.equals(spaceShuttle, voyage.spaceShuttle);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Voyage other = (Voyage) obj;
-        if (id == null) {
-            if (other.id != null) {
-                return false;
-            }
-        } else if (!id.equals(other.id)) {
-            return false;
-        }
-        if (departureDate == null) {
-            if (other.departureDate != null) {
-                return false;
-            }
-        } else if (!departureDate.equals(other.departureDate)) {
-            return false;
-        }
-        if (arrivalDate == null) {
-            if (other.arrivalDate != null) {
-                return false;
-            }
-        } else if (!arrivalDate.equals(other.arrivalDate)) {
-            return false;
-        }
-        if (status != other.status) {
-            return false;
-        }
-        if (route == null) {
-            if (other.route != null) {
-                return false;
-            }
-        } else if (!route.equals(other.route)) {
-            return false;
-        }
-        if (spaceShuttle == null) {
-            return other.spaceShuttle == null;
-        } else {
-            return spaceShuttle.equals(other.spaceShuttle);
-        }
+    public int hashCode() {
+        return Objects.hash(id, departureDate, arrivalDate, status, route, spaceShuttle);
     }
-
 }
