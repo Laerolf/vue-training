@@ -1,17 +1,13 @@
 package jp.co.company.space.api.features.spaceStation.domain;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.util.UUID;
-
+import jp.co.company.space.api.features.location.domain.Location;
+import jp.co.company.space.utils.features.location.LocationTestDataBuilder;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import jp.co.company.space.api.features.location.domain.Location;
-import jp.co.company.space.utils.features.location.LocationTestDataBuilder;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the {@link SpaceStation} class.

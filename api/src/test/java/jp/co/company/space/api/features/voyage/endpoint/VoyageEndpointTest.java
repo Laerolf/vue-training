@@ -1,10 +1,5 @@
 package jp.co.company.space.api.features.voyage.endpoint;
 
-import java.util.List;
-
-import jp.co.company.space.api.features.voyage.dto.VoyageDto;
-import org.junit.jupiter.api.Test;
-
 import io.helidon.http.Status;
 import io.helidon.microprofile.testing.junit5.HelidonTest;
 import jakarta.inject.Inject;
@@ -12,6 +7,10 @@ import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 import jp.co.company.space.api.features.voyage.dto.VoyageBasicDto;
+import jp.co.company.space.api.features.voyage.dto.VoyageDto;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,18 +26,22 @@ public class VoyageEndpointTest {
     @Inject
     private WebTarget webTarget;
 
-    private void testVoyageBasicDto(VoyageBasicDto voyageBasicDto) {
-        assertNotNull(voyageBasicDto);
+    /**
+     * Tests the properties of a {@link VoyageBasicDto} instance.
+     * @param voyageDto The voyage to test.
+     */
+    private void testVoyageBasicDto(VoyageBasicDto voyageDto) {
+        assertNotNull(voyageDto);
 
-        assertNotNull(voyageBasicDto.id);
-        assertNotNull(voyageBasicDto.departureDate);
-        assertNotNull(voyageBasicDto.arrivalDate);
-        assertNotNull(voyageBasicDto.routeId);
-        assertNotNull(voyageBasicDto.originId);
-        assertNotNull(voyageBasicDto.destinationId);
-        assertTrue(voyageBasicDto.duration > 0);
-        assertNotNull(voyageBasicDto.spaceShuttleId);
-        assertNotNull(voyageBasicDto.status);
+        assertNotNull(voyageDto.id);
+        assertNotNull(voyageDto.departureDate);
+        assertNotNull(voyageDto.arrivalDate);
+        assertNotNull(voyageDto.routeId);
+        assertNotNull(voyageDto.originId);
+        assertNotNull(voyageDto.destinationId);
+        assertTrue(voyageDto.duration > 0);
+        assertNotNull(voyageDto.spaceShuttleId);
+        assertNotNull(voyageDto.status);
     }
 
     @Test
@@ -47,6 +50,7 @@ public class VoyageEndpointTest {
         Response response = webTarget.path("/voyages").request().get();
 
         // Then
+        assertNotNull(response);
         assertEquals(Status.OK_200.code(), response.getStatus());
 
         List<VoyageBasicDto> voyages = response.readEntity(new GenericType<>() {});
@@ -64,6 +68,7 @@ public class VoyageEndpointTest {
         Response response = webTarget.path(String.format("/voyages/%s", voyageId)).request().get();
 
         // Then
+        assertNotNull(response);
         assertEquals(Status.OK_200.code(), response.getStatus());
 
         VoyageDto voyage = response.readEntity(VoyageDto.class);
@@ -84,6 +89,7 @@ public class VoyageEndpointTest {
        Response response = webTarget.path(String.format("/voyages/from/%s", JAPAN_SPACE_STATION_ID)).request().get();
 
         // Then
+        assertNotNull(response);
         assertEquals(Status.OK_200.code(), response.getStatus());
 
         List<VoyageBasicDto> voyages = response.readEntity(new GenericType<>() {});
@@ -100,6 +106,7 @@ public class VoyageEndpointTest {
         Response response = webTarget.path(String.format("/voyages/to/%s", MARS_SPACE_STATION_ID)).request().get();
 
         // Then
+        assertNotNull(response);
         assertEquals(Status.OK_200.code(), response.getStatus());
 
         List<VoyageBasicDto> voyages = response.readEntity(new GenericType<>() {});
@@ -116,6 +123,7 @@ public class VoyageEndpointTest {
         Response response = webTarget.path(String.format("/voyages/from/%s/to/%s", JAPAN_SPACE_STATION_ID, MARS_SPACE_STATION_ID)).request().get();
 
         // Then
+        assertNotNull(response);
         assertEquals(Status.OK_200.code(), response.getStatus());
 
         List<VoyageBasicDto> voyages = response.readEntity(new GenericType<>() {});

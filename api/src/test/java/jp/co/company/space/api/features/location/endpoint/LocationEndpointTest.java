@@ -1,17 +1,15 @@
 package jp.co.company.space.api.features.location.endpoint;
 
-import java.util.List;
-import java.util.Optional;
-
 import io.helidon.http.Status;
+import io.helidon.microprofile.testing.junit5.HelidonTest;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 import jp.co.company.space.api.features.location.dto.LocationDto;
 import org.junit.jupiter.api.Test;
 
-import io.helidon.microprofile.testing.junit5.HelidonTest;
-import jakarta.inject.Inject;
-import jakarta.ws.rs.client.WebTarget;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,14 +24,18 @@ public class LocationEndpointTest {
     @Inject
     private WebTarget target;
 
-    private void testLocationDto(LocationDto location) {
-        assertNotNull(location);
+    /**
+     * Tests the properties of a {@link LocationDto} instance.
+     * @param locationDto The location to test.
+     */
+    private void testLocationDto(LocationDto locationDto) {
+        assertNotNull(locationDto);
 
-        assertNotNull(location.id);
-        assertNotNull(location.name);
-        assertEquals(0, location.latitude);
-        assertNotEquals(0, location.longitude);
-        assertNotEquals(0, location.radialDistance);
+        assertNotNull(locationDto.id);
+        assertNotNull(locationDto.name);
+        assertEquals(0, locationDto.latitude);
+        assertNotEquals(0, locationDto.longitude);
+        assertNotEquals(0, locationDto.radialDistance);
     }
 
     @Test
@@ -42,6 +44,7 @@ public class LocationEndpointTest {
         Response response = target.path("locations").request().get();
 
         // Then
+        assertNotNull(response);
         assertEquals(Status.OK_200.code(), response.getStatus());
 
         List<LocationDto> locations = response.readEntity(new GenericType<>() {});
@@ -59,11 +62,13 @@ public class LocationEndpointTest {
         Response response = target.path(String.format("locations/%s", locationId)).request().get();
 
         // Then
+        assertNotNull(response);
         assertEquals(Status.OK_200.code(), response.getStatus());
 
-        Optional<LocationDto> optionalLocation = Optional.ofNullable(response.readEntity(LocationDto.class));
-        assertFalse(optionalLocation.isEmpty());
+        LocationDto foundLocation = response.readEntity(LocationDto.class);
+        assertNotNull(foundLocation);
 
-        testLocationDto(optionalLocation.get());
+        assertEquals(locationId, foundLocation.id);
+        testLocationDto(foundLocation);
     }
 }

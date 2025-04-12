@@ -1,28 +1,24 @@
 package jp.co.company.space.api.features.voyage.domain;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.time.Duration;
-import java.time.ZonedDateTime;
-import java.util.UUID;
-
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-
 import jp.co.company.space.api.features.location.domain.Location;
 import jp.co.company.space.api.features.route.domain.Route;
 import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
-import jp.co.company.space.shared.DomainException;
+import jp.co.company.space.api.shared.exception.DomainException;
 import jp.co.company.space.utils.features.location.LocationTestDataBuilder;
 import jp.co.company.space.utils.features.route.RouteTestDataBuilder;
 import jp.co.company.space.utils.features.spaceShuttle.SpaceShuttleTestDataBuilder;
 import jp.co.company.space.utils.features.spaceShuttleModel.SpaceShuttleModelTestDataBuilder;
 import jp.co.company.space.utils.features.spaceStation.SpaceStationTestDataBuilder;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
+import java.time.Duration;
+import java.time.ZonedDateTime;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the {@link Voyage} class.

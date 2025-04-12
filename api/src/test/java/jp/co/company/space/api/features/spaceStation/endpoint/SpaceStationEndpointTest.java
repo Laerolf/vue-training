@@ -1,16 +1,18 @@
 package jp.co.company.space.api.features.spaceStation.endpoint;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.List;
-
-import org.junit.jupiter.api.Test;
-
+import io.helidon.http.Status;
 import io.helidon.microprofile.testing.junit5.HelidonTest;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.client.WebTarget;
-import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.Response;
+import jp.co.company.space.api.features.spaceStation.dto.SpaceStationBasicDto;
+import jp.co.company.space.api.features.spaceStation.dto.SpaceStationDto;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the {@link SpaceStationEndpoint} class.
@@ -23,22 +25,55 @@ public class SpaceStationEndpointTest {
     @Inject
     private WebTarget target;
 
-    @Test
-    void findSpaceStationById() {
-        // When
-        SpaceShuttle spaceStation = target.path("space-station/00000000-0000-1000-8000-000000000001").request()
-                .get(SpaceShuttle.class);
+    /**
+     * Tests the properties of a {@link SpaceStationBasicDto} instance.
+     * @param spaceStationDto The location to test.
+     */
+    private void testSpaceStationBasicDto (SpaceStationBasicDto spaceStationDto) {
+        assertNotNull(spaceStationDto);
 
-        // Then
-        assertNotNull(spaceStation);
+        assertNotNull(spaceStationDto.id);
+        assertNotNull(spaceStationDto.code);
+        assertNotNull(spaceStationDto.name);
+        assertNotNull(spaceStationDto.country);
+        assertNotNull(spaceStationDto.locationId);
     }
 
     @Test
     void getAllStations() {
         // When
-        List<?> allSpaceStations = target.path("space-station").request().get(List.class);
+        Response response = target.path("space-stations").request().get();
 
         // Then
-        assertTrue(!allSpaceStations.isEmpty());
+        assertNotNull(response);
+        assertEquals(Status.OK_200.code(),response.getStatus());
+
+        List<SpaceStationBasicDto> foundSpaceStations = response.readEntity(new GenericType<>() {});
+        assertNotNull(foundSpaceStations);
+        assertFalse(foundSpaceStations.isEmpty());
+
+        testSpaceStationBasicDto(foundSpaceStations.getFirst());
+    }
+
+    @Test
+    void findSpaceStationById() {
+        // Given
+        String selectedSpaceStationId = "00000000-0000-1000-8000-000000000001";
+
+        // When
+        Response response = target.path(String.format("space-stations/%s", selectedSpaceStationId)).request().get();
+
+        // Then
+        assertNotNull(response);
+        assertEquals(Status.OK_200.code(), response.getStatus());
+
+        SpaceStationDto spaceStationDto = response.readEntity(SpaceStationDto.class);
+        assertNotNull(spaceStationDto);
+
+        assertEquals(selectedSpaceStationId, spaceStationDto.id);
+        assertNotNull(spaceStationDto.code);
+        assertNotNull(spaceStationDto.name);
+        assertNotNull(spaceStationDto.country);
+        assertNotNull(spaceStationDto.location);
     }
 }
