@@ -1,17 +1,9 @@
 package jp.co.company.space.api.features.location.domain;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 import java.util.UUID;
-
-import jakarta.persistence.Access;
-import jakarta.persistence.AccessType;
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.Table;
 
 /**
  * A POJO representing a location.
@@ -24,7 +16,7 @@ public class Location {
 
     /**
      * Creates a new {@link Location} instance.
-     * 
+     *
      * @param name           The name of the location.
      * @param latitude       The ecliptic latitude of the location.
      * @param longitude      The ecliptic longitude of the location.
@@ -37,7 +29,7 @@ public class Location {
 
     /**
      * Recreates a {@link Location} instance.
-     * 
+     *
      * @param id             The ID of the location.
      * @param name           The name of the location.
      * @param latitude       The ecliptic latitude of the location.

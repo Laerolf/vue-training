@@ -1,9 +1,5 @@
 package jp.co.company.space.api.features.spaceShuttle.repository;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
@@ -11,8 +7,12 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TransactionRequiredException;
 import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
-import jp.co.company.space.shared.PersistenceRepository;
-import jp.co.company.space.shared.QueryRepository;
+import jp.co.company.space.api.shared.interfaces.PersistenceRepository;
+import jp.co.company.space.api.shared.interfaces.QueryRepository;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 /**
  * The class for {@link SpaceShuttle} DB actions.
@@ -27,7 +27,7 @@ public class SpaceShuttleRepository implements QueryRepository<SpaceShuttle>, Pe
 
     /**
      * Searches an {@link Optional} instance of the {@link SpaceShuttle} class by its ID.
-     * 
+     *
      * @param id The ID of the space shuttle to search for.
      * @return An {@link Optional} {@link SpaceShuttle}.
      */
@@ -38,7 +38,7 @@ public class SpaceShuttleRepository implements QueryRepository<SpaceShuttle>, Pe
 
     /**
      * Gets all the saved {@link SpaceShuttle} instances.
-     * 
+     *
      * @return A {@link List} of {@link SpaceShuttle} instances.
      */
     @Override
@@ -48,13 +48,13 @@ public class SpaceShuttleRepository implements QueryRepository<SpaceShuttle>, Pe
 
     /**
      * Saves a {@link SpaceStation} instance.
-     * 
+     *
      * @param spaceShuttle The {@link SpaceStation} instance to save.
      * @return The saved {@link SpaceStation} instance.
      */
     @Override
     public SpaceShuttle save(SpaceShuttle spaceShuttle) {
-        if (!findById(spaceShuttle.getId()).isPresent()) {
+        if (findById(spaceShuttle.getId()).isEmpty()) {
             try {
                 entityManager.persist(spaceShuttle);
                 return findById(spaceShuttle.getId()).orElseThrow();
@@ -69,7 +69,7 @@ public class SpaceShuttleRepository implements QueryRepository<SpaceShuttle>, Pe
 
     /**
      * Merges a persisted {@link SpaceShuttle} instance with the provided instance.
-     * 
+     *
      * @param spaceShuttle The {@link SpaceShuttle} instance to merge.
      * @return The merged {@link SpaceShuttle} instance.
      */
@@ -84,7 +84,7 @@ public class SpaceShuttleRepository implements QueryRepository<SpaceShuttle>, Pe
 
     /**
      * Saves a {@link List} of {@link SpaceShuttle} instances.
-     * 
+     *
      * @param spaceShuttles The {@link List} of {@link SpaceShuttle} to save.
      * @return The {@link List} of saved {@link SpaceShuttle} instances.
      */

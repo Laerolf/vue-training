@@ -1,16 +1,10 @@
 package jp.co.company.space.api.features.user.domain;
 
-import java.util.UUID;
-
+import jakarta.persistence.*;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-import jakarta.persistence.Access;
-import jakarta.persistence.AccessType;
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * A POJO representing a user.
@@ -23,7 +17,7 @@ public class User {
 
     /**
      * Creates a new {@link User} instance.
-     * 
+     *
      * @param lastName     The last name of the user.
      * @param firstName    The first name of the user.
      * @param emailAddress The email address of the user.
@@ -36,7 +30,7 @@ public class User {
 
     /**
      * Recreates a {@link User} instance.
-     * 
+     *
      * @param id           The ID of the user.
      * @param lastName     The last name of the user.
      * @param firstName    The first name of the user.
@@ -131,65 +125,14 @@ public class User {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-        result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-        result = prime * result + ((emailAddress == null) ? 0 : emailAddress.hashCode());
-        result = prime * result + ((password == null) ? 0 : password.hashCode());
-        return result;
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(lastName, user.lastName) && Objects.equals(firstName, user.firstName) && Objects.equals(emailAddress, user.emailAddress) && Objects.equals(password, user.password);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        User other = (User) obj;
-        if (id == null) {
-            if (other.id != null) {
-                return false;
-            }
-        } else if (!id.equals(other.id)) {
-            return false;
-        }
-        if (lastName == null) {
-            if (other.lastName != null) {
-                return false;
-            }
-        } else if (!lastName.equals(other.lastName)) {
-            return false;
-        }
-        if (firstName == null) {
-            if (other.firstName != null) {
-                return false;
-            }
-        } else if (!firstName.equals(other.firstName)) {
-            return false;
-        }
-        if (emailAddress == null) {
-            if (other.emailAddress != null) {
-                return false;
-            }
-        } else if (!emailAddress.equals(other.emailAddress)) {
-            return false;
-        }
-        if (password == null) {
-            if (other.password != null) {
-                return false;
-            }
-        } else if (!password.equals(other.password)) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+        return Objects.hash(id, lastName, firstName, emailAddress, password);
     }
-
 }

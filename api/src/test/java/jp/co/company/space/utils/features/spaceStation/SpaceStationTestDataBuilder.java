@@ -21,7 +21,7 @@ public class SpaceStationTestDataBuilder {
 
     /**
      * Creates a new {@link SpaceStation} instance.
-     * 
+     *
      * @param location The location of the space station
      * @return a new {@link SpaceStation} instance
      */

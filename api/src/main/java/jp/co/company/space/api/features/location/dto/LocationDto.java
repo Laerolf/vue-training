@@ -4,9 +4,9 @@ import jp.co.company.space.api.features.location.domain.Location;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 /**
- * A POJO representing a DTO of a location.
+ * A POJO representing a brief DTO of a {@link Location} instance.
  */
-@Schema(name = "Location", description = "A location.")
+@Schema(name = "LocationDto", description = "The details of a location.")
 public class LocationDto {
 
     /**

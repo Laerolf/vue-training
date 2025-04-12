@@ -1,4 +1,4 @@
-package jp.co.company.space.shared;
+package jp.co.company.space.api.shared.exception;
 
 /**
  * A domain specific {@link IllegalArgumentException}.

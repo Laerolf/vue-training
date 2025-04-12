@@ -1,9 +1,5 @@
 package jp.co.company.space.api.features.location.service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Initialized;
 import jakarta.enterprise.event.Event;
@@ -18,6 +14,10 @@ import jp.co.company.space.api.features.location.domain.Location;
 import jp.co.company.space.api.features.location.domain.LocationServiceInit;
 import jp.co.company.space.api.features.location.repository.LocationRepository;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 /**
  * A service class handling the {@link Location} topic.
  */
@@ -27,7 +27,7 @@ public class LocationService {
      * The location repository.
      */
     @Inject
-    private LocationRepository repository;
+    private LocationRepository locationRepository;
 
     /**
      * The location service initialization event.
@@ -39,7 +39,7 @@ public class LocationService {
 
     /**
      * Initializes the {@link LocationService} by loading the initial data into the database.
-     * 
+     *
      * @param init The event that triggers the initialization.
      */
     @Transactional
@@ -70,7 +70,7 @@ public class LocationService {
                 return Location.reconstruct(id, name, latitude, longitude, radialDistance);
             }).collect(Collectors.toList());
 
-            repository.save(parsedLocations);
+            locationRepository.save(parsedLocations);
         } catch (JsonException | NullPointerException exception) {
             throw new RuntimeException("Failed to load the initial locations into the database", exception);
         }
@@ -78,11 +78,11 @@ public class LocationService {
 
     /**
      * Gets a {@link List} of existing {@link Location} instances
-     * 
+     *
      * @return The {@link List} of existing {@link Location} instances.
      */
     public List<Location> getAll() {
-        return repository.getAll();
+        return locationRepository.getAll();
     }
 
     /**
@@ -92,6 +92,6 @@ public class LocationService {
      * @return An {@link Optional} {@link Location} instance.
      */
     public Optional<Location> findById(String id) {
-        return repository.findById(id);
+        return locationRepository.findById(id);
     }
 }

@@ -1,9 +1,8 @@
 package jp.co.company.space.api.features.voyage.dto;
 
 import jp.co.company.space.api.features.route.domain.Route;
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
-
 import jp.co.company.space.api.features.voyage.domain.Voyage;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 /**
  * A POJO representing a brief DTO of a {@link Voyage} instance.
@@ -12,7 +11,7 @@ import jp.co.company.space.api.features.voyage.domain.Voyage;
 public class VoyageBasicDto {
     /**
      * Returns a new {@link VoyageBasicDto} instance based on a {@link Voyage} instance.
-     * 
+     *
      * @param voyage The base {@link Voyage} instance.
      * @return A new {@link VoyageBasicDto} instance.
      */

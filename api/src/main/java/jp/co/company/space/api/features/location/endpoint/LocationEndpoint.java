@@ -1,17 +1,5 @@
 package jp.co.company.space.api.features.location.endpoint;
 
-import java.util.List;
-import java.util.Optional;
-
-import jakarta.ws.rs.core.Response;
-import jp.co.company.space.api.features.location.dto.LocationDto;
-import org.eclipse.microprofile.openapi.annotations.Operation;
-import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
-import org.eclipse.microprofile.openapi.annotations.media.Content;
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
-import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
-import org.eclipse.microprofile.openapi.annotations.tags.Tag;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -19,8 +7,20 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import jp.co.company.space.api.features.location.domain.Location;
+import jp.co.company.space.api.features.location.dto.LocationDto;
 import jp.co.company.space.api.features.location.service.LocationService;
+import jp.co.company.space.api.shared.util.ResponseFactory;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * A class that handles the {@link Location} endpoint.
@@ -40,8 +40,8 @@ public class LocationEndpoint {
 
     /**
      * Returns all existing locations.
-     * 
-     * @return A {@link List} of all existing {@link Location} instances.
+     *
+     * @return A {@link List} of all existing {@link LocationDto} instances.
      */
     @GET
     @Operation(summary = "Returns all locations.", description = "Gives a list of all locations.")
@@ -57,10 +57,10 @@ public class LocationEndpoint {
     }
 
     /**
-     * Returns an optional location for the provided ID.
-     * 
+     * Returns an {@link Optional} {@link LocationDto} for the provided ID.
+     *
      * @param id The ID to search with.
-     * @return an {@link Optional} {@link Location} instance.
+     * @return an {@link Optional} {@link LocationDto} instance.
      */
     @Path("{id}")
     @GET
@@ -69,7 +69,9 @@ public class LocationEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public Response findLocationById(@PathParam("id") String id) {
         try {
-            return Response.ok().entity(locationService.findById(id).map(LocationDto::create)).build();
+            return locationService.findById(id)
+                    .map(location -> Response.ok().entity(LocationDto.create(location)).build())
+                    .orElse(ResponseFactory.createNotFoundResponse());
         } catch (Exception exception) {
             return Response.serverError().build();
         }

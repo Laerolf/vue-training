@@ -12,7 +12,7 @@ public class RouteTestDataBuilder {
 
     /**
      * Creates a new {@link Route} instance.
-     * 
+     *
      * @param origin       The origin of the route.
      * @param destination  The destination of the route.
      * @param shuttleModel The space shuttle model for the route.

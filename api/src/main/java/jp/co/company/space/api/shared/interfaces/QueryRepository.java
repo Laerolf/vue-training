@@ -1,4 +1,4 @@
-package jp.co.company.space.shared;
+package jp.co.company.space.api.shared.interfaces;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,16 +9,16 @@ import java.util.Optional;
 public interface QueryRepository<T> {
     /**
      * Searches an {@link Optional} instance of the {@link T} class by its ID.
-     * 
+     *
      * @param id The ID of the {@link T} instance to search for.
      * @return An {@link Optional} {@link T}.
      */
-    public Optional<T> findById(String id);
+    Optional<T> findById(String id);
 
     /**
      * Gets all the saved {@link T} instances.
-     * 
+     *
      * @return A {@link List} of {@link T} instances.
      */
-    public List<T> getAll();
+    List<T> getAll();
 }

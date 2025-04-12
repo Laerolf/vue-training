@@ -1,11 +1,11 @@
 package jp.co.company.space.api.features.voyage.domain;
 
-import java.math.BigDecimal;
-import java.time.Duration;
-
 import jp.co.company.space.api.features.route.domain.Route;
 import jp.co.company.space.api.features.route.domain.RouteDistanceFactory;
 import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
+
+import java.math.BigDecimal;
+import java.time.Duration;
 
 /**
  * A POJO calculating the duration of a voyage.
@@ -14,7 +14,7 @@ public class VoyageDurationFactory {
 
     /**
      * Returns a new {@link VoyageDurationFactory} instance.
-     * 
+     *
      * @param route        The route to calculate the duration with.
      * @param spaceShuttle The space shuttle to calculate the duration with.
      * @return A new {@link VoyageDurationFactory} instance.
@@ -48,7 +48,7 @@ public class VoyageDurationFactory {
 
     /**
      * Returns the duration in days of a voyage based on its {@link Route} and {@link SpaceShuttle}.
-     * 
+     *
      * @return A duration in days of a voyage.
      */
     public Duration calculate() {

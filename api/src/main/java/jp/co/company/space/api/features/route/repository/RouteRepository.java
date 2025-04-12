@@ -1,17 +1,17 @@
 package jp.co.company.space.api.features.route.repository;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TransactionRequiredException;
 import jp.co.company.space.api.features.route.domain.Route;
-import jp.co.company.space.shared.PersistenceRepository;
-import jp.co.company.space.shared.QueryRepository;
+import jp.co.company.space.api.shared.interfaces.PersistenceRepository;
+import jp.co.company.space.api.shared.interfaces.QueryRepository;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 /**
  * The class for {@link Route} DB actions.
@@ -26,7 +26,7 @@ public class RouteRepository implements QueryRepository<Route>, PersistenceRepos
 
     /**
      * Searches an {@link Optional} instance of the {@link Route} class by its ID.
-     * 
+     *
      * @param id The ID of the route to search for.
      * @return An {@link Optional} {@link Route}.
      */
@@ -37,7 +37,7 @@ public class RouteRepository implements QueryRepository<Route>, PersistenceRepos
 
     /**
      * Gets all the saved {@link Route} instances.
-     * 
+     *
      * @return A {@link List} of {@link Route} instances.
      */
     @Override
@@ -47,13 +47,13 @@ public class RouteRepository implements QueryRepository<Route>, PersistenceRepos
 
     /**
      * Saves a {@link Route} instance.
-     * 
+     *
      * @param route The {@link Route} instance to save.
      * @return The saved {@link Route} instance.
      */
     @Override
     public Route save(Route route) {
-        if (!findById(route.getId()).isPresent()) {
+        if (findById(route.getId()).isEmpty()) {
             try {
                 entityManager.persist(route);
                 return findById(route.getId()).orElseThrow();
@@ -68,7 +68,7 @@ public class RouteRepository implements QueryRepository<Route>, PersistenceRepos
 
     /**
      * Merges a persisted {@link Route} instance with the provided instance.
-     * 
+     *
      * @param route The {@link Route} instance to merge.
      * @return The merged {@link Route} instance.
      */
@@ -83,7 +83,7 @@ public class RouteRepository implements QueryRepository<Route>, PersistenceRepos
 
     /**
      * Saves a {@link List} of {@link Route} instances.
-     * 
+     *
      * @param routes The {@link List} of {@link Route} to save.
      * @return The {@link List} of saved {@link Route} instances.
      */

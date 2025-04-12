@@ -1,25 +1,14 @@
 package jp.co.company.space.api.features.voyage.domain;
 
+import jakarta.persistence.*;
+import jp.co.company.space.api.features.route.domain.Route;
+import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
+import jp.co.company.space.api.shared.exception.DomainException;
+
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.UUID;
-
-import jakarta.persistence.Access;
-import jakarta.persistence.AccessType;
-import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.Table;
-import jp.co.company.space.api.features.route.domain.Route;
-import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
-import jp.co.company.space.shared.DomainException;
 
 /**
  * A POJO representing a voyage.
@@ -37,7 +26,7 @@ public class Voyage {
 
     /**
      * Returns a new {@link Voyage} instance.
-     * 
+     *
      * @param departureDate The departure date of the voyage.
      * @param route         The route of the voyage.
      * @param spaceShuttle  The space shuttle of the voyage.
@@ -60,7 +49,7 @@ public class Voyage {
 
     /**
      * Returns a {@link Voyage} instance.
-     * 
+     *
      * @param id            The ID of the voyage.
      * @param departureDate The departure date of the voyage.
      * @param arrivalDate   The arrival date of the voyage.
@@ -159,7 +148,7 @@ public class Voyage {
 
     /**
      * Returns the {@link Duration} between the departure date and arrival date of this voyage in seconds.
-     * 
+     *
      * @return A {@link Duration}.
      */
     public Duration getDuration() {

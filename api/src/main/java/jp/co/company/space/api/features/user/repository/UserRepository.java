@@ -1,9 +1,5 @@
 package jp.co.company.space.api.features.user.repository;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
@@ -11,8 +7,12 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TransactionRequiredException;
 import jakarta.transaction.Transactional;
 import jp.co.company.space.api.features.user.domain.User;
-import jp.co.company.space.shared.PersistenceRepository;
-import jp.co.company.space.shared.QueryRepository;
+import jp.co.company.space.api.shared.interfaces.PersistenceRepository;
+import jp.co.company.space.api.shared.interfaces.QueryRepository;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 /**
  * The class for {@link User} DB actions.
@@ -27,7 +27,7 @@ public class UserRepository implements QueryRepository<User>, PersistenceReposit
 
     /**
      * Searches an {@link Optional} instance of the {@link User} class by its ID.
-     * 
+     *
      * @param id The ID of the user to search for.
      * @return An {@link Optional} {@link User}.
      */
@@ -43,14 +43,14 @@ public class UserRepository implements QueryRepository<User>, PersistenceReposit
 
     /**
      * Saves a {@link User} instance.
-     * 
+     *
      * @param user The {@link User} instance to save.
      * @return The saved {@link User} instance.
      */
     @Override
     @Transactional
     public User save(User user) {
-        if (!findById(user.getId()).isPresent()) {
+        if (findById(user.getId()).isEmpty()) {
             try {
                 entityManager.persist(user);
                 return findById(user.getId()).orElseThrow();
@@ -65,7 +65,7 @@ public class UserRepository implements QueryRepository<User>, PersistenceReposit
 
     /**
      * Merges a persisted {@link User} instance with the provided instance.
-     * 
+     *
      * @param user The {@link User} instance to merge.
      * @return The merged {@link User} instance.
      */

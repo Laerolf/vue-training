@@ -1,17 +1,5 @@
 package jp.co.company.space.api.features.voyage.endpoint;
 
-import java.util.List;
-import java.util.Optional;
-
-import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
-import org.eclipse.microprofile.openapi.annotations.Operation;
-import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
-import org.eclipse.microprofile.openapi.annotations.media.Content;
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
-import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
-import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
-import org.eclipse.microprofile.openapi.annotations.tags.Tag;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -20,10 +8,21 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
-import jp.co.company.space.api.features.voyage.dto.VoyageDto;
 import jp.co.company.space.api.features.voyage.dto.VoyageBasicDto;
+import jp.co.company.space.api.features.voyage.dto.VoyageDto;
 import jp.co.company.space.api.features.voyage.service.VoyageService;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * This class represents the REST endpoint for the {@link Voyage} topic.
@@ -42,7 +41,7 @@ public class VoyageEndpoint {
 
     /**
      * Returns all existing space voyages.
-     * 
+     *
      * @return A {@link List} of all existing {@link Voyage} instances.
      */
     @GET
@@ -60,7 +59,7 @@ public class VoyageEndpoint {
 
     /**
      * Returns an {@link Optional} {@link Voyage} matching the provided ID.
-     * 
+     *
      * @return An {@link Optional} {@link Voyage}.
      */
     @Path("{id}")
@@ -82,7 +81,7 @@ public class VoyageEndpoint {
     /**
      * Returns a {@link List} of all {@link Voyage} instances with an origin space station matching the provided
      * {@link SpaceStation} ID.
-     * 
+     *
      * @return A {@link List} of {@link Voyage} instances.
      */
     @Path("/from/{originId}")
@@ -103,7 +102,7 @@ public class VoyageEndpoint {
     /**
      * Returns a {@link List} of all {@link Voyage} instances with a destination space station matching the provided
      * {@link SpaceStation} ID.
-     * 
+     *
      * @return A {@link List} of {@link Voyage} instances.
      */
     @Path("/to/{destinationId}")
@@ -124,7 +123,7 @@ public class VoyageEndpoint {
     /**
      * Returns a {@link List} of all {@link Voyage} instances with an origin space station matching the provided
      * {@link SpaceStation} ID.
-     * 
+     *
      * @return A {@link List} of {@link Voyage} instances.
      */
     @Path("/from/{originId}/to/{destinationId}")

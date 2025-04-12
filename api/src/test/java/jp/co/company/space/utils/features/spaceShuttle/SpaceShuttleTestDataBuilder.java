@@ -11,13 +11,13 @@ public class SpaceShuttleTestDataBuilder {
     /**
      * The default name for the space shuttle.
      */
-    private static String DEFAULT_NAME = "A";
+    private static final String DEFAULT_NAME = "A";
 
     public SpaceShuttleTestDataBuilder() {}
 
     /**
      * Creates a new {@link SpaceShuttle} instance.
-     * 
+     *
      * @param shuttleModel The model of the space shuttle
      * @return a new {@link SpaceShuttle} instance
      */

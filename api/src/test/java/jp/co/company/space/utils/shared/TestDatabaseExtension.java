@@ -12,7 +12,7 @@ public class TestDatabaseExtension implements Extension {
 
     /**
      * Sets up the database before the bean discovery.
-     * 
+     *
      * @param event The before bean discovery event
      */
     void beforeBeanDiscovery(@Observes BeforeBeanDiscovery event) {

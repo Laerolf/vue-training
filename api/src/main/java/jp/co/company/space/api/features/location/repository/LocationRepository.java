@@ -1,17 +1,17 @@
 package jp.co.company.space.api.features.location.repository;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TransactionRequiredException;
 import jp.co.company.space.api.features.location.domain.Location;
-import jp.co.company.space.shared.PersistenceRepository;
-import jp.co.company.space.shared.QueryRepository;
+import jp.co.company.space.api.shared.interfaces.PersistenceRepository;
+import jp.co.company.space.api.shared.interfaces.QueryRepository;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 /**
  * The class for {@link Location} DB actions.
@@ -26,7 +26,7 @@ public class LocationRepository implements QueryRepository<Location>, Persistenc
 
     /**
      * Searches an {@link Optional} instance of the {@link Location} class by its ID.
-     * 
+     *
      * @param id The ID of the location to search for.
      * @return An {@link Optional} {@link Location}.
      */
@@ -37,7 +37,7 @@ public class LocationRepository implements QueryRepository<Location>, Persistenc
 
     /**
      * Gets all the saved {@link Location} instances.
-     * 
+     *
      * @return A {@link List} of {@link Location} instances.
      */
     @Override
@@ -47,7 +47,7 @@ public class LocationRepository implements QueryRepository<Location>, Persistenc
 
     /**
      * Saves a {@link Location} instance.
-     * 
+     *
      * @param location The {@link Location} instance to save.
      * @return The saved {@link Location} instance.
      */
@@ -68,7 +68,7 @@ public class LocationRepository implements QueryRepository<Location>, Persistenc
 
     /**
      * Merges a persisted {@link Location} instance with the provided instance.
-     * 
+     *
      * @param location The {@link Location} instance to merge.
      * @return The merged {@link Location} instance.
      */
@@ -83,7 +83,7 @@ public class LocationRepository implements QueryRepository<Location>, Persistenc
 
     /**
      * Saves a {@link List} of {@link Location} instances.
-     * 
+     *
      * @param locations The {@link List} of {@link Location} to save.
      * @return The {@link List} of saved {@link Location} instances.
      */

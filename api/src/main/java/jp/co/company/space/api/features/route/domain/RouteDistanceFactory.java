@@ -1,10 +1,10 @@
 package jp.co.company.space.api.features.route.domain;
 
+import jp.co.company.space.api.features.location.domain.Location;
+
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-
-import jp.co.company.space.api.features.location.domain.Location;
 
 /**
  * A POJO calculating the <a href="https://en.wikipedia.org/wiki/Euclidean_distance">Euclidean</a> kilometer distance in
@@ -24,7 +24,7 @@ public class RouteDistanceFactory {
 
     /**
      * Returns a new {@link RouteDistanceFactory} instance.
-     * 
+     *
      * @param route The route to calculate the distance for.
      * @return A new {@link RouteDistanceFactory} instance.
      * @throws IllegalArgumentException if the provided route is null.
@@ -48,7 +48,7 @@ public class RouteDistanceFactory {
 
     /**
      * Computes the Euclidean distance in kilometers between two points in 3D space.
-     * 
+     *
      * @return The Euclidean distance in kilometers.
      */
     public BigDecimal calculate() {
@@ -65,7 +65,7 @@ public class RouteDistanceFactory {
 
     /**
      * Converts degrees to radians.
-     * 
+     *
      * @param degrees The angle in degrees.
      * @return The angle in radians.
      */
@@ -75,7 +75,7 @@ public class RouteDistanceFactory {
 
     /**
      * Converts a distance from Astronomical Units (AU) to kilometers.
-     * 
+     *
      * @param au The distance in AU.
      * @return The equivalent distance in kilometers.
      */
@@ -85,7 +85,7 @@ public class RouteDistanceFactory {
 
     /**
      * Converts a location's ecliptic coordinates (longitude, latitude, radial distance) into Cartesian coordinates.
-     * 
+     *
      * @param location The celestial location.
      * @return A double array {x, y, z} representing Cartesian coordinates.
      */

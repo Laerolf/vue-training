@@ -1,9 +1,5 @@
 package jp.co.company.space.api.features.spaceShuttle.service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Event;
 import jakarta.enterprise.event.Observes;
@@ -20,6 +16,10 @@ import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleMod
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModelServiceInit;
 import jp.co.company.space.api.features.spaceShuttleModel.service.SpaceShuttleModelService;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * A service class handling the {@link SpaceStation} topic.
@@ -46,7 +46,7 @@ public class SpaceShuttleService {
 
     /**
      * Initializes the {@link SpaceShuttleService} by loading the initial data into the database.
-     * 
+     *
      * @param init The event that triggers the initialization.
      */
     @Transactional
@@ -83,7 +83,7 @@ public class SpaceShuttleService {
 
     /**
      * Gets a {@link List} of existing {@link SpaceShuttle} instances
-     * 
+     *
      * @return The {@link List} of existing {@link SpaceShuttle} instances.
      */
     public List<SpaceShuttle> getAll() {
@@ -92,7 +92,7 @@ public class SpaceShuttleService {
 
     /**
      * Gets an {@link Optional} {@link SpaceShuttle} instance for the provided ID.
-     * 
+     *
      * @param id The ID to search with.
      * @return An {@link Optional} {@link SpaceShuttle} instance.
      */

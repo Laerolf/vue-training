@@ -1,9 +1,5 @@
 package jp.co.company.space.api.features.route.service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Event;
 import jakarta.enterprise.event.Observes;
@@ -13,8 +9,8 @@ import jakarta.json.JsonException;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import jakarta.transaction.Transactional;
-import jp.co.company.space.api.features.route.events.RouteServiceInit;
 import jp.co.company.space.api.features.route.domain.Route;
+import jp.co.company.space.api.features.route.events.RouteServiceInit;
 import jp.co.company.space.api.features.route.repository.RouteRepository;
 import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
@@ -24,6 +20,10 @@ import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStationServiceInit;
 import jp.co.company.space.api.features.spaceStation.service.SpaceStationService;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 /**
  * A service class handling the {@link Route} topic.
  */
@@ -31,7 +31,7 @@ import jp.co.company.space.api.features.spaceStation.service.SpaceStationService
 public class RouteService {
 
     @Inject
-    private RouteRepository repository;
+    private RouteRepository routeRepository;
 
     @Inject
     private SpaceStationService spaceStationService;
@@ -59,7 +59,7 @@ public class RouteService {
 
     /**
      * Initializes the {@link RouteService} by loading the initial data into the database.
-     * 
+     *
      * @param spaceStationServiceInit An event that triggers the initialization.
      */
     @Transactional
@@ -77,7 +77,7 @@ public class RouteService {
 
     /**
      * Initializes the {@link RouteService} by loading the initial data into the database.
-     * 
+     *
      * @param spaceShuttleServiceInit An event that triggers the initialization.
      */
     @Transactional
@@ -95,7 +95,7 @@ public class RouteService {
 
     /**
      * Is the {@link RouteService} ready to be initialized?
-     * 
+     *
      * @return true if the service is ready to be initialized, false otherwise.
      */
     private boolean isReadyToBeInitialized() {
@@ -122,7 +122,7 @@ public class RouteService {
                 return Route.reconstruct(id, origin, destination, shuttleModel);
             }).collect(Collectors.toList());
 
-            repository.save(parsedRoutes);
+            routeRepository.save(parsedRoutes);
 
             routeServiceInitEvent.fire(RouteServiceInit.create());
         } catch (JsonException | NullPointerException exception) {
@@ -132,20 +132,20 @@ public class RouteService {
 
     /**
      * Gets a {@link List} of existing {@link Route} instances
-     * 
+     *
      * @return The {@link List} of existing {@link Route} instances.
      */
     public List<Route> getAll() {
-        return repository.getAll();
+        return routeRepository.getAll();
     }
 
     /**
      * Gets an {@link Optional} {@link Route} instance for the provided ID.
-     * 
+     *
      * @param id The ID to search with.
      * @return An {@link Optional} {@link Route} instance.
      */
     public Optional<Route> findById(String id) {
-        return repository.findById(id);
+        return routeRepository.findById(id);
     }
 }

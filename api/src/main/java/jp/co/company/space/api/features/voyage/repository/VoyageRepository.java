@@ -1,17 +1,17 @@
 package jp.co.company.space.api.features.voyage.repository;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TransactionRequiredException;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
-import jp.co.company.space.shared.PersistenceRepository;
-import jp.co.company.space.shared.QueryRepository;
+import jp.co.company.space.api.shared.interfaces.PersistenceRepository;
+import jp.co.company.space.api.shared.interfaces.QueryRepository;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 /**
  * The class for {@link Voyage} DB actions.
@@ -26,7 +26,7 @@ public class VoyageRepository implements QueryRepository<Voyage>, PersistenceRep
 
     /**
      * Returns an {@link Optional} {@link Voyage} instance for the provided ID.
-     * 
+     *
      * @param id The ID to search with.
      * @return An {@link Optional} {@link Voyage} instance.
      */
@@ -37,7 +37,7 @@ public class VoyageRepository implements QueryRepository<Voyage>, PersistenceRep
 
     /**
      * Returns a {@link List} of all existing {@link Voyage} instances.
-     * 
+     *
      * @return A {@link List} of {@link Voyage} instances.
      */
     @Override
@@ -48,7 +48,7 @@ public class VoyageRepository implements QueryRepository<Voyage>, PersistenceRep
     /**
      * Returns a {@link List} of {@link Voyage} instances having an origin space station matching the provided space station
      * ID.
-     * 
+     *
      * @param originId The space station ID to search with.
      * @return A {@link List} of {@link Voyage} instances.
      */
@@ -59,7 +59,7 @@ public class VoyageRepository implements QueryRepository<Voyage>, PersistenceRep
     /**
      * Returns a {@link List} of {@link Voyage} instances having an destination space station matching the provided space
      * station ID.
-     * 
+     *
      * @param destinationId The space station ID to search with.
      * @return A {@link List} of {@link Voyage} instances.
      */
@@ -70,7 +70,7 @@ public class VoyageRepository implements QueryRepository<Voyage>, PersistenceRep
     /**
      * Returns a {@link List} of {@link Voyage} instances having an origin space station matching the provided origin space
      * station ID and a destination space station matching the provided destination space station ID.
-     * 
+     *
      * @param originId      The origin space station ID to search with.
      * @param destinationId The destination space station ID to search with.
      * @return A {@link List} of {@link Voyage} instances.
@@ -81,7 +81,7 @@ public class VoyageRepository implements QueryRepository<Voyage>, PersistenceRep
 
     /**
      * Persists a {@link Voyage} instance.
-     * 
+     *
      * @param voyage The voyage instance to persist.
      * @return A persisted {@link Voyage} instance.
      */
@@ -101,7 +101,7 @@ public class VoyageRepository implements QueryRepository<Voyage>, PersistenceRep
 
     /**
      * Merges a {@link Voyage} instance.
-     * 
+     *
      * @param voyage The voyage instance to merge.
      * @return A merged {@link Voyage} instance.
      */
@@ -116,7 +116,7 @@ public class VoyageRepository implements QueryRepository<Voyage>, PersistenceRep
 
     /**
      * Persists a {@link List} of {@link Voyage} instance.
-     * 
+     *
      * @param voyages The list of voyage instances to persist.
      * @return A persisted {@link List} of {@link Voyage} instances.
      */

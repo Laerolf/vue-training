@@ -1,7 +1,8 @@
 package jp.co.company.space.utils.features.user;
 
-import java.util.Optional;
 import jp.co.company.space.api.features.user.domain.User;
+
+import java.util.Optional;
 
 /**
  * A utility class that creates {@link User} instances for tests.

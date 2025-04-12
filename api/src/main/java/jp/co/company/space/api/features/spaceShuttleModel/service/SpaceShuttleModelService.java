@@ -1,9 +1,5 @@
 package jp.co.company.space.api.features.spaceShuttleModel.service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Initialized;
 import jakarta.enterprise.event.Event;
@@ -14,9 +10,14 @@ import jakarta.json.JsonException;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import jakarta.transaction.Transactional;
+import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModelServiceInit;
 import jp.co.company.space.api.features.spaceShuttleModel.repository.SpaceShuttleModelRepository;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * A service class handling the {@link SpaceShuttleModel} topic.
@@ -28,7 +29,7 @@ public class SpaceShuttleModelService {
      * The space shuttle model repository.
      */
     @Inject
-    private SpaceShuttleModelRepository shuttleModelRepository;
+    private SpaceShuttleModelRepository repository;
 
     /**
      * This service's initialisation event.
@@ -40,7 +41,7 @@ public class SpaceShuttleModelService {
 
     /**
      * The start-up logic for this service, after the start-up it emits its initialisation event.
-     * 
+     *
      * @param init The event that triggers the start-up of this service.
      */
     @Transactional
@@ -58,8 +59,7 @@ public class SpaceShuttleModelService {
      * Loads the space shuttle models from the JSON file into the database.
      */
     private void loadSpaceShuttleModels() {
-        try (JsonReader reader = Json.createReader(
-                SpaceShuttleModelService.class.getResourceAsStream("/static/space-shuttle-models.json"))) {
+        try (JsonReader reader = Json.createReader(SpaceShuttleModelService.class.getResourceAsStream("/static/space-shuttle-models.json"))) {
             List<SpaceShuttleModel> parsedSpaceShuttleModels = reader.readArray().stream().map(modelJsonValue -> {
                 JsonObject modelJson = modelJsonValue.asJsonObject();
 
@@ -71,7 +71,7 @@ public class SpaceShuttleModelService {
                 return SpaceShuttleModel.reconstruct(id, name, maxCapacity, maxSpeed);
             }).collect(Collectors.toList());
 
-            shuttleModelRepository.save(parsedSpaceShuttleModels);
+            repository.save(parsedSpaceShuttleModels);
         } catch (JsonException | NullPointerException exception) {
             throw new RuntimeException("Failed to load the initial space shuttle models into the database", exception);
         }
@@ -79,21 +79,31 @@ public class SpaceShuttleModelService {
 
     /**
      * Gets a {@link List} of existing {@link SpaceShuttleModel} instances
-     * 
+     *
      * @return The {@link List} of existing {@link SpaceShuttleModel} instances.
      */
     public List<SpaceShuttleModel> getAll() {
-        return shuttleModelRepository.getAll();
+        return repository.getAll();
     }
 
     /**
      * Gets an {@link Optional} {@link SpaceShuttleModel} instance for the provided ID.
-     * 
+     *
      * @param id The ID to search with.
      * @return An {@link Optional} {@link SpaceShuttleModel} instance.
      */
     public Optional<SpaceShuttleModel> findById(String id) {
-        return shuttleModelRepository.findById(id);
+        return repository.findById(id);
     }
 
+    /**
+     * Returns a {@link List} of all {@link SpaceShuttle} instances with the {@link SpaceShuttleModel} matching the provided
+     * ID.
+     *
+     * @param id The ID to search with.
+     * @return A {@link List} of {@link SpaceShuttle} instances.
+     */
+    public List<SpaceShuttle> getAllSpaceShuttlesByModelId(String id) {
+        return repository.getAllSpaceShuttlesByModelId(id);
+    }
 }

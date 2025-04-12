@@ -1,12 +1,11 @@
 package jp.co.company.space.api.application.checks.readiness;
 
-import org.eclipse.microprofile.health.HealthCheck;
-import org.eclipse.microprofile.health.HealthCheckResponse;
-import org.eclipse.microprofile.health.Readiness;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.eclipse.microprofile.health.HealthCheck;
+import org.eclipse.microprofile.health.HealthCheckResponse;
+import org.eclipse.microprofile.health.Readiness;
 
 /**
  * This class is a readiness check for the database.
@@ -26,7 +25,7 @@ public class DbReadinessCheck implements HealthCheck {
 
     /**
      * Tests if the database is ready.
-     * 
+     *
      * @return true if the database is ready, false otherwise.
      */
     private boolean isReady() {

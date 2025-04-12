@@ -1,17 +1,17 @@
 package jp.co.company.space.api.features.spaceStation.repository;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TransactionRequiredException;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
-import jp.co.company.space.shared.PersistenceRepository;
-import jp.co.company.space.shared.QueryRepository;
+import jp.co.company.space.api.shared.interfaces.PersistenceRepository;
+import jp.co.company.space.api.shared.interfaces.QueryRepository;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 /**
  * The class for {@link SpaceStation} DB actions.
@@ -26,7 +26,7 @@ public class SpaceStationRepository implements QueryRepository<SpaceStation>, Pe
 
     /**
      * Searches an {@link Optional} instance of the {@link SpaceStation} class by its ID.
-     * 
+     *
      * @param id The ID of the space station to search for.
      * @return An {@link Optional} {@link SpaceStation}.
      */
@@ -37,7 +37,7 @@ public class SpaceStationRepository implements QueryRepository<SpaceStation>, Pe
 
     /**
      * Gets all the saved {@link SpaceStation} instances.
-     * 
+     *
      * @return A {@link List} of {@link SpaceStation} instances.
      */
     @Override
@@ -47,13 +47,13 @@ public class SpaceStationRepository implements QueryRepository<SpaceStation>, Pe
 
     /**
      * Saves a {@link SpaceStation} instance.
-     * 
+     *
      * @param spaceStation The {@link SpaceStation} instance to save.
      * @return The saved {@link SpaceStation} instance.
      */
     @Override
     public SpaceStation save(SpaceStation spaceStation) {
-        if (!findById(spaceStation.getId()).isPresent()) {
+        if (findById(spaceStation.getId()).isEmpty()) {
             try {
                 entityManager.persist(spaceStation);
                 return findById(spaceStation.getId()).orElseThrow();
@@ -68,7 +68,7 @@ public class SpaceStationRepository implements QueryRepository<SpaceStation>, Pe
 
     /**
      * Merges a persisted {@link SpaceStation} instance with the provided instance.
-     * 
+     *
      * @param spaceStation The {@link SpaceStation} instance to merge.
      * @return The merged {@link SpaceStation} instance.
      */
@@ -83,7 +83,7 @@ public class SpaceStationRepository implements QueryRepository<SpaceStation>, Pe
 
     /**
      * Saves a {@link List} of {@link SpaceStation} instances.
-     * 
+     *
      * @param spaceStations The {@link List} of {@link SpaceStation} to save.
      * @return The {@link List} of saved {@link SpaceStation} instances.
      */

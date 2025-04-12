@@ -1,10 +1,5 @@
 package jp.co.company.space.api.features.voyage.service;
 
-import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
@@ -12,8 +7,8 @@ import jakarta.json.Json;
 import jakarta.json.JsonException;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
-import jp.co.company.space.api.features.route.events.RouteServiceInit;
 import jp.co.company.space.api.features.route.domain.Route;
+import jp.co.company.space.api.features.route.events.RouteServiceInit;
 import jp.co.company.space.api.features.route.service.RouteService;
 import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
 import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttleServiceInit;
@@ -22,7 +17,13 @@ import jp.co.company.space.api.features.spaceShuttleModel.service.SpaceShuttleMo
 import jp.co.company.space.api.features.voyage.domain.Voyage;
 import jp.co.company.space.api.features.voyage.domain.VoyageStatus;
 import jp.co.company.space.api.features.voyage.repository.VoyageRepository;
-import jp.co.company.space.shared.DomainException;
+import jp.co.company.space.api.shared.exception.DomainException;
+
+import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * A service class handling the {@link Voyage} topic.
@@ -131,7 +132,7 @@ public class VoyageService {
 
     /**
      * Gets all existing {@link Voyage} instances and maps them to {@link Voyage} instances.
-     * 
+     *
      * @return A {@link List} of all {@link Voyage} instances.
      */
     public List<Voyage> getAll() {
@@ -140,7 +141,7 @@ public class VoyageService {
 
     /**
      * Returns an {@link Optional} {@link Voyage} instance for the provided ID.
-     * 
+     *
      * @param id The ID to search with.
      * @return An {@link Optional} {@link Voyage} instance.
      */
@@ -151,7 +152,7 @@ public class VoyageService {
     /**
      * Returns a {@link List} of {@link Voyage} instances having an origin space station matching the provided space station
      * ID and maps them to a {@link List} of {@link Voyage} instances.
-     * 
+     *
      * @param originId The space station ID to search with.
      * @return A {@link List} of {@link Voyage} instances.
      */
@@ -162,7 +163,7 @@ public class VoyageService {
     /**
      * Returns a {@link List} of {@link Voyage} instances having a destination space station matching the provided space
      * station ID and maps them to a {@link List} of {@link Voyage} instances.
-     * 
+     *
      * @param destinationId The space station ID to search with.
      * @return A {@link List} of {@link Voyage} instances.
      */
@@ -174,7 +175,7 @@ public class VoyageService {
      * Returns a {@link List} of {@link Voyage} instances having an origin space station matching the provided origin space
      * station ID and a destination space station matching the provided destination space station ID and maps them to a
      * {@link List} of {@link Voyage} instances.
-     * 
+     *
      * @param originId      The origin space station ID to search with.
      * @param destinationId The destination space station ID to search with.
      * @return A {@link List} of {@link Voyage} instances.

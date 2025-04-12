@@ -1,8 +1,8 @@
 package jp.co.company.space.utils.features.location;
 
-import java.util.Optional;
-
 import jp.co.company.space.api.features.location.domain.Location;
+
+import java.util.Optional;
 
 /**
  * A utility class that creates {@link Location} instances for tests.
@@ -57,7 +57,7 @@ public class LocationTestDataBuilder {
 
     /**
      * Creates a new {@link Location} instance.
-     * 
+     *
      * @return a new {@link Location} instance
      */
     public Location create() {

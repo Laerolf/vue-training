@@ -1,18 +1,9 @@
 package jp.co.company.space.api.features.spaceShuttleModel.domain;
 
+import jakarta.persistence.*;
+
+import java.util.Objects;
 import java.util.UUID;
-
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
-
-import jakarta.persistence.Access;
-import jakarta.persistence.AccessType;
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.Table;
 
 /**
  * An entity class representing a space shuttle model.
@@ -20,13 +11,15 @@ import jakarta.persistence.Table;
 @Entity(name = "SpaceShuttleModel")
 @Table(name = "space_shuttle_models")
 @Access(AccessType.FIELD)
-@NamedQueries({ @NamedQuery(name = "selectAllSpaceShuttleModels", query = "SELECT s FROM SpaceShuttleModel s") })
-@Schema(name = "SpaceShuttleModel", description = "A space shuttle model entity.")
+@NamedQueries({
+        @NamedQuery(name = "selectAllSpaceShuttleModels", query = "SELECT s FROM SpaceShuttleModel s"),
+        @NamedQuery(name = "selectAllSpaceShuttlesByModelId", query = "SELECT s FROM SpaceShuttleModel m JOIN SpaceShuttle s ON s.model = m WHERE m.id = :id")
+})
 public class SpaceShuttleModel {
 
     /**
      * Creates a new {@link SpaceShuttleModel} entity.
-     * 
+     *
      * @param name        The name of the space shuttle model.
      * @param maxCapacity The maximum seating capacity of the space shuttle model.
      * @param maxSpeed    The maximum speed of the space shuttle model in kilometers.
@@ -38,7 +31,7 @@ public class SpaceShuttleModel {
 
     /**
      * Recreates a {@link SpaceShuttleModel} entity.
-     * 
+     *
      * @param id          The ID of the space shuttle model.
      * @param name        The name of the space shuttle model.
      * @param maxCapacity The maximum seating capacity of the space shuttle model.
@@ -54,7 +47,6 @@ public class SpaceShuttleModel {
      */
     @Id
     @Column(nullable = false, updatable = false, unique = true)
-    @Schema(description = "The ID of the space shuttle model", required = true, example = "1")
     private String id;
 
     /**
@@ -62,7 +54,6 @@ public class SpaceShuttleModel {
      */
     @Basic(optional = false)
     @Column(nullable = false)
-    @Schema(description = "The name of the space shuttle model", required = true, example = "Morningstar X-666")
     private String name;
 
     /**
@@ -70,7 +61,6 @@ public class SpaceShuttleModel {
      */
     @Basic(optional = false)
     @Column(name = "max_capacity", nullable = false)
-    @Schema(description = "The maximum seating capacity of the space shuttle model", required = true, example = "666")
     private int maxCapacity;
 
     /**
@@ -78,7 +68,6 @@ public class SpaceShuttleModel {
      */
     @Basic(optional = false)
     @Column(name = "max_speed", nullable = false)
-    @Schema(description = "The maximum speed of the space shuttle model in kilometers per hour", required = true, example = "90000")
     private long maxSpeed;
 
     protected SpaceShuttleModel() {}
@@ -125,49 +114,14 @@ public class SpaceShuttleModel {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + maxCapacity;
-        result = prime * result + (int) (maxSpeed ^ (maxSpeed >>> 32));
-        return result;
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        SpaceShuttleModel that = (SpaceShuttleModel) o;
+        return maxCapacity == that.maxCapacity && maxSpeed == that.maxSpeed && Objects.equals(id, that.id) && Objects.equals(name, that.name);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        SpaceShuttleModel other = (SpaceShuttleModel) obj;
-        if (id == null) {
-            if (other.id != null) {
-                return false;
-            }
-        } else if (!id.equals(other.id)) {
-            return false;
-        }
-        if (name == null) {
-            if (other.name != null) {
-                return false;
-            }
-        } else if (!name.equals(other.name)) {
-            return false;
-        }
-        if (maxCapacity != other.maxCapacity) {
-            return false;
-        }
-        if (maxSpeed != other.maxSpeed) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+        return Objects.hash(id, name, maxCapacity, maxSpeed);
     }
-
 }

@@ -1,20 +1,19 @@
 package jp.co.company.space.api.features.voyage.dto;
 
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
-
-import jp.co.company.space.api.features.route.domain.Route;
-import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
+import jp.co.company.space.api.features.route.dto.RouteDto;
+import jp.co.company.space.api.features.spaceShuttle.dto.SpaceShuttleDto;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 /**
  * A POJO representing a DTO of a {@link Voyage} instance.
  */
-@Schema(name = "VoyageDetailDto", description = "The details of a voyage.")
+@Schema(name = "VoyageDto", description = "The details of a voyage.")
 public class VoyageDto {
 
     /**
      * Returns a new {@link VoyageDto} instance based on a {@link Voyage} instance.
-     * 
+     *
      * @param voyage The base {@link Voyage} instance.
      * @return A new {@link VoyageDto} instance.
      */
@@ -24,7 +23,7 @@ public class VoyageDto {
         }
 
         return new VoyageDto(voyage.getId(), voyage.getDepartureDate().toString(), voyage.getArrivalDate().toString(), voyage.getDuration().toSeconds(), voyage.getStatus().getLocaleCode(),
-                voyage.getRoute(), voyage.getSpaceShuttle());
+                RouteDto.create(voyage.getRoute()), SpaceShuttleDto.create(voyage.getSpaceShuttle()));
     }
 
     /**
@@ -60,18 +59,18 @@ public class VoyageDto {
     /**
      * The route of the voyage.
      */
-    @Schema(description = "The route of the voyage.", implementation = Route.class)
-    public Route route;
+    @Schema(description = "The route of the voyage.")
+    public RouteDto route;
 
     /**
      * The space shuttle of the voyage.
      */
-    @Schema(description = "The space shuttle of the voyage.", implementation = SpaceShuttle.class)
-    public SpaceShuttle spaceShuttle;
+    @Schema(description = "The space shuttle of the voyage.")
+    public SpaceShuttleDto spaceShuttle;
 
     protected VoyageDto() {}
 
-    protected VoyageDto(String id, String departureDate, String arrivalDate, Long duration, String status, Route route, SpaceShuttle spaceShuttle) {
+    protected VoyageDto(String id, String departureDate, String arrivalDate, Long duration, String status, RouteDto route, SpaceShuttleDto spaceShuttle) {
         if (id == null) {
             throw new IllegalArgumentException("The ID of the voyage is missing.");
         } else if (departureDate == null) {
