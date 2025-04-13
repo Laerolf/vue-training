@@ -1,14 +1,11 @@
 package jp.co.company.space.api.features.user.domain;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the {@link User} class.
@@ -43,7 +40,7 @@ public class UserTest {
                     () -> User.create(null, EXAMPLE_FIRST_NAME, EXAMPLE_EMAIL_ADDRESS, EXAMPLE_PASSWORD));
 
             // Then
-            assertNotNull("The last name of the user is missing.", exception.getMessage());
+            assertEquals("The last name of the user is missing.", exception.getMessage());
         }
 
         @Test
@@ -53,7 +50,7 @@ public class UserTest {
                     () -> User.create(EXAMPLE_LAST_NAME, null, EXAMPLE_EMAIL_ADDRESS, EXAMPLE_PASSWORD));
 
             // Then
-            assertNotNull("The last name of the user is missing.", exception.getMessage());
+            assertEquals("The first name of the user is missing.", exception.getMessage());
         }
 
         @Test
@@ -63,7 +60,7 @@ public class UserTest {
                     () -> User.create(EXAMPLE_LAST_NAME, EXAMPLE_FIRST_NAME, null, EXAMPLE_PASSWORD));
 
             // Then
-            assertNotNull("The email address of the user is missing.", exception.getMessage());
+            assertEquals("The email address of the user is missing.", exception.getMessage());
         }
 
         @Test
@@ -73,7 +70,7 @@ public class UserTest {
                     () -> User.create(EXAMPLE_LAST_NAME, EXAMPLE_FIRST_NAME, EXAMPLE_EMAIL_ADDRESS, null));
 
             // Then
-            assertNotNull("The password of the user is missing.", exception.getMessage());
+            assertEquals("The password of the user is missing.", exception.getMessage());
         }
     }
 
@@ -101,7 +98,7 @@ public class UserTest {
                     .reconstruct(null, EXAMPLE_LAST_NAME, EXAMPLE_FIRST_NAME, EXAMPLE_EMAIL_ADDRESS, EXAMPLE_PASSWORD));
 
             // Then
-            assertNotNull("The ID of the user is missing.", exception.getMessage());
+            assertEquals("The ID of the user is missing.", exception.getMessage());
         }
 
         @Test
@@ -111,7 +108,7 @@ public class UserTest {
                     .reconstruct(EXAMPLE_ID, null, EXAMPLE_FIRST_NAME, EXAMPLE_EMAIL_ADDRESS, EXAMPLE_PASSWORD));
 
             // Then
-            assertNotNull("The last name of the user is missing.", exception.getMessage());
+            assertEquals("The last name of the user is missing.", exception.getMessage());
         }
 
         @Test
@@ -121,7 +118,7 @@ public class UserTest {
                     .reconstruct(EXAMPLE_ID, EXAMPLE_LAST_NAME, null, EXAMPLE_EMAIL_ADDRESS, EXAMPLE_PASSWORD));
 
             // Then
-            assertNotNull("The last name of the user is missing.", exception.getMessage());
+            assertEquals("The first name of the user is missing.", exception.getMessage());
         }
 
         @Test
@@ -131,7 +128,7 @@ public class UserTest {
                     () -> User.reconstruct(EXAMPLE_ID, EXAMPLE_LAST_NAME, EXAMPLE_FIRST_NAME, null, EXAMPLE_PASSWORD));
 
             // Then
-            assertNotNull("The email address of the user is missing.", exception.getMessage());
+            assertEquals("The email address of the user is missing.", exception.getMessage());
         }
 
         @Test
@@ -141,7 +138,7 @@ public class UserTest {
                     .reconstruct(EXAMPLE_ID, EXAMPLE_LAST_NAME, EXAMPLE_FIRST_NAME, EXAMPLE_EMAIL_ADDRESS, null));
 
             // Then
-            assertNotNull("The password of the user is missing.", exception.getMessage());
+            assertEquals("The password of the user is missing.", exception.getMessage());
         }
     }
 

@@ -5,6 +5,7 @@ import jakarta.inject.Inject;
 import jp.co.company.space.api.features.user.domain.User;
 import jp.co.company.space.api.features.user.repository.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -16,9 +17,19 @@ public class UserService {
      * The user repository.
      */
     @Inject
-    private UserRepository repository;
+    private UserRepository userRepository;
 
-    protected UserService() {}
+    protected UserService() {
+    }
+
+    /**
+     * Gets a {@link List} of all existing {@link User} instances.
+     *
+     * @return A {@link List} of {@link User} instances.
+     */
+    public List<User> getAll() {
+        return userRepository.getAll();
+    }
 
     /**
      * Gets an {@link Optional} {@link User} instance for the provided ID.
@@ -27,6 +38,6 @@ public class UserService {
      * @return An {@link Optional} {@link User} instance.
      */
     public Optional<User> findById(String id) {
-        return repository.findById(id);
+        return userRepository.findById(id);
     }
 }

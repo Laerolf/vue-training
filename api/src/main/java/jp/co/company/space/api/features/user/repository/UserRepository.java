@@ -5,7 +5,6 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TransactionRequiredException;
-import jakarta.transaction.Transactional;
 import jp.co.company.space.api.features.user.domain.User;
 import jp.co.company.space.api.shared.interfaces.PersistenceRepository;
 import jp.co.company.space.api.shared.interfaces.QueryRepository;
@@ -38,7 +37,7 @@ public class UserRepository implements QueryRepository<User>, PersistenceReposit
 
     @Override
     public List<User> getAll() {
-        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+        return entityManager.createNamedQuery("User.getAll", User.class).getResultList();
     }
 
     /**
@@ -48,7 +47,6 @@ public class UserRepository implements QueryRepository<User>, PersistenceReposit
      * @return The saved {@link User} instance.
      */
     @Override
-    @Transactional
     public User save(User user) {
         if (findById(user.getId()).isEmpty()) {
             try {
@@ -70,7 +68,6 @@ public class UserRepository implements QueryRepository<User>, PersistenceReposit
      * @return The merged {@link User} instance.
      */
     @Override
-    @Transactional
     public User merge(User user) {
         try {
             return entityManager.merge(user);
@@ -80,7 +77,6 @@ public class UserRepository implements QueryRepository<User>, PersistenceReposit
     }
 
     @Override
-    @Transactional
     public List<User> save(List<User> users) {
         throw new UnsupportedOperationException("Unimplemented method 'save'");
     }

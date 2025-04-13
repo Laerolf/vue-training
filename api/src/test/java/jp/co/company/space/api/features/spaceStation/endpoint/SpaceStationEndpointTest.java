@@ -27,9 +27,10 @@ public class SpaceStationEndpointTest {
 
     /**
      * Tests the properties of a {@link SpaceStationBasicDto} instance.
-     * @param spaceStationDto The location to test.
+     *
+     * @param spaceStationDto The space station to test.
      */
-    private void testSpaceStationBasicDto (SpaceStationBasicDto spaceStationDto) {
+    private void testSpaceStationBasicDto(SpaceStationBasicDto spaceStationDto) {
         assertNotNull(spaceStationDto);
 
         assertNotNull(spaceStationDto.id);
@@ -46,9 +47,10 @@ public class SpaceStationEndpointTest {
 
         // Then
         assertNotNull(response);
-        assertEquals(Status.OK_200.code(),response.getStatus());
+        assertEquals(Status.OK_200.code(), response.getStatus());
 
-        List<SpaceStationBasicDto> foundSpaceStations = response.readEntity(new GenericType<>() {});
+        List<SpaceStationBasicDto> foundSpaceStations = response.readEntity(new GenericType<>() {
+        });
         assertNotNull(foundSpaceStations);
         assertFalse(foundSpaceStations.isEmpty());
 

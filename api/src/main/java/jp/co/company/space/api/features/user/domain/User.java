@@ -1,7 +1,6 @@
 package jp.co.company.space.api.features.user.domain;
 
 import jakarta.persistence.*;
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -12,7 +11,9 @@ import java.util.UUID;
 @Entity
 @Table(name = "users")
 @Access(AccessType.FIELD)
-@Schema(name = "User", description = "A user.")
+@NamedQueries({
+        @NamedQuery(name = "User.getAll", query = "SELECT u FROM User u")
+})
 public class User {
 
     /**
@@ -47,7 +48,6 @@ public class User {
      */
     @Id
     @Column(nullable = false, updatable = false, unique = true)
-    @Schema(description = "The ID of the user.", required = true, example = "1")
     private String id;
 
     /**
@@ -55,7 +55,6 @@ public class User {
      */
     @Basic(optional = false)
     @Column(name = "last_name", nullable = false)
-    @Schema(description = "The last name of the user.", example = "Jekyll")
     private String lastName;
 
     /**
@@ -63,7 +62,6 @@ public class User {
      */
     @Basic(optional = false)
     @Column(name = "first_name", nullable = false)
-    @Schema(description = "The first name of the user.", example = "Henry")
     private String firstName;
 
     /**
@@ -71,7 +69,6 @@ public class User {
      */
     @Basic(optional = false)
     @Column(name = "email_address", nullable = false)
-    @Schema(description = "The email address name of the user.", example = "edward.hyde@example.com")
     private String emailAddress;
 
     /**
@@ -79,12 +76,11 @@ public class User {
      */
     @Basic(optional = false)
     @Column(nullable = false)
-    @Schema(description = "The password name of the user.", hidden = true)
     private String password;
 
     protected User() {}
 
-    private User(String id, String lastName, String firstName, String emailAddress, String password) {
+    protected User(String id, String lastName, String firstName, String emailAddress, String password) {
         if (id == null) {
             throw new IllegalArgumentException("The ID of the user is missing.");
         } else if (lastName == null) {
