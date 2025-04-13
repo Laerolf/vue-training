@@ -12,7 +12,10 @@ import java.util.UUID;
 @Entity(name = "SpaceShuttle")
 @Table(name = "space_shuttles")
 @Access(AccessType.FIELD)
-@NamedQueries({ @NamedQuery(name = "selectAllSpaceShuttles", query = "SELECT s FROM SpaceShuttle s") })
+@NamedQueries({
+        @NamedQuery(name = "SpaceShuttle.selectAll", query = "SELECT s FROM SpaceShuttle s"),
+        @NamedQuery(name = "SpaceShuttle.selectAllByModelId", query = "SELECT s FROM SpaceShuttleModel m JOIN SpaceShuttle s ON s.model = m WHERE m.id = :id")
+})
 public class SpaceShuttle {
 
     /**

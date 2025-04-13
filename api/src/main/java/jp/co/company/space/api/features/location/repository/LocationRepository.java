@@ -42,7 +42,7 @@ public class LocationRepository implements QueryRepository<Location>, Persistenc
      */
     @Override
     public List<Location> getAll() {
-        return entityManager.createNamedQuery("Location.getAll", Location.class).getResultList();
+        return entityManager.createNamedQuery("Location.selectAll", Location.class).getResultList();
     }
 
     /**

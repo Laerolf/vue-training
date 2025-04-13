@@ -17,10 +17,10 @@ import java.util.UUID;
 @Table(name = "voyages")
 @Access(AccessType.FIELD)
 @NamedQueries({
-        @NamedQuery(name = "Voyage.getAll", query = "SELECT v FROM Voyage v"),
-        @NamedQuery(name = "Voyage.getAllFromOriginId", query = "SELECT v FROM Voyage v WHERE v.route.origin.id = :originId"),
-        @NamedQuery(name = "Voyage.getAllToDestinationId", query = "SELECT v FROM Voyage v WHERE v.route.destination.id = :destinationId"),
-        @NamedQuery(name = "Voyage.getAllFromOriginIdToDestinationId", query = "SELECT v FROM Voyage v WHERE v.route.origin.id = :originId AND v.route.destination.id = :destinationId")
+        @NamedQuery(name = "Voyage.selectAll", query = "SELECT v FROM Voyage v"),
+        @NamedQuery(name = "Voyage.selectAllFromOriginId", query = "SELECT v FROM Voyage v WHERE v.route.origin.id = :originId"),
+        @NamedQuery(name = "Voyage.selectAllToDestinationId", query = "SELECT v FROM Voyage v WHERE v.route.destination.id = :destinationId"),
+        @NamedQuery(name = "Voyage.selectAllFromOriginIdToDestinationId", query = "SELECT v FROM Voyage v WHERE v.route.origin.id = :originId AND v.route.destination.id = :destinationId")
 })
 public class Voyage {
 

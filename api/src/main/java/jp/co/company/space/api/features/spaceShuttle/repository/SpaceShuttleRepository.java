@@ -43,7 +43,7 @@ public class SpaceShuttleRepository implements QueryRepository<SpaceShuttle>, Pe
      */
     @Override
     public List<SpaceShuttle> getAll() {
-        return entityManager.createNamedQuery("selectAllSpaceShuttles", SpaceShuttle.class).getResultList();
+        return entityManager.createNamedQuery("SpaceShuttle.selectAll", SpaceShuttle.class).getResultList();
     }
 
     /**

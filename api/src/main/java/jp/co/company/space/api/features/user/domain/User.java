@@ -12,7 +12,7 @@ import java.util.UUID;
 @Table(name = "users")
 @Access(AccessType.FIELD)
 @NamedQueries({
-        @NamedQuery(name = "User.getAll", query = "SELECT u FROM User u")
+        @NamedQuery(name = "User.selectAll", query = "SELECT u FROM User u")
 })
 public class User {
 

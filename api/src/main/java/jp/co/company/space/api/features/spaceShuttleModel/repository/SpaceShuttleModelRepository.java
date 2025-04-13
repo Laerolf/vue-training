@@ -44,7 +44,7 @@ public class SpaceShuttleModelRepository implements QueryRepository<SpaceShuttle
      */
     @Override
     public List<SpaceShuttleModel> getAll() {
-        return entityManager.createNamedQuery("selectAllSpaceShuttleModels", SpaceShuttleModel.class).getResultList();
+        return entityManager.createNamedQuery("SpaceShuttleModel.selectAll", SpaceShuttleModel.class).getResultList();
     }
 
     /**
@@ -105,7 +105,7 @@ public class SpaceShuttleModelRepository implements QueryRepository<SpaceShuttle
      */
     public List<SpaceShuttle> getAllSpaceShuttlesByModelId(String id) {
         try {
-            return entityManager.createNamedQuery("selectAllSpaceShuttlesByModelId", SpaceShuttle.class).setParameter("id", id).getResultList();
+            return entityManager.createNamedQuery("SpaceShuttle.selectAllByModelId", SpaceShuttle.class).setParameter("id", id).getResultList();
         } catch (Exception exception) {
             throw new DomainException("Failed to get all space shuttles for the provided model ID.", exception);
         }

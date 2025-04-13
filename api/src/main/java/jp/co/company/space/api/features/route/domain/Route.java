@@ -13,7 +13,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "routes")
 @Access(AccessType.FIELD)
-@NamedQueries({ @NamedQuery(name = "selectAllRoutes", query = "SELECT r FROM Route r") })
+@NamedQueries({ @NamedQuery(name = "Route.selectAll", query = "SELECT r FROM Route r") })
 public class Route {
     /**
      * Creates a new {@link Route} instance.

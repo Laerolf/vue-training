@@ -42,7 +42,7 @@ public class SpaceStationRepository implements QueryRepository<SpaceStation>, Pe
      */
     @Override
     public List<SpaceStation> getAll() {
-        return entityManager.createNamedQuery("selectAllSpaceStations", SpaceStation.class).getResultList();
+        return entityManager.createNamedQuery("SpaceStation.selectAll", SpaceStation.class).getResultList();
     }
 
     /**

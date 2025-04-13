@@ -37,7 +37,7 @@ public class UserRepository implements QueryRepository<User>, PersistenceReposit
 
     @Override
     public List<User> getAll() {
-        return entityManager.createNamedQuery("User.getAll", User.class).getResultList();
+        return entityManager.createNamedQuery("User.selectAll", User.class).getResultList();
     }
 
     /**

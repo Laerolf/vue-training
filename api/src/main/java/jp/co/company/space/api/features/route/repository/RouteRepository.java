@@ -42,7 +42,7 @@ public class RouteRepository implements QueryRepository<Route>, PersistenceRepos
      */
     @Override
     public List<Route> getAll() {
-        return entityManager.createNamedQuery("selectAllRoutes", Route.class).getResultList();
+        return entityManager.createNamedQuery("Route.selectAll", Route.class).getResultList();
     }
 
     /**

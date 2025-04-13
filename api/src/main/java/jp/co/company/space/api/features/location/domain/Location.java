@@ -11,7 +11,7 @@ import java.util.UUID;
 @Entity(name = "Location")
 @Table(name = "locations")
 @Access(AccessType.FIELD)
-@NamedQueries({ @NamedQuery(name = "Location.getAll", query = "SELECT l FROM Location l") })
+@NamedQueries({ @NamedQuery(name = "Location.selectAll", query = "SELECT l FROM Location l") })
 public class Location {
 
     /**
