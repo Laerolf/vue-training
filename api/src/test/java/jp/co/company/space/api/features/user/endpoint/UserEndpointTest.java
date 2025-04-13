@@ -10,16 +10,21 @@ import jakarta.json.JsonReader;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 import jp.co.company.space.api.features.user.domain.User;
+import jp.co.company.space.api.features.user.dto.NewUserDto;
 import jp.co.company.space.api.features.user.dto.UserDto;
+import jp.co.company.space.api.features.user.factory.PasswordHashFactory;
+import jp.co.company.space.api.features.user.input.UserCreationForm;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -56,7 +61,7 @@ class UserEndpointTest {
                         String emailAddress = shuttleJson.getString("emailAddress");
                         String password = shuttleJson.getString("password");
 
-                        return User.reconstruct(id, lastName, firstName, emailAddress, password);
+                        return User.reconstruct(id, lastName, firstName, emailAddress, new PasswordHashFactory(password).hash());
                     })
                     .filter(user -> Optional.ofNullable(entityManager.find(User.class, user.getId())).isEmpty())
                     .forEach(user -> entityManager.persist(user));
@@ -112,5 +117,31 @@ class UserEndpointTest {
         assertNotNull(foundUser);
 
         testUserDto(foundUser);
+    }
+
+    @Test
+    void createUser() {
+        // Given
+        String lastName = "Laerolf";
+        String firstName = "Salocin";
+        String emailAddress = "laerolf.salocin@test.test";
+
+        UserCreationForm form = UserCreationForm.create(lastName, firstName, emailAddress, UUID.randomUUID().toString());
+
+        // When
+        Response response = target.path("users").request().post(Entity.json(form));
+
+        // Then
+        assertNotNull(response);
+        assertEquals(Status.OK_200.code(), response.getStatus());
+
+        NewUserDto newUser = response.readEntity(NewUserDto.class);
+        assertNotNull(newUser);
+
+        assertEquals(lastName, newUser.lastName);
+        assertEquals(firstName, newUser.firstName);
+        assertEquals(emailAddress, newUser.emailAddress);
+
+        testUserDto(newUser);
     }
 }

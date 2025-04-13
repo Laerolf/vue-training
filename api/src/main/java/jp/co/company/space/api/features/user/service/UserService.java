@@ -3,6 +3,9 @@ package jp.co.company.space.api.features.user.service;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jp.co.company.space.api.features.user.domain.User;
+import jp.co.company.space.api.features.user.dto.NewUserDto;
+import jp.co.company.space.api.features.user.factory.UserCreationFactory;
+import jp.co.company.space.api.features.user.input.UserCreationForm;
 import jp.co.company.space.api.features.user.repository.UserRepository;
 
 import java.util.List;
@@ -39,5 +42,16 @@ public class UserService {
      */
     public Optional<User> findById(String id) {
         return userRepository.findById(id);
+    }
+
+    /**
+     * Returns a new {@link User} instance based on a {@link UserCreationForm} instance.
+     *
+     * @param creationForm The base of the user.
+     * @return A new {@link NewUserDto} instance.
+     */
+    public NewUserDto create(UserCreationForm creationForm) {
+        User newUser = new UserCreationFactory(creationForm).create();
+        return NewUserDto.create(newUser);
     }
 }
