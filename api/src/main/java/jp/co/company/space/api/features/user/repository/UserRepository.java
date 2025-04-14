@@ -5,6 +5,7 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TransactionRequiredException;
+import jakarta.transaction.Transactional;
 import jp.co.company.space.api.features.user.domain.User;
 import jp.co.company.space.api.shared.interfaces.PersistenceRepository;
 import jp.co.company.space.api.shared.interfaces.QueryRepository;
@@ -22,7 +23,8 @@ public class UserRepository implements QueryRepository<User>, PersistenceReposit
     @PersistenceContext(unitName = "domain")
     private EntityManager entityManager;
 
-    protected UserRepository() {}
+    protected UserRepository() {
+    }
 
     /**
      * Searches an {@link Optional} instance of the {@link User} class by its ID.
@@ -46,6 +48,7 @@ public class UserRepository implements QueryRepository<User>, PersistenceReposit
      * @param user The {@link User} instance to save.
      * @return The saved {@link User} instance.
      */
+    @Transactional(Transactional.TxType.REQUIRED)
     @Override
     public User save(User user) {
         if (findById(user.getId()).isEmpty()) {
@@ -53,7 +56,7 @@ public class UserRepository implements QueryRepository<User>, PersistenceReposit
                 entityManager.persist(user);
                 return findById(user.getId()).orElseThrow();
             } catch (TransactionRequiredException | EntityExistsException | NoSuchElementException
-                    | IllegalArgumentException exception) {
+                     | IllegalArgumentException exception) {
                 throw new IllegalArgumentException("Failed to save a user instance.", exception);
             }
         } else {
@@ -76,8 +79,14 @@ public class UserRepository implements QueryRepository<User>, PersistenceReposit
         }
     }
 
+    /**
+     * Persists a {@link List} of {@link User} instances.
+     *
+     * @param users The {@link List} of {@link User} instances to save.
+     * @return A {@link List} of persisted {@link User} instances
+     */
     @Override
     public List<User> save(List<User> users) {
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+        return users.stream().map(this::save).toList();
     }
 }

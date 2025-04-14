@@ -15,7 +15,7 @@ public class SpaceStationTestDataBuilder {
     /**
      * The default country name for the space staton.
      */
-    private static final String DEFAULT_COUNTRY = null;
+    private static final String DEFAULT_COUNTRY = "Unknown";
 
     public SpaceStationTestDataBuilder() {}
 

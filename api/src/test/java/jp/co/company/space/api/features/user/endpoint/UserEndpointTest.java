@@ -14,11 +14,16 @@ import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
+import jp.co.company.space.api.features.booking.domain.Booking;
+import jp.co.company.space.api.features.booking.dto.BookingBasicDto;
 import jp.co.company.space.api.features.user.domain.User;
 import jp.co.company.space.api.features.user.dto.NewUserDto;
 import jp.co.company.space.api.features.user.dto.UserDto;
 import jp.co.company.space.api.features.user.factory.PasswordHashFactory;
 import jp.co.company.space.api.features.user.input.UserCreationForm;
+import jp.co.company.space.api.features.voyage.domain.Voyage;
+import jp.co.company.space.utils.features.user.UserTestDataBuilder;
+import jp.co.company.space.utils.features.voyage.user.VoyageTestDataBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,15 +40,36 @@ import static org.junit.jupiter.api.Assertions.*;
 @HelidonTest
 class UserEndpointTest {
 
+    private final User USER = new UserTestDataBuilder().create();
+    private final Voyage VOYAGE  = new VoyageTestDataBuilder().create();
+    private final Booking BOOKING = Booking.create(USER, VOYAGE);
+
     @Inject
-    private WebTarget target;
+    WebTarget target;
 
     @PersistenceContext(unitName = "domain")
-    private EntityManager entityManager;
+    EntityManager entityManager;
 
     @BeforeEach
     void beforeEach() {
         loadTestUsers();
+
+        if (entityManager.find(User.class, USER.getId()) == null) {
+            entityManager.persist(USER);
+        }
+
+        if (entityManager.find(Booking.class, BOOKING.getId()) == null) {
+            entityManager.persist(VOYAGE.getSpaceShuttle().getModel());
+            entityManager.persist(VOYAGE.getSpaceShuttle());
+            entityManager.persist(VOYAGE.getRoute().getOrigin().getLocation());
+            entityManager.persist(VOYAGE.getRoute().getOrigin());
+            entityManager.persist(VOYAGE.getRoute().getDestination().getLocation());
+            entityManager.persist(VOYAGE.getRoute().getDestination());
+            entityManager.persist(VOYAGE.getRoute());
+            entityManager.persist(VOYAGE);
+
+            entityManager.persist(BOOKING);
+        }
     }
 
     /**
@@ -53,13 +79,13 @@ class UserEndpointTest {
         try (JsonReader reader = Json.createReader(UserEndpointTest.class.getResourceAsStream("/static/users.json"))) {
             reader.readArray().stream()
                     .map(userJsonValue -> {
-                        JsonObject shuttleJson = userJsonValue.asJsonObject();
+                        JsonObject userJson = userJsonValue.asJsonObject();
 
-                        String id = shuttleJson.getString("id");
-                        String lastName = shuttleJson.getString("lastName");
-                        String firstName = shuttleJson.getString("firstName");
-                        String emailAddress = shuttleJson.getString("emailAddress");
-                        String password = shuttleJson.getString("password");
+                        String id = userJson.getString("id");
+                        String lastName = userJson.getString("lastName");
+                        String firstName = userJson.getString("firstName");
+                        String emailAddress = userJson.getString("emailAddress");
+                        String password = userJson.getString("password");
 
                         return User.reconstruct(id, lastName, firstName, emailAddress, new PasswordHashFactory(password).hash());
                     })
@@ -143,5 +169,27 @@ class UserEndpointTest {
         assertEquals(emailAddress, newUser.emailAddress);
 
         testUserDto(newUser);
+    }
+
+    @Test
+    void getAllBookingsByUserId() {
+        // When
+        Response response = target.path(String.format("users/%s/bookings", USER.getId())).request().get();
+
+        // Then
+        assertNotNull(response);
+        assertEquals(Status.OK_200.code(), response.getStatus());
+
+        List<BookingBasicDto> foundBookings = response.readEntity(new GenericType<>() {
+        });
+        assertNotNull(foundBookings);
+        assertFalse(foundBookings.isEmpty());
+
+        assertNotNull(foundBookings.getFirst());
+        assertEquals(BOOKING.getId(), foundBookings.getFirst().id);
+        assertEquals(BOOKING.getCreationDate().getDayOfYear(), foundBookings.getFirst().creationDate.getDayOfYear());
+        assertEquals(BOOKING.getStatus().getLocaleCode(), foundBookings.getFirst().status);
+        assertEquals(USER.getId(), foundBookings.getFirst().userId);
+        assertEquals(VOYAGE.getId(), foundBookings.getFirst().voyageId);
     }
 }

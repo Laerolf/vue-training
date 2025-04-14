@@ -2,12 +2,12 @@ package jp.co.company.space.api.features.voyage.endpoint;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jp.co.company.space.api.features.booking.domain.Booking;
+import jp.co.company.space.api.features.booking.dto.BookingBasicDto;
+import jp.co.company.space.api.features.booking.service.BookingService;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
 import jp.co.company.space.api.features.voyage.dto.VoyageBasicDto;
@@ -31,11 +31,12 @@ import java.util.Optional;
 @Path("voyages")
 @Tag(name = "Voyages")
 public class VoyageEndpoint {
-    /**
-     * The space shuttle model service.
-     */
+
     @Inject
     private VoyageService voyageService;
+
+    @Inject
+    private BookingService bookingService;
 
     protected VoyageEndpoint() {}
 
@@ -73,6 +74,27 @@ public class VoyageEndpoint {
             return voyageService.findById(id)
                     .map(voyage -> Response.ok(VoyageDto.create(voyage)).build())
                     .orElse(Response.status(Response.Status.NOT_FOUND).build());
+        } catch (Exception exception) {
+            return Response.serverError().build();
+        }
+    }
+
+    /**
+     * Returns a {@link List} of all {@link Booking} instances with a user matching the provided {@link Voyage} ID.
+     *
+     * @param voyageId The user ID to search with.
+     * @return A {@link List} of {@link Booking} instances.
+     */
+    @Path("{voyageId}/bookings")
+    @GET
+    @Operation(summary = "Returns all bookings with a voyage matching the provided user ID.", description = "Returns the booking with a voyage ID matching the provided ID.")
+    @Parameter(name = "voyageId", description = "The ID of a voyage.", example = "00000000-0000-1000-8000-000000000003")
+    @APIResponse(description = "A list of bookings.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = SchemaType.ARRAY, implementation = VoyageBasicDto.class)))
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllBookingsByVoyageId(@PathParam("voyageId") String voyageId) {
+        try {
+            List<BookingBasicDto> voyages = bookingService.getAllByVoyageId(voyageId).stream().map(BookingBasicDto::create).toList();
+            return Response.ok().entity(voyages).build();
         } catch (Exception exception) {
             return Response.serverError().build();
         }

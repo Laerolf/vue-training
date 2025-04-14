@@ -1,7 +1,7 @@
 package jp.co.company.space.api.features.voyage.domain;
 
 /**
- * The status of a {@link Voyage}.
+ * The status of a {@link Voyage} instance.
  */
 public enum VoyageStatus {
     /**

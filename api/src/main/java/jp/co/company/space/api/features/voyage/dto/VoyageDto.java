@@ -68,7 +68,8 @@ public class VoyageDto {
     @Schema(description = "The space shuttle of the voyage.")
     public SpaceShuttleDto spaceShuttle;
 
-    protected VoyageDto() {}
+    protected VoyageDto() {
+    }
 
     protected VoyageDto(String id, String departureDate, String arrivalDate, Long duration, String status, RouteDto route, SpaceShuttleDto spaceShuttle) {
         if (id == null) {

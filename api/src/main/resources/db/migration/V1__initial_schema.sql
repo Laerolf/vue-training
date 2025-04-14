@@ -64,3 +64,14 @@ CREATE TABLE
     FOREIGN KEY (route_id) REFERENCES routes (id) ON DELETE CASCADE,
     FOREIGN KEY (space_shuttle_id) REFERENCES space_shuttles (id) ON DELETE CASCADE
   );
+
+ CREATE TABLE
+    IF NOT EXISTS bookings (
+        id VARCHAR(50) NOT NULL PRIMARY KEY,
+        creation_date TIMESTAMP NOT NULL,
+        status VARCHAR(50) NOT NULL,
+        user_id VARCHAR(50) NOT NULL,
+        voyage_id VARCHAR(50) NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+        FOREIGN KEY (voyage_id) REFERENCES voyages (id) ON DELETE CASCADE
+    )

@@ -116,22 +116,8 @@ public class VoyageService {
         }
     }
 
-    /*
-     * private void createVoyages() { try { List<Route> routes = routeService.getAll(); ZonedDateTime baseDepartureDate =
-     * ZonedDateTime.now().with(ChronoField.YEAR, 2050); Set<String> availableZoneIds = ZoneId.getAvailableZoneIds();
-     * List<Voyage> voyages = IntStream.range(0, routes.size()).mapToObj((index) -> { Route route = routes.get(index);
-     * SpaceShuttle selectedSpaceShuttle =
-     * spaceShuttleModelService.getAllSpaceShuttlesByModelId(route.getShuttleModel().getId()).getFirst(); Optional<String>
-     * originZoneIdString = availableZoneIds.stream().filter(id -> id.contains(id)).findFirst(); ZoneId originZoneId =
-     * originZoneIdString.map(originTimezone -> ZoneId.of(originTimezone)).orElse(ZoneId.systemDefault()); ZonedDateTime
-     * routeDepartureDate = baseDepartureDate.withZoneSameInstant(originZoneId).plusMonths(index); return
-     * Voyage.create(routeDepartureDate, route, selectedSpaceShuttle); }).collect(Collectors.toList());
-     * repository.save(voyages); } catch (NoSuchElementException exception) { throw new
-     * DomainException("Failed to create the initial voyages in the database.", exception); } }
-     */
-
     /**
-     * Gets all existing {@link Voyage} instances and maps them to {@link Voyage} instances.
+     * Gets all existing {@link Voyage} instances.
      *
      * @return A {@link List} of all {@link Voyage} instances.
      */
@@ -150,8 +136,7 @@ public class VoyageService {
     }
 
     /**
-     * Returns a {@link List} of {@link Voyage} instances having an origin space station matching the provided space station
-     * ID and maps them to a {@link List} of {@link Voyage} instances.
+     * Returns a {@link List} of {@link Voyage} instances having an origin space station matching the provided space station ID.
      *
      * @param originId The space station ID to search with.
      * @return A {@link List} of {@link Voyage} instances.
@@ -161,8 +146,7 @@ public class VoyageService {
     }
 
     /**
-     * Returns a {@link List} of {@link Voyage} instances having a destination space station matching the provided space
-     * station ID and maps them to a {@link List} of {@link Voyage} instances.
+     * Returns a {@link List} of {@link Voyage} instances having a destination space station matching the provided space station ID.
      *
      * @param destinationId The space station ID to search with.
      * @return A {@link List} of {@link Voyage} instances.
@@ -173,8 +157,7 @@ public class VoyageService {
 
     /**
      * Returns a {@link List} of {@link Voyage} instances having an origin space station matching the provided origin space
-     * station ID and a destination space station matching the provided destination space station ID and maps them to a
-     * {@link List} of {@link Voyage} instances.
+     * station ID and a destination space station matching the provided destination space station ID.
      *
      * @param originId      The origin space station ID to search with.
      * @param destinationId The destination space station ID to search with.
