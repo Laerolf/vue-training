@@ -8,7 +8,7 @@ import java.util.UUID;
 /**
  * A POJO representing a location.
  */
-@Entity(name = "Location")
+@Entity
 @Table(name = "locations")
 @Access(AccessType.FIELD)
 @NamedQueries({ @NamedQuery(name = "Location.selectAll", query = "SELECT l FROM Location l") })

@@ -9,7 +9,7 @@ import java.util.UUID;
 /**
  * A POJO representing a space station.
  */
-@Entity(name = "SpaceStation")
+@Entity
 @Table(name = "space_stations")
 @Access(AccessType.FIELD)
 @NamedQueries({ @NamedQuery(name = "SpaceStation.selectAll", query = "SELECT s FROM SpaceStation s"), })

@@ -11,7 +11,7 @@ import java.util.UUID;
 /**
  * A POJO representing a booking.
  */
-@Entity(name = "Booking")
+@Entity
 @Table(name = "bookings")
 @Access(AccessType.FIELD)
 @NamedQueries({

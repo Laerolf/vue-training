@@ -6,6 +6,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 /**
  * A POJO representing a form for creating a new {@link User} instance.
  */
+@Schema(description = "A form with details for a new user.")
 public class UserCreationForm {
 
     /**

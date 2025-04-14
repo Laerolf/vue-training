@@ -8,7 +8,7 @@ import java.util.UUID;
 /**
  * An entity class representing a space shuttle model.
  */
-@Entity(name = "SpaceShuttleModel")
+@Entity
 @Table(name = "space_shuttle_models")
 @Access(AccessType.FIELD)
 @NamedQueries({
