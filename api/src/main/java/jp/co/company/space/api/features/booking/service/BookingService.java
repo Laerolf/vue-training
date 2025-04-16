@@ -3,7 +3,7 @@ package jp.co.company.space.api.features.booking.service;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jp.co.company.space.api.features.booking.domain.Booking;
-import jp.co.company.space.api.features.booking.factory.BookingCreationFactory;
+import jp.co.company.space.api.features.booking.domain.BookingCreationFactory;
 import jp.co.company.space.api.features.booking.input.BookingCreationForm;
 import jp.co.company.space.api.features.booking.repository.BookingRepository;
 import jp.co.company.space.api.features.user.domain.User;

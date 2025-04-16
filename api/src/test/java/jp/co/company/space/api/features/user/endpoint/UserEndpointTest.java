@@ -19,7 +19,7 @@ import jp.co.company.space.api.features.booking.dto.BookingBasicDto;
 import jp.co.company.space.api.features.user.domain.User;
 import jp.co.company.space.api.features.user.dto.NewUserDto;
 import jp.co.company.space.api.features.user.dto.UserDto;
-import jp.co.company.space.api.features.user.factory.PasswordHashFactory;
+import jp.co.company.space.api.features.user.domain.PasswordHashFactory;
 import jp.co.company.space.api.features.user.input.UserCreationForm;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
 import jp.co.company.space.utils.features.user.UserTestDataBuilder;

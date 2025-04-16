@@ -1,6 +1,5 @@
-package jp.co.company.space.api.features.booking.factory;
+package jp.co.company.space.api.features.booking.domain;
 
-import jp.co.company.space.api.features.booking.domain.Booking;
 import jp.co.company.space.api.features.user.domain.User;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
 

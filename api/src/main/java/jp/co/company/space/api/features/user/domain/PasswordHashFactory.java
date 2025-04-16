@@ -1,4 +1,4 @@
-package jp.co.company.space.api.features.user.factory;
+package jp.co.company.space.api.features.user.domain;
 
 import org.mindrot.jbcrypt.BCrypt;
 

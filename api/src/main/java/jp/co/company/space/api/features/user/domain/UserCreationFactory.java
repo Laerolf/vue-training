@@ -1,6 +1,5 @@
-package jp.co.company.space.api.features.user.factory;
+package jp.co.company.space.api.features.user.domain;
 
-import jp.co.company.space.api.features.user.domain.User;
 import jp.co.company.space.api.features.user.input.UserCreationForm;
 
 /**

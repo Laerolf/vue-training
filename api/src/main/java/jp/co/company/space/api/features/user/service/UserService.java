@@ -3,7 +3,7 @@ package jp.co.company.space.api.features.user.service;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jp.co.company.space.api.features.user.domain.User;
-import jp.co.company.space.api.features.user.factory.UserCreationFactory;
+import jp.co.company.space.api.features.user.domain.UserCreationFactory;
 import jp.co.company.space.api.features.user.input.UserCreationForm;
 import jp.co.company.space.api.features.user.repository.UserRepository;
 
