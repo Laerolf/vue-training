@@ -22,15 +22,15 @@ public enum BookingStatus {
     COMPLETE("complete");
 
     /**
-     * The translation key for the status.
+     * The key for the status.
      */
-    private final String localeCode;
+    private final String key;
 
-    BookingStatus(String localeCode) {
-        this.localeCode = localeCode;
+    BookingStatus(String key) {
+        this.key = key;
     }
 
-    public String getLocaleCode() {
-        return localeCode;
+    public String getKey() {
+        return key;
     }
 }

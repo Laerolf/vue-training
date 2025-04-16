@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * A POJO representing a DTO of a {@link Route} instance.
  */
-@Schema(name = "RouteDto", description = "The details of a route between a space station and another space station.")
+@Schema(description = "The details of a route between a space station and another space station.")
 public class RouteDto {
 
     /**

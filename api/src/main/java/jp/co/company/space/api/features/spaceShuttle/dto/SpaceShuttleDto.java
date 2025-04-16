@@ -7,7 +7,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 /**
  * A POJO representing a DTO of a {@link SpaceShuttle} instance.
  */
-@Schema(name = "SpaceShuttleDto", description = "The details of a space shuttle.")
+@Schema(description = "The details of a space shuttle.")
 public class SpaceShuttleDto {
 
     /**

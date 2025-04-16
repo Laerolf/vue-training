@@ -8,7 +8,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 /**
  * A POJO representing a DTO of a {@link Voyage} instance.
  */
-@Schema(name = "VoyageDto", description = "The details of a voyage.")
+@Schema(description = "The details of a voyage.")
 public class VoyageDto {
 
     /**
@@ -22,7 +22,7 @@ public class VoyageDto {
             throw new IllegalArgumentException("The voyage instance is missing.");
         }
 
-        return new VoyageDto(voyage.getId(), voyage.getDepartureDate().toString(), voyage.getArrivalDate().toString(), voyage.getDuration().toSeconds(), voyage.getStatus().getLocaleCode(),
+        return new VoyageDto(voyage.getId(), voyage.getDepartureDate().toString(), voyage.getArrivalDate().toString(), voyage.getDuration().toSeconds(), voyage.getStatus().getKey(),
                 RouteDto.create(voyage.getRoute()), SpaceShuttleDto.create(voyage.getSpaceShuttle()));
     }
 

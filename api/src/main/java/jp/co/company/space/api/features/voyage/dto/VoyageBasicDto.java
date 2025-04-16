@@ -7,7 +7,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 /**
  * A POJO representing a brief DTO of a {@link Voyage} instance.
  */
-@Schema(name = "VoyageBasicDto", description = "The brief details of a voyage.")
+@Schema(description = "The brief details of a voyage.")
 public class VoyageBasicDto {
     /**
      * Returns a new {@link VoyageBasicDto} instance based on a {@link Voyage} instance.
@@ -22,7 +22,7 @@ public class VoyageBasicDto {
 
         Route voyageRoute = voyage.getRoute();
 
-        return new VoyageBasicDto(voyage.getId(), voyage.getDepartureDate().toString(), voyage.getArrivalDate().toString(), voyage.getDuration().toSeconds(), voyage.getStatus().getLocaleCode(),
+        return new VoyageBasicDto(voyage.getId(), voyage.getDepartureDate().toString(), voyage.getArrivalDate().toString(), voyage.getDuration().toSeconds(), voyage.getStatus().getKey(),
                 voyageRoute.getId(), voyageRoute.getOrigin().getId(), voyageRoute.getDestination().getId(), voyage.getSpaceShuttle().getId());
     }
 

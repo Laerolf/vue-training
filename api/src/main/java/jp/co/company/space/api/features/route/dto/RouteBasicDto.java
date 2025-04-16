@@ -6,7 +6,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 /**
  * A POJO representing a brief DTO of a {@link Route} instance.
  */
-@Schema(name = "RouteBasicDto", description = "The brief details of a route between a space station and another space station.")
+@Schema(description = "The brief details of a route between a space station and another space station.")
 public class RouteBasicDto {
 
     /**

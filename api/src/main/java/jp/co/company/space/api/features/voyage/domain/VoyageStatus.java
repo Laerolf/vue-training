@@ -58,15 +58,15 @@ public enum VoyageStatus {
     ABORTED("aborted");
 
     /**
-     * The translation key for the status.
+     * The key for the status.
      */
-    private final String localeCode;
+    private final String key;
 
-    VoyageStatus(String localeCode) {
-        this.localeCode = localeCode;
+    VoyageStatus(String key) {
+        this.key = key;
     }
 
-    public String getLocaleCode() {
-        return localeCode;
+    public String getKey() {
+        return key;
     }
 }

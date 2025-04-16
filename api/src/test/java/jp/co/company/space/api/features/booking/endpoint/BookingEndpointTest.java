@@ -78,7 +78,7 @@ class BookingEndpointTest {
 
         assertNotNull(newBooking.id);
         assertEquals(ZonedDateTime.now().getDayOfYear(), newBooking.creationDate.getDayOfYear());
-        assertEquals(BookingStatus.DRAFT.getLocaleCode(), newBooking.status);
+        assertEquals(BookingStatus.DRAFT.getKey(), newBooking.status);
         assertEquals(USER.getId(), newBooking.userId);
         assertEquals(VOYAGE.getId(), newBooking.voyageId);
 
@@ -99,7 +99,7 @@ class BookingEndpointTest {
 
         assertEquals(BOOKING.getId(), foundBooking.id);
         assertEquals(BOOKING.getCreationDate().getDayOfYear(), foundBooking.creationDate.getDayOfYear());
-        assertEquals(BOOKING.getStatus().getLocaleCode(), foundBooking.status);
+        assertEquals(BOOKING.getStatus().getKey(), foundBooking.status);
         assertEquals(BOOKING.getUser().getId(), foundBooking.user.id);
         assertEquals(BOOKING.getVoyage().getId(), foundBooking.voyage.id);
     }

@@ -10,7 +10,7 @@ import java.time.ZonedDateTime;
 /**
  * A POJO representing a DTO of a {@link Booking} instance.
  */
-@Schema(name = "BookingDto", description = "The details of a booking.")
+@Schema(description = "The details of a booking.")
 public class BookingDto {
     /**
      * Creates a {@link BookingDto} instance based on a {@link Booking} instance.
@@ -19,7 +19,7 @@ public class BookingDto {
      * @return A {@link BookingDto} instance.
      */
     public static BookingDto create(Booking booking) {
-        return new BookingDto(booking.getId(), booking.getCreationDate(), booking.getStatus().getLocaleCode(), UserDto.create(booking.getUser()), VoyageDto.create(booking.getVoyage()));
+        return new BookingDto(booking.getId(), booking.getCreationDate(), booking.getStatus().getKey(), UserDto.create(booking.getUser()), VoyageDto.create(booking.getVoyage()));
     }
 
     /**

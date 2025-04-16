@@ -192,7 +192,7 @@ public class VoyageEndpointTest {
         assertNotNull(foundBookings.getFirst());
         assertEquals(BOOKING.getId(), foundBookings.getFirst().id);
         assertEquals(BOOKING.getCreationDate().getDayOfYear(), foundBookings.getFirst().creationDate.getDayOfYear());
-        assertEquals(BOOKING.getStatus().getLocaleCode(), foundBookings.getFirst().status);
+        assertEquals(BOOKING.getStatus().getKey(), foundBookings.getFirst().status);
         assertEquals(USER.getId(), foundBookings.getFirst().userId);
         assertEquals(VOYAGE.getId(), foundBookings.getFirst().voyageId);
     }
