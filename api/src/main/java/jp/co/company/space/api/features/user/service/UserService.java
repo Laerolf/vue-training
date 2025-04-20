@@ -7,7 +7,6 @@ import jp.co.company.space.api.features.user.domain.UserCreationFactory;
 import jp.co.company.space.api.features.user.input.UserCreationForm;
 import jp.co.company.space.api.features.user.repository.UserRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -22,15 +21,6 @@ public class UserService {
     private UserRepository userRepository;
 
     protected UserService() {
-    }
-
-    /**
-     * Gets a {@link List} of all existing {@link User} instances.
-     *
-     * @return A {@link List} of {@link User} instances.
-     */
-    public List<User> getAll() {
-        return userRepository.getAll();
     }
 
     /**

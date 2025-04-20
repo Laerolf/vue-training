@@ -32,7 +32,7 @@ public class BookingRepository implements PersistenceRepository<Booking> {
      * @return An {@link Optional} persisted {@link Booking} instance.
      */
     public Optional<Booking> findById(String id) {
-        return Optional.ofNullable(entityManager.find(Booking.class, id));
+        return entityManager.createNamedQuery("Booking.selectById", Booking.class).setParameter("id", id).getResultStream().findFirst();
     }
 
     /**
@@ -42,7 +42,7 @@ public class BookingRepository implements PersistenceRepository<Booking> {
      * @return A {@link List} of persisted {@link Booking} instances.
      */
     public List<Booking> getAllByUserId(String userId) {
-        return entityManager.createNamedQuery("Booking.getAllByUserId", Booking.class).setParameter("userId", userId).getResultList();
+        return entityManager.createNamedQuery("Booking.selectAllByUserId", Booking.class).setParameter("userId", userId).getResultList();
     }
 
     /**

@@ -1,11 +1,13 @@
 package jp.co.company.space.api.features.booking.domain;
 
 import jakarta.persistence.*;
+import jp.co.company.space.api.features.passenger.domain.Passenger;
 import jp.co.company.space.api.features.user.domain.User;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
 
 import java.time.ZonedDateTime;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -15,9 +17,11 @@ import java.util.UUID;
 @Table(name = "bookings")
 @Access(AccessType.FIELD)
 @NamedQueries({
-        @NamedQuery(name = "Booking.getAllByUserId", query = "SELECT b FROM Booking b WHERE b.user.id = :userId"),
-        @NamedQuery(name = "Booking.getAllByVoyageId", query = "SELECT b FROM Booking b WHERE b.voyage.id = :voyageId")
+        @NamedQuery(name = "Booking.selectById", query = "SELECT b FROM Booking b LEFT JOIN FETCH b.passengers WHERE b.id = :id"),
+        @NamedQuery(name = "Booking.selectAllByUserId", query = "SELECT b FROM Booking b LEFT JOIN FETCH b.passengers WHERE b.user.id = :userId"),
+        @NamedQuery(name = "Booking.getAllByVoyageId", query = "SELECT b FROM Booking b LEFT JOIN FETCH b.passengers WHERE b.voyage.id = :voyageId")
 })
+// TODO: all 'get' queries -> 'select' queries
 public class Booking {
     /**
      * Creates a new {@link Booking} instance for a {@link User} instance and {@link Voyage} instance.
@@ -27,7 +31,7 @@ public class Booking {
      * @return A new {@link Booking} instance.
      */
     public static Booking create(User user, Voyage voyage) {
-        return new Booking(UUID.randomUUID().toString(), ZonedDateTime.now(), BookingStatus.DRAFT, user, voyage);
+        return new Booking(UUID.randomUUID().toString(), ZonedDateTime.now(), BookingStatus.DRAFT, user, voyage, Set.of());
     }
 
     /**
@@ -38,10 +42,11 @@ public class Booking {
      * @param status       The status of the booking.
      * @param user         The user who made the booking.
      * @param voyage       The voyage of the booking.
+     * @param passengers   The list of passengers of the booking.
      * @return A {@link Booking} instance.
      */
-    public static Booking reconstruct(String id, ZonedDateTime creationDate, BookingStatus status, User user, Voyage voyage) {
-        return new Booking(id, creationDate, status, user, voyage);
+    public static Booking reconstruct(String id, ZonedDateTime creationDate, BookingStatus status, User user, Voyage voyage, Set<Passenger> passengers) {
+        return new Booking(id, creationDate, status, user, voyage, passengers);
     }
 
     /**
@@ -73,10 +78,13 @@ public class Booking {
     @JoinColumn(name = "voyage_id", table = "bookings", nullable = false)
     private Voyage voyage;
 
+    @OneToMany(mappedBy = "booking")
+    private Set<Passenger> passengers;
+
     protected Booking() {
     }
 
-    protected Booking(String id, ZonedDateTime creationDate, BookingStatus status, User user, Voyage voyage) {
+    protected Booking(String id, ZonedDateTime creationDate, BookingStatus status, User user, Voyage voyage, Set<Passenger> passengers) {
         if (id == null) {
             throw new IllegalArgumentException("The ID of the booking is missing.");
         } else if (creationDate == null) {
@@ -87,6 +95,8 @@ public class Booking {
             throw new IllegalArgumentException("The user of the booking is missing.");
         } else if (voyage == null) {
             throw new IllegalArgumentException("The voyage of the booking is missing.");
+        } else if (passengers == null) {
+            throw new IllegalArgumentException("The list of passengers of the booking is missing.");
         }
 
         this.id = id;
@@ -94,6 +104,7 @@ public class Booking {
         this.status = status;
         this.user = user;
         this.voyage = voyage;
+        this.passengers = passengers;
     }
 
     public String getId() {
@@ -116,10 +127,13 @@ public class Booking {
         return voyage;
     }
 
+    public Set<Passenger> getPassengers() {
+        return passengers;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Booking booking = (Booking) o;
+        if (!(o instanceof Booking booking)) return false;
         return Objects.equals(id, booking.id) && Objects.equals(creationDate, booking.creationDate) && status == booking.status && Objects.equals(user, booking.user) && Objects.equals(voyage, booking.voyage);
     }
 

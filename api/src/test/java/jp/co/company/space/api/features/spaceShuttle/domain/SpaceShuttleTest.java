@@ -122,8 +122,7 @@ public class SpaceShuttleTest {
         @Test
         void whenItMatches() {
             // Given
-            SpaceShuttleModel shuttleModel = spaceShuttleModelBuilder.create();
-            SpaceShuttle shuttle = spaceShuttleBuilder.create(shuttleModel);
+            SpaceShuttle shuttle = spaceShuttleBuilder.create();
             SpaceShuttle duplicatedShuttle = SpaceShuttle.reconstruct(shuttle.getId(), shuttle.getName(),
                     shuttle.getModel());
 
@@ -134,8 +133,7 @@ public class SpaceShuttleTest {
         @Test
         void whenItDoesNotMatch() {
             // Given
-            SpaceShuttleModel shuttleModel = spaceShuttleModelBuilder.create();
-            SpaceShuttle shuttle = spaceShuttleBuilder.create(shuttleModel);
+            SpaceShuttle shuttle = spaceShuttleBuilder.create();
             SpaceShuttle duplicatedShuttle = SpaceShuttle.create(shuttle.getName(), shuttle.getModel());
 
             // Then

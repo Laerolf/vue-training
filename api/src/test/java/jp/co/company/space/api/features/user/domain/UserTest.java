@@ -3,6 +3,7 @@ package jp.co.company.space.api.features.user.domain;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -81,7 +82,7 @@ public class UserTest {
         void withAllArguments() {
             // When
             User user = User.reconstruct(EXAMPLE_ID, EXAMPLE_LAST_NAME, EXAMPLE_FIRST_NAME, EXAMPLE_EMAIL_ADDRESS,
-                    EXAMPLE_PASSWORD);
+                    EXAMPLE_PASSWORD, Set.of());
 
             // Then
             assertEquals(EXAMPLE_ID, user.getId());
@@ -95,7 +96,7 @@ public class UserTest {
         void withoutAnId() {
             // When
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> User
-                    .reconstruct(null, EXAMPLE_LAST_NAME, EXAMPLE_FIRST_NAME, EXAMPLE_EMAIL_ADDRESS, EXAMPLE_PASSWORD));
+                    .reconstruct(null, EXAMPLE_LAST_NAME, EXAMPLE_FIRST_NAME, EXAMPLE_EMAIL_ADDRESS, EXAMPLE_PASSWORD, Set.of()));
 
             // Then
             assertEquals("The ID of the user is missing.", exception.getMessage());
@@ -105,7 +106,7 @@ public class UserTest {
         void withoutALastName() {
             // When
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> User
-                    .reconstruct(EXAMPLE_ID, null, EXAMPLE_FIRST_NAME, EXAMPLE_EMAIL_ADDRESS, EXAMPLE_PASSWORD));
+                    .reconstruct(EXAMPLE_ID, null, EXAMPLE_FIRST_NAME, EXAMPLE_EMAIL_ADDRESS, EXAMPLE_PASSWORD, Set.of()));
 
             // Then
             assertEquals("The last name of the user is missing.", exception.getMessage());
@@ -115,7 +116,7 @@ public class UserTest {
         void withoutAFirstName() {
             // When
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> User
-                    .reconstruct(EXAMPLE_ID, EXAMPLE_LAST_NAME, null, EXAMPLE_EMAIL_ADDRESS, EXAMPLE_PASSWORD));
+                    .reconstruct(EXAMPLE_ID, EXAMPLE_LAST_NAME, null, EXAMPLE_EMAIL_ADDRESS, EXAMPLE_PASSWORD, Set.of()));
 
             // Then
             assertEquals("The first name of the user is missing.", exception.getMessage());
@@ -125,7 +126,7 @@ public class UserTest {
         void withoutAnEmailAddress() {
             // When
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                    () -> User.reconstruct(EXAMPLE_ID, EXAMPLE_LAST_NAME, EXAMPLE_FIRST_NAME, null, EXAMPLE_PASSWORD));
+                    () -> User.reconstruct(EXAMPLE_ID, EXAMPLE_LAST_NAME, EXAMPLE_FIRST_NAME, null, EXAMPLE_PASSWORD, Set.of()));
 
             // Then
             assertEquals("The email address of the user is missing.", exception.getMessage());
@@ -135,7 +136,7 @@ public class UserTest {
         void withoutAPassword() {
             // When
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> User
-                    .reconstruct(EXAMPLE_ID, EXAMPLE_LAST_NAME, EXAMPLE_FIRST_NAME, EXAMPLE_EMAIL_ADDRESS, null));
+                    .reconstruct(EXAMPLE_ID, EXAMPLE_LAST_NAME, EXAMPLE_FIRST_NAME, EXAMPLE_EMAIL_ADDRESS, null, Set.of()));
 
             // Then
             assertEquals("The password of the user is missing.", exception.getMessage());
@@ -147,7 +148,7 @@ public class UserTest {
         // Given
         User userA = User.create(EXAMPLE_LAST_NAME, EXAMPLE_FIRST_NAME, EXAMPLE_EMAIL_ADDRESS, EXAMPLE_PASSWORD);
         User duplicatedUserA = User.reconstruct(userA.getId(), EXAMPLE_LAST_NAME, EXAMPLE_FIRST_NAME,
-                EXAMPLE_EMAIL_ADDRESS, EXAMPLE_PASSWORD);
+                EXAMPLE_EMAIL_ADDRESS, EXAMPLE_PASSWORD, Set.of());
 
         // Then
         assertEquals(userA, duplicatedUserA);

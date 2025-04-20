@@ -32,8 +32,8 @@ public class VoyageTestDataBuilder {
     private static final SpaceShuttleModel DEFAULT_SHUTTLE_MODEL = new SpaceShuttleModelTestDataBuilder().create();
 
     private static final ZonedDateTime DEFAULT_DEPARTURE_DATE = ZonedDateTime.now();
-    private static final Route DEFAULT_ROUTE = new RouteTestDataBuilder().create(DEFAULT_ORIGIN_SPACE_STATION, DEFAULT_DESTINATION_SPACE_STATION, DEFAULT_SHUTTLE_MODEL);
-    private static final SpaceShuttle DEFAULT_SPACE_SHUTTLE = new SpaceShuttleTestDataBuilder().create(DEFAULT_SHUTTLE_MODEL);
+    private static Route DEFAULT_ROUTE = new RouteTestDataBuilder().create(DEFAULT_ORIGIN_SPACE_STATION, DEFAULT_DESTINATION_SPACE_STATION, DEFAULT_SHUTTLE_MODEL);
+    private static final SpaceShuttle DEFAULT_SPACE_SHUTTLE = new SpaceShuttleTestDataBuilder().withModel(DEFAULT_SHUTTLE_MODEL).create();
 
     private ZonedDateTime departureDate;
     private Route route;
@@ -58,6 +58,14 @@ public class VoyageTestDataBuilder {
     }
 
     public Voyage create() {
+        Optional.ofNullable(spaceShuttle).ifPresent(customSpaceShuttle -> {
+            if (route != null) {
+                route = new RouteTestDataBuilder().create(route.getOrigin(), route.getDestination(), customSpaceShuttle.getModel());
+            } else {
+                DEFAULT_ROUTE = new RouteTestDataBuilder().create(DEFAULT_ROUTE.getOrigin(), DEFAULT_ROUTE.getDestination(), customSpaceShuttle.getModel());
+            }
+        });
+
         Voyage voyage = Voyage.create(
                 Optional.ofNullable(departureDate).orElse(DEFAULT_DEPARTURE_DATE),
                 Optional.ofNullable(route).orElse(DEFAULT_ROUTE),

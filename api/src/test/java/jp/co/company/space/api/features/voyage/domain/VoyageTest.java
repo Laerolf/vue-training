@@ -37,7 +37,7 @@ public class VoyageTest {
     private final static SpaceStation MARS_STATION = SPACE_STATION_BUILDER.create(MARS);
 
     private final static SpaceShuttleModel MX_REDLINE = SPACE_SHUTTLE_MODEL_BUILDER.withMaxSpeed(60000).create();
-    private final static SpaceShuttle EXAMPLE_SHUTTLE = SPACE_SHUTTLE_BUILDER.create(MX_REDLINE);
+    private final static SpaceShuttle EXAMPLE_SHUTTLE = SPACE_SHUTTLE_BUILDER.withModel(MX_REDLINE).create();
 
     private static final String EXAMPLE_ID = UUID.randomUUID().toString();
     private static final ZonedDateTime EXAMPLE_DEPARTURE_DATE = ZonedDateTime.now();

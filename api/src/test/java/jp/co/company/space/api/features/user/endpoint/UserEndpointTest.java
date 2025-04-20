@@ -12,14 +12,13 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 import jp.co.company.space.api.features.booking.domain.Booking;
-import jp.co.company.space.api.features.booking.dto.BookingBasicDto;
+import jp.co.company.space.api.features.booking.dto.BookingDto;
+import jp.co.company.space.api.features.user.domain.PasswordHashFactory;
 import jp.co.company.space.api.features.user.domain.User;
 import jp.co.company.space.api.features.user.dto.NewUserDto;
 import jp.co.company.space.api.features.user.dto.UserDto;
-import jp.co.company.space.api.features.user.domain.PasswordHashFactory;
 import jp.co.company.space.api.features.user.input.UserCreationForm;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
 import jp.co.company.space.utils.features.user.UserTestDataBuilder;
@@ -27,11 +26,12 @@ import jp.co.company.space.utils.features.voyage.user.VoyageTestDataBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Unit tests for the {@link UserEndpoint} class.
@@ -87,7 +87,7 @@ class UserEndpointTest {
                         String emailAddress = userJson.getString("emailAddress");
                         String password = userJson.getString("password");
 
-                        return User.reconstruct(id, lastName, firstName, emailAddress, new PasswordHashFactory(password).hash());
+                        return User.reconstruct(id, lastName, firstName, emailAddress, new PasswordHashFactory(password).hash(), Set.of());
                     })
                     .filter(user -> Optional.ofNullable(entityManager.find(User.class, user.getId())).isEmpty())
                     .forEach(user -> entityManager.persist(user));
@@ -108,23 +108,20 @@ class UserEndpointTest {
         assertNotNull(userDto.id);
         assertNotNull(userDto.lastName);
         assertNotNull(userDto.firstName);
+        assertNotNull(userDto.bookings);
     }
 
-    @Test
-    void getAllUsers() {
-        // When
-        Response response = target.path("users").request().get();
+    /**
+     * Tests the properties of a {@link NewUserDto} instance.
+     *
+     * @param userDto The user to test.
+     */
+    private void testUserDto(NewUserDto userDto) {
+        assertNotNull(userDto);
 
-        // Then
-        assertNotNull(response);
-        assertEquals(Status.OK_200.code(), response.getStatus());
-
-        List<UserDto> foundUsers = response.readEntity(new GenericType<>() {
-        });
-        assertNotNull(foundUsers);
-        assertFalse(foundUsers.isEmpty());
-
-        testUserDto(foundUsers.getFirst());
+        assertNotNull(userDto.id);
+        assertNotNull(userDto.lastName);
+        assertNotNull(userDto.firstName);
     }
 
     @Test
@@ -143,6 +140,28 @@ class UserEndpointTest {
         assertNotNull(foundUser);
 
         testUserDto(foundUser);
+    }
+
+    @Test
+    void findUserById_withBookings() {
+        // When
+        Response response = target.path(String.format("users/%s", USER.getId())).request().get();
+
+        // Then
+        assertNotNull(response);
+        assertEquals(Status.OK_200.code(), response.getStatus());
+
+        UserDto foundUser = response.readEntity(UserDto.class);
+        assertNotNull(foundUser);
+
+        testUserDto(foundUser);
+
+        BookingDto selectedBooking = foundUser.bookings.getFirst();
+        assertEquals(BOOKING.getId(), selectedBooking.id);
+        assertEquals(BOOKING.getCreationDate().getDayOfYear(), selectedBooking.creationDate.getDayOfYear());
+        assertEquals(BOOKING.getStatus().getKey(), selectedBooking.status);
+        assertEquals(USER.getId(), selectedBooking.userId);
+        assertEquals(VOYAGE.getId(), selectedBooking.voyageId);
     }
 
     @Test
@@ -169,27 +188,5 @@ class UserEndpointTest {
         assertEquals(emailAddress, newUser.emailAddress);
 
         testUserDto(newUser);
-    }
-
-    @Test
-    void getAllBookingsByUserId() {
-        // When
-        Response response = target.path(String.format("users/%s/bookings", USER.getId())).request().get();
-
-        // Then
-        assertNotNull(response);
-        assertEquals(Status.OK_200.code(), response.getStatus());
-
-        List<BookingBasicDto> foundBookings = response.readEntity(new GenericType<>() {
-        });
-        assertNotNull(foundBookings);
-        assertFalse(foundBookings.isEmpty());
-
-        assertNotNull(foundBookings.getFirst());
-        assertEquals(BOOKING.getId(), foundBookings.getFirst().id);
-        assertEquals(BOOKING.getCreationDate().getDayOfYear(), foundBookings.getFirst().creationDate.getDayOfYear());
-        assertEquals(BOOKING.getStatus().getKey(), foundBookings.getFirst().status);
-        assertEquals(USER.getId(), foundBookings.getFirst().userId);
-        assertEquals(VOYAGE.getId(), foundBookings.getFirst().voyageId);
     }
 }

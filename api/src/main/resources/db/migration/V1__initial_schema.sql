@@ -74,4 +74,37 @@ CREATE TABLE
         voyage_id VARCHAR(50) NOT NULL,
         FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
         FOREIGN KEY (voyage_id) REFERENCES voyages (id) ON DELETE CASCADE
-    )
+    );
+
+ CREATE TABLE
+    IF NOT EXISTS pod_reservations (
+        id VARCHAR(50) NOT NULL PRIMARY KEY,
+        pod_code VARCHAR(10) NOT NULL,
+        creation_date TIMESTAMP NOT NULL,
+        passenger_id VARCHAR(50) NOT NULL,
+        space_shuttle_id VARCHAR(50) NOT NULL,
+        voyage_id VARCHAR(50) NOT NULL,
+        FOREIGN KEY (space_shuttle_id) REFERENCES space_shuttles (id) ON DELETE CASCADE,
+        FOREIGN KEY (voyage_id) REFERENCES voyages (id) ON DELETE CASCADE
+    );
+
+ CREATE TABLE
+     IF NOT EXISTS passengers (
+         id VARCHAR(50) NOT NULL PRIMARY KEY,
+         creation_date TIMESTAMP NOT NULL,
+         meal_preference VARCHAR(30) NOT NULL,
+         package_type VARCHAR(30) NOT NULL,
+         pod_reservation_id VARCHAR(50) NOT NULL,
+         booking_id VARCHAR(50) NOT NULL,
+         voyage_id VARCHAR(50) NOT NULL,
+         FOREIGN KEY (booking_id) REFERENCES bookings (id) ON DELETE CASCADE,
+         FOREIGN KEY (voyage_id) REFERENCES voyages (id) ON DELETE CASCADE
+     );
+
+ ALTER TABLE pod_reservations
+ ADD CONSTRAINT fk_passenger
+ FOREIGN KEY (passenger_id) REFERENCES passengers (id) ON DELETE CASCADE;
+
+ ALTER TABLE passengers
+ ADD CONSTRAINT fk_pod_reservation
+ FOREIGN KEY (pod_reservation_id) REFERENCES pod_reservations (id) ON DELETE CASCADE;

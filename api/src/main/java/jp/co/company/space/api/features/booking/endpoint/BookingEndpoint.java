@@ -6,7 +6,6 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jp.co.company.space.api.features.booking.domain.Booking;
-import jp.co.company.space.api.features.booking.dto.BookingBasicDto;
 import jp.co.company.space.api.features.booking.dto.BookingDto;
 import jp.co.company.space.api.features.booking.input.BookingCreationForm;
 import jp.co.company.space.api.features.booking.service.BookingService;
@@ -43,12 +42,12 @@ public class BookingEndpoint {
     @POST
     @Operation(summary = "Creates a new booking.", description = "Creates a new booking and returns it.")
     @RequestBody(name = "form", description = "A form with details for a new booking.", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = BookingCreationForm.class)))
-    @APIResponse(description = "A new booking.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = BookingBasicDto.class)))
+    @APIResponse(description = "A new booking.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = BookingDto.class)))
     @Produces(MediaType.APPLICATION_JSON)
     public Response createBooking(@RequestBody BookingCreationForm form) {
         try {
             Booking newBooking = bookingService.create(form);
-            return Response.ok(BookingBasicDto.create(newBooking)).build();
+            return Response.ok(BookingDto.create(newBooking)).build();
         } catch (Exception exception) {
             return Response.serverError().build();
         }

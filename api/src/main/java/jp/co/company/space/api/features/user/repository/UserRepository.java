@@ -7,8 +7,6 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TransactionRequiredException;
 import jakarta.transaction.Transactional;
 import jp.co.company.space.api.features.user.domain.User;
-import jp.co.company.space.api.shared.interfaces.PersistenceRepository;
-import jp.co.company.space.api.shared.interfaces.QueryRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -18,7 +16,7 @@ import java.util.Optional;
  * The class for {@link User} DB actions.
  */
 @ApplicationScoped
-public class UserRepository implements QueryRepository<User>, PersistenceRepository<User> {
+public class UserRepository {
 
     @PersistenceContext(unitName = "domain")
     private EntityManager entityManager;
@@ -32,14 +30,8 @@ public class UserRepository implements QueryRepository<User>, PersistenceReposit
      * @param id The ID of the user to search for.
      * @return An {@link Optional} {@link User}.
      */
-    @Override
     public Optional<User> findById(String id) {
-        return Optional.ofNullable(entityManager.find(User.class, id));
-    }
-
-    @Override
-    public List<User> getAll() {
-        return entityManager.createNamedQuery("User.selectAll", User.class).getResultList();
+        return entityManager.createNamedQuery("User.selectById", User.class).setParameter("id", id).getResultStream().findFirst();
     }
 
     /**
@@ -49,7 +41,6 @@ public class UserRepository implements QueryRepository<User>, PersistenceReposit
      * @return The saved {@link User} instance.
      */
     @Transactional(Transactional.TxType.REQUIRED)
-    @Override
     public User save(User user) {
         if (findById(user.getId()).isEmpty()) {
             try {
@@ -70,7 +61,6 @@ public class UserRepository implements QueryRepository<User>, PersistenceReposit
      * @param user The {@link User} instance to merge.
      * @return The merged {@link User} instance.
      */
-    @Override
     public User merge(User user) {
         try {
             return entityManager.merge(user);
@@ -85,7 +75,6 @@ public class UserRepository implements QueryRepository<User>, PersistenceReposit
      * @param users The {@link List} of {@link User} instances to save.
      * @return A {@link List} of persisted {@link User} instances
      */
-    @Override
     public List<User> save(List<User> users) {
         return users.stream().map(this::save).toList();
     }

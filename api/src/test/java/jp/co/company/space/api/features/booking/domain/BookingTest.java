@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.time.ZonedDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -65,7 +66,7 @@ class BookingTest {
         @Test
         void withValidArguments() {
             // When
-            Booking booking = Booking.reconstruct(ID, CREATION_DATE, STATUS, USER, VOYAGE);
+            Booking booking = Booking.reconstruct(ID, CREATION_DATE, STATUS, USER, VOYAGE, Set.of());
 
             // Then
             assertNotNull(booking);
@@ -80,7 +81,7 @@ class BookingTest {
         @Test
         void withoutId() {
             // When
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Booking.reconstruct(null, CREATION_DATE, STATUS, USER, VOYAGE));
+            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Booking.reconstruct(null, CREATION_DATE, STATUS, USER, VOYAGE, Set.of()));
 
             // Then
             assertEquals("The ID of the booking is missing.", exception.getMessage());
@@ -89,7 +90,7 @@ class BookingTest {
         @Test
         void withoutCreationDate() {
             // When
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Booking.reconstruct(ID, null, STATUS, USER, VOYAGE));
+            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Booking.reconstruct(ID, null, STATUS, USER, VOYAGE, Set.of()));
 
             // Then
             assertEquals("The creation date of the booking is missing.", exception.getMessage());
@@ -98,7 +99,7 @@ class BookingTest {
         @Test
         void withoutStatus() {
             // When
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Booking.reconstruct(ID, CREATION_DATE, null, USER, VOYAGE));
+            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Booking.reconstruct(ID, CREATION_DATE, null, USER, VOYAGE, Set.of()));
 
             // Then
             assertEquals("The status of the booking is missing.", exception.getMessage());
@@ -107,7 +108,7 @@ class BookingTest {
         @Test
         void withoutUser() {
             // When
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Booking.reconstruct(ID, CREATION_DATE, STATUS, null, VOYAGE));
+            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Booking.reconstruct(ID, CREATION_DATE, STATUS, null, VOYAGE, Set.of()));
 
             // Then
             assertEquals("The user of the booking is missing.", exception.getMessage());
@@ -116,7 +117,7 @@ class BookingTest {
         @Test
         void withoutVoyage() {
             // When
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Booking.reconstruct(ID, CREATION_DATE, STATUS, USER, null));
+            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Booking.reconstruct(ID, CREATION_DATE, STATUS, USER, null, Set.of()));
 
             // Then
             assertEquals("The voyage of the booking is missing.", exception.getMessage());
@@ -127,7 +128,7 @@ class BookingTest {
     void whenMatched() {
         // When
         Booking bookingA = Booking.create(USER, VOYAGE);
-        Booking bookingB = Booking.reconstruct(bookingA.getId(), bookingA.getCreationDate(), bookingA.getStatus(), bookingA.getUser(), bookingA.getVoyage());
+        Booking bookingB = Booking.reconstruct(bookingA.getId(), bookingA.getCreationDate(), bookingA.getStatus(), bookingA.getUser(), bookingA.getVoyage(), Set.of());
 
         // Then
         assertEquals(bookingA, bookingB);

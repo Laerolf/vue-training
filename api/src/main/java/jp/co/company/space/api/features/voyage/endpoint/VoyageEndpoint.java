@@ -2,17 +2,24 @@ package jp.co.company.space.api.features.voyage.endpoint;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jp.co.company.space.api.features.booking.domain.Booking;
-import jp.co.company.space.api.features.booking.dto.BookingBasicDto;
+import jp.co.company.space.api.features.booking.dto.BookingDto;
 import jp.co.company.space.api.features.booking.service.BookingService;
+import jp.co.company.space.api.features.pod.domain.Pod;
+import jp.co.company.space.api.features.pod.dto.PodDto;
+import jp.co.company.space.api.features.pod.service.PodService;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
 import jp.co.company.space.api.features.voyage.dto.VoyageBasicDto;
 import jp.co.company.space.api.features.voyage.dto.VoyageDto;
 import jp.co.company.space.api.features.voyage.service.VoyageService;
+import jp.co.company.space.api.shared.util.ResponseFactory;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -22,6 +29,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -38,7 +46,11 @@ public class VoyageEndpoint {
     @Inject
     private BookingService bookingService;
 
-    protected VoyageEndpoint() {}
+    @Inject
+    private PodService podService;
+
+    protected VoyageEndpoint() {
+    }
 
     /**
      * Returns all existing space voyages.
@@ -93,7 +105,7 @@ public class VoyageEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllBookingsByVoyageId(@PathParam("voyageId") String voyageId) {
         try {
-            List<BookingBasicDto> voyages = bookingService.getAllByVoyageId(voyageId).stream().map(BookingBasicDto::create).toList();
+            List<BookingDto> voyages = bookingService.getAllByVoyageId(voyageId).stream().map(BookingDto::create).toList();
             return Response.ok().entity(voyages).build();
         } catch (Exception exception) {
             return Response.serverError().build();
@@ -159,6 +171,29 @@ public class VoyageEndpoint {
         try {
             List<VoyageBasicDto> voyages = voyageService.getAllFromTo(originId, destinationId).stream().map(VoyageBasicDto::create).toList();
             return Response.ok().entity(voyages).build();
+        } catch (Exception exception) {
+            return Response.serverError().build();
+        }
+    }
+
+    /**
+     * Returns all pods for the voyage matching the provided ID.
+     *
+     * @param id The ID to search with for a voyage.
+     * @return A {@link List} of all {@link PodDto} instances.
+     */
+    @GET
+    @Path("{id}/pods")
+    @Operation(summary = "Returns all pods for the voyage matching the provided ID.", description = "Gets all pods for the voyage matching the provided ID.")
+    @Parameter(name = "id", description = "The ID of a space voyage.", example = "5f485136-20a8-41f3-9073-4156d32c9c36")
+    @APIResponse(description = "A list of pods", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = PodDto.class)))
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllVoyagePods(@PathParam("id") String id) {
+        try {
+            List<Pod> pods = voyageService.getAllPodsByVoyageId(id);
+            return Response.ok().entity(pods.stream().map(PodDto::create).toList()).build();
+        } catch(NoSuchElementException exception) {
+            return ResponseFactory.createNotFoundResponse();
         } catch (Exception exception) {
             return Response.serverError().build();
         }

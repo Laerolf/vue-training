@@ -1,11 +1,11 @@
 package jp.co.company.space.api.features.booking.dto;
 
 import jp.co.company.space.api.features.booking.domain.Booking;
-import jp.co.company.space.api.features.user.dto.UserDto;
-import jp.co.company.space.api.features.voyage.dto.VoyageDto;
+import jp.co.company.space.api.features.passenger.domain.Passenger;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 /**
  * A POJO representing a DTO of a {@link Booking} instance.
@@ -19,7 +19,14 @@ public class BookingDto {
      * @return A {@link BookingDto} instance.
      */
     public static BookingDto create(Booking booking) {
-        return new BookingDto(booking.getId(), booking.getCreationDate(), booking.getStatus().getKey(), UserDto.create(booking.getUser()), VoyageDto.create(booking.getVoyage()));
+        return new BookingDto(
+                booking.getId(),
+                booking.getCreationDate(),
+                booking.getStatus().getKey(),
+                booking.getUser().getId(),
+                booking.getVoyage().getId(),
+                booking.getPassengers().stream().map(Passenger::getId).toList()
+        );
     }
 
     /**
@@ -41,37 +48,50 @@ public class BookingDto {
     public String status;
 
     /**
+     * TODO: Improve Open API documentation
+     * Provide examples = jp.co.company.space.api.features.route.dto.RouteBasicDto
+     */
+    /**
      * The user of the booking.
      */
-    @Schema(description = "The user of the booking.")
-    public UserDto user;
+    @Schema(description = "The user ID of the booking.")
+    public String userId;
 
     /**
      * The voyage of the booking.
      */
-    @Schema(description = "The voyage of the booking.")
-    public VoyageDto voyage;
+    @Schema(description = "The voyage ID of the booking.")
+    public String voyageId;
+
+    /**
+     * The passengers of the booking.
+     */
+    @Schema(description = "The passenger IDs of the booking.")
+    public List<String> passengerIds;
 
     protected BookingDto() {
     }
 
-    protected BookingDto(String id, ZonedDateTime creationDate, String status, UserDto user, VoyageDto voyage) {
+    protected BookingDto(String id, ZonedDateTime creationDate, String status, String userId, String voyageId, List<String> passengerIds) {
         if (id == null) {
             throw new IllegalArgumentException("The ID of the booking is missing.");
         } else if (creationDate == null) {
             throw new IllegalArgumentException("The creation date of the booking is missing.");
         } else if (status == null) {
             throw new IllegalArgumentException("The status of the booking is missing.");
-        } else if (user == null) {
-            throw new IllegalArgumentException("The user of the booking is missing.");
-        } else if (voyage == null) {
-            throw new IllegalArgumentException("The voyage of the booking is missing.");
+        } else if (userId == null) {
+            throw new IllegalArgumentException("The user ID of the booking is missing.");
+        } else if (voyageId == null) {
+            throw new IllegalArgumentException("The voyage ID of the booking is missing.");
+        } else if (passengerIds == null) {
+            throw new IllegalArgumentException("The list of passenger IDs of the booking is missing.");
         }
 
         this.id = id;
         this.creationDate = creationDate;
         this.status = status;
-        this.user = user;
-        this.voyage = voyage;
+        this.userId = userId;
+        this.voyageId = voyageId;
+        this.passengerIds = passengerIds;
     }
 }

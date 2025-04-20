@@ -7,6 +7,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 /**
  * A POJO representing a brief DTO of a {@link Voyage} instance.
  */
+// TODO: replace with jp.co.company.space.api.features.voyage.dto.VoyageDto
 @Schema(description = "The brief details of a voyage.")
 public class VoyageBasicDto {
     /**

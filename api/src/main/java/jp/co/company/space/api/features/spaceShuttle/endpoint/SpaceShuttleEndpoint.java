@@ -77,5 +77,4 @@ public class SpaceShuttleEndpoint {
             return Response.serverError().build();
         }
     }
-
 }

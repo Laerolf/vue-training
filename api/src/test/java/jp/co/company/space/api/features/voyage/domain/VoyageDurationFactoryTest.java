@@ -34,7 +34,7 @@ public class VoyageDurationFactoryTest {
     private final static SpaceStation MARS_STATION = SPACE_STATION_BUILDER.create(MARS);
 
     private final static SpaceShuttleModel MX_REDLINE = SPACE_SHUTTLE_MODEL_BUILDER.withMaxSpeed(250000).create();
-    private final static SpaceShuttle MX_REDLINE_SPACE_SHUTTLE = SPACE_SHUTTLE_BUILDER.create(MX_REDLINE);
+    private final static SpaceShuttle MX_REDLINE_SPACE_SHUTTLE = SPACE_SHUTTLE_BUILDER.withModel(MX_REDLINE).create();
 
     private final static Route ROUTE_FROM_EARTH_TO_MARS = ROUTE_BUILDER.create(MARS_STATION, EARTH_STATION, MX_REDLINE);
 
