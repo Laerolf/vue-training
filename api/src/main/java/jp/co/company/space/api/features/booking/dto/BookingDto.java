@@ -7,10 +7,12 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+import static jp.co.company.space.api.shared.openApi.examples.*;
+
 /**
  * A POJO representing a DTO of a {@link Booking} instance.
  */
-@Schema(description = "The details of a booking.")
+@Schema(name = "Booking", description = "The details of a booking.")
 public class BookingDto {
     /**
      * Creates a {@link BookingDto} instance based on a {@link Booking} instance.
@@ -32,41 +34,37 @@ public class BookingDto {
     /**
      * The ID of the booking.
      */
-    @Schema(description = "The ID of the booking.", example = "1")
+    @Schema(description = "The ID of the booking.", example = ID_EXAMPLE)
     public String id;
 
     /**
      * The creation date of the booking.
      */
-    @Schema(description = "The creation date of the booking.", example = "2025-04-14T08:49:20.507334+09:00")
+    @Schema(description = "The creation date of the booking.", example = CREATION_DATE_EXAMPLE)
     public ZonedDateTime creationDate;
 
     /**
      * The status of the booking.
      */
-    @Schema(description = "The status of the booking.", example = "created")
+    @Schema(description = "The status of the booking.", example = BOOKING_STATUS_EXAMPLE)
     public String status;
 
     /**
-     * TODO: Improve Open API documentation
-     * Provide examples = jp.co.company.space.api.features.route.dto.RouteBasicDto
-     */
-    /**
      * The user of the booking.
      */
-    @Schema(description = "The user ID of the booking.")
+    @Schema(description = "The user ID of the booking.", example = ID_EXAMPLE)
     public String userId;
 
     /**
      * The voyage of the booking.
      */
-    @Schema(description = "The voyage ID of the booking.")
+    @Schema(description = "The voyage ID of the booking.", example = VOYAGE_ID_EXAMPLE)
     public String voyageId;
 
     /**
      * The passengers of the booking.
      */
-    @Schema(description = "The passenger IDs of the booking.")
+    @Schema(description = "The passenger IDs of the booking.", example = BOOKING_PASSENGER_ID_EXAMPLE)
     public List<String> passengerIds;
 
     protected BookingDto() {

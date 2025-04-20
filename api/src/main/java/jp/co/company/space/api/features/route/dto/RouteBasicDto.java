@@ -3,16 +3,13 @@ package jp.co.company.space.api.features.route.dto;
 import jp.co.company.space.api.features.route.domain.Route;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
+import static jp.co.company.space.api.shared.openApi.examples.*;
+
 /**
  * A POJO representing a brief DTO of a {@link Route} instance.
  */
-@Schema(description = "The brief details of a route between a space station and another space station.")
+@Schema(name = "BasicRoute", description = "The brief details of a route between a space station and another space station.")
 public class RouteBasicDto {
-
-    /**
-     * An example value for a route's destination.
-     */
-    private static final String ROUTE_DESTINATION_ID_EXAMPLE = "12";
 
     /**
      * Creates a new {@link RouteBasicDto} instance based on a {@link Route} instance.
@@ -31,25 +28,25 @@ public class RouteBasicDto {
     /**
      * The ID of the route.
      */
-    @Schema(description = "The ID of the route.", required = true, example = "1")
+    @Schema(description = "The ID of the route.", example = ROUTE_ID_EXAMPLE)
     public String id;
 
     /**
      * The origin space station's ID of the route.
      */
-    @Schema(description = "The origin space station's ID of the route.", required = true)
+    @Schema(description = "The origin space station's ID of the route.", example = ROUTE_ORIGIN_ID_EXAMPLE)
     public String originId;
 
     /**
      * The destination space station's ID of the route.
      */
-    @Schema(description = "The destination space station's ID of the route.", required = true, example = ROUTE_DESTINATION_ID_EXAMPLE)
+    @Schema(description = "The destination space station's ID of the route.", example = ROUTE_DESTINATION_ID_EXAMPLE)
     public String destinationId;
 
     /**
      * The space shuttle model's to be used for the route.
      */
-    @Schema(description = "The space shuttle model's ID to be used for the route.", required = true)
+    @Schema(description = "The space shuttle model's ID to be used for the route.", example = SPACE_SHUTTLE_MODEL_ID_EXAMPLE)
     public String shuttleModelId;
 
     protected RouteBasicDto() {

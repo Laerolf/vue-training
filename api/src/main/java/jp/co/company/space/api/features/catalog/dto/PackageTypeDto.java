@@ -3,10 +3,12 @@ package jp.co.company.space.api.features.catalog.dto;
 import jp.co.company.space.api.features.catalog.domain.PackageType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
+import static jp.co.company.space.api.shared.openApi.examples.PACKAGE_TYPE_KEY_EXAMPLE;
+
 /**
  * A POJO representing a DTO of a {@link PackageType}.
  */
-@Schema(description = "The details of a package type.")
+@Schema(name = "PackageType", description = "The details of a package type.")
 public class PackageTypeDto {
 
     /**
@@ -23,7 +25,7 @@ public class PackageTypeDto {
         return new PackageTypeDto(packageType.getKey());
     }
 
-    @Schema(description = "The key of the package type.")
+    @Schema(description = "The key of the package type.", example = PACKAGE_TYPE_KEY_EXAMPLE)
     public String key;
 
     protected PackageTypeDto() {

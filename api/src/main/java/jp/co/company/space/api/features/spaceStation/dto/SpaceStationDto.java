@@ -4,10 +4,12 @@ import jp.co.company.space.api.features.location.dto.LocationDto;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
+import static jp.co.company.space.api.shared.openApi.examples.*;
+
 /**
  * A POJO representing a DTO of a {@link SpaceStation} instance.
  */
-@Schema(description = "The details of a space station.")
+@Schema(name = "SpaceStation", description = "The details of a space station.")
 public class SpaceStationDto {
 
     /**
@@ -24,19 +26,19 @@ public class SpaceStationDto {
         return new SpaceStationDto(spaceStation.getId(), spaceStation.getName(), spaceStation.getCode(), spaceStation.getCountry(), LocationDto.create(spaceStation.getLocation()));
     }
 
-    @Schema(description = "The ID of the space station.", required = true, example = "1")
+    @Schema(description = "The ID of the space station.", example = SPACE_STATION_ORIGIN_ID_EXAMPLE)
     public String id;
 
-    @Schema(description = "The name of the space station.", required = true, example = "Tanegashima Space Center")
+    @Schema(description = "The name of the space station.", example = SPACE_STATION_NAME_EXAMPLE)
     public String name;
 
-    @Schema(description = "The code of the space station.", required = true, example = "TNS")
+    @Schema(description = "The code of the space station.", example = SPACE_STATION_CODE_EXAMPLE)
     public String code;
 
-    @Schema(description = "The country of the space station.", required = true, example = "Japan")
+    @Schema(description = "The country of the space station.", example = SPACE_STATION_COUNTRY_EXAMPLE)
     public String country;
 
-    @Schema(description = "The location of the space station.", required = true)
+    @Schema(description = "The location of the space station.")
     public LocationDto location;
 
     protected SpaceStationDto() {}

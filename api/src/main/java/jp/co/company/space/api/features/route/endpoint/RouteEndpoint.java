@@ -17,11 +17,14 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import java.util.List;
 import java.util.Optional;
+
+import static jp.co.company.space.api.shared.openApi.examples.ROUTE_ID_EXAMPLE;
 
 /**
  * This class represents the REST endpoint for the {@link Route} topic.
@@ -63,6 +66,7 @@ public class RouteEndpoint {
     @Path("{id}")
     @GET
     @Operation(summary = "Returns an optional route for the provided ID.", description = "Gets a route if the provided ID matches any.")
+    @Parameter(name = "id", description = "The ID of a route.", example = ROUTE_ID_EXAMPLE)
     @APIResponse(description = "An optional route", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = RouteDto.class)))
     @Produces(MediaType.APPLICATION_JSON)
     public Response findRouteById(@PathParam("id") String id) {

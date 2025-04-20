@@ -19,6 +19,8 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import java.util.Optional;
 
+import static jp.co.company.space.api.shared.openApi.examples.ID_EXAMPLE;
+
 /**
  * This class represents the REST endpoint for the {@link Booking} topic.
  */
@@ -62,7 +64,7 @@ public class BookingEndpoint {
     @Path("{id}")
     @GET
     @Operation(summary = "Returns the booking for the provided ID if there is any.", description = "Returns the booking for the provided ID.")
-    @Parameter(name = "id", description = "The ID of a booking.", example = "5f485136-20a8-41f3-9073-4156d32c9c36")
+    @Parameter(name = "id", description = "The ID of a booking.", example = ID_EXAMPLE)
     @APIResponse(description = "A booking.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = BookingDto.class)))
     @Produces(MediaType.APPLICATION_JSON)
     public Response findBookingById(@PathParam("id") String id) {

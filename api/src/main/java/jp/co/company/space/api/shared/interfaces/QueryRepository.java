@@ -6,6 +6,7 @@ import java.util.Optional;
 /**
  * An interface for repository classes that get persisted {@link T} entities.
  */
+// TODO: DELETE
 public interface QueryRepository<T> {
     /**
      * Searches an {@link Optional} instance of the {@link T} class by its ID.

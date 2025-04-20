@@ -3,10 +3,12 @@ package jp.co.company.space.api.features.catalog.dto;
 import jp.co.company.space.api.features.catalog.domain.MealPreference;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
+import static jp.co.company.space.api.shared.openApi.examples.*;
+
 /**
  * A POJO representing a DTO of a {@link MealPreference}.
  */
-@Schema(description = "The details of a meal preference.")
+@Schema(name = "MealPreference", description = "The details of a meal preference.")
 public class MealPreferenceDto {
 
     /**
@@ -23,16 +25,16 @@ public class MealPreferenceDto {
         return new MealPreferenceDto(mealPreference.getKey(), mealPreference.getAdditionalCostPerDay(), mealPreference.getAvailableFrom().getKey(), mealPreference.getFreeFrom().getKey());
     }
 
-    @Schema(description = "The key of the meal preference.")
+    @Schema(description = "The key of the meal preference.", example = MEAL_PREFERENCE_KEY_EXAMPLE)
     public String key;
 
-    @Schema(description = "The additional cost of the meal preference per day if the meal preference is not included in a package type.")
+    @Schema(description = "The additional cost of the meal preference per day if the meal preference is not included in a package type.", example = MEAL_PREFERENCE_ADDITIONAL_COST_EXAMPLE)
     public double additionalCostPerDay;
 
-    @Schema(description = "The minimum package type for the meal preference.")
+    @Schema(description = "The minimum package type for the meal preference.", example = MEAL_PREFERENCE_AVAILABLE_FROM_EXAMPLE)
     public String availableFrom;
 
-    @Schema(description = "The minimum package type where the meal preference is free of charge.")
+    @Schema(description = "The minimum package type where the meal preference is free of charge.", example = MEAL_PREFERENCE_FREE_FROM_EXAMPLE)
     public String freeFrom;
 
     protected MealPreferenceDto() {

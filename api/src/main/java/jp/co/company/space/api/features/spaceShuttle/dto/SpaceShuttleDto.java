@@ -4,10 +4,13 @@ import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
 import jp.co.company.space.api.features.spaceShuttleModel.dto.SpaceShuttleModelDto;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
+import static jp.co.company.space.api.shared.openApi.examples.SPACE_SHUTTLE_ID_EXAMPLE;
+import static jp.co.company.space.api.shared.openApi.examples.SPACE_SHUTTLE_NAME_EXAMPLE;
+
 /**
  * A POJO representing a DTO of a {@link SpaceShuttle} instance.
  */
-@Schema(description = "The details of a space shuttle.")
+@Schema(name = "SpaceShuttle", description = "The details of a space shuttle.")
 public class SpaceShuttleDto {
 
     /**
@@ -23,19 +26,19 @@ public class SpaceShuttleDto {
     /**
      * The ID of the space shuttle.
      */
-    @Schema(description = "The ID of the space shuttle", required = true, example = "1")
+    @Schema(description = "The ID of the space shuttle", example = SPACE_SHUTTLE_ID_EXAMPLE)
     public String id;
 
     /**
      * The name of the space shuttle.
      */
-    @Schema(description = "The name of the space shuttle", required = true, example = "From Hell with love")
+    @Schema(description = "The name of the space shuttle", example = SPACE_SHUTTLE_NAME_EXAMPLE)
     public String name;
 
     /**
      * The model of the space shuttle.
      */
-    @Schema(description = "The model of the space shuttle", required = true)
+    @Schema(description = "The model of the space shuttle")
     public SpaceShuttleModelDto model;
 
     protected SpaceShuttleDto() {}

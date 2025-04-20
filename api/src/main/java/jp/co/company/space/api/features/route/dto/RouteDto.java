@@ -7,17 +7,14 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.util.Objects;
 
+import static jp.co.company.space.api.shared.openApi.examples.ROUTE_DESTINATION_EXAMPLE;
+import static jp.co.company.space.api.shared.openApi.examples.ROUTE_ID_EXAMPLE;
+
 /**
  * A POJO representing a DTO of a {@link Route} instance.
  */
-@Schema(description = "The details of a route between a space station and another space station.")
+@Schema(name = "Route", description = "The details of a route between a space station and another space station.")
 public class RouteDto {
-
-    /**
-     * An example value for a route's destination.
-     */
-    private static final String ROUTE_DESTINATION_EXAMPLE = "{ \"code\": \"RHV\", \"country\": \"null\", \"id\": \"12\", \"location\": { \"id\": \"4\", \"latitude\": 0, \"longitude\": 13.1, \"name\": \"Mars\", \"radialDistance\": 1.5},\"name\": \"Red Haven - Mars\"}";
-
     /**
      * Creates a new {@link RouteDto} instance based on a {@link Route} instance.
      *
@@ -35,25 +32,25 @@ public class RouteDto {
     /**
      * The ID of the route.
      */
-    @Schema(description = "The ID of the route.", required = true, example = "1")
+    @Schema(description = "The ID of the route.", example = ROUTE_ID_EXAMPLE)
     public String id;
 
     /**
      * The origin of the route.
      */
-    @Schema(description = "The origin space station of the route.", required = true)
+    @Schema(description = "The origin space station of the route.")
     public SpaceStationDto origin;
 
     /**
      * The destination of the route.
      */
-    @Schema(description = "The destination space station of the route.", required = true, example = ROUTE_DESTINATION_EXAMPLE)
+    @Schema(description = "The destination space station of the route.", example = ROUTE_DESTINATION_EXAMPLE)
     public SpaceStationDto destination;
 
     /**
      * The space shuttle model to be used for the route.
      */
-    @Schema(description = "The space shuttle model to be used for the route.", required = true)
+    @Schema(description = "The space shuttle model to be used for the route.")
     public SpaceShuttleModelDto shuttleModel;
 
     protected RouteDto() {}

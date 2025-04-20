@@ -3,10 +3,12 @@ package jp.co.company.space.api.features.pod.dto;
 import jp.co.company.space.api.features.pod.domain.Pod;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
+import static jp.co.company.space.api.shared.openApi.examples.*;
+
 /**
  * A POJO representing a DTO of pod in a space shuttle.
  */
-@Schema(description = "The details of a pod in a space shuttle.")
+@Schema(name = "Pod", description = "The details of a pod in a space shuttle.")
 public class PodDto {
 
     /**
@@ -22,37 +24,37 @@ public class PodDto {
     /**
      * The code of the pod.
      */
-    @Schema(description = "The code of the pod.", example = "S100001")
+    @Schema(description = "The code of the pod.", example = POD_CODE_EXAMPLE)
     public String code;
 
     /**
      * The type of the pod.
      */
-    @Schema(description = "The type of the pod.", example = "standardPod")
+    @Schema(description = "The type of the pod.", example = POD_TYPE_EXAMPLE)
     public String type;
 
     /**
      * The deck of the pod in the space shuttle layout.
      */
-    @Schema(description = "The deck of the pod.", example = "1")
+    @Schema(description = "The deck of the pod.", example = POD_DECK_NUMBER_EXAMPLE)
     public int deck;
 
     /**
      * The row of the pod in the space shuttle layout.
      */
-    @Schema(description = "The row of the pod.", example = "1")
+    @Schema(description = "The row of the pod.", example = POD_ROW_NUMBER_EXAMPLE)
     public int row;
 
     /**
      * The column of the pod in the space shuttle layout.
      */
-    @Schema(description = "The column of the pod.", example = "1")
+    @Schema(description = "The column of the pod.", example = POD_COLUMN_NUMBER_EXAMPLE)
     public int column;
 
     /**
      * The status of the pod.
      */
-    @Schema(description = "The status of the pod.", example = "available")
+    @Schema(description = "The status of the pod.", example = POD_STATUS_EXAMPLE)
     public String status;
 
     protected PodDto() {

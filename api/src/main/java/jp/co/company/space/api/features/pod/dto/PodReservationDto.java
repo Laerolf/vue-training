@@ -5,10 +5,12 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.time.ZonedDateTime;
 
+import static jp.co.company.space.api.shared.openApi.examples.*;
+
 /**
  * A POJO representing a DTO of {@link PodReservation} instance.
  */
-@Schema(description = "The details of a pod reservation.")
+@Schema(name = "PodReservation", description = "The details of a pod reservation.")
 public class PodReservationDto {
 
     /**
@@ -35,37 +37,37 @@ public class PodReservationDto {
     /**
      * The ID of the pod reservation.
      */
-    @Schema(description = "The ID of the pod reservation", example = "1")
+    @Schema(description = "The ID of the pod reservation", example = ID_EXAMPLE)
     public String id;
 
     /**
      * The pod code of the pod reservation.
      */
-    @Schema(description = "The pod code of the pod reservation", example = "S100001")
+    @Schema(description = "The pod code of the pod reservation", example = POD_CODE_EXAMPLE)
     public String podCode;
 
     /**
      * The creation date of the pod reservation.
      */
-    @Schema(description = "The creation date of the pod reservation.", example = "2025-04-19T08:49:20.507334+09:00")
+    @Schema(description = "The creation date of the pod reservation.", example = CREATION_DATE_EXAMPLE)
     public ZonedDateTime creationDate;
 
     /**
      * The passenger ID of the pod reservation.
      */
-    @Schema(description = "The passenger ID of the pod reservation.")
+    @Schema(description = "The passenger ID of the pod reservation.", example = ID_EXAMPLE)
     public String passengerId;
 
     /**
      * The space shuttle ID of the pod reservation.
      */
-    @Schema(description = "The space shuttle ID of the pod reservation.")
+    @Schema(description = "The space shuttle ID of the pod reservation.", example = SPACE_SHUTTLE_ID_EXAMPLE)
     public String spaceShuttleId;
 
     /**
      * The voyage ID of the pod reservation.
      */
-    @Schema(description = "The voyage ID of the pod reservation.")
+    @Schema(description = "The voyage ID of the pod reservation.", example = VOYAGE_ID_EXAMPLE)
     public String voyageId;
 
     protected PodReservationDto() {

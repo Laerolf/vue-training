@@ -3,6 +3,8 @@ package jp.co.company.space.api.features.user.input;
 import jp.co.company.space.api.features.user.domain.User;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
+import static jp.co.company.space.api.shared.openApi.examples.*;
+
 /**
  * A POJO representing a form for creating a new {@link User} instance.
  */
@@ -25,25 +27,25 @@ public class UserCreationForm {
     /**
      * The last name of the user to create.
      */
-    @Schema(description = "The last name of the user to create.", example = "Jekyll")
+    @Schema(description = "The last name of the user to create.", example = USER_LAST_NAME_EXAMPLE)
     public String lastName;
 
     /**
      * The first name of the user to create.
      */
-    @Schema(description = "The first name of the user to create.", example = "Henry")
+    @Schema(description = "The first name of the user to create.", example = USER_FIRST_NAME_EXAMPLE)
     public String firstName;
 
     /**
      * The email address of the user to create.
      */
-    @Schema(description = "The email address of the user to create.", example = "jekyll.henry@test.test")
+    @Schema(description = "The email address of the user to create.", example = USER_EMAIL_ADDRESS_EXAMPLE)
     public String emailAddress;
 
     /**
      * The password of the user to create.
      */
-    @Schema(description = "The password of the user to create.", example = "test")
+    @Schema(description = "The password of the user to create.", example = USER_PASSWORD_EXAMPLE)
     public String password;
 
     protected UserCreationForm() {

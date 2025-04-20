@@ -5,6 +5,7 @@ import java.util.List;
 /**
  * An interface for repository classes that persist {@link T} entities.
  */
+// TODO: DELETE
 public interface PersistenceRepository<T> {
     /**
      * Saves a {@link T} instance.

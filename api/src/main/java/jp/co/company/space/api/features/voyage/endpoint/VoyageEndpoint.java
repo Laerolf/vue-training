@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static jp.co.company.space.api.shared.openApi.examples.*;
+
 /**
  * This class represents the REST endpoint for the {@link Voyage} topic.
  */
@@ -78,7 +80,7 @@ public class VoyageEndpoint {
     @Path("{id}")
     @GET
     @Operation(summary = "Returns the space voyage for the provided ID if there is any.", description = "Returns the space voyage for the provided ID.")
-    @Parameter(name = "id", description = "The ID of a space voyage.", example = "5f485136-20a8-41f3-9073-4156d32c9c36")
+    @Parameter(name = "id", description = "The ID of a space voyage.", example = VOYAGE_ID_EXAMPLE)
     @APIResponse(description = "A space voyage.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = VoyageDto.class)))
     @Produces(MediaType.APPLICATION_JSON)
     public Response findVoyageById(@PathParam("id") String id) {
@@ -99,8 +101,8 @@ public class VoyageEndpoint {
      */
     @Path("{voyageId}/bookings")
     @GET
-    @Operation(summary = "Returns all bookings with a voyage matching the provided user ID.", description = "Returns the booking with a voyage ID matching the provided ID.")
-    @Parameter(name = "voyageId", description = "The ID of a voyage.", example = "00000000-0000-1000-8000-000000000003")
+    @Operation(summary = "Returns all bookings with a voyage matching the provided voyage ID.", description = "Returns the booking with a voyage ID matching the provided ID.")
+    @Parameter(name = "voyageId", description = "The ID of a voyage.", example = VOYAGE_ID_EXAMPLE)
     @APIResponse(description = "A list of bookings.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = SchemaType.ARRAY, implementation = VoyageBasicDto.class)))
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllBookingsByVoyageId(@PathParam("voyageId") String voyageId) {
@@ -121,7 +123,7 @@ public class VoyageEndpoint {
     @Path("/from/{originId}")
     @GET
     @Operation(summary = "Returns all space voyages starting from the provided space station ID.", description = "Returns all space voyages with an origin space station matching the provided space station ID.")
-    @Parameter(name = "originId", description = "The ID of the origin space station.", example = "00000000-0000-1000-8000-000000000003")
+    @Parameter(name = "originId", description = "The ID of the origin space station.", example = SPACE_STATION_ORIGIN_ID_EXAMPLE)
     @APIResponse(description = "A list of space voyages.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = SchemaType.ARRAY, implementation = VoyageBasicDto.class)))
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllVoyagesFrom(@PathParam("originId") String originId) {
@@ -142,7 +144,7 @@ public class VoyageEndpoint {
     @Path("/to/{destinationId}")
     @GET
     @Operation(summary = "Returns all space voyages starting to the provided space station ID.", description = "Returns all space voyages with an destination space station matching the provided space station ID.")
-    @Parameter(name = "destinationId", description = "The ID of the destination space station.", example = "00000000-0000-1000-8000-000000000012")
+    @Parameter(name = "destinationId", description = "The ID of the destination space station.", example = SPACE_STATION_DESTINATION_ID_EXAMPLE)
     @APIResponse(description = "A list of space voyages.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = SchemaType.ARRAY, implementation = VoyageBasicDto.class)))
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllVoyagesTo(@PathParam("destinationId") String destinationId) {
@@ -163,8 +165,8 @@ public class VoyageEndpoint {
     @Path("/from/{originId}/to/{destinationId}")
     @GET
     @Operation(summary = "Returns all space voyages starting from the provided origin space station ID to provided destination space station ID.", description = "Returns all space voyages with an origin space station matching the provided space station ID and a destination space station matching the provided destination space station ID.")
-    @Parameter(name = "originId", description = "The ID of the origin space station.", example = "00000000-0000-1000-8000-000000000003")
-    @Parameter(name = "destinationId", description = "The ID of the destination space station.", example = "00000000-0000-1000-8000-000000000012")
+    @Parameter(name = "originId", description = "The ID of the origin space station.", example = SPACE_STATION_ORIGIN_ID_EXAMPLE)
+    @Parameter(name = "destinationId", description = "The ID of the destination space station.", example = SPACE_STATION_DESTINATION_ID_EXAMPLE)
     @APIResponse(description = "A list of space voyages.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = SchemaType.ARRAY, implementation = VoyageBasicDto.class)))
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllVoyagesFromTo(@PathParam("originId") String originId, @PathParam("destinationId") String destinationId) {
@@ -185,7 +187,7 @@ public class VoyageEndpoint {
     @GET
     @Path("{id}/pods")
     @Operation(summary = "Returns all pods for the voyage matching the provided ID.", description = "Gets all pods for the voyage matching the provided ID.")
-    @Parameter(name = "id", description = "The ID of a space voyage.", example = "5f485136-20a8-41f3-9073-4156d32c9c36")
+    @Parameter(name = "id", description = "The ID of a space voyage.", example = VOYAGE_ID_EXAMPLE)
     @APIResponse(description = "A list of pods", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = PodDto.class)))
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllVoyagePods(@PathParam("id") String id) {

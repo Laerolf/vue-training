@@ -6,10 +6,12 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.util.List;
 
+import static jp.co.company.space.api.shared.openApi.examples.*;
+
 /**
  * A POJO representing a DTO of a {@link User} instance.
  */
-@Schema(description = "The details of a user.")
+@Schema(name = "User", description = "The details of a user.")
 public class UserDto {
 
     /**
@@ -24,19 +26,19 @@ public class UserDto {
     /**
      * The ID of the user.
      */
-    @Schema(description = "The ID of the user.", required = true, example = "1")
+    @Schema(description = "The ID of the user.", example = ID_EXAMPLE)
     public String id;
 
     /**
      * The last name of the user.
      */
-    @Schema(description = "The last name of the user.", example = "Jekyll")
+    @Schema(description = "The last name of the user.", example = USER_LAST_NAME_EXAMPLE)
     public String lastName;
 
     /**
      * The first name of the user.
      */
-    @Schema(description = "The first name of the user.", example = "Henry")
+    @Schema(description = "The first name of the user.", example = USER_FIRST_NAME_EXAMPLE)
     public String firstName;
 
     /**

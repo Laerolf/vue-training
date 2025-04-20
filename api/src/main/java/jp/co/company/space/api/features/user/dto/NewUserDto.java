@@ -3,10 +3,12 @@ package jp.co.company.space.api.features.user.dto;
 import jp.co.company.space.api.features.user.domain.User;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
+import static jp.co.company.space.api.shared.openApi.examples.*;
+
 /**
  * A POJO representing a DTO of a newly created {@link User} instance.
  */
-@Schema(description = "The details of a newly created user.")
+@Schema(name = "NewUser", description = "The details of a newly created user.")
 public class NewUserDto {
 
     /**
@@ -21,25 +23,25 @@ public class NewUserDto {
     /**
      * The ID of the user.
      */
-    @Schema(description = "The ID of the user.", required = true, example = "1")
+    @Schema(description = "The ID of the user.", example = ID_EXAMPLE)
     public String id;
 
     /**
      * The last name of the user.
      */
-    @Schema(description = "The last name of the user.", example = "Jekyll")
+    @Schema(description = "The last name of the user.", example = USER_LAST_NAME_EXAMPLE)
     public String lastName;
 
     /**
      * The first name of the user.
      */
-    @Schema(description = "The first name of the user.", example = "Henry")
+    @Schema(description = "The first name of the user.", example = USER_FIRST_NAME_EXAMPLE)
     public String firstName;
 
     /**
      * The email address of the user.
      */
-    @Schema(description = "The email address of the user.", example = "jekyll.henry@test.test")
+    @Schema(description = "The email address of the user.", example = USER_EMAIL_ADDRESS_EXAMPLE)
     public String emailAddress;
 
     protected NewUserDto() {}

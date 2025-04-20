@@ -18,11 +18,14 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import java.util.List;
 import java.util.Optional;
+
+import static jp.co.company.space.api.shared.openApi.examples.SPACE_SHUTTLE_MODEL_ID_EXAMPLE;
 
 /**
  * This class represents the REST endpoint for the {@link SpaceShuttleModel} topic.
@@ -66,6 +69,7 @@ public class SpaceShuttleModelEndpoint {
     @Path("{id}")
     @GET
     @Operation(summary = "Returns an optional space shuttle model for the provided ID.", description = "Gets a space shuttle model if the provided ID matches any.")
+    @Parameter(name = "id", description = "The ID of a space shuttle model.", example = SPACE_SHUTTLE_MODEL_ID_EXAMPLE)
     @APIResponse(description = "An optional space shuttle model", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = SpaceShuttleModelDto.class)))
     @Produces(MediaType.APPLICATION_JSON)
     public Response findSpaceShuttleModelById(@PathParam("id") String id) {
@@ -87,6 +91,7 @@ public class SpaceShuttleModelEndpoint {
     @Path("{id}/space-shuttles")
     @GET
     @Operation(summary = "Returns all space shuttles with the space shuttle model matching the provided ID.", description = "Gets a list of space shuttles with the space shuttle model matching the provided ID.")
+    @Parameter(name = "id", description = "The ID of a space shuttle model.", example = SPACE_SHUTTLE_MODEL_ID_EXAMPLE)
     @APIResponse(description = "A list of space shuttles", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = SchemaType.ARRAY, implementation = SpaceShuttleBasicDto.class)))
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllSpaceShuttlesBySpaceShuttleModelId(@PathParam("id") String id) {

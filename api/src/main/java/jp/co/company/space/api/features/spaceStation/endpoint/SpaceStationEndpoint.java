@@ -17,11 +17,14 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import java.util.List;
 import java.util.Optional;
+
+import static jp.co.company.space.api.shared.openApi.examples.SPACE_STATION_ORIGIN_ID_EXAMPLE;
 
 /**
  * This class represents the REST endpoint for the {@link SpaceStation} topic.
@@ -65,6 +68,7 @@ public class SpaceStationEndpoint {
     @GET
     @Path("{id}")
     @Operation(summary = "Returns an optional space station for the provided ID.", description = "Gets a space station if the provided ID matches any.")
+    @Parameter(name = "id", description = "The ID of a space station.", example = SPACE_STATION_ORIGIN_ID_EXAMPLE)
     @APIResponse(description = "An optional space station", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = SpaceStationDto.class)))
     @Produces(MediaType.APPLICATION_JSON)
     public Response findSpaceStationById(@PathParam("id") String id) {

@@ -3,10 +3,12 @@ package jp.co.company.space.api.features.location.dto;
 import jp.co.company.space.api.features.location.domain.Location;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
+import static jp.co.company.space.api.shared.openApi.examples.*;
+
 /**
  * A POJO representing a brief DTO of a {@link Location} instance.
  */
-@Schema(description = "The details of a location.")
+@Schema(name = "Location", description = "The details of a location.")
 public class LocationDto {
 
     /**
@@ -21,31 +23,31 @@ public class LocationDto {
     /**
      * The ID of the location.
      */
-    @Schema(description = "The ID of the location.", required = true, example = "1")
+    @Schema(description = "The ID of the location.", example = LOCATION_ID_EXAMPLE)
     public String id;
 
     /**
      * The name of the location.
      */
-    @Schema(description = "The name of the location.", required = true, example = "Earth")
+    @Schema(description = "The name of the location.", example = LOCATION_NAME_EXAMPLE)
     public String name;
 
     /**
      * The ecliptic latitude of the location.
      */
-    @Schema(description = "The ecliptic latitude of the location.", required = true, example = "0.0")
+    @Schema(description = "The ecliptic latitude of the location.", example = LOCATION_LATITUDE_EXAMPLE)
     public double latitude;
 
     /**
      * The ecliptic longitude of the location.
      */
-    @Schema(description = "The ecliptic longitude of the location.", required = true, example = "0.0")
+    @Schema(description = "The ecliptic longitude of the location.", example = LOCATION_LONGITUDE_EXAMPLE)
     public double longitude;
 
     /**
      * The radial distance of the location in astronomical units.
      */
-    @Schema(description = "The radial distance of the location in astronomical units.", required = true, example = "27000")
+    @Schema(description = "The radial distance of the location in astronomical units.", example = LOCATION_RADIAL_DISTANCE_EXAMPLE)
     public double radialDistance;
 
     protected LocationDto() {}

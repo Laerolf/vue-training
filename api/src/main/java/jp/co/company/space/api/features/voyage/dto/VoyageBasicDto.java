@@ -4,11 +4,13 @@ import jp.co.company.space.api.features.route.domain.Route;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
+import static jp.co.company.space.api.shared.openApi.examples.*;
+
 /**
  * A POJO representing a brief DTO of a {@link Voyage} instance.
  */
 // TODO: replace with jp.co.company.space.api.features.voyage.dto.VoyageDto
-@Schema(description = "The brief details of a voyage.")
+@Schema(name = "BasicVoyage", description = "The brief details of a voyage.")
 public class VoyageBasicDto {
     /**
      * Returns a new {@link VoyageBasicDto} instance based on a {@link Voyage} instance.
@@ -30,55 +32,55 @@ public class VoyageBasicDto {
     /**
      * The ID of the voyage.
      */
-    @Schema(description = "The ID of the voyage.", example = "1")
+    @Schema(description = "The ID of the voyage.", example = VOYAGE_ID_EXAMPLE)
     public String id;
 
     /**
      * The departure date of the voyage.
      */
-    @Schema(description = "The departure date of the voyage.", example = "2050-02-22T08:49:20.507334+09:00")
+    @Schema(description = "The departure date of the voyage.", example = VOYAGE_DEPARTURE_DATE_EXAMPLE)
     public String departureDate;
 
     /**
      * The arrival date of the voyage.
      */
-    @Schema(description = "The arrival date of the voyage.", example = "2050-03-21T17:49:20.507334+09:00")
+    @Schema(description = "The arrival date of the voyage.", example = VOYAGE_ARRIVAL_DATE_EXAMPLE)
     public String arrivalDate;
 
     /**
      * The duration of the voyage in seconds.
      */
-    @Schema(description = "The duration of the voyage in seconds.", example = "2365200")
+    @Schema(description = "The duration of the voyage in seconds.", example = VOYAGE_DURATION_EXAMPLE)
     public long duration;
 
     /**
      * The status of the voyage.
      */
-    @Schema(description = "The status of the voyage.", example = "scheduled")
+    @Schema(description = "The status of the voyage.", example = VOYAGE_STATUS_EXAMPLE)
     public String status;
 
     /**
      * The ID of the voyage's route.
      */
-    @Schema(description = "The ID of the voyage's route.", example = "872123e1-81e3-424b-8e40-607e932e910a")
+    @Schema(description = "The ID of the voyage's route.", example = ROUTE_ID_EXAMPLE)
     public String routeId;
 
     /**
      * The ID of the voyage's route origin.
      */
-    @Schema(description = "The ID of the voyage's route origin.", example = "872123e1-81e3-424b-8e40-607e932e910a")
+    @Schema(description = "The ID of the voyage's route origin.", example = ROUTE_ORIGIN_ID_EXAMPLE)
     public String originId;
 
     /**
      * The ID of the voyage's route destination.
      */
-    @Schema(description = "The ID of the voyage's route destination.", example = "872123e1-81e3-424b-8e40-607e932e910a")
+    @Schema(description = "The ID of the voyage's route destination.", example = ROUTE_DESTINATION_ID_EXAMPLE)
     public String destinationId;
 
     /**
      * The ID of the voyage's space shuttle.
      */
-    @Schema(description = "The ID of the voyage's space shuttle.", example = "00000000-0000-1000-8000-000000000003")
+    @Schema(description = "The ID of the voyage's space shuttle.", example = SPACE_SHUTTLE_ID_EXAMPLE)
     public String spaceShuttleId;
 
     protected VoyageBasicDto() {}

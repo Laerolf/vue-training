@@ -18,9 +18,12 @@ import jp.co.company.space.api.shared.util.ResponseFactory;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+
+import static jp.co.company.space.api.shared.openApi.examples.ID_EXAMPLE;
 
 /**
  * This class represents the REST endpoint for the {@link User} topic.
@@ -67,6 +70,7 @@ public class UserEndpoint {
     @GET
     @Path("{id}")
     @Operation(summary = "Returns a user for the provided ID.", description = "Gets a user if the provided ID matches any.")
+    @Parameter(name = "id", description = "The ID of a user.", example = ID_EXAMPLE)
     @APIResponse(description = "A user.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = UserDto.class)))
     public Response findUserById(@PathParam("id") String id) {
         try {

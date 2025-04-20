@@ -5,10 +5,12 @@ import jp.co.company.space.api.features.spaceShuttle.dto.SpaceShuttleDto;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
+import static jp.co.company.space.api.shared.openApi.examples.*;
+
 /**
  * A POJO representing a DTO of a {@link Voyage} instance.
  */
-@Schema(description = "The details of a voyage.")
+@Schema(name = "Voyage", description = "The details of a voyage.")
 public class VoyageDto {
 
     /**
@@ -29,31 +31,31 @@ public class VoyageDto {
     /**
      * The ID of the voyage.
      */
-    @Schema(description = "The ID of the voyage.", example = "1")
+    @Schema(description = "The ID of the voyage.", example = VOYAGE_ID_EXAMPLE)
     public String id;
 
     /**
      * The departure date of the voyage.
      */
-    @Schema(description = "The departure date of the voyage.", example = "2050-02-22T08:49:20.507334+09:00")
+    @Schema(description = "The departure date of the voyage.", example = VOYAGE_DEPARTURE_DATE_EXAMPLE)
     public String departureDate;
 
     /**
      * The arrival date of the voyage.
      */
-    @Schema(description = "The arrival date of the voyage.", example = "2050-03-21T17:49:20.507334+09:00")
+    @Schema(description = "The arrival date of the voyage.", example = VOYAGE_ARRIVAL_DATE_EXAMPLE)
     public String arrivalDate;
 
     /**
      * The duration of the voyage in seconds.
      */
-    @Schema(description = "The duration of the voyage in seconds.", example = "2365200")
+    @Schema(description = "The duration of the voyage in seconds.", example = VOYAGE_DURATION_EXAMPLE)
     public long duration;
 
     /**
      * The status of the voyage.
      */
-    @Schema(description = "The status of the voyage.", example = "scheduled")
+    @Schema(description = "The status of the voyage.", example = VOYAGE_STATUS_EXAMPLE)
     public String status;
 
     /**
