@@ -3,6 +3,7 @@ package jp.co.company.space.api.features.user.domain;
 import jakarta.persistence.*;
 import jp.co.company.space.api.features.booking.domain.Booking;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -28,7 +29,7 @@ public class User {
      * @return A new {@link User} instance.
      */
     public static User create(String lastName, String firstName, String emailAddress, String password) {
-        return new User(UUID.randomUUID().toString(), lastName, firstName, emailAddress, password, Set.of());
+        return new User(UUID.randomUUID().toString(), lastName, firstName, emailAddress, password);
     }
 
     /**
@@ -39,11 +40,10 @@ public class User {
      * @param firstName    The first name of the user.
      * @param emailAddress The email address of the user.
      * @param password     The password of the user.
-     * @param bookings     The bookings of the user.
      * @return A {@link User} instance.
      */
-    public static User reconstruct(String id, String lastName, String firstName, String emailAddress, String password, Set<Booking> bookings) {
-        return new User(id, lastName, firstName, emailAddress, password, bookings);
+    public static User reconstruct(String id, String lastName, String firstName, String emailAddress, String password) {
+        return new User(id, lastName, firstName, emailAddress, password);
     }
 
     /**
@@ -85,12 +85,12 @@ public class User {
      * The bookings of the user.
      */
     @OneToMany(mappedBy = "user")
-    private Set<Booking> bookings;
+    private Set<Booking> bookings = new HashSet<>();
 
     protected User() {
     }
 
-    protected User(String id, String lastName, String firstName, String emailAddress, String password, Set<Booking> bookings) {
+    protected User(String id, String lastName, String firstName, String emailAddress, String password) {
         if (id == null) {
             throw new IllegalArgumentException("The ID of the user is missing.");
         } else if (lastName == null) {
@@ -101,8 +101,6 @@ public class User {
             throw new IllegalArgumentException("The email address of the user is missing.");
         } else if (password == null) {
             throw new IllegalArgumentException("The password of the user is missing.");
-        } else if (bookings == null) {
-            throw new IllegalArgumentException("The bookings of the user are missing.");
         }
 
         this.id = id;
@@ -110,7 +108,6 @@ public class User {
         this.firstName = firstName;
         this.emailAddress = emailAddress;
         this.password = password;
-        this.bookings = bookings;
     }
 
     public String getId() {
@@ -139,7 +136,8 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof User user)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
         return Objects.equals(id, user.id) && Objects.equals(lastName, user.lastName) && Objects.equals(firstName, user.firstName) && Objects.equals(emailAddress, user.emailAddress) && Objects.equals(password, user.password);
     }
 

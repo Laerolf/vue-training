@@ -29,7 +29,6 @@ public class PodReservationDto {
                 podReservation.getPodCode(),
                 podReservation.getCreationDate(),
                 podReservation.getPassenger().getId(),
-                podReservation.getSpaceShuttle().getId(),
                 podReservation.getVoyage().getId()
         );
     }
@@ -59,12 +58,6 @@ public class PodReservationDto {
     public String passengerId;
 
     /**
-     * The space shuttle ID of the pod reservation.
-     */
-    @Schema(description = "The space shuttle ID of the pod reservation.", example = SPACE_SHUTTLE_ID_EXAMPLE)
-    public String spaceShuttleId;
-
-    /**
      * The voyage ID of the pod reservation.
      */
     @Schema(description = "The voyage ID of the pod reservation.", example = VOYAGE_ID_EXAMPLE)
@@ -73,7 +66,7 @@ public class PodReservationDto {
     protected PodReservationDto() {
     }
 
-    protected PodReservationDto(String id, String podCode, ZonedDateTime creationDate, String passengerId, String spaceShuttleId, String voyageId) {
+    protected PodReservationDto(String id, String podCode, ZonedDateTime creationDate, String passengerId, String voyageId) {
         if (id == null) {
             throw new IllegalArgumentException("The ID of the pod reservation is missing.");
         } else if (podCode == null) {
@@ -82,8 +75,6 @@ public class PodReservationDto {
             throw new IllegalArgumentException("The creation date of the pod reservation is missing.");
         } else if (passengerId == null) {
             throw new IllegalArgumentException("The passenger ID of the pod reservation is missing.");
-        } else if (spaceShuttleId == null) {
-            throw new IllegalArgumentException("The space shuttle ID of the pod reservation is missing.");
         } else if (voyageId == null) {
             throw new IllegalArgumentException("The voyage ID of the pod reservation is missing.");
         }
@@ -92,7 +83,6 @@ public class PodReservationDto {
         this.podCode = podCode;
         this.creationDate = creationDate;
         this.passengerId = passengerId;
-        this.spaceShuttleId = spaceShuttleId;
         this.voyageId = voyageId;
     }
 }

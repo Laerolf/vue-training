@@ -6,10 +6,13 @@ import jp.co.company.space.api.features.booking.domain.Booking;
 import jp.co.company.space.api.features.booking.domain.BookingCreationFactory;
 import jp.co.company.space.api.features.booking.input.BookingCreationForm;
 import jp.co.company.space.api.features.booking.repository.BookingRepository;
+import jp.co.company.space.api.features.passenger.domain.Passenger;
+import jp.co.company.space.api.features.passenger.service.PassengerService;
 import jp.co.company.space.api.features.user.domain.User;
 import jp.co.company.space.api.features.user.service.UserService;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
 import jp.co.company.space.api.features.voyage.service.VoyageService;
+import jp.co.company.space.api.shared.exception.DomainException;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +32,9 @@ public class BookingService {
     @Inject
     private VoyageService voyageService;
 
+    @Inject
+    private PassengerService passengerService;
+
     protected BookingService() {
     }
 
@@ -39,11 +45,27 @@ public class BookingService {
      * @return A new {@link Booking} instance.
      */
     public Booking create(BookingCreationForm creationForm) {
+        if (creationForm == null) {
+            throw new IllegalArgumentException("The form for a new booking is missing.");
+        } else if (creationForm.passengers == null) {
+            throw new IllegalArgumentException("The passengers for a new booking is missing.");
+        } else if (creationForm.passengers.isEmpty()) {
+            // TODO: add specific exceptions for each domain model + add codes with OpenAPI documentation
+            throw new DomainException("A booking needs at least one passenger.");
+        }
+
         User selectedUser = userService.findById(creationForm.userId).orElseThrow(() -> new IllegalArgumentException("The new booking's user could not be found."));
         Voyage selectedVoyage = voyageService.findById(creationForm.voyageId).orElseThrow(() -> new IllegalArgumentException("The new booking's voyage could not be found."));
 
         Booking newBooking = new BookingCreationFactory(selectedUser, selectedVoyage).create();
-        return bookingRepository.save(newBooking);
+        newBooking.setCreated();
+        newBooking = bookingRepository.save(newBooking);
+
+        List<Passenger> passengers = passengerService.create(newBooking, creationForm.passengers);
+
+        newBooking.assignPassengers(passengers);
+
+        return newBooking;
     }
 
     /**

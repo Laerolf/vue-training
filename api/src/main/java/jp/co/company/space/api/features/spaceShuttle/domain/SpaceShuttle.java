@@ -62,7 +62,8 @@ public class SpaceShuttle {
     @JoinColumn(name = "model_id", nullable = false)
     private SpaceShuttleModel model;
 
-    protected SpaceShuttle() {}
+    protected SpaceShuttle() {
+    }
 
     private SpaceShuttle(String id, String name, SpaceShuttleModel model) {
         if (id == null) {
@@ -88,6 +89,15 @@ public class SpaceShuttle {
 
     public SpaceShuttleModel getModel() {
         return model;
+    }
+
+    /**
+     * Gets the {@link SpaceShuttleLayout} instance for this {@link SpaceShuttle} instance.
+     *
+     * @return A {@link SpaceShuttleLayout} instance.
+     */
+    public SpaceShuttleLayout getLayout() {
+        return new SpaceShuttleLayoutFactory(model).create();
     }
 
     @Override

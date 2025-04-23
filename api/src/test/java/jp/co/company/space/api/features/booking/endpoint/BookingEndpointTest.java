@@ -16,6 +16,7 @@ import jp.co.company.space.api.features.booking.input.BookingCreationForm;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
 import jp.co.company.space.api.features.user.domain.User;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
+import jp.co.company.space.utils.features.passenger.PassengerCreationFormTestDataBuilder;
 import jp.co.company.space.utils.features.user.UserTestDataBuilder;
 import jp.co.company.space.utils.features.voyage.user.VoyageTestDataBuilder;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +24,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -70,7 +72,8 @@ class BookingEndpointTest {
 
     @Test
     void createBooking() {
-        BookingCreationForm creationForm = new BookingCreationForm(USER.getId(), VOYAGE.getId());
+        // Given
+        BookingCreationForm creationForm = new BookingCreationForm(USER.getId(), VOYAGE.getId(), List.of(new PassengerCreationFormTestDataBuilder().create()));
 
         // When
         Response response = target.path("bookings").request().post(Entity.json(creationForm));
@@ -83,13 +86,28 @@ class BookingEndpointTest {
 
         assertNotNull(newBooking.id);
         assertEquals(ZonedDateTime.now().getDayOfYear(), newBooking.creationDate.getDayOfYear());
-        assertEquals(BookingStatus.DRAFT.getKey(), newBooking.status);
+        assertEquals(BookingStatus.CREATED.getKey(), newBooking.status);
         assertEquals(USER.getId(), newBooking.userId);
         assertEquals(VOYAGE.getId(), newBooking.voyageId);
-        assertTrue(newBooking.passengerIds.isEmpty());
+        assertFalse(newBooking.passengerIds.isEmpty());
 
         BookingDto newSavedBooking = target.path(String.format("bookings/%s", newBooking.id)).request().get().readEntity(BookingDto.class);
         assertNotNull(newSavedBooking);
+    }
+
+    @Test
+    void createBooking_withNoPassengers() {
+        BookingCreationForm creationForm = new BookingCreationForm(USER.getId(), VOYAGE.getId(), List.of());
+
+        // When
+        Response response = target.path("bookings").request().post(Entity.json(creationForm));
+
+        // Then
+        assertNotNull(response);
+        assertEquals(Status.INTERNAL_SERVER_ERROR_500.code(), response.getStatus());
+
+        String message = response.readEntity(String.class);
+        assertTrue(message.isEmpty());
     }
 
     @Test

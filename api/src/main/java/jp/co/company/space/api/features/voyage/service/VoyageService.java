@@ -9,13 +9,11 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import jp.co.company.space.api.features.pod.domain.Pod;
 import jp.co.company.space.api.features.pod.domain.PodReservation;
-import jp.co.company.space.api.features.pod.service.PodService;
+import jp.co.company.space.api.features.pod.service.PodReservationService;
 import jp.co.company.space.api.features.route.domain.Route;
 import jp.co.company.space.api.features.route.events.RouteServiceInit;
 import jp.co.company.space.api.features.route.service.RouteService;
 import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
-import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttleLayout;
-import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttleLayoutFactory;
 import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttleServiceInit;
 import jp.co.company.space.api.features.spaceShuttle.service.SpaceShuttleService;
 import jp.co.company.space.api.features.spaceShuttleModel.service.SpaceShuttleModelService;
@@ -46,7 +44,7 @@ public class VoyageService {
     private SpaceShuttleService spaceShuttleService;
 
     @Inject
-    private PodService podService;
+    private PodReservationService podReservationService;
 
     /**
      * Is the {@link SpaceShuttleModelService} ready to be used?
@@ -180,14 +178,21 @@ public class VoyageService {
      * Gets a {@link List} of all {@link Pod} instances for a {@link Voyage} instance if any {@link Voyage} instance matches the provided ID.
      *
      * @param id The ID to search for.
-     * @return A {@link List} of all {@link Pod} instances.
+     * @return A {@link List} of {@link Pod} instances.
      */
     public List<Pod> getAllPodsByVoyageId(String id) {
         Voyage selectedVoyage =  findById(id).orElseThrow();
+        return getAllPodsByVoyage(selectedVoyage);
+    }
 
-        SpaceShuttleLayout spaceShuttleLayout = new SpaceShuttleLayoutFactory(selectedVoyage.getSpaceShuttle().getModel()).create();
-        List<PodReservation> reservedPods = podService.getAllPodReservationsByVoyage(selectedVoyage);
-
-        return spaceShuttleLayout.getAllPods(reservedPods);
+    /**
+     * Gets a {@link List} of all {@link Pod} instances for a {@link Voyage} instance if any {@link Voyage} instance matches the provided voyage instance.
+     *
+     * @param voyage The voyage to search for.
+     * @return A {@link List} of {@link Pod} instances.
+     */
+    public List<Pod> getAllPodsByVoyage(Voyage voyage) {
+        List<PodReservation> reservedPods = podReservationService.getAllPodReservationsByVoyage(voyage);
+        return voyage.getSpaceShuttle().getLayout().getAllPodsWithAvailability(reservedPods);
     }
 }

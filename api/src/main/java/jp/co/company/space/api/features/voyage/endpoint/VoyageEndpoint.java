@@ -13,7 +13,7 @@ import jp.co.company.space.api.features.booking.dto.BookingDto;
 import jp.co.company.space.api.features.booking.service.BookingService;
 import jp.co.company.space.api.features.pod.domain.Pod;
 import jp.co.company.space.api.features.pod.dto.PodDto;
-import jp.co.company.space.api.features.pod.service.PodService;
+import jp.co.company.space.api.features.pod.service.PodReservationService;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
 import jp.co.company.space.api.features.voyage.dto.VoyageBasicDto;
@@ -49,7 +49,7 @@ public class VoyageEndpoint {
     private BookingService bookingService;
 
     @Inject
-    private PodService podService;
+    private PodReservationService podReservationService;
 
     protected VoyageEndpoint() {
     }

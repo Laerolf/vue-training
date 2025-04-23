@@ -6,9 +6,7 @@ import jp.co.company.space.api.features.user.domain.User;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
 
 import java.time.ZonedDateTime;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * A POJO representing a booking.
@@ -31,7 +29,7 @@ public class Booking {
      * @return A new {@link Booking} instance.
      */
     public static Booking create(User user, Voyage voyage) {
-        return new Booking(UUID.randomUUID().toString(), ZonedDateTime.now(), BookingStatus.DRAFT, user, voyage, Set.of());
+        return new Booking(UUID.randomUUID().toString(), ZonedDateTime.now(), BookingStatus.DRAFT, user, voyage);
     }
 
     /**
@@ -42,11 +40,10 @@ public class Booking {
      * @param status       The status of the booking.
      * @param user         The user who made the booking.
      * @param voyage       The voyage of the booking.
-     * @param passengers   The list of passengers of the booking.
      * @return A {@link Booking} instance.
      */
-    public static Booking reconstruct(String id, ZonedDateTime creationDate, BookingStatus status, User user, Voyage voyage, Set<Passenger> passengers) {
-        return new Booking(id, creationDate, status, user, voyage, passengers);
+    public static Booking reconstruct(String id, ZonedDateTime creationDate, BookingStatus status, User user, Voyage voyage) {
+        return new Booking(id, creationDate, status, user, voyage);
     }
 
     /**
@@ -78,13 +75,13 @@ public class Booking {
     @JoinColumn(name = "voyage_id", table = "bookings", nullable = false)
     private Voyage voyage;
 
-    @OneToMany(mappedBy = "booking")
-    private Set<Passenger> passengers;
+    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Passenger> passengers = new HashSet<>();
 
     protected Booking() {
     }
 
-    protected Booking(String id, ZonedDateTime creationDate, BookingStatus status, User user, Voyage voyage, Set<Passenger> passengers) {
+    protected Booking(String id, ZonedDateTime creationDate, BookingStatus status, User user, Voyage voyage) {
         if (id == null) {
             throw new IllegalArgumentException("The ID of the booking is missing.");
         } else if (creationDate == null) {
@@ -95,8 +92,6 @@ public class Booking {
             throw new IllegalArgumentException("The user of the booking is missing.");
         } else if (voyage == null) {
             throw new IllegalArgumentException("The voyage of the booking is missing.");
-        } else if (passengers == null) {
-            throw new IllegalArgumentException("The list of passengers of the booking is missing.");
         }
 
         this.id = id;
@@ -104,7 +99,6 @@ public class Booking {
         this.status = status;
         this.user = user;
         this.voyage = voyage;
-        this.passengers = passengers;
     }
 
     public String getId() {
@@ -131,9 +125,30 @@ public class Booking {
         return passengers;
     }
 
+    /**
+     * Assigns the provided {@link List} of {@link Passenger} instances to this booking.
+     *
+     * @param passengerList The passengers to assign to this voyage.
+     */
+    public void assignPassengers(List<Passenger> passengerList) {
+        if (passengerList == null) {
+            throw new IllegalArgumentException("The passengers for this booking are missing.");
+        }
+
+        this.passengers = new HashSet<>(passengerList);
+    }
+
+    /**
+     * Changes the {@link Booking} instance's status to "created".
+     */
+    public void setCreated() {
+        status = BookingStatus.CREATED;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Booking booking)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
+        Booking booking = (Booking) o;
         return Objects.equals(id, booking.id) && Objects.equals(creationDate, booking.creationDate) && status == booking.status && Objects.equals(user, booking.user) && Objects.equals(voyage, booking.voyage);
     }
 

@@ -6,6 +6,7 @@ import jp.co.company.space.api.features.catalog.domain.MealPreference;
 import jp.co.company.space.api.features.catalog.domain.PackageType;
 import jp.co.company.space.api.features.pod.domain.PodReservation;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
+import jp.co.company.space.api.shared.exception.DomainException;
 
 import java.time.ZonedDateTime;
 import java.util.Objects;
@@ -31,6 +32,19 @@ public class Passenger {
      */
     public static Passenger create(MealPreference mealPreference, PackageType packageType, PodReservation podReservation, Booking booking, Voyage voyage) {
         return new Passenger(UUID.randomUUID().toString(), ZonedDateTime.now(), mealPreference, packageType, podReservation, booking, voyage);
+    }
+
+    /**
+     * Creates a {@link Passenger} instance.
+     *
+     * @param mealPreference The meal preference of a passenger.
+     * @param packageType    The package type assigned to a passenger.
+     * @param booking        The booking of a passenger.
+     * @param voyage         The voyage of a passenger.
+     * @return A {@link Passenger} instance.
+     */
+    public static Passenger create(MealPreference mealPreference, PackageType packageType, Booking booking, Voyage voyage) {
+        return new Passenger(UUID.randomUUID().toString(), ZonedDateTime.now(), mealPreference, packageType, null, booking, voyage);
     }
 
     /**
@@ -77,12 +91,13 @@ public class Passenger {
     @Column(name = "package_type", nullable = false)
     private PackageType packageType;
 
+    // TODO: add unit tests for domain models
+    // TODO: improve relation properties like cascade
     /**
      * The pod assigned to the passenger on a space shuttle.
      */
-    @OneToOne(cascade = CascadeType.REMOVE, optional = false)
-    @JoinColumn(name = "pod_reservation_id", table = "passengers", nullable = false)
-    private PodReservation pod;
+    @OneToOne(mappedBy = "passenger")
+    private PodReservation podReservation;
 
     @ManyToOne(cascade = CascadeType.REMOVE, optional = false)
     @JoinColumn(name = "booking_id", table = "passengers", nullable = false)
@@ -104,8 +119,6 @@ public class Passenger {
             throw new IllegalArgumentException("The meal preference of the passenger is missing.");
         } else if (packageType == null) {
             throw new IllegalArgumentException("The package type assigned to the passenger is missing.");
-        } else if (podReservation == null) {
-            throw new IllegalArgumentException("The pod reservation of the passenger is missing.");
         } else if (booking == null) {
             throw new IllegalArgumentException("The booking of the passenger is missing.");
         } else if (voyage == null) {
@@ -116,7 +129,7 @@ public class Passenger {
         this.creationDate = creationDate;
         this.mealPreference = mealPreference;
         this.packageType = packageType;
-        this.pod = podReservation;
+        this.podReservation = podReservation;
         this.booking = booking;
         this.voyage = voyage;
     }
@@ -138,7 +151,7 @@ public class Passenger {
     }
 
     public PodReservation getPodReservation() {
-        return pod;
+        return podReservation;
     }
 
     public Booking getBooking() {
@@ -149,15 +162,25 @@ public class Passenger {
         return voyage;
     }
 
+    public void assignPodReservation(PodReservation podReservation) {
+        if (podReservation == null) {
+            throw new IllegalArgumentException("The pod reservation is missing.");
+        } else if (this.getPodReservation() != null) {
+            throw new DomainException("This passenger already has a pod reservation.");
+        }
+
+        this.podReservation = podReservation;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Passenger passenger = (Passenger) o;
-        return Objects.equals(id, passenger.id) && Objects.equals(creationDate, passenger.creationDate) && mealPreference == passenger.mealPreference && packageType == passenger.packageType && Objects.equals(pod, passenger.pod) && Objects.equals(booking, passenger.booking) && Objects.equals(voyage, passenger.voyage);
+        return Objects.equals(id, passenger.id) && Objects.equals(creationDate, passenger.creationDate) && mealPreference == passenger.mealPreference && packageType == passenger.packageType;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, creationDate, mealPreference, packageType, pod, booking, voyage);
+        return Objects.hash(id, creationDate, mealPreference, packageType);
     }
 }

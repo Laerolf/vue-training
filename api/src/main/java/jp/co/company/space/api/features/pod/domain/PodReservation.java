@@ -2,7 +2,6 @@ package jp.co.company.space.api.features.pod.domain;
 
 import jakarta.persistence.*;
 import jp.co.company.space.api.features.passenger.domain.Passenger;
-import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
 
 import java.time.ZonedDateTime;
@@ -16,7 +15,7 @@ import java.util.UUID;
 @Table(name = "pod_reservations")
 @Access(AccessType.FIELD)
 @NamedQueries({
-        @NamedQuery(name = "PodReservation.getAllBySpaceShuttleAndVoyage", query = "SELECT pr FROM PodReservation pr WHERE pr.spaceShuttle = :spaceShuttle AND pr.voyage = :voyage")
+        @NamedQuery(name = "PodReservation.getAllByVoyage", query = "SELECT pr FROM PodReservation pr WHERE pr.voyage = :voyage")
 })
 public class PodReservation {
 
@@ -24,13 +23,12 @@ public class PodReservation {
      * Creates a new {@link PodReservation} instance.
      *
      * @param podCode      The pod code of the pod reservation.
-     * @param passenger    The passenger of the pod the reservation.
-     * @param spaceShuttle The space shuttle of the pod the reservation.
+     * @param passenger    The passenger of the pod reservation.
      * @param voyage       The voyage of the pod the reservation.
      * @return A new {@link PodReservation} instance.
      */
-    public static PodReservation create(String podCode, Passenger passenger, SpaceShuttle spaceShuttle, Voyage voyage) {
-        return new PodReservation(UUID.randomUUID().toString(), podCode, ZonedDateTime.now(), passenger, spaceShuttle, voyage);
+    public static PodReservation create(String podCode, Passenger passenger, Voyage voyage) {
+        return new PodReservation(UUID.randomUUID().toString(), podCode, ZonedDateTime.now(), passenger, voyage);
     }
 
     /**
@@ -39,13 +37,12 @@ public class PodReservation {
      * @param id           The ID of the pod reservation.
      * @param podCode      The pod code of the pod reservation.
      * @param creationDate The creation date of the pod reservation.
-     * @param passenger    The passenger of the pod the reservation.
-     * @param spaceShuttle The space shuttle of the pod the reservation.
+     * @param passenger    The passenger of the pod reservation.
      * @param voyage       The voyage of the pod the reservation.
      * @return A new {@link PodReservation} instance.
      */
-    public static PodReservation recreate(String id, String podCode, ZonedDateTime creationDate, Passenger passenger, SpaceShuttle spaceShuttle, Voyage voyage) {
-        return new PodReservation(id, podCode, creationDate, passenger, spaceShuttle, voyage);
+    public static PodReservation recreate(String id, String podCode, ZonedDateTime creationDate, Passenger passenger, Voyage voyage) {
+        return new PodReservation(id, podCode, creationDate, passenger, voyage);
     }
 
     /**
@@ -70,18 +67,14 @@ public class PodReservation {
     @JoinColumn(name = "passenger_id", table = "pod_reservations", nullable = false)
     private Passenger passenger;
 
-    @ManyToOne(cascade = CascadeType.REMOVE, optional = false)
-    @JoinColumn(name = "space_shuttle_id", table = "pod_reservations", nullable = false)
-    private SpaceShuttle spaceShuttle;
-
-    @ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "voyage_id", table = "pod_reservations", nullable = false)
     private Voyage voyage;
 
     protected PodReservation() {
     }
 
-    protected PodReservation(String id, String podCode, ZonedDateTime creationDate, Passenger passenger, SpaceShuttle spaceShuttle, Voyage voyage) {
+    protected PodReservation(String id, String podCode, ZonedDateTime creationDate, Passenger passenger, Voyage voyage) {
         if (id == null) {
             throw new IllegalArgumentException("The ID of the pod reservation is missing.");
         } else if (podCode == null) {
@@ -90,8 +83,6 @@ public class PodReservation {
             throw new IllegalArgumentException("The creation date of the pod reservation is missing.");
         } else if (passenger == null) {
             throw new IllegalArgumentException("The passenger of the pod reservation is missing.");
-        } else if (spaceShuttle == null) {
-            throw new IllegalArgumentException("The space shuttle of the pod reservation is missing.");
         } else if (voyage == null) {
             throw new IllegalArgumentException("The voyage of the pod reservation is missing.");
         }
@@ -100,7 +91,6 @@ public class PodReservation {
         this.podCode = podCode;
         this.creationDate = creationDate;
         this.passenger = passenger;
-        this.spaceShuttle = spaceShuttle;
         this.voyage = voyage;
     }
 
@@ -120,10 +110,6 @@ public class PodReservation {
         return passenger;
     }
 
-    public SpaceShuttle getSpaceShuttle() {
-        return spaceShuttle;
-    }
-
     public Voyage getVoyage() {
         return voyage;
     }
@@ -132,11 +118,11 @@ public class PodReservation {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         PodReservation that = (PodReservation) o;
-        return Objects.equals(id, that.id) && Objects.equals(podCode, that.podCode) && Objects.equals(passenger, that.passenger) && Objects.equals(spaceShuttle, that.spaceShuttle) && Objects.equals(voyage, that.voyage);
+        return Objects.equals(id, that.id) && Objects.equals(podCode, that.podCode) && Objects.equals(creationDate, that.creationDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, podCode, passenger, spaceShuttle, voyage);
+        return Objects.hash(id, podCode, creationDate);
     }
 }
