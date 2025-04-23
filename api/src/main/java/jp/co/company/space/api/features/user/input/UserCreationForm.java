@@ -27,25 +27,25 @@ public class UserCreationForm {
     /**
      * The last name of the user to create.
      */
-    @Schema(description = "The last name of the user to create.", example = USER_LAST_NAME_EXAMPLE)
+    @Schema(description = "The last name of the user to create.", required = true, example = USER_LAST_NAME_EXAMPLE)
     public String lastName;
 
     /**
      * The first name of the user to create.
      */
-    @Schema(description = "The first name of the user to create.", example = USER_FIRST_NAME_EXAMPLE)
+    @Schema(description = "The first name of the user to create.", required = true, example = USER_FIRST_NAME_EXAMPLE)
     public String firstName;
 
     /**
      * The email address of the user to create.
      */
-    @Schema(description = "The email address of the user to create.", example = USER_EMAIL_ADDRESS_EXAMPLE)
+    @Schema(description = "The email address of the user to create.", required = true, example = USER_EMAIL_ADDRESS_EXAMPLE)
     public String emailAddress;
 
     /**
      * The password of the user to create.
      */
-    @Schema(description = "The password of the user to create.", example = USER_PASSWORD_EXAMPLE)
+    @Schema(description = "The password of the user to create.", required = true, example = USER_PASSWORD_EXAMPLE)
     public String password;
 
     protected UserCreationForm() {

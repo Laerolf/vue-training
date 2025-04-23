@@ -17,19 +17,19 @@ public class BookingCreationForm {
     /**
      * The ID of the user making this booking.
      */
-    @Schema(description = "The ID of the user making the booking.", example = ID_EXAMPLE)
+    @Schema(description = "The ID of the user making the booking.", required = true, example = ID_EXAMPLE)
     public String userId;
 
     /**
      * The ID of the voyage for the new booking.
      */
-    @Schema(description = "The ID of the voyage for the new booking.", example = VOYAGE_ID_EXAMPLE)
+    @Schema(description = "The ID of the voyage for the new booking.", required = true, example = VOYAGE_ID_EXAMPLE)
     public String voyageId;
 
     /**
      * The passengers for the new booking.
      */
-    @Schema(description = "The passengers for the new booking.")
+    @Schema(description = "The passengers for the new booking.", required = true)
     public List<PassengerCreationForm> passengers;
 
     protected BookingCreationForm() {}

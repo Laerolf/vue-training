@@ -94,14 +94,14 @@ public class Voyage {
     /**
      * The route of the voyage.
      */
-    @ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "route_id", table = "voyages", nullable = false)
     private Route route;
 
     /**
      * The space shuttle of the voyage.
      */
-    @ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "space_shuttle_id", table = "voyages", nullable = false)
     private SpaceShuttle spaceShuttle;
 

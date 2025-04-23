@@ -50,21 +50,21 @@ public class Route {
     /**
      * The origin space station of the route.
      */
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "origin_id", table = "routes", nullable = false, unique = true)
     private SpaceStation origin;
 
     /**
      * The destination space station of the route.
      */
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "destination_id", table = "routes", nullable = false, unique = true)
     private SpaceStation destination;
 
     /**
      * The space shuttle model to be used for the route.
      */
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "space_shuttle_model_id", table = "routes", nullable = false, unique = true)
     private SpaceShuttleModel shuttleModel;
 

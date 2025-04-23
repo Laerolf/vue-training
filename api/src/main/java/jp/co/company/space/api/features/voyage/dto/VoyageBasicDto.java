@@ -9,7 +9,6 @@ import static jp.co.company.space.api.shared.openApi.examples.*;
 /**
  * A POJO representing a brief DTO of a {@link Voyage} instance.
  */
-// TODO: replace with jp.co.company.space.api.features.voyage.dto.VoyageDto
 @Schema(name = "BasicVoyage", description = "The brief details of a voyage.")
 public class VoyageBasicDto {
     /**

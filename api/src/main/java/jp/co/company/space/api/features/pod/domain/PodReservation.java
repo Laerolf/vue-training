@@ -63,11 +63,11 @@ public class PodReservation {
     @Column(name = "creation_date")
     private ZonedDateTime creationDate;
 
-    @OneToOne(cascade = CascadeType.REMOVE, optional = false)
+    @OneToOne(optional = false)
     @JoinColumn(name = "passenger_id", table = "pod_reservations", nullable = false)
     private Passenger passenger;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "voyage_id", table = "pod_reservations", nullable = false)
     private Voyage voyage;
 

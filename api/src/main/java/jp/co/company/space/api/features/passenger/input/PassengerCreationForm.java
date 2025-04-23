@@ -12,19 +12,19 @@ public class PassengerCreationForm {
     /**
      * The code of the new passenger's pod.
      */
-    @Schema(description = "The code of the new passenger's pod.", example = POD_CODE_EXAMPLE)
+    @Schema(description = "The code of the new passenger's pod.", required = true, example = POD_CODE_EXAMPLE)
     public String podCode;
 
     /**
      * The package type of the new passenger.
      */
-    @Schema(description = "The package type of the new passenger.", example = PACKAGE_TYPE_KEY_EXAMPLE)
+    @Schema(description = "The package type of the new passenger.", required = true, example = PACKAGE_TYPE_KEY_EXAMPLE)
     public String packageType;
 
     /**
      * The meal preference of the new passenger.
      */
-    @Schema(description = "The meal preference of the new passenger.", example = MEAL_PREFERENCE_KEY_EXAMPLE)
+    @Schema(description = "The meal preference of the new passenger.", required = true, example = MEAL_PREFERENCE_KEY_EXAMPLE)
     public String mealPreference;
 
     protected PassengerCreationForm() {

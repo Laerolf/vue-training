@@ -58,7 +58,7 @@ public class SpaceShuttle {
     /**
      * The model of the space shuttle.
      */
-    @ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "model_id", nullable = false)
     private SpaceShuttleModel model;
 

@@ -92,18 +92,17 @@ public class Passenger {
     private PackageType packageType;
 
     // TODO: add unit tests for domain models
-    // TODO: improve relation properties like cascade
     /**
      * The pod assigned to the passenger on a space shuttle.
      */
     @OneToOne(mappedBy = "passenger")
     private PodReservation podReservation;
 
-    @ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "booking_id", table = "passengers", nullable = false)
     private Booking booking;
 
-    @ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "voyage_id", table = "passengers", nullable = false)
     private Voyage voyage;
 

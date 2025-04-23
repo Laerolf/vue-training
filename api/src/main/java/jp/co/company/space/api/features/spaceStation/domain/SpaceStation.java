@@ -58,7 +58,7 @@ public class SpaceStation {
     @Column
     private String country;
 
-    @ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "location_id", table = "space_stations", nullable = false, unique = true)
     private Location location;
 

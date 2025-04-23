@@ -66,11 +66,11 @@ public class Booking {
     @Column(nullable = false)
     private BookingStatus status;
 
-    @ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", table = "bookings", nullable = false)
     private User user;
 
-    @ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "voyage_id", table = "bookings", nullable = false)
     private Voyage voyage;
 
