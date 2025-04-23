@@ -42,7 +42,7 @@ public class PodReservationRepository {
      * @return A {@link List} of {@link PodReservation} instances.
      */
     public List<PodReservation> getAllBySpaceShuttleAndVoyage(Voyage voyage) {
-        return entityManager.createNamedQuery("PodReservation.getAllByVoyage", PodReservation.class)
+        return entityManager.createNamedQuery("PodReservation.selectAllByVoyage", PodReservation.class)
                 .setParameter("voyage", voyage)
                 .getResultList();
     }

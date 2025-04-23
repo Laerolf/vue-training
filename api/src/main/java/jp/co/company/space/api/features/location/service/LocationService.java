@@ -11,7 +11,7 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import jakarta.transaction.Transactional;
 import jp.co.company.space.api.features.location.domain.Location;
-import jp.co.company.space.api.features.location.domain.LocationServiceInit;
+import jp.co.company.space.api.features.location.events.LocationServiceInit;
 import jp.co.company.space.api.features.location.repository.LocationRepository;
 
 import java.util.List;

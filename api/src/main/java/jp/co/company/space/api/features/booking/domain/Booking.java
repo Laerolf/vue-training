@@ -17,9 +17,8 @@ import java.util.*;
 @NamedQueries({
         @NamedQuery(name = "Booking.selectById", query = "SELECT b FROM Booking b LEFT JOIN FETCH b.passengers WHERE b.id = :id"),
         @NamedQuery(name = "Booking.selectAllByUserId", query = "SELECT b FROM Booking b LEFT JOIN FETCH b.passengers WHERE b.user.id = :userId"),
-        @NamedQuery(name = "Booking.getAllByVoyageId", query = "SELECT b FROM Booking b LEFT JOIN FETCH b.passengers WHERE b.voyage.id = :voyageId")
+        @NamedQuery(name = "Booking.selectAllByVoyageId", query = "SELECT b FROM Booking b LEFT JOIN FETCH b.passengers WHERE b.voyage.id = :voyageId")
 })
-// TODO: all 'get' queries -> 'select' queries
 public class Booking {
     /**
      * Creates a new {@link Booking} instance for a {@link User} instance and {@link Voyage} instance.

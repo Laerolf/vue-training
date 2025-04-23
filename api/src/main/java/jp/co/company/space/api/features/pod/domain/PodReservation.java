@@ -15,7 +15,7 @@ import java.util.UUID;
 @Table(name = "pod_reservations")
 @Access(AccessType.FIELD)
 @NamedQueries({
-        @NamedQuery(name = "PodReservation.getAllByVoyage", query = "SELECT pr FROM PodReservation pr WHERE pr.voyage = :voyage")
+        @NamedQuery(name = "PodReservation.selectAllByVoyage", query = "SELECT pr FROM PodReservation pr WHERE pr.voyage = :voyage")
 })
 public class PodReservation {
 

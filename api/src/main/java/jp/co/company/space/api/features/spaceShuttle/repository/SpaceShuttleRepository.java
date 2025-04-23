@@ -7,8 +7,6 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TransactionRequiredException;
 import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
-import jp.co.company.space.api.shared.interfaces.PersistenceRepository;
-import jp.co.company.space.api.shared.interfaces.QueryRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -18,7 +16,7 @@ import java.util.Optional;
  * The class for {@link SpaceShuttle} DB actions.
  */
 @ApplicationScoped
-public class SpaceShuttleRepository implements QueryRepository<SpaceShuttle>, PersistenceRepository<SpaceShuttle> {
+public class SpaceShuttleRepository {
 
     @PersistenceContext(unitName = "domain")
     private EntityManager entityManager;
@@ -31,7 +29,6 @@ public class SpaceShuttleRepository implements QueryRepository<SpaceShuttle>, Pe
      * @param id The ID of the space shuttle to search for.
      * @return An {@link Optional} {@link SpaceShuttle}.
      */
-    @Override
     public Optional<SpaceShuttle> findById(String id) {
         return Optional.ofNullable(entityManager.find(SpaceShuttle.class, id));
     }
@@ -41,7 +38,6 @@ public class SpaceShuttleRepository implements QueryRepository<SpaceShuttle>, Pe
      *
      * @return A {@link List} of {@link SpaceShuttle} instances.
      */
-    @Override
     public List<SpaceShuttle> getAll() {
         return entityManager.createNamedQuery("SpaceShuttle.selectAll", SpaceShuttle.class).getResultList();
     }
@@ -52,7 +48,6 @@ public class SpaceShuttleRepository implements QueryRepository<SpaceShuttle>, Pe
      * @param spaceShuttle The {@link SpaceStation} instance to save.
      * @return The saved {@link SpaceStation} instance.
      */
-    @Override
     public SpaceShuttle save(SpaceShuttle spaceShuttle) {
         if (findById(spaceShuttle.getId()).isEmpty()) {
             try {
@@ -73,7 +68,6 @@ public class SpaceShuttleRepository implements QueryRepository<SpaceShuttle>, Pe
      * @param spaceShuttle The {@link SpaceShuttle} instance to merge.
      * @return The merged {@link SpaceShuttle} instance.
      */
-    @Override
     public SpaceShuttle merge(SpaceShuttle spaceShuttle) {
         try {
             return entityManager.merge(spaceShuttle);
@@ -88,7 +82,6 @@ public class SpaceShuttleRepository implements QueryRepository<SpaceShuttle>, Pe
      * @param spaceShuttles The {@link List} of {@link SpaceShuttle} to save.
      * @return The {@link List} of saved {@link SpaceShuttle} instances.
      */
-    @Override
     public List<SpaceShuttle> save(List<SpaceShuttle> spaceShuttles) {
         try {
             return spaceShuttles.stream().map(this::save).toList();

@@ -6,8 +6,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TransactionRequiredException;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
-import jp.co.company.space.api.shared.interfaces.PersistenceRepository;
-import jp.co.company.space.api.shared.interfaces.QueryRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -17,7 +15,7 @@ import java.util.Optional;
  * The class for {@link Voyage} DB actions.
  */
 @ApplicationScoped
-public class VoyageRepository implements QueryRepository<Voyage>, PersistenceRepository<Voyage> {
+public class VoyageRepository {
 
     @PersistenceContext(unitName = "domain")
     private EntityManager entityManager;
@@ -30,7 +28,6 @@ public class VoyageRepository implements QueryRepository<Voyage>, PersistenceRep
      * @param id The ID to search with.
      * @return An {@link Optional} {@link Voyage} instance.
      */
-    @Override
     public Optional<Voyage> findById(String id) {
         return Optional.ofNullable(entityManager.find(Voyage.class, id));
     }
@@ -40,7 +37,6 @@ public class VoyageRepository implements QueryRepository<Voyage>, PersistenceRep
      *
      * @return A {@link List} of {@link Voyage} instances.
      */
-    @Override
     public List<Voyage> getAll() {
         return entityManager.createNamedQuery("Voyage.selectAll", Voyage.class).getResultList();
     }
@@ -85,7 +81,6 @@ public class VoyageRepository implements QueryRepository<Voyage>, PersistenceRep
      * @param voyage The voyage instance to persist.
      * @return A persisted {@link Voyage} instance.
      */
-    @Override
     public Voyage save(Voyage voyage) {
         if (findById(voyage.getId()).isEmpty()) {
             try {
@@ -105,7 +100,6 @@ public class VoyageRepository implements QueryRepository<Voyage>, PersistenceRep
      * @param voyage The voyage instance to merge.
      * @return A merged {@link Voyage} instance.
      */
-    @Override
     public Voyage merge(Voyage voyage) {
         try {
             return entityManager.merge(voyage);
@@ -120,7 +114,6 @@ public class VoyageRepository implements QueryRepository<Voyage>, PersistenceRep
      * @param voyages The list of voyage instances to persist.
      * @return A persisted {@link List} of {@link Voyage} instances.
      */
-    @Override
     public List<Voyage> save(List<Voyage> voyages) {
         try {
             return voyages.stream().map(this::save).toList();

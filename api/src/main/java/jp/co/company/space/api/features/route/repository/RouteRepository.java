@@ -6,8 +6,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TransactionRequiredException;
 import jp.co.company.space.api.features.route.domain.Route;
-import jp.co.company.space.api.shared.interfaces.PersistenceRepository;
-import jp.co.company.space.api.shared.interfaces.QueryRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -17,7 +15,7 @@ import java.util.Optional;
  * The class for {@link Route} DB actions.
  */
 @ApplicationScoped
-public class RouteRepository implements QueryRepository<Route>, PersistenceRepository<Route> {
+public class RouteRepository {
 
     @PersistenceContext(unitName = "domain")
     private EntityManager entityManager;
@@ -30,7 +28,6 @@ public class RouteRepository implements QueryRepository<Route>, PersistenceRepos
      * @param id The ID of the route to search for.
      * @return An {@link Optional} {@link Route}.
      */
-    @Override
     public Optional<Route> findById(String id) {
         return Optional.ofNullable(entityManager.find(Route.class, id));
     }
@@ -40,7 +37,6 @@ public class RouteRepository implements QueryRepository<Route>, PersistenceRepos
      *
      * @return A {@link List} of {@link Route} instances.
      */
-    @Override
     public List<Route> getAll() {
         return entityManager.createNamedQuery("Route.selectAll", Route.class).getResultList();
     }
@@ -51,7 +47,6 @@ public class RouteRepository implements QueryRepository<Route>, PersistenceRepos
      * @param route The {@link Route} instance to save.
      * @return The saved {@link Route} instance.
      */
-    @Override
     public Route save(Route route) {
         if (findById(route.getId()).isEmpty()) {
             try {
@@ -72,7 +67,6 @@ public class RouteRepository implements QueryRepository<Route>, PersistenceRepos
      * @param route The {@link Route} instance to merge.
      * @return The merged {@link Route} instance.
      */
-    @Override
     public Route merge(Route route) {
         try {
             return entityManager.merge(route);
@@ -87,7 +81,6 @@ public class RouteRepository implements QueryRepository<Route>, PersistenceRepos
      * @param routes The {@link List} of {@link Route} to save.
      * @return The {@link List} of saved {@link Route} instances.
      */
-    @Override
     public List<Route> save(List<Route> routes) {
         try {
             return routes.stream().map(this::save).toList();

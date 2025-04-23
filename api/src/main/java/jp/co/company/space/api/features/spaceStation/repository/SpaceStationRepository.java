@@ -6,8 +6,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TransactionRequiredException;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
-import jp.co.company.space.api.shared.interfaces.PersistenceRepository;
-import jp.co.company.space.api.shared.interfaces.QueryRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -17,7 +15,7 @@ import java.util.Optional;
  * The class for {@link SpaceStation} DB actions.
  */
 @ApplicationScoped
-public class SpaceStationRepository implements QueryRepository<SpaceStation>, PersistenceRepository<SpaceStation> {
+public class SpaceStationRepository {
 
     @PersistenceContext(unitName = "domain")
     private EntityManager entityManager;
@@ -30,7 +28,6 @@ public class SpaceStationRepository implements QueryRepository<SpaceStation>, Pe
      * @param id The ID of the space station to search for.
      * @return An {@link Optional} {@link SpaceStation}.
      */
-    @Override
     public Optional<SpaceStation> findById(String id) {
         return Optional.ofNullable(entityManager.find(SpaceStation.class, id));
     }
@@ -40,7 +37,6 @@ public class SpaceStationRepository implements QueryRepository<SpaceStation>, Pe
      *
      * @return A {@link List} of {@link SpaceStation} instances.
      */
-    @Override
     public List<SpaceStation> getAll() {
         return entityManager.createNamedQuery("SpaceStation.selectAll", SpaceStation.class).getResultList();
     }
@@ -51,7 +47,6 @@ public class SpaceStationRepository implements QueryRepository<SpaceStation>, Pe
      * @param spaceStation The {@link SpaceStation} instance to save.
      * @return The saved {@link SpaceStation} instance.
      */
-    @Override
     public SpaceStation save(SpaceStation spaceStation) {
         if (findById(spaceStation.getId()).isEmpty()) {
             try {
@@ -72,7 +67,6 @@ public class SpaceStationRepository implements QueryRepository<SpaceStation>, Pe
      * @param spaceStation The {@link SpaceStation} instance to merge.
      * @return The merged {@link SpaceStation} instance.
      */
-    @Override
     public SpaceStation merge(SpaceStation spaceStation) {
         try {
             return entityManager.merge(spaceStation);
@@ -87,7 +81,6 @@ public class SpaceStationRepository implements QueryRepository<SpaceStation>, Pe
      * @param spaceStations The {@link List} of {@link SpaceStation} to save.
      * @return The {@link List} of saved {@link SpaceStation} instances.
      */
-    @Override
     public List<SpaceStation> save(List<SpaceStation> spaceStations) {
         try {
             return spaceStations.stream().map(this::save).toList();

@@ -1,4 +1,4 @@
-package jp.co.company.space.api.features.location.domain;
+package jp.co.company.space.api.features.location.events;
 
 import jp.co.company.space.api.features.location.service.LocationService;
 

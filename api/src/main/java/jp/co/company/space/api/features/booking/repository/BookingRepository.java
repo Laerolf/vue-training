@@ -7,7 +7,6 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TransactionRequiredException;
 import jakarta.transaction.Transactional;
 import jp.co.company.space.api.features.booking.domain.Booking;
-import jp.co.company.space.api.shared.interfaces.PersistenceRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -17,7 +16,7 @@ import java.util.Optional;
  * The class for {@link Booking} DB actions.
  */
 @ApplicationScoped
-public class BookingRepository implements PersistenceRepository<Booking> {
+public class BookingRepository {
 
     @PersistenceContext(unitName = "domain")
     private EntityManager entityManager;
@@ -52,7 +51,7 @@ public class BookingRepository implements PersistenceRepository<Booking> {
      * @return A {@link List} of persisted {@link Booking} instances.
      */
     public List<Booking> getAllByVoyageId(String voyageId) {
-        return entityManager.createNamedQuery("Booking.getAllByVoyageId", Booking.class).setParameter("voyageId", voyageId).getResultList();
+        return entityManager.createNamedQuery("Booking.selectAllByVoyageId", Booking.class).setParameter("voyageId", voyageId).getResultList();
     }
 
     /**
@@ -62,7 +61,6 @@ public class BookingRepository implements PersistenceRepository<Booking> {
      * @return A persisted {@link Booking} instance.
      */
     @Transactional(Transactional.TxType.REQUIRED)
-    @Override
     public Booking save(Booking booking) {
         if (findById(booking.getId()).isEmpty()) {
             try {
@@ -83,7 +81,6 @@ public class BookingRepository implements PersistenceRepository<Booking> {
      * @param booking The {@link Booking} instance to merge.
      * @return A persisted {@link Booking} instance.
      */
-    @Override
     public Booking merge(Booking booking) {
         try {
             return entityManager.merge(booking);
@@ -98,7 +95,6 @@ public class BookingRepository implements PersistenceRepository<Booking> {
      * @param bookings The {@link List} of {@link Booking} to save.
      * @return A {@link List} of persisted {@link Booking} instances.
      */
-    @Override
     public List<Booking> save(List<Booking> bookings) {
         try {
             return bookings.stream().map(this::save).toList();

@@ -7,7 +7,7 @@ import jakarta.inject.Inject;
 import jakarta.json.*;
 import jakarta.transaction.Transactional;
 import jp.co.company.space.api.features.location.domain.Location;
-import jp.co.company.space.api.features.location.domain.LocationServiceInit;
+import jp.co.company.space.api.features.location.events.LocationServiceInit;
 import jp.co.company.space.api.features.location.service.LocationService;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStationServiceInit;
