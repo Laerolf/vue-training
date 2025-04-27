@@ -1,6 +1,8 @@
 package jp.co.company.space.api.features.location.domain;
 
 import jakarta.persistence.*;
+import jp.co.company.space.api.features.location.exception.LocationError;
+import jp.co.company.space.api.features.location.exception.LocationException;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -11,7 +13,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "locations")
 @Access(AccessType.FIELD)
-@NamedQueries({ @NamedQuery(name = "Location.selectAll", query = "SELECT l FROM Location l") })
+@NamedQueries({@NamedQuery(name = "Location.selectAll", query = "SELECT l FROM Location l")})
 public class Location {
 
     /**
@@ -23,7 +25,7 @@ public class Location {
      * @param radialDistance The radial distance of the location in astronomical units.
      * @return A new {@link Location}.
      */
-    public static Location create(String name, double latitude, double longitude, double radialDistance) {
+    public static Location create(String name, double latitude, double longitude, double radialDistance) throws LocationException {
         return new Location(UUID.randomUUID().toString(), name, latitude, longitude, radialDistance);
     }
 
@@ -37,7 +39,7 @@ public class Location {
      * @param radialDistance The radial distance of the location in astronomical units.
      * @return A new {@link Location}.
      */
-    public static Location reconstruct(String id, String name, double latitude, double longitude, double radialDistance) {
+    public static Location reconstruct(String id, String name, double latitude, double longitude, double radialDistance) throws LocationException {
         return new Location(id, name, latitude, longitude, radialDistance);
     }
 
@@ -76,13 +78,14 @@ public class Location {
     @Column(name = "radial_distance", nullable = false)
     private double radialDistance;
 
-    protected Location() {}
+    protected Location() {
+    }
 
-    protected Location(String id, String name, double latitude, double longitude, double radialDistance) {
+    protected Location(String id, String name, double latitude, double longitude, double radialDistance) throws LocationException {
         if (id == null) {
-            throw new IllegalArgumentException("The ID of the location is missing.");
+            throw new LocationException(LocationError.MISSING_ID);
         } else if (name == null) {
-            throw new IllegalArgumentException("The name of the location is missing.");
+            throw new LocationException(LocationError.MISSING_NAME);
         }
 
         this.id = id;

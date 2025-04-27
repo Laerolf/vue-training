@@ -10,7 +10,11 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jp.co.company.space.api.features.location.domain.Location;
 import jp.co.company.space.api.features.location.dto.LocationDto;
+import jp.co.company.space.api.features.location.exception.LocationError;
 import jp.co.company.space.api.features.location.service.LocationService;
+import jp.co.company.space.api.shared.dto.DomainErrorDto;
+import jp.co.company.space.api.shared.exception.DomainException;
+import jp.co.company.space.api.shared.util.LogBuilder;
 import jp.co.company.space.api.shared.util.ResponseFactory;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
@@ -18,12 +22,14 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
-import static jp.co.company.space.api.shared.openApi.examples.LOCATION_ID_EXAMPLE;
+import static jp.co.company.space.api.shared.openApi.Examples.LOCATION_ID_EXAMPLE;
 
 /**
  * A class that handles the {@link Location} endpoint.
@@ -33,13 +39,16 @@ import static jp.co.company.space.api.shared.openApi.examples.LOCATION_ID_EXAMPL
 @Tag(name = "Locations")
 public class LocationEndpoint {
 
+    private static final Logger LOGGER = Logger.getLogger(LocationEndpoint.class.getName());
+
     /**
      * The location service.
      */
     @Inject
     private LocationService locationService;
 
-    protected LocationEndpoint() {}
+    protected LocationEndpoint() {
+    }
 
     /**
      * Returns all existing locations.
@@ -48,14 +57,18 @@ public class LocationEndpoint {
      */
     @GET
     @Operation(summary = "Returns all locations.", description = "Gives a list of all locations.")
-    @APIResponse(description = "A JSON list of all locations.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = SchemaType.ARRAY, implementation = LocationDto.class)))
+    @APIResponses({
+            @APIResponse(description = "A JSON list of all locations.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = SchemaType.ARRAY, implementation = LocationDto.class))),
+            @APIResponse(description = "Something went wrong.", responseCode = "500", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = DomainErrorDto.class)))
+    })
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllLocations() {
         try {
             List<LocationDto> locations = locationService.getAll().stream().map(LocationDto::create).toList();
             return Response.ok().entity(locations).build();
-        } catch (Exception exception) {
-            return Response.serverError().build();
+        } catch (DomainException exception) {
+            LOGGER.warning(new LogBuilder(LocationError.GET_ALL).withException(exception).build());
+            return Response.serverError().entity(DomainErrorDto.create(exception)).build();
         }
     }
 
@@ -69,15 +82,20 @@ public class LocationEndpoint {
     @GET
     @Operation(summary = "Returns an optional location for the provided ID.", description = "Gets a location if the provided ID matches any.")
     @Parameter(name = "id", description = "The ID of a location.", example = LOCATION_ID_EXAMPLE)
-    @APIResponse(description = "An optional location", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = LocationDto.class)))
+    @APIResponses({
+            @APIResponse(description = "An optional location", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = LocationDto.class))),
+            @APIResponse(description = "The location was not found.", responseCode = "404", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = DomainErrorDto.class))),
+            @APIResponse(description = "Something went wrong.", responseCode = "500", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = DomainErrorDto.class)))
+    })
     @Produces(MediaType.APPLICATION_JSON)
     public Response findLocationById(@PathParam("id") String id) {
         try {
             return locationService.findById(id)
                     .map(location -> Response.ok().entity(LocationDto.create(location)).build())
-                    .orElse(ResponseFactory.createNotFoundResponse());
-        } catch (Exception exception) {
-            return Response.serverError().build();
+                    .orElse(ResponseFactory.notFound().entity(DomainErrorDto.create(LocationError.FIND_BY_ID)).build());
+        } catch (DomainException exception) {
+            LOGGER.warning(new LogBuilder(LocationError.FIND_BY_ID).withException(exception).withProperty("id", id).build());
+            return Response.serverError().entity(DomainErrorDto.create(exception)).build();
         }
     }
 }

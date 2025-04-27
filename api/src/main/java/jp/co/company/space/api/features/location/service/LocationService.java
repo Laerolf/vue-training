@@ -3,6 +3,7 @@ package jp.co.company.space.api.features.location.service;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Initialized;
 import jakarta.enterprise.event.Event;
+import jakarta.enterprise.event.ObserverException;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.json.Json;
@@ -12,10 +13,16 @@ import jakarta.json.JsonReader;
 import jakarta.transaction.Transactional;
 import jp.co.company.space.api.features.location.domain.Location;
 import jp.co.company.space.api.features.location.events.LocationServiceInit;
+import jp.co.company.space.api.features.location.exception.LocationError;
+import jp.co.company.space.api.features.location.exception.LocationException;
+import jp.co.company.space.api.features.location.exception.LocationRuntimeException;
 import jp.co.company.space.api.features.location.repository.LocationRepository;
+import jp.co.company.space.api.shared.exception.DomainException;
+import jp.co.company.space.api.shared.util.LogBuilder;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -23,6 +30,9 @@ import java.util.stream.Collectors;
  */
 @ApplicationScoped
 public class LocationService {
+
+    private static final Logger LOGGER = Logger.getLogger(LocationService.class.getName());
+
     /**
      * The location repository.
      */
@@ -35,7 +45,8 @@ public class LocationService {
     @Inject
     private Event<LocationServiceInit> locationServiceInitEvent;
 
-    protected LocationService() {}
+    protected LocationService() {
+    }
 
     /**
      * Initializes the {@link LocationService} by loading the initial data into the database.
@@ -43,19 +54,20 @@ public class LocationService {
      * @param init The event that triggers the initialization.
      */
     @Transactional
-    public void onStartUp(@Observes @Initialized(ApplicationScoped.class) Object init) {
+    public void onStartUp(@Observes @Initialized(ApplicationScoped.class) Object init) throws LocationRuntimeException {
         try {
             loadLocations();
             locationServiceInitEvent.fire(LocationServiceInit.create());
-        } catch (Exception exception) {
-            throw new RuntimeException("Failed to load the initial data into the database", exception);
+        } catch (IllegalArgumentException | ObserverException exception) {
+            LOGGER.severe(new LogBuilder(LocationError.START_SERVICE).withException(exception).build());
+            throw new LocationRuntimeException(LocationError.START_SERVICE, exception);
         }
     }
 
     /**
      * Loads all initial {@link Location} instances into the database.
      */
-    private void loadLocations() {
+    private void loadLocations() throws LocationException {
         try (JsonReader reader = Json
                 .createReader(LocationService.class.getResourceAsStream("/static/locations.json"))) {
             List<Location> parsedLocations = reader.readArray().stream().map(locationJsonValue -> {
@@ -71,8 +83,9 @@ public class LocationService {
             }).collect(Collectors.toList());
 
             locationRepository.save(parsedLocations);
-        } catch (JsonException | NullPointerException exception) {
-            throw new RuntimeException("Failed to load the initial locations into the database", exception);
+        } catch (JsonException | NullPointerException | DomainException exception) {
+            LOGGER.warning(new LogBuilder(LocationError.LOAD_INITIAL_DATA).withException(exception).build());
+            throw new LocationException(LocationError.LOAD_INITIAL_DATA, exception);
         }
     }
 
@@ -81,8 +94,13 @@ public class LocationService {
      *
      * @return The {@link List} of existing {@link Location} instances.
      */
-    public List<Location> getAll() {
-        return locationRepository.getAll();
+    public List<Location> getAll() throws LocationException {
+        try {
+            return locationRepository.getAll();
+        } catch (DomainException exception) {
+            LOGGER.warning(new LogBuilder(LocationError.GET_ALL).withException(exception).build());
+            throw exception;
+        }
     }
 
     /**
@@ -91,7 +109,12 @@ public class LocationService {
      * @param id The ID to search with.
      * @return An {@link Optional} {@link Location} instance.
      */
-    public Optional<Location> findById(String id) {
-        return locationRepository.findById(id);
+    public Optional<Location> findById(String id) throws LocationException {
+        try {
+            return locationRepository.findById(id);
+        } catch (DomainException exception) {
+            LOGGER.warning(new LogBuilder(LocationError.FIND_BY_ID).withException(exception).withProperty("id", id).build());
+            throw exception;
+        }
     }
 }

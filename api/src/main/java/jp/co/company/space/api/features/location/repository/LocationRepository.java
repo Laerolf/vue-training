@@ -1,11 +1,10 @@
 package jp.co.company.space.api.features.location.repository;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TransactionRequiredException;
+import jakarta.persistence.*;
 import jp.co.company.space.api.features.location.domain.Location;
+import jp.co.company.space.api.features.location.exception.LocationError;
+import jp.co.company.space.api.features.location.exception.LocationException;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,7 +19,8 @@ public class LocationRepository {
     @PersistenceContext(unitName = "domain")
     private EntityManager entityManager;
 
-    protected LocationRepository() {}
+    protected LocationRepository() {
+    }
 
     /**
      * Searches an {@link Optional} instance of the {@link Location} class by its ID.
@@ -28,8 +28,12 @@ public class LocationRepository {
      * @param id The ID of the location to search for.
      * @return An {@link Optional} {@link Location}.
      */
-    public Optional<Location> findById(String id) {
-        return Optional.ofNullable(entityManager.find(Location.class, id));
+    public Optional<Location> findById(String id) throws LocationException {
+        try {
+            return Optional.ofNullable(entityManager.find(Location.class, id));
+        } catch (IllegalArgumentException exception) {
+            throw new LocationException(LocationError.FIND_BY_ID, exception);
+        }
     }
 
     /**
@@ -37,8 +41,13 @@ public class LocationRepository {
      *
      * @return A {@link List} of {@link Location} instances.
      */
-    public List<Location> getAll() {
-        return entityManager.createNamedQuery("Location.selectAll", Location.class).getResultList();
+    public List<Location> getAll() throws LocationException {
+        try {
+            return entityManager.createNamedQuery("Location.selectAll", Location.class).getResultList();
+        } catch (IllegalArgumentException | IllegalStateException | PersistenceException |
+                 NullPointerException exception) {
+            throw new LocationException(LocationError.GET_ALL, exception);
+        }
     }
 
     /**
@@ -47,14 +56,15 @@ public class LocationRepository {
      * @param location The {@link Location} instance to save.
      * @return The saved {@link Location} instance.
      */
-    public Location save(Location location) {
+    public Location save(Location location) throws LocationException {
         if (findById(location.getId()).isEmpty()) {
             try {
                 entityManager.persist(location);
+                // TODO: add domain exception to orElseThrow()
                 return findById(location.getId()).orElseThrow();
-            } catch (TransactionRequiredException | EntityExistsException | NoSuchElementException
-                    | IllegalArgumentException exception) {
-                throw new IllegalArgumentException("Failed to save a location instance.", exception);
+            } catch (TransactionRequiredException | EntityExistsException | NoSuchElementException |
+                     IllegalArgumentException exception) {
+                throw new LocationException(LocationError.SAVE, exception);
             }
         } else {
             return merge(location);
@@ -67,11 +77,11 @@ public class LocationRepository {
      * @param location The {@link Location} instance to merge.
      * @return The merged {@link Location} instance.
      */
-    public Location merge(Location location) {
+    public Location merge(Location location) throws LocationException {
         try {
             return entityManager.merge(location);
         } catch (TransactionRequiredException | IllegalArgumentException exception) {
-            throw new IllegalArgumentException("Failed to merge a location instance.", exception);
+            throw new LocationException(LocationError.MERGE, exception);
         }
     }
 
@@ -81,11 +91,11 @@ public class LocationRepository {
      * @param locations The {@link List} of {@link Location} to save.
      * @return The {@link List} of saved {@link Location} instances.
      */
-    public List<Location> save(List<Location> locations) {
+    public List<Location> save(List<Location> locations) throws LocationException {
         try {
             return locations.stream().map(this::save).toList();
         } catch (IllegalArgumentException exception) {
-            throw new IllegalArgumentException("Failed to save a list of locations.", exception);
+            throw new LocationException(LocationError.SAVE_LIST, exception);
         }
     }
 }
