@@ -1,6 +1,8 @@
 package jp.co.company.space.api.features.route.domain;
 
 import jakarta.persistence.*;
+import jp.co.company.space.api.features.route.exception.RouteError;
+import jp.co.company.space.api.features.route.exception.RouteException;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 
@@ -13,7 +15,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "routes")
 @Access(AccessType.FIELD)
-@NamedQueries({ @NamedQuery(name = "Route.selectAll", query = "SELECT r FROM Route r") })
+@NamedQueries({@NamedQuery(name = "Route.selectAll", query = "SELECT r FROM Route r")})
 public class Route {
     /**
      * Creates a new {@link Route} instance.
@@ -23,7 +25,7 @@ public class Route {
      * @param shuttleModel The space shuttle model for the route.
      * @return a new {@link Route} instance.
      */
-    public static Route create(SpaceStation origin, SpaceStation destination, SpaceShuttleModel shuttleModel) {
+    public static Route create(SpaceStation origin, SpaceStation destination, SpaceShuttleModel shuttleModel) throws RouteException {
         return new Route(UUID.randomUUID().toString(), origin, destination, shuttleModel);
     }
 
@@ -36,7 +38,7 @@ public class Route {
      * @param shuttleModel The space shuttle model for the route.
      * @return the recreated {@link Route} instance.
      */
-    public static Route reconstruct(String id, SpaceStation origin, SpaceStation destination, SpaceShuttleModel shuttleModel) {
+    public static Route reconstruct(String id, SpaceStation origin, SpaceStation destination, SpaceShuttleModel shuttleModel) throws RouteException {
         return new Route(id, origin, destination, shuttleModel);
     }
 
@@ -68,17 +70,18 @@ public class Route {
     @JoinColumn(name = "space_shuttle_model_id", table = "routes", nullable = false, unique = true)
     private SpaceShuttleModel shuttleModel;
 
-    protected Route() {}
+    protected Route() {
+    }
 
-    protected Route(String id, SpaceStation origin, SpaceStation destination, SpaceShuttleModel shuttleModel) {
+    protected Route(String id, SpaceStation origin, SpaceStation destination, SpaceShuttleModel shuttleModel) throws RouteException {
         if (id == null) {
-            throw new IllegalArgumentException("The ID of the route is missing.");
+            throw new RouteException(RouteError.MISSING_ID);
         } else if (origin == null) {
-            throw new IllegalArgumentException("The origin of the route is missing.");
+            throw new RouteException(RouteError.MISSING_ORIGIN);
         } else if (destination == null) {
-            throw new IllegalArgumentException("The destination of the route is missing.");
+            throw new RouteException(RouteError.MISSING_DESTINATION);
         } else if (shuttleModel == null) {
-            throw new IllegalArgumentException("The space shuttle model for the route is missing.");
+            throw new RouteException(RouteError.MISSING_SPACE_SHUTTLE_MODEL);
         }
 
         this.id = id;

@@ -1,14 +1,15 @@
 package jp.co.company.space.api.features.route.domain;
 
 import jp.co.company.space.api.features.location.domain.Location;
+import jp.co.company.space.api.features.route.exception.RouteError;
+import jp.co.company.space.api.features.route.exception.RouteException;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
 /**
- * A POJO calculating the <a href="https://en.wikipedia.org/wiki/Euclidean_distance">Euclidean</a> kilometer distance in
- * 3D space for a route between two points.
+ * A POJO calculating the <a href="https://en.wikipedia.org/wiki/Euclidean_distance">Euclidean</a> kilometer distance in 3D space for a route between two points.
  */
 public class RouteDistanceFactory {
 
@@ -27,9 +28,9 @@ public class RouteDistanceFactory {
      *
      * @param route The route to calculate the distance for.
      * @return A new {@link RouteDistanceFactory} instance.
-     * @throws IllegalArgumentException if the provided route is null.
+     * @throws RouteException if the provided route is null.
      */
-    public static RouteDistanceFactory create(final Route route) {
+    public static RouteDistanceFactory create(final Route route) throws RouteException {
         return new RouteDistanceFactory(route);
     }
 
@@ -38,9 +39,9 @@ public class RouteDistanceFactory {
      */
     private final Route route;
 
-    public RouteDistanceFactory(final Route route) {
+    public RouteDistanceFactory(final Route route) throws RouteException {
         if (route == null) {
-            throw new IllegalArgumentException("The route for the voyage distance factory is missing.");
+            throw new RouteException(RouteError.ROUTE_DISTANCE_MISSING_ROUTE);
         }
 
         this.route = route;
@@ -102,6 +103,6 @@ public class RouteDistanceFactory {
 
         BigDecimal z = r.multiply(BigDecimal.valueOf(StrictMath.sin(latitudeRad.doubleValue())), MATH_CONTEXT);
 
-        return new BigDecimal[] { x, y, z };
+        return new BigDecimal[]{x, y, z};
     }
 }

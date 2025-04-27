@@ -1,9 +1,11 @@
 package jp.co.company.space.api.features.route.dto;
 
 import jp.co.company.space.api.features.route.domain.Route;
+import jp.co.company.space.api.features.route.exception.RouteError;
+import jp.co.company.space.api.features.route.exception.RouteException;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-import static jp.co.company.space.api.shared.openApi.examples.*;
+import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
  * A POJO representing a brief DTO of a {@link Route} instance.
@@ -17,9 +19,9 @@ public class RouteBasicDto {
      * @param route The base {@link Route} instance.
      * @return a new {@link RouteBasicDto} instance.
      */
-    public static RouteBasicDto create(Route route) {
+    public static RouteBasicDto create(Route route) throws RouteException {
         if (route == null) {
-            throw new IllegalArgumentException("The base route is missing.");
+            throw new RouteException(RouteError.MISSING);
         }
 
         return new RouteBasicDto(route.getId(), route.getOrigin().getId(), route.getDestination().getId(), route.getShuttleModel().getId());
@@ -52,15 +54,15 @@ public class RouteBasicDto {
     protected RouteBasicDto() {
     }
 
-    protected RouteBasicDto(String id, String originId, String destinationId, String shuttleModelId) {
+    protected RouteBasicDto(String id, String originId, String destinationId, String shuttleModelId) throws RouteException {
         if (id == null) {
-            throw new IllegalArgumentException("The ID of the route is missing.");
+            throw new RouteException(RouteError.MISSING_ID);
         } else if (originId == null) {
-            throw new IllegalArgumentException("The originId space station's ID of the route is missing.");
+            throw new RouteException(RouteError.MISSING_ORIGIN_ID);
         } else if (destinationId == null) {
-            throw new IllegalArgumentException("The destination space station's ID of the route is missing.");
+            throw new RouteException(RouteError.MISSING_DESTINATION_ID);
         } else if (shuttleModelId == null) {
-            throw new IllegalArgumentException("The space shuttle model's ID for the route is missing.");
+            throw new RouteException(RouteError.MISSING_SPACE_SHUTTLE_MODEL_ID);
         }
 
         this.id = id;

@@ -7,8 +7,8 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.util.Objects;
 
-import static jp.co.company.space.api.shared.openApi.examples.ROUTE_DESTINATION_EXAMPLE;
-import static jp.co.company.space.api.shared.openApi.examples.ROUTE_ID_EXAMPLE;
+import static jp.co.company.space.api.shared.openApi.Examples.ROUTE_DESTINATION_EXAMPLE;
+import static jp.co.company.space.api.shared.openApi.Examples.ROUTE_ID_EXAMPLE;
 
 /**
  * A POJO representing a DTO of a {@link Route} instance.
