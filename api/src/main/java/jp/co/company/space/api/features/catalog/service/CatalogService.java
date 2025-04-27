@@ -17,6 +17,7 @@ public class CatalogService {
 
     /**
      * Creates a {@link List} of all existing {@link MealPreference} instances.
+     *
      * @return A {@link List} of {@link MealPreference} instances.
      */
     public List<MealPreference> getAllMealPreferences() {
@@ -25,6 +26,7 @@ public class CatalogService {
 
     /**
      * Creates a {@link List} of all existing {@link PackageType} instances.
+     *
      * @return A {@link List} of {@link PackageType} instances.
      */
     public List<PackageType> getAllPackageTypes() {

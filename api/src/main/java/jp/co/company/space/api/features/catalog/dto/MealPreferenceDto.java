@@ -1,9 +1,11 @@
 package jp.co.company.space.api.features.catalog.dto;
 
 import jp.co.company.space.api.features.catalog.domain.MealPreference;
+import jp.co.company.space.api.features.catalog.exception.CatalogError;
+import jp.co.company.space.api.features.catalog.exception.CatalogException;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-import static jp.co.company.space.api.shared.openApi.examples.*;
+import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
  * A POJO representing a DTO of a {@link MealPreference}.
@@ -16,10 +18,11 @@ public class MealPreferenceDto {
      *
      * @param mealPreference The base for the {@link MealPreferenceDto} instance.
      * @return A {@link MealPreferenceDto} instance.
+     * @throws CatalogException When the meal preference is missing.
      */
-    public static MealPreferenceDto create(MealPreference mealPreference) {
+    public static MealPreferenceDto create(MealPreference mealPreference) throws CatalogException {
         if (mealPreference == null) {
-            throw new IllegalArgumentException("The base meal preference of the meal preference is missing.");
+            throw new CatalogException(CatalogError.MEAL_PREFERENCE_MISSING);
         }
 
         return new MealPreferenceDto(mealPreference.getKey(), mealPreference.getAdditionalCostPerDay(), mealPreference.getAvailableFrom().getKey(), mealPreference.getFreeFrom().getKey());
@@ -40,13 +43,13 @@ public class MealPreferenceDto {
     protected MealPreferenceDto() {
     }
 
-    protected MealPreferenceDto(String key, double additionalCostPerDay, String availableFrom, String freeFrom) {
+    protected MealPreferenceDto(String key, double additionalCostPerDay, String availableFrom, String freeFrom) throws CatalogException {
         if (key == null) {
-            throw new IllegalArgumentException("The key of the meal preference is missing.");
+            throw new CatalogException(CatalogError.MEAL_PREFERENCE_MISSING_KEY);
         } else if (availableFrom == null) {
-            throw new IllegalArgumentException("The package type that makes the meal preference available is missing.");
+            throw new CatalogException(CatalogError.MEAL_PREFERENCE_MISSING_AVAILABLE_FROM);
         } else if (freeFrom == null) {
-            throw new IllegalArgumentException("The package type that makes the meal preference free of charge is missing.");
+            throw new CatalogException(CatalogError.MEAL_PREFERENCE_MISSING_FREE_FROM);
         }
 
         this.key = key;

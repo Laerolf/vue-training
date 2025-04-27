@@ -1,9 +1,11 @@
 package jp.co.company.space.api.features.catalog.dto;
 
 import jp.co.company.space.api.features.catalog.domain.PackageType;
+import jp.co.company.space.api.features.catalog.exception.CatalogError;
+import jp.co.company.space.api.features.catalog.exception.CatalogException;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-import static jp.co.company.space.api.shared.openApi.examples.PACKAGE_TYPE_KEY_EXAMPLE;
+import static jp.co.company.space.api.shared.openApi.Examples.PACKAGE_TYPE_KEY_EXAMPLE;
 
 /**
  * A POJO representing a DTO of a {@link PackageType}.
@@ -16,10 +18,11 @@ public class PackageTypeDto {
      *
      * @param packageType The base for the {@link PackageTypeDto} instance.
      * @return A {@link PackageTypeDto} instance.
+     * @throws CatalogException When the package type is missing.
      */
-    public static PackageTypeDto create(PackageType packageType) {
+    public static PackageTypeDto create(PackageType packageType) throws CatalogException {
         if (packageType == null) {
-            throw new IllegalArgumentException("The base package type of the package type is missing.");
+            throw new CatalogException(CatalogError.PACKAGE_TYPE_MISSING);
         }
 
         return new PackageTypeDto(packageType.getKey());
@@ -31,9 +34,9 @@ public class PackageTypeDto {
     protected PackageTypeDto() {
     }
 
-    protected PackageTypeDto(String key) {
+    protected PackageTypeDto(String key) throws CatalogException {
         if (key == null) {
-            throw new IllegalArgumentException("The key of the package type is missing.");
+            throw new CatalogException(CatalogError.PACKAGE_TYPE_MISSING_KEY);
         }
 
         this.key = key;
