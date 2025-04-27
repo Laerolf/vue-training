@@ -34,7 +34,7 @@ public class LogBuilder {
     /**
      * Creates a new {@link LogBuilder} instance based on a message.
      */
-    public LogBuilder(String message) {
+    public LogBuilder(String message) throws IllegalArgumentException {
         if (message == null) {
             throw new IllegalArgumentException("The base message of the log builder is missing.");
         }
@@ -47,7 +47,7 @@ public class LogBuilder {
      *
      * @param error The domain error to use.
      */
-    public LogBuilder(DomainError error) {
+    public LogBuilder(DomainError error) throws IllegalArgumentException {
         if (error == null) {
             throw new IllegalArgumentException("The domain error of the log builder is missing.");
         } else if (error.getDescription() == null) {
@@ -64,7 +64,7 @@ public class LogBuilder {
      * @param exception The throwable to use.
      * @return A {@link LogBuilder} instance.
      */
-    public LogBuilder withException(Throwable exception) {
+    public LogBuilder withException(Throwable exception) throws IllegalArgumentException {
         if (exception == null) {
             throw new IllegalArgumentException("The exception of the log message is missing.");
         }
@@ -79,7 +79,7 @@ public class LogBuilder {
      * @param key The key to use.
      * @return A {@link LogBuilder} instance.
      */
-    public LogBuilder withKey(String key) {
+    public LogBuilder withKey(String key) throws IllegalArgumentException {
         if (key == null) {
             throw new IllegalArgumentException("The key of the log message is missing.");
         }
@@ -95,7 +95,7 @@ public class LogBuilder {
      * @param value The value of the property to use.
      * @return A {@link LogBuilder} instance.
      */
-    public LogBuilder withProperty(String key, String value) {
+    public LogBuilder withProperty(String key, String value) throws IllegalArgumentException {
         if (key == null) {
             throw new IllegalArgumentException("The key of the log message property is missing.");
         } else if (value == null) {

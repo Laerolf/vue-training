@@ -6,8 +6,8 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.util.List;
 
-import static jp.co.company.space.api.shared.openApi.examples.ID_EXAMPLE;
-import static jp.co.company.space.api.shared.openApi.examples.VOYAGE_ID_EXAMPLE;
+import static jp.co.company.space.api.shared.openApi.Examples.ID_EXAMPLE;
+import static jp.co.company.space.api.shared.openApi.Examples.VOYAGE_ID_EXAMPLE;
 
 /**
  * A POJO representing a form for creating a new {@link Booking} instance.

@@ -12,10 +12,12 @@ import jakarta.ws.rs.core.Response;
 import jp.co.company.space.api.features.booking.domain.Booking;
 import jp.co.company.space.api.features.booking.domain.BookingStatus;
 import jp.co.company.space.api.features.booking.dto.BookingDto;
+import jp.co.company.space.api.features.booking.exception.BookingError;
 import jp.co.company.space.api.features.booking.input.BookingCreationForm;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
 import jp.co.company.space.api.features.user.domain.User;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
+import jp.co.company.space.api.shared.dto.DomainErrorDto;
 import jp.co.company.space.utils.features.passenger.PassengerCreationFormTestDataBuilder;
 import jp.co.company.space.utils.features.user.UserTestDataBuilder;
 import jp.co.company.space.utils.features.voyage.user.VoyageTestDataBuilder;
@@ -106,8 +108,9 @@ class BookingEndpointTest {
         assertNotNull(response);
         assertEquals(Status.INTERNAL_SERVER_ERROR_500.code(), response.getStatus());
 
-        String message = response.readEntity(String.class);
-        assertTrue(message.isEmpty());
+        DomainErrorDto error = response.readEntity(DomainErrorDto.class);
+        assertEquals(BookingError.INVALID_PASSENGER_COUNT.getKey(), error.key);
+        assertEquals(BookingError.INVALID_PASSENGER_COUNT.getDescription(), error.message);
     }
 
     @Test

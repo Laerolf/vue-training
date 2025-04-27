@@ -1,6 +1,8 @@
 package jp.co.company.space.api.features.booking.domain;
 
 import jakarta.persistence.*;
+import jp.co.company.space.api.features.booking.exception.BookingError;
+import jp.co.company.space.api.features.booking.exception.BookingException;
 import jp.co.company.space.api.features.passenger.domain.Passenger;
 import jp.co.company.space.api.features.user.domain.User;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
@@ -26,8 +28,9 @@ public class Booking {
      * @param user   The user who made the booking.
      * @param voyage The voyage of the booking.
      * @return A new {@link Booking} instance.
+     * @throws BookingException When the user or voyage of the booking are missing.
      */
-    public static Booking create(User user, Voyage voyage) {
+    public static Booking create(User user, Voyage voyage) throws BookingException {
         return new Booking(UUID.randomUUID().toString(), ZonedDateTime.now(), BookingStatus.DRAFT, user, voyage);
     }
 
@@ -40,8 +43,9 @@ public class Booking {
      * @param user         The user who made the booking.
      * @param voyage       The voyage of the booking.
      * @return A {@link Booking} instance.
+     * @throws BookingException When the id, creation date, status, user or voyage of the booking are missing.
      */
-    public static Booking reconstruct(String id, ZonedDateTime creationDate, BookingStatus status, User user, Voyage voyage) {
+    public static Booking reconstruct(String id, ZonedDateTime creationDate, BookingStatus status, User user, Voyage voyage) throws BookingException {
         return new Booking(id, creationDate, status, user, voyage);
     }
 
@@ -80,17 +84,17 @@ public class Booking {
     protected Booking() {
     }
 
-    protected Booking(String id, ZonedDateTime creationDate, BookingStatus status, User user, Voyage voyage) {
+    protected Booking(String id, ZonedDateTime creationDate, BookingStatus status, User user, Voyage voyage) throws BookingException {
         if (id == null) {
-            throw new IllegalArgumentException("The ID of the booking is missing.");
+            throw new BookingException(BookingError.MISSING_ID);
         } else if (creationDate == null) {
-            throw new IllegalArgumentException("The creation date of the booking is missing.");
+            throw new BookingException(BookingError.MISSING_CREATION_DATE);
         } else if (status == null) {
-            throw new IllegalArgumentException("The status of the booking is missing.");
+            throw new BookingException(BookingError.MISSING_STATUS);
         } else if (user == null) {
-            throw new IllegalArgumentException("The user of the booking is missing.");
+            throw new BookingException(BookingError.MISSING_USER);
         } else if (voyage == null) {
-            throw new IllegalArgumentException("The voyage of the booking is missing.");
+            throw new BookingException(BookingError.MISSING_VOYAGE);
         }
 
         this.id = id;
@@ -128,10 +132,11 @@ public class Booking {
      * Assigns the provided {@link List} of {@link Passenger} instances to this booking.
      *
      * @param passengerList The passengers to assign to this voyage.
+     * @throws BookingException When the passengers are missing.
      */
-    public void assignPassengers(List<Passenger> passengerList) {
+    public void assignPassengers(List<Passenger> passengerList) throws BookingException {
         if (passengerList == null) {
-            throw new IllegalArgumentException("The passengers for this booking are missing.");
+            throw new BookingException(BookingError.MISSING_PASSENGERS);
         }
 
         this.passengers = new HashSet<>(passengerList);

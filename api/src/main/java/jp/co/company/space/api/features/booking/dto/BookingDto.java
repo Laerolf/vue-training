@@ -1,13 +1,15 @@
 package jp.co.company.space.api.features.booking.dto;
 
 import jp.co.company.space.api.features.booking.domain.Booking;
+import jp.co.company.space.api.features.booking.exception.BookingError;
+import jp.co.company.space.api.features.booking.exception.BookingException;
 import jp.co.company.space.api.features.passenger.domain.Passenger;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.time.ZonedDateTime;
 import java.util.List;
 
-import static jp.co.company.space.api.shared.openApi.examples.*;
+import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
  * A POJO representing a DTO of a {@link Booking} instance.
@@ -19,8 +21,19 @@ public class BookingDto {
      *
      * @param booking The base booking instance.
      * @return A {@link BookingDto} instance.
+     * @throws BookingException When the booking is missing or the user, voyage or passengers of the booking are missing.
      */
-    public static BookingDto create(Booking booking) {
+    public static BookingDto create(Booking booking) throws BookingException {
+        if (booking == null) {
+            throw new BookingException(BookingError.MISSING);
+        } else if (booking.getUser() == null) {
+            throw new BookingException(BookingError.MISSING_USER);
+        } else if (booking.getVoyage() == null) {
+            throw new BookingException(BookingError.MISSING_VOYAGE);
+        } else if (booking.getPassengers() == null) {
+            throw new BookingException(BookingError.MISSING_PASSENGERS);
+        }
+
         return new BookingDto(
                 booking.getId(),
                 booking.getCreationDate(),
@@ -70,19 +83,19 @@ public class BookingDto {
     protected BookingDto() {
     }
 
-    protected BookingDto(String id, ZonedDateTime creationDate, String status, String userId, String voyageId, List<String> passengerIds) {
+    protected BookingDto(String id, ZonedDateTime creationDate, String status, String userId, String voyageId, List<String> passengerIds) throws BookingException {
         if (id == null) {
-            throw new IllegalArgumentException("The ID of the booking is missing.");
+            throw new BookingException(BookingError.MISSING_ID);
         } else if (creationDate == null) {
-            throw new IllegalArgumentException("The creation date of the booking is missing.");
+            throw new BookingException(BookingError.MISSING_CREATION_DATE);
         } else if (status == null) {
-            throw new IllegalArgumentException("The status of the booking is missing.");
+            throw new BookingException(BookingError.MISSING_STATUS);
         } else if (userId == null) {
-            throw new IllegalArgumentException("The user ID of the booking is missing.");
+            throw new BookingException(BookingError.MISSING_USER_ID);
         } else if (voyageId == null) {
-            throw new IllegalArgumentException("The voyage ID of the booking is missing.");
+            throw new BookingException(BookingError.MISSING_VOYAGE_ID);
         } else if (passengerIds == null) {
-            throw new IllegalArgumentException("The list of passenger IDs of the booking is missing.");
+            throw new BookingException(BookingError.MISSING_PASSENGER_IDS);
         }
 
         this.id = id;
