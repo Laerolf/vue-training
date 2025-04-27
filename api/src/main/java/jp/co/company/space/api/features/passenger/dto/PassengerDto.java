@@ -1,11 +1,13 @@
 package jp.co.company.space.api.features.passenger.dto;
 
 import jp.co.company.space.api.features.passenger.domain.Passenger;
+import jp.co.company.space.api.features.passenger.exception.PassengerError;
+import jp.co.company.space.api.features.passenger.exception.PassengerException;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.time.ZonedDateTime;
 
-import static jp.co.company.space.api.shared.openApi.examples.*;
+import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
  * A POJO representing a DTO of a {@link Passenger} instance.
@@ -19,9 +21,9 @@ public class PassengerDto {
      * @param passenger The base for the passenger DTO.
      * @return A {@link PassengerDto} instance.
      */
-    public static PassengerDto create(Passenger passenger) {
+    public static PassengerDto create(Passenger passenger) throws PassengerException {
         if (passenger == null) {
-            throw new IllegalArgumentException("The base passenger for this passenger dto is missing.");
+            throw new PassengerException(PassengerError.MISSING);
         }
 
         return new PassengerDto(
@@ -80,21 +82,21 @@ public class PassengerDto {
     protected PassengerDto() {
     }
 
-    protected PassengerDto(String id, ZonedDateTime creationDate, String mealPreference, String packageType, String podReservationId, String bookingId, String voyageId) {
+    protected PassengerDto(String id, ZonedDateTime creationDate, String mealPreference, String packageType, String podReservationId, String bookingId, String voyageId) throws PassengerException {
         if (id == null) {
-            throw new IllegalArgumentException("The ID of the passenger DTO is missing.");
+            throw new PassengerException(PassengerError.MISSING_ID);
         } else if (creationDate == null) {
-            throw new IllegalArgumentException("The creation date of the passenger DTO is missing.");
+            throw new PassengerException(PassengerError.MISSING_CREATION_DATE);
         } else if (mealPreference == null) {
-            throw new IllegalArgumentException("The meal preference of the passenger DTO is missing.");
+            throw new PassengerException(PassengerError.MISSING_MEAL_PREFERENCE);
         } else if (packageType == null) {
-            throw new IllegalArgumentException("The package type of the passenger DTO is missing.");
+            throw new PassengerException(PassengerError.MISSING_PACKAGE_TYPE);
         } else if (podReservationId == null) {
-            throw new IllegalArgumentException("The pod reservation ID of the passenger DTO is missing.");
+            throw new PassengerException(PassengerError.MISSING_POD_RESERVATION_ID);
         } else if (bookingId == null) {
-            throw new IllegalArgumentException("The booking ID of the passenger DTO is missing.");
+            throw new PassengerException(PassengerError.MISSING_BOOKING_ID);
         } else if (voyageId == null) {
-            throw new IllegalArgumentException("The voyage ID of the passenger DTO is missing.");
+            throw new PassengerException(PassengerError.MISSING_VOYAGE_ID);
         }
 
         this.id = id;

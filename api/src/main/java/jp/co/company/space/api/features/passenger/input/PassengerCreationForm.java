@@ -2,7 +2,7 @@ package jp.co.company.space.api.features.passenger.input;
 
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-import static jp.co.company.space.api.shared.openApi.examples.*;
+import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
  * A DTO representing a form with details for a new passenger.

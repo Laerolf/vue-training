@@ -1,6 +1,8 @@
 package jp.co.company.space.api.features.pod.domain;
 
 import jp.co.company.space.api.features.catalog.domain.PodType;
+import jp.co.company.space.api.features.pod.exception.PodError;
+import jp.co.company.space.api.features.pod.exception.PodException;
 
 import java.util.Objects;
 
@@ -20,7 +22,7 @@ public class Pod {
      * @param status The status of the pod.
      * @return A {@link Pod} instance.
      */
-    public static Pod create(String code, PodType type, int deck, int row, int column, PodStatus status) {
+    public static Pod create(String code, PodType type, int deck, int row, int column, PodStatus status) throws PodException {
         return new Pod(code, type, deck, row, column, status);
     }
 
@@ -54,19 +56,19 @@ public class Pod {
      */
     private PodStatus status;
 
-    protected Pod(String code, PodType type, int deck, int row, int column, PodStatus status) {
+    protected Pod(String code, PodType type, int deck, int row, int column, PodStatus status) throws PodException {
         if (code == null) {
-            throw new IllegalArgumentException("The code of the pod is missing.");
+            throw new PodException(PodError.MISSING_CODE);
         } else if (type == null) {
-            throw new IllegalArgumentException("The type of the pod is missing.");
+            throw new PodException(PodError.MISSING_TYPE);
         } else if (deck <= 0) {
-            throw new IllegalArgumentException("The deck of the pod is invalid.");
+            throw new PodException(PodError.INVALID_DECK_NUMBER);
         } else if (row <= 0) {
-            throw new IllegalArgumentException("The row of the pod is invalid.");
+            throw new PodException(PodError.INVALID_ROW_NUMBER);
         } else if (column <= 0) {
-            throw new IllegalArgumentException("The row of the pod is invalid.");
+            throw new PodException(PodError.INVALID_COLUMN_NUMBER);
         } else if (status == null) {
-            throw new IllegalArgumentException("The status of the pod is missing.");
+            throw new PodException(PodError.MISSING_STATUS);
         }
 
         this.code = code;

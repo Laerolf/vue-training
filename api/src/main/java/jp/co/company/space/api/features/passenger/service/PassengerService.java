@@ -7,19 +7,26 @@ import jp.co.company.space.api.features.catalog.domain.MealPreference;
 import jp.co.company.space.api.features.catalog.domain.PackageType;
 import jp.co.company.space.api.features.passenger.domain.Passenger;
 import jp.co.company.space.api.features.passenger.domain.PassengerCreationFactory;
+import jp.co.company.space.api.features.passenger.exception.PassengerError;
+import jp.co.company.space.api.features.passenger.exception.PassengerException;
 import jp.co.company.space.api.features.passenger.input.PassengerCreationForm;
 import jp.co.company.space.api.features.passenger.repository.PassengerRepository;
 import jp.co.company.space.api.features.pod.domain.PodReservation;
+import jp.co.company.space.api.features.pod.exception.PodReservationException;
 import jp.co.company.space.api.features.pod.service.PodReservationService;
+import jp.co.company.space.api.shared.util.LogBuilder;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 /**
  * A service class handling the {@link Passenger} topic.
  */
 @ApplicationScoped
 public class PassengerService {
+
+    private static final Logger LOGGER = Logger.getLogger(PassengerService.class.getName());
 
     @Inject
     private PassengerRepository passengerRepository;
@@ -36,25 +43,51 @@ public class PassengerService {
      * @param id The ID to search with.
      * @return An {@link Optional} {@link Passenger} instance.
      */
-    public Optional<Passenger> findById(String id) {
-        return passengerRepository.findById(id);
+    public Optional<Passenger> findById(String id) throws PassengerException {
+        try {
+            return passengerRepository.findById(id);
+        } catch (PassengerException exception) {
+            LOGGER.warning(new LogBuilder(PassengerError.FIND_BY_ID).withException(exception).withProperty("id", id).build());
+            throw exception;
+        }
     }
 
-    public List<Passenger> create(Booking booking, List<PassengerCreationForm> passengerForms) {
-        return passengerForms.stream()
-                .map(passengerForm -> {
-                    PackageType selectedPackageType = PackageType.findByKey(passengerForm.packageType).orElseThrow();
-                    MealPreference selectedMealPreference = MealPreference.findByKey(passengerForm.mealPreference).orElseThrow();
+    /**
+     * Creates a {@link List} of {@link Passenger} instances.
+     *
+     * @param booking        The booking for all passengers.
+     * @param passengerForms The details of the passengers to create.
+     * @return A {@link List} of {@link Passenger} instances.
+     */
+    public List<Passenger> create(Booking booking, List<PassengerCreationForm> passengerForms) throws PassengerException, PodReservationException {
+        try {
+            if (booking == null) {
+                throw new PassengerException(PassengerError.MISSING_BOOKING);
+            } else if (passengerForms == null) {
+                throw new PassengerException(PassengerError.MISSING_PASSENGER_DETAILS);
+            }
 
-                    Passenger newPassenger = new PassengerCreationFactory(booking, selectedPackageType, selectedMealPreference).create();
-                    newPassenger = passengerRepository.save(newPassenger);
+            List<Passenger> createdPassengers = passengerForms.stream()
+                    .map(passengerForm -> {
+                        PackageType selectedPackageType = PackageType.findByKey(passengerForm.packageType).orElseThrow();
+                        MealPreference selectedMealPreference = MealPreference.findByKey(passengerForm.mealPreference).orElseThrow();
 
-                    PodReservation podReservation = podReservationService.reservePodForPassenger(booking.getVoyage(), newPassenger, passengerForm.podCode);
+                        Passenger newPassenger = new PassengerCreationFactory(booking, selectedPackageType, selectedMealPreference).create();
+                        newPassenger = passengerRepository.save(newPassenger);
 
-                    newPassenger.assignPodReservation(podReservation);
+                        PodReservation podReservation = podReservationService.reservePodForPassenger(booking.getVoyage(), newPassenger, passengerForm.podCode);
 
-                    return newPassenger;
-                })
-                .toList();
+                        newPassenger.assignPodReservation(podReservation);
+
+                        return newPassenger;
+                    }).toList();
+
+            LOGGER.info(new LogBuilder(String.format("Created %d new passengers for a booking.", createdPassengers.size())).withProperty("booking.id", booking.getId()).build());
+
+            return createdPassengers;
+        } catch (PassengerException | PodReservationException exception) {
+            LOGGER.warning(new LogBuilder(PassengerError.CREATE).withException(exception).build());
+            throw new PassengerException(PassengerError.CREATE, exception);
+        }
     }
 }

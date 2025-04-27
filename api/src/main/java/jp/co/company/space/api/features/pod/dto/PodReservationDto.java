@@ -1,11 +1,13 @@
 package jp.co.company.space.api.features.pod.dto;
 
 import jp.co.company.space.api.features.pod.domain.PodReservation;
+import jp.co.company.space.api.features.pod.exception.PodReservationError;
+import jp.co.company.space.api.features.pod.exception.PodReservationException;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.time.ZonedDateTime;
 
-import static jp.co.company.space.api.shared.openApi.examples.*;
+import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
  * A POJO representing a DTO of {@link PodReservation} instance.
@@ -19,9 +21,9 @@ public class PodReservationDto {
      * @param podReservation The base of the {@link PodReservationDto} instance.
      * @return A {@link PodReservationDto} instance.
      */
-    public static PodReservationDto create(PodReservation podReservation) {
+    public static PodReservationDto create(PodReservation podReservation) throws PodReservationException {
         if (podReservation == null) {
-            throw new IllegalArgumentException("The base pod reservation for this pod reservation dto is missing.");
+            throw new PodReservationException(PodReservationError.MISSING);
         }
 
         return new PodReservationDto(
@@ -66,17 +68,17 @@ public class PodReservationDto {
     protected PodReservationDto() {
     }
 
-    protected PodReservationDto(String id, String podCode, ZonedDateTime creationDate, String passengerId, String voyageId) {
+    protected PodReservationDto(String id, String podCode, ZonedDateTime creationDate, String passengerId, String voyageId) throws PodReservationException {
         if (id == null) {
-            throw new IllegalArgumentException("The ID of the pod reservation is missing.");
+            throw new PodReservationException(PodReservationError.MISSING_ID);
         } else if (podCode == null) {
-            throw new IllegalArgumentException("The pod code of the pod reservation is missing.");
+            throw new PodReservationException(PodReservationError.MISSING_CODE);
         } else if (creationDate == null) {
-            throw new IllegalArgumentException("The creation date of the pod reservation is missing.");
+            throw new PodReservationException(PodReservationError.MISSING_CREATION_DATE);
         } else if (passengerId == null) {
-            throw new IllegalArgumentException("The passenger ID of the pod reservation is missing.");
+            throw new PodReservationException(PodReservationError.MISSING_PASSENGER_ID);
         } else if (voyageId == null) {
-            throw new IllegalArgumentException("The voyage ID of the pod reservation is missing.");
+            throw new PodReservationException(PodReservationError.MISSING_VOYAGE_ID);
         }
 
         this.id = id;

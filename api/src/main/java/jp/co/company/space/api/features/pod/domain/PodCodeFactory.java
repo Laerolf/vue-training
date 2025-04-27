@@ -1,5 +1,8 @@
 package jp.co.company.space.api.features.pod.domain;
 
+import jp.co.company.space.api.features.pod.exception.PodCodeError;
+import jp.co.company.space.api.features.pod.exception.PodCodeException;
+
 /**
  * A factoring creating a code representing the code of a pod.
  */
@@ -20,13 +23,13 @@ public class PodCodeFactory {
      */
     private final int number;
 
-    public PodCodeFactory(String prefix, int deck, int number) {
+    public PodCodeFactory(String prefix, int deck, int number) throws PodCodeException {
         if (prefix == null) {
-            throw new IllegalArgumentException("The prefix for the pod code is missing.");
+            throw new PodCodeException(PodCodeError.MISSING_CODE_PREFIX);
         } else if (deck <= 0) {
-            throw new IllegalArgumentException("The deck for the pod code is invalid.");
+            throw new PodCodeException(PodCodeError.INVALID_DECK_NUMBER);
         } else if (number <= 0) {
-            throw new IllegalArgumentException("The number for the pod code is invalid.");
+            throw new PodCodeException(PodCodeError.INVALID_NUMBER);
         }
 
         this.prefix = prefix;
@@ -39,7 +42,7 @@ public class PodCodeFactory {
      *
      * @return A pod code.
      */
-    public String create() {
+    public String create() throws IllegalArgumentException {
         return String.format("%s%d%05d", prefix, deck, number);
     }
 }

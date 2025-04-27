@@ -1,9 +1,11 @@
 package jp.co.company.space.api.features.pod.dto;
 
 import jp.co.company.space.api.features.pod.domain.Pod;
+import jp.co.company.space.api.features.pod.exception.PodError;
+import jp.co.company.space.api.features.pod.exception.PodException;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-import static jp.co.company.space.api.shared.openApi.examples.*;
+import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
  * A POJO representing a DTO of pod in a space shuttle.
@@ -17,7 +19,7 @@ public class PodDto {
      * @param pod The base of the {@link PodDto} instance.
      * @return A {@link PodDto} instance.
      */
-    public static PodDto create(Pod pod) {
+    public static PodDto create(Pod pod) throws PodException {
         return new PodDto(pod.getCode(), pod.getType().getKey(), pod.getDeck(), pod.getRow(), pod.getColumn(), pod.getStatus().getKey());
     }
 
@@ -60,19 +62,19 @@ public class PodDto {
     protected PodDto() {
     }
 
-    protected PodDto(String code, String type, int deck, int row, int column, String status) {
+    protected PodDto(String code, String type, int deck, int row, int column, String status) throws PodException {
         if (code == null) {
-            throw new IllegalArgumentException("The code of the pod is missing.");
+            throw new PodException(PodError.MISSING_CODE);
         } else if (type == null) {
-            throw new IllegalArgumentException("The type of the pod is missing.");
+            throw new PodException(PodError.MISSING_TYPE);
         } else if (deck <= 0) {
-            throw new IllegalArgumentException("The deck of the pod is invalid.");
-        }else if (row <= 0) {
-            throw new IllegalArgumentException("The row of the pod is invalid.");
+            throw new PodException(PodError.INVALID_DECK_NUMBER);
+        } else if (row <= 0) {
+            throw new PodException(PodError.INVALID_ROW_NUMBER);
         } else if (column <= 0) {
-            throw new IllegalArgumentException("The row of the pod is invalid.");
+            throw new PodException(PodError.INVALID_COLUMN_NUMBER);
         } else if (status == null) {
-            throw new IllegalArgumentException("The status of the pod is missing.");
+            throw new PodException(PodError.MISSING_STATUS);
         }
 
         this.code = code;

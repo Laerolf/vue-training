@@ -2,6 +2,8 @@ package jp.co.company.space.api.features.pod.domain;
 
 import jakarta.persistence.*;
 import jp.co.company.space.api.features.passenger.domain.Passenger;
+import jp.co.company.space.api.features.pod.exception.PodReservationError;
+import jp.co.company.space.api.features.pod.exception.PodReservationException;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
 
 import java.time.ZonedDateTime;
@@ -22,12 +24,12 @@ public class PodReservation {
     /**
      * Creates a new {@link PodReservation} instance.
      *
-     * @param podCode      The pod code of the pod reservation.
-     * @param passenger    The passenger of the pod reservation.
-     * @param voyage       The voyage of the pod the reservation.
+     * @param podCode   The pod code of the pod reservation.
+     * @param passenger The passenger of the pod reservation.
+     * @param voyage    The voyage of the pod the reservation.
      * @return A new {@link PodReservation} instance.
      */
-    public static PodReservation create(String podCode, Passenger passenger, Voyage voyage) {
+    public static PodReservation create(String podCode, Passenger passenger, Voyage voyage) throws PodReservationException {
         return new PodReservation(UUID.randomUUID().toString(), podCode, ZonedDateTime.now(), passenger, voyage);
     }
 
@@ -41,7 +43,7 @@ public class PodReservation {
      * @param voyage       The voyage of the pod the reservation.
      * @return A new {@link PodReservation} instance.
      */
-    public static PodReservation recreate(String id, String podCode, ZonedDateTime creationDate, Passenger passenger, Voyage voyage) {
+    public static PodReservation recreate(String id, String podCode, ZonedDateTime creationDate, Passenger passenger, Voyage voyage) throws PodReservationException {
         return new PodReservation(id, podCode, creationDate, passenger, voyage);
     }
 
@@ -74,17 +76,17 @@ public class PodReservation {
     protected PodReservation() {
     }
 
-    protected PodReservation(String id, String podCode, ZonedDateTime creationDate, Passenger passenger, Voyage voyage) {
+    protected PodReservation(String id, String podCode, ZonedDateTime creationDate, Passenger passenger, Voyage voyage) throws PodReservationException {
         if (id == null) {
-            throw new IllegalArgumentException("The ID of the pod reservation is missing.");
+            throw new PodReservationException(PodReservationError.MISSING_ID);
         } else if (podCode == null) {
-            throw new IllegalArgumentException("The pod code of the pod reservation is missing.");
+            throw new PodReservationException(PodReservationError.MISSING_CODE);
         } else if (creationDate == null) {
-            throw new IllegalArgumentException("The creation date of the pod reservation is missing.");
+            throw new PodReservationException(PodReservationError.MISSING_CREATION_DATE);
         } else if (passenger == null) {
-            throw new IllegalArgumentException("The passenger of the pod reservation is missing.");
+            throw new PodReservationException(PodReservationError.MISSING_PASSENGER);
         } else if (voyage == null) {
-            throw new IllegalArgumentException("The voyage of the pod reservation is missing.");
+            throw new PodReservationException(PodReservationError.MISSING_VOYAGE);
         }
 
         this.id = id;

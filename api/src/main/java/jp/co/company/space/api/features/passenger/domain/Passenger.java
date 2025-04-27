@@ -4,9 +4,10 @@ import jakarta.persistence.*;
 import jp.co.company.space.api.features.booking.domain.Booking;
 import jp.co.company.space.api.features.catalog.domain.MealPreference;
 import jp.co.company.space.api.features.catalog.domain.PackageType;
+import jp.co.company.space.api.features.passenger.exception.PassengerError;
+import jp.co.company.space.api.features.passenger.exception.PassengerException;
 import jp.co.company.space.api.features.pod.domain.PodReservation;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
-import jp.co.company.space.api.shared.exception.DomainException;
 
 import java.time.ZonedDateTime;
 import java.util.Objects;
@@ -30,7 +31,7 @@ public class Passenger {
      * @param voyage         The voyage of a passenger.
      * @return A {@link Passenger} instance.
      */
-    public static Passenger create(MealPreference mealPreference, PackageType packageType, PodReservation podReservation, Booking booking, Voyage voyage) {
+    public static Passenger create(MealPreference mealPreference, PackageType packageType, PodReservation podReservation, Booking booking, Voyage voyage) throws PassengerException {
         return new Passenger(UUID.randomUUID().toString(), ZonedDateTime.now(), mealPreference, packageType, podReservation, booking, voyage);
     }
 
@@ -43,7 +44,7 @@ public class Passenger {
      * @param voyage         The voyage of a passenger.
      * @return A {@link Passenger} instance.
      */
-    public static Passenger create(MealPreference mealPreference, PackageType packageType, Booking booking, Voyage voyage) {
+    public static Passenger create(MealPreference mealPreference, PackageType packageType, Booking booking, Voyage voyage) throws PassengerException {
         return new Passenger(UUID.randomUUID().toString(), ZonedDateTime.now(), mealPreference, packageType, null, booking, voyage);
     }
 
@@ -59,7 +60,7 @@ public class Passenger {
      * @param voyage         The voyage of a passenger.
      * @return A {@link Passenger} instance.
      */
-    public static Passenger recreate(String id, ZonedDateTime creationDate, MealPreference mealPreference, PackageType packageType, PodReservation podReservation, Booking booking, Voyage voyage) {
+    public static Passenger recreate(String id, ZonedDateTime creationDate, MealPreference mealPreference, PackageType packageType, PodReservation podReservation, Booking booking, Voyage voyage) throws PassengerException {
         return new Passenger(id, creationDate, mealPreference, packageType, podReservation, booking, voyage);
     }
 
@@ -109,19 +110,19 @@ public class Passenger {
     protected Passenger() {
     }
 
-    protected Passenger(String id, ZonedDateTime creationDate, MealPreference mealPreference, PackageType packageType, PodReservation podReservation, Booking booking, Voyage voyage) {
+    protected Passenger(String id, ZonedDateTime creationDate, MealPreference mealPreference, PackageType packageType, PodReservation podReservation, Booking booking, Voyage voyage) throws PassengerException {
         if (id == null) {
-            throw new IllegalArgumentException("The ID of the passenger is missing.");
+            throw new PassengerException(PassengerError.MISSING_ID);
         } else if (creationDate == null) {
-            throw new IllegalArgumentException("The creation date of the passenger is missing.");
+            throw new PassengerException(PassengerError.MISSING_CREATION_DATE);
         } else if (mealPreference == null) {
-            throw new IllegalArgumentException("The meal preference of the passenger is missing.");
+            throw new PassengerException(PassengerError.MISSING_MEAL_PREFERENCE);
         } else if (packageType == null) {
-            throw new IllegalArgumentException("The package type assigned to the passenger is missing.");
+            throw new PassengerException(PassengerError.MISSING_PACKAGE_TYPE);
         } else if (booking == null) {
-            throw new IllegalArgumentException("The booking of the passenger is missing.");
+            throw new PassengerException(PassengerError.MISSING_BOOKING);
         } else if (voyage == null) {
-            throw new IllegalArgumentException("The voyage of the passenger is missing.");
+            throw new PassengerException(PassengerError.MISSING_VOYAGE);
         }
 
         this.id = id;
@@ -161,11 +162,16 @@ public class Passenger {
         return voyage;
     }
 
-    public void assignPodReservation(PodReservation podReservation) {
+    /**
+     * Sets a {@link PodReservation} instance as the reservation of this passenger.
+     *
+     * @param podReservation The pod reservation to set.
+     */
+    public void assignPodReservation(PodReservation podReservation) throws PassengerException {
         if (podReservation == null) {
-            throw new IllegalArgumentException("The pod reservation is missing.");
+            throw new PassengerException(PassengerError.MISSING_POD_RESERVATION);
         } else if (this.getPodReservation() != null) {
-            throw new DomainException("This passenger already has a pod reservation.");
+            throw new PassengerException(PassengerError.HAS_POD_RESERVATION);
         }
 
         this.podReservation = podReservation;
