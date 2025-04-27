@@ -5,6 +5,8 @@ import jp.co.company.space.api.features.catalog.domain.PodType;
 import jp.co.company.space.api.features.passenger.domain.Passenger;
 import jp.co.company.space.api.features.pod.domain.Pod;
 import jp.co.company.space.api.features.pod.domain.PodReservation;
+import jp.co.company.space.api.features.spaceShuttle.exception.SpaceShuttleError;
+import jp.co.company.space.api.features.spaceShuttle.exception.SpaceShuttleException;
 
 import java.util.*;
 
@@ -19,7 +21,7 @@ public class SpaceShuttleLayout {
      * @param podsPerDeck The pods per deck of the space shuttle layout.
      * @return A {@link SpaceShuttleLayout} instance.
      */
-    public static SpaceShuttleLayout create(Map<Integer, List<Pod>> podsPerDeck) {
+    public static SpaceShuttleLayout create(Map<Integer, List<Pod>> podsPerDeck) throws SpaceShuttleException {
         return new SpaceShuttleLayout(podsPerDeck);
     }
 
@@ -28,11 +30,11 @@ public class SpaceShuttleLayout {
      */
     private final Map<Integer, List<Pod>> podsPerDeck;
 
-    public SpaceShuttleLayout(Map<Integer, List<Pod>> podsPerDeck) {
+    public SpaceShuttleLayout(Map<Integer, List<Pod>> podsPerDeck) throws SpaceShuttleException {
         if (podsPerDeck == null) {
-            throw new IllegalArgumentException("The pods per deck of the space shuttle layout is missing.");
+            throw new SpaceShuttleException(SpaceShuttleError.LAYOUT_MISSING_PODS_PER_DECK);
         } else if (podsPerDeck.isEmpty()) {
-            throw new IllegalArgumentException("The pods per deck of the space shuttle layout is invalid.");
+            throw new SpaceShuttleException(SpaceShuttleError.LAYOUT_NO_PODS_PER_DECK);
         }
 
         this.podsPerDeck = podsPerDeck;
@@ -64,7 +66,11 @@ public class SpaceShuttleLayout {
      * @param podReservations A list of reserved pods.
      * @return A {@link List} of all {@link Pod} instances.
      */
-    public List<Pod> getAllPodsWithAvailability(List<PodReservation> podReservations) {
+    public List<Pod> getAllPodsWithAvailability(List<PodReservation> podReservations) throws SpaceShuttleException {
+        if (podReservations == null) {
+            throw new SpaceShuttleException(SpaceShuttleError.MISSING_POD_RESERVATIONS);
+        }
+
         return getAllPods().stream().peek(pod -> {
             if (podReservations.stream().anyMatch(podReservation -> podReservation.getPodCode().equals(pod.getCode()))) {
                 pod.markAsUnavailable();
@@ -89,18 +95,30 @@ public class SpaceShuttleLayout {
      * @param reservations The existing pod reservations.
      * @return True when the pod code does not match a reservation, false otherwise.
      */
-    public boolean isPodAvailable(String podCode, List<PodReservation> reservations) {
+    public boolean isPodAvailable(String podCode, List<PodReservation> reservations) throws SpaceShuttleException {
+        if (podCode == null) {
+            throw new SpaceShuttleException(SpaceShuttleError.MISSING_POD_CODE_FOR_RESERVATION);
+        } else if (reservations == null) {
+            throw new SpaceShuttleException(SpaceShuttleError.MISSING_POD_RESERVATIONS);
+        }
+
         return reservations.stream().noneMatch(podReservation -> podReservation.getPodCode().equals(podCode));
     }
 
     /**
      * Tests whether a {@link Pod} instance matching the provided pod code is available for the provided {@link Passenger} instance.
      *
-     * @param podCode     The pod code to search for.
+     * @param podCode   The pod code to search for.
      * @param passenger The {@link Passenger} instance to search with.
      * @return True when the provided pod code matches a {@link Pod} instance that is available for the provided {@link PackageType} instance, false otherwise.
      */
-    public boolean isPodAvailableForPassenger(String podCode, Passenger passenger) {
+    public boolean isPodAvailableForPassenger(String podCode, Passenger passenger) throws SpaceShuttleException {
+        if (podCode == null) {
+            throw new SpaceShuttleException(SpaceShuttleError.MISSING_POD_CODE_FOR_RESERVATION);
+        } else if (passenger == null) {
+            throw new SpaceShuttleException(SpaceShuttleError.MISSING_PASSENGER_FOR_RESERVATION);
+        }
+
         return getAllPodsByPackageType(passenger.getPackageType()).stream().anyMatch(pod -> pod.getCode().equals(podCode));
     }
 
@@ -111,7 +129,13 @@ public class SpaceShuttleLayout {
      * @param reservations A list of reserved pods.
      * @return An {@link Optional} {@link Pod} instance.
      */
-    public Optional<Pod> findFirstAvailablePodFor(Passenger passenger, List<PodReservation> reservations) {
+    public Optional<Pod> findFirstAvailablePodFor(Passenger passenger, List<PodReservation> reservations) throws SpaceShuttleException {
+        if (reservations == null) {
+            throw new SpaceShuttleException(SpaceShuttleError.MISSING_POD_RESERVATIONS);
+        } else if (passenger == null) {
+            throw new SpaceShuttleException(SpaceShuttleError.MISSING_PASSENGER_FOR_RESERVATION);
+        }
+
         PodType selectedPodType = PodType.findByPackageType(passenger.getPackageType()).orElseThrow();
         return getAllPods().stream().filter(pod -> pod.getType().equals(selectedPodType) && isPodAvailable(pod.getCode(), reservations)).findFirst();
     }

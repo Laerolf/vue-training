@@ -1,6 +1,8 @@
 package jp.co.company.space.api.features.spaceShuttle.domain;
 
 import jakarta.persistence.*;
+import jp.co.company.space.api.features.spaceShuttle.exception.SpaceShuttleError;
+import jp.co.company.space.api.features.spaceShuttle.exception.SpaceShuttleException;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
 
 import java.util.Objects;
@@ -25,7 +27,7 @@ public class SpaceShuttle {
      * @param shuttleModel The model of the space shuttle.
      * @return A new {@link SpaceShuttle} entity.
      */
-    public static SpaceShuttle create(String name, SpaceShuttleModel shuttleModel) {
+    public static SpaceShuttle create(String name, SpaceShuttleModel shuttleModel) throws SpaceShuttleException {
         return new SpaceShuttle(UUID.randomUUID().toString(), name, shuttleModel);
     }
 
@@ -37,7 +39,7 @@ public class SpaceShuttle {
      * @param shuttleModel The model of the space shuttle.
      * @return A {@link SpaceShuttle} entity.
      */
-    public static SpaceShuttle reconstruct(String id, String name, SpaceShuttleModel shuttleModel) {
+    public static SpaceShuttle reconstruct(String id, String name, SpaceShuttleModel shuttleModel) throws SpaceShuttleException {
         return new SpaceShuttle(id, name, shuttleModel);
     }
 
@@ -65,13 +67,13 @@ public class SpaceShuttle {
     protected SpaceShuttle() {
     }
 
-    private SpaceShuttle(String id, String name, SpaceShuttleModel model) {
+    private SpaceShuttle(String id, String name, SpaceShuttleModel model) throws SpaceShuttleException {
         if (id == null) {
-            throw new IllegalArgumentException("The ID of the space shuttle is missing.");
+            throw new SpaceShuttleException(SpaceShuttleError.MISSING_ID);
         } else if (name == null) {
-            throw new IllegalArgumentException("The name of the space shuttle is missing.");
+            throw new SpaceShuttleException(SpaceShuttleError.MISSING_NAME);
         } else if (model == null) {
-            throw new IllegalArgumentException("The model of the space shuttle is missing.");
+            throw new SpaceShuttleException(SpaceShuttleError.MISSING_MODEL);
         }
 
         this.id = id;

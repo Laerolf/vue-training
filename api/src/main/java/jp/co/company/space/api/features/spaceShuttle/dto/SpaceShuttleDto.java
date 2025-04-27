@@ -4,8 +4,8 @@ import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
 import jp.co.company.space.api.features.spaceShuttleModel.dto.SpaceShuttleModelDto;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-import static jp.co.company.space.api.shared.openApi.examples.SPACE_SHUTTLE_ID_EXAMPLE;
-import static jp.co.company.space.api.shared.openApi.examples.SPACE_SHUTTLE_NAME_EXAMPLE;
+import static jp.co.company.space.api.shared.openApi.Examples.SPACE_SHUTTLE_ID_EXAMPLE;
+import static jp.co.company.space.api.shared.openApi.Examples.SPACE_SHUTTLE_NAME_EXAMPLE;
 
 /**
  * A POJO representing a DTO of a {@link SpaceShuttle} instance.

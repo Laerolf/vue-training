@@ -1,9 +1,11 @@
 package jp.co.company.space.api.features.spaceShuttle.dto;
 
 import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
+import jp.co.company.space.api.features.spaceShuttle.exception.SpaceShuttleError;
+import jp.co.company.space.api.features.spaceShuttle.exception.SpaceShuttleException;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-import static jp.co.company.space.api.shared.openApi.examples.*;
+import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
  * A POJO representing a brief DTO of a {@link SpaceShuttle} instance.
@@ -17,7 +19,7 @@ public class SpaceShuttleBasicDto {
      * @param spaceShuttle The base {@link SpaceShuttle} instance.
      * @return a new {@link SpaceShuttleBasicDto} instance.
      */
-    public static SpaceShuttleBasicDto create(SpaceShuttle spaceShuttle) {
+    public static SpaceShuttleBasicDto create(SpaceShuttle spaceShuttle) throws SpaceShuttleException {
         return new SpaceShuttleBasicDto(spaceShuttle.getId(), spaceShuttle.getName(), spaceShuttle.getModel().getId());
     }
 
@@ -39,15 +41,16 @@ public class SpaceShuttleBasicDto {
     @Schema(description = "The model's ID of the space shuttle", example = SPACE_SHUTTLE_MODEL_ID_EXAMPLE)
     public String modelId;
 
-    protected SpaceShuttleBasicDto() {}
+    protected SpaceShuttleBasicDto() {
+    }
 
-    protected SpaceShuttleBasicDto(String id, String name, String modelId) {
+    protected SpaceShuttleBasicDto(String id, String name, String modelId) throws SpaceShuttleException {
         if (id == null) {
-            throw new IllegalArgumentException("The ID of the space shuttle is missing.");
+            throw new SpaceShuttleException(SpaceShuttleError.MISSING_ID);
         } else if (name == null) {
-            throw new IllegalArgumentException("The name of the space shuttle is missing.");
+            throw new SpaceShuttleException(SpaceShuttleError.MISSING_NAME);
         } else if (modelId == null) {
-            throw new IllegalArgumentException("The model's ID of the space shuttle is missing.");
+            throw new SpaceShuttleException(SpaceShuttleError.MISSING_MODEL_ID);
         }
 
         this.id = id;
