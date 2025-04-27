@@ -1,6 +1,5 @@
 package jp.co.company.space.api.features.catalog.exception;
 
-import jp.co.company.space.api.shared.exception.DomainError;
 import jp.co.company.space.api.shared.exception.DomainException;
 
 /**

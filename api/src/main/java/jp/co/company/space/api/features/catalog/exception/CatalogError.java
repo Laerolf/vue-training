@@ -11,11 +11,9 @@ public enum CatalogError implements DomainError {
     MEAL_PREFERENCE_MISSING_KEY("mealPreference.missingKey", "The key of the meal preference is missing."),
     MEAL_PREFERENCE_MISSING_AVAILABLE_FROM("mealPreference.missingAvailableFrom", "The package type that makes the meal preference available is missing."),
     MEAL_PREFERENCE_MISSING_FREE_FROM("mealPreference.missingFreeFrom", "The package type that makes the meal preference free of charge is missing."),
-    MEAL_PREFERENCE_GET_ALL("mealPreference.getAll", "Failed to get all meal preferences."),
 
     PACKAGE_TYPE_MISSING("packageType.missing", "The package type is missing."),
-    PACKAGE_TYPE_MISSING_KEY("packageType.missingKey", "The key of the package type is missing."),
-    PACKAGE_TYPE_GET_ALL("packageType.getAll", "Failed to get all package types.");
+    PACKAGE_TYPE_MISSING_KEY("packageType.missingKey", "The key of the package type is missing.");
 
     private final String key;
     private final String description;
