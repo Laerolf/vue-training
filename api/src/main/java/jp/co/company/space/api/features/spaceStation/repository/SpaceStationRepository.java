@@ -1,11 +1,10 @@
 package jp.co.company.space.api.features.spaceStation.repository;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TransactionRequiredException;
+import jakarta.persistence.*;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
+import jp.co.company.space.api.features.spaceStation.exception.SpaceStationError;
+import jp.co.company.space.api.features.spaceStation.exception.SpaceStationException;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,7 +19,8 @@ public class SpaceStationRepository {
     @PersistenceContext(unitName = "domain")
     private EntityManager entityManager;
 
-    protected SpaceStationRepository() {}
+    protected SpaceStationRepository() {
+    }
 
     /**
      * Searches an {@link Optional} instance of the {@link SpaceStation} class by its ID.
@@ -28,8 +28,12 @@ public class SpaceStationRepository {
      * @param id The ID of the space station to search for.
      * @return An {@link Optional} {@link SpaceStation}.
      */
-    public Optional<SpaceStation> findById(String id) {
-        return Optional.ofNullable(entityManager.find(SpaceStation.class, id));
+    public Optional<SpaceStation> findById(String id) throws SpaceStationException {
+        try {
+            return Optional.ofNullable(entityManager.find(SpaceStation.class, id));
+        } catch (IllegalArgumentException exception) {
+            throw new SpaceStationException(SpaceStationError.FIND_BY_ID, exception);
+        }
     }
 
     /**
@@ -37,8 +41,13 @@ public class SpaceStationRepository {
      *
      * @return A {@link List} of {@link SpaceStation} instances.
      */
-    public List<SpaceStation> getAll() {
-        return entityManager.createNamedQuery("SpaceStation.selectAll", SpaceStation.class).getResultList();
+    public List<SpaceStation> getAll() throws SpaceStationException {
+        try {
+            return entityManager.createNamedQuery("SpaceStation.selectAll", SpaceStation.class).getResultList();
+        } catch (IllegalArgumentException | IllegalStateException | PersistenceException |
+                 NullPointerException exception) {
+            throw new SpaceStationException(SpaceStationError.GET_ALL, exception);
+        }
     }
 
     /**
@@ -47,14 +56,14 @@ public class SpaceStationRepository {
      * @param spaceStation The {@link SpaceStation} instance to save.
      * @return The saved {@link SpaceStation} instance.
      */
-    public SpaceStation save(SpaceStation spaceStation) {
+    public SpaceStation save(SpaceStation spaceStation) throws SpaceStationException {
         if (findById(spaceStation.getId()).isEmpty()) {
             try {
                 entityManager.persist(spaceStation);
                 return findById(spaceStation.getId()).orElseThrow();
             } catch (TransactionRequiredException | EntityExistsException | NoSuchElementException
-                    | IllegalArgumentException exception) {
-                throw new IllegalArgumentException("Failed to save a space station instance.", exception);
+                     | IllegalArgumentException exception) {
+                throw new SpaceStationException(SpaceStationError.SAVE, exception);
             }
         } else {
             return merge(spaceStation);
@@ -67,11 +76,11 @@ public class SpaceStationRepository {
      * @param spaceStation The {@link SpaceStation} instance to merge.
      * @return The merged {@link SpaceStation} instance.
      */
-    public SpaceStation merge(SpaceStation spaceStation) {
+    public SpaceStation merge(SpaceStation spaceStation) throws SpaceStationException {
         try {
             return entityManager.merge(spaceStation);
         } catch (TransactionRequiredException | IllegalArgumentException exception) {
-            throw new IllegalArgumentException("Failed to merge a space station instance.", exception);
+            throw new SpaceStationException(SpaceStationError.MERGE, exception);
         }
     }
 
@@ -81,11 +90,11 @@ public class SpaceStationRepository {
      * @param spaceStations The {@link List} of {@link SpaceStation} to save.
      * @return The {@link List} of saved {@link SpaceStation} instances.
      */
-    public List<SpaceStation> save(List<SpaceStation> spaceStations) {
+    public List<SpaceStation> save(List<SpaceStation> spaceStations) throws SpaceStationException {
         try {
             return spaceStations.stream().map(this::save).toList();
         } catch (IllegalArgumentException exception) {
-            throw new IllegalArgumentException("Failed to save a list of space stations.", exception);
+            throw new SpaceStationException(SpaceStationError.SAVE_LIST, exception);
         }
     }
 

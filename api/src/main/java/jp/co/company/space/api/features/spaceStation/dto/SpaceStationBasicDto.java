@@ -1,9 +1,11 @@
 package jp.co.company.space.api.features.spaceStation.dto;
 
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
+import jp.co.company.space.api.features.spaceStation.exception.SpaceStationError;
+import jp.co.company.space.api.features.spaceStation.exception.SpaceStationException;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-import static jp.co.company.space.api.shared.openApi.examples.*;
+import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
  * A POJO representing a brief DTO of a {@link SpaceStation} instance.
@@ -17,9 +19,9 @@ public class SpaceStationBasicDto {
      * @param spaceStation The base {@link SpaceStation} instance.
      * @return A {@link SpaceStationBasicDto} entity.
      */
-    public static SpaceStationBasicDto create(SpaceStation spaceStation) {
+    public static SpaceStationBasicDto create(SpaceStation spaceStation) throws SpaceStationException {
         if (spaceStation == null) {
-            throw new IllegalArgumentException("the base space station is missing.");
+            throw new SpaceStationException(SpaceStationError.MISSING);
         }
 
         return new SpaceStationBasicDto(spaceStation.getId(), spaceStation.getName(), spaceStation.getCode(), spaceStation.getCountry(), spaceStation.getLocation().getId());
@@ -28,7 +30,7 @@ public class SpaceStationBasicDto {
     @Schema(description = "The ID of the space station.", example = SPACE_STATION_ORIGIN_ID_EXAMPLE)
     public String id;
 
-    @Schema(description = "The name of the space station.",  example = SPACE_STATION_NAME_EXAMPLE)
+    @Schema(description = "The name of the space station.", example = SPACE_STATION_NAME_EXAMPLE)
     public String name;
 
     @Schema(description = "The code of the space station.", example = SPACE_STATION_CODE_EXAMPLE)
@@ -40,17 +42,18 @@ public class SpaceStationBasicDto {
     @Schema(description = "The location's ID of the space station.", example = ID_EXAMPLE)
     public String locationId;
 
-    protected SpaceStationBasicDto() {}
+    protected SpaceStationBasicDto() {
+    }
 
-    private SpaceStationBasicDto(String id, String name, String code, String country, String locationId) {
+    private SpaceStationBasicDto(String id, String name, String code, String country, String locationId) throws SpaceStationException {
         if (id == null) {
-            throw new IllegalArgumentException("The ID of the space station is missing.");
+            throw new SpaceStationException(SpaceStationError.MISSING_ID);
         } else if (name == null) {
-            throw new IllegalArgumentException("The name of the space station is missing.");
+            throw new SpaceStationException(SpaceStationError.MISSING_NAME);
         } else if (code == null) {
-            throw new IllegalArgumentException("The code of the space station is missing.");
+            throw new SpaceStationException(SpaceStationError.MISSING_CODE);
         } else if (locationId == null) {
-            throw new IllegalArgumentException("The location's ID of the space station is missing.");
+            throw new SpaceStationException(SpaceStationError.MISSING_LOCATION);
         }
 
         this.id = id;

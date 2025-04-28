@@ -10,13 +10,18 @@ import jakarta.json.JsonException;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import jakarta.transaction.Transactional;
-import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModelServiceInit;
+import jp.co.company.space.api.features.spaceShuttleModel.exception.SpaceShuttleModelError;
+import jp.co.company.space.api.features.spaceShuttleModel.exception.SpaceShuttleModelException;
+import jp.co.company.space.api.features.spaceShuttleModel.exception.SpaceShuttleModelRuntimeException;
 import jp.co.company.space.api.features.spaceShuttleModel.repository.SpaceShuttleModelRepository;
+import jp.co.company.space.api.shared.exception.DomainException;
+import jp.co.company.space.api.shared.util.LogBuilder;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -24,6 +29,8 @@ import java.util.stream.Collectors;
  */
 @ApplicationScoped
 public class SpaceShuttleModelService {
+
+    private static final Logger LOGGER = Logger.getLogger(SpaceShuttleModelService.class.getName());
 
     /**
      * The space shuttle model repository.
@@ -37,7 +44,8 @@ public class SpaceShuttleModelService {
     @Inject
     private Event<SpaceShuttleModelServiceInit> spaceShuttleServiceInitEvent;
 
-    protected SpaceShuttleModelService() {}
+    protected SpaceShuttleModelService() {
+    }
 
     /**
      * The start-up logic for this service, after the start-up it emits its initialisation event.
@@ -45,20 +53,24 @@ public class SpaceShuttleModelService {
      * @param init The event that triggers the start-up of this service.
      */
     @Transactional
-    protected void onStartUp(@Observes @Initialized(ApplicationScoped.class) Object init) {
+    protected void onStartUp(@Observes @Initialized(ApplicationScoped.class) Object init) throws SpaceShuttleModelRuntimeException {
         try {
-            loadSpaceShuttleModels();
+            LOGGER.info(new LogBuilder("Initializing the space shuttle model service.").build());
 
+            loadSpaceShuttleModels();
             spaceShuttleServiceInitEvent.fire(SpaceShuttleModelServiceInit.create());
-        } catch (Exception exception) {
-            throw new RuntimeException("Failed to load the initial space shuttle models into the database", exception);
+
+            LOGGER.info(new LogBuilder("The space shuttle model service is ready!").build());
+        } catch (SpaceShuttleModelException exception) {
+            LOGGER.severe(new LogBuilder(SpaceShuttleModelError.START_SERVICE).withException(exception).build());
+            throw new SpaceShuttleModelRuntimeException(SpaceShuttleModelError.START_SERVICE, exception);
         }
     }
 
     /**
      * Loads the space shuttle models from the JSON file into the database.
      */
-    private void loadSpaceShuttleModels() {
+    private void loadSpaceShuttleModels() throws SpaceShuttleModelException {
         try (JsonReader reader = Json.createReader(SpaceShuttleModelService.class.getResourceAsStream("/static/space-shuttle-models.json"))) {
             List<SpaceShuttleModel> parsedSpaceShuttleModels = reader.readArray().stream().map(modelJsonValue -> {
                 JsonObject modelJson = modelJsonValue.asJsonObject();
@@ -72,8 +84,10 @@ public class SpaceShuttleModelService {
             }).collect(Collectors.toList());
 
             repository.save(parsedSpaceShuttleModels);
-        } catch (JsonException | NullPointerException exception) {
-            throw new RuntimeException("Failed to load the initial space shuttle models into the database", exception);
+            LOGGER.info(String.format("Created %d space shuttle models.", parsedSpaceShuttleModels.size()));
+        } catch (JsonException | NullPointerException | DomainException exception) {
+            LOGGER.warning(new LogBuilder(SpaceShuttleModelError.LOAD_INITIAL_DATA).withException(exception).build());
+            throw new SpaceShuttleModelException(SpaceShuttleModelError.LOAD_INITIAL_DATA, exception);
         }
     }
 
@@ -82,8 +96,13 @@ public class SpaceShuttleModelService {
      *
      * @return The {@link List} of existing {@link SpaceShuttleModel} instances.
      */
-    public List<SpaceShuttleModel> getAll() {
-        return repository.getAll();
+    public List<SpaceShuttleModel> getAll() throws SpaceShuttleModelException {
+        try {
+            return repository.getAll();
+        } catch (SpaceShuttleModelException exception) {
+            LOGGER.warning(new LogBuilder(SpaceShuttleModelError.GET_ALL).withException(exception).build());
+            throw exception;
+        }
     }
 
     /**
@@ -92,18 +111,12 @@ public class SpaceShuttleModelService {
      * @param id The ID to search with.
      * @return An {@link Optional} {@link SpaceShuttleModel} instance.
      */
-    public Optional<SpaceShuttleModel> findById(String id) {
-        return repository.findById(id);
-    }
-
-    /**
-     * Returns a {@link List} of all {@link SpaceShuttle} instances with the {@link SpaceShuttleModel} matching the provided
-     * ID.
-     *
-     * @param id The ID to search with.
-     * @return A {@link List} of {@link SpaceShuttle} instances.
-     */
-    public List<SpaceShuttle> getAllSpaceShuttlesByModelId(String id) {
-        return repository.getAllSpaceShuttlesByModelId(id);
+    public Optional<SpaceShuttleModel> findById(String id) throws SpaceShuttleModelException {
+        try {
+            return repository.findById(id);
+        } catch (SpaceShuttleModelException exception) {
+            LOGGER.warning(new LogBuilder(SpaceShuttleModelError.FIND_BY_ID).withException(exception).withProperty("id", id).build());
+            throw exception;
+        }
     }
 }

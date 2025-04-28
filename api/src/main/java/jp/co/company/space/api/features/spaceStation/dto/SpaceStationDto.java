@@ -4,7 +4,7 @@ import jp.co.company.space.api.features.location.dto.LocationDto;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-import static jp.co.company.space.api.shared.openApi.examples.*;
+import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
  * A POJO representing a DTO of a {@link SpaceStation} instance.

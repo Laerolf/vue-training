@@ -23,6 +23,7 @@ import jp.co.company.space.api.features.spaceShuttleModel.service.SpaceShuttleMo
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStationServiceInit;
 import jp.co.company.space.api.features.spaceStation.service.SpaceStationService;
+import jp.co.company.space.api.shared.exception.DomainException;
 import jp.co.company.space.api.shared.util.LogBuilder;
 
 import java.util.List;
@@ -77,7 +78,7 @@ public class RouteService {
             isSpaceStationServiceReady = true;
 
             if (isReadyToBeInitialized()) {
-                loadRoutes();
+                initialize();
             }
         } catch (Exception exception) {
             LOGGER.severe(new LogBuilder(RouteError.START_SERVICE).withException(exception).build());
@@ -96,7 +97,7 @@ public class RouteService {
             isSpaceShuttleModelServiceReady = true;
 
             if (isReadyToBeInitialized()) {
-                loadRoutes();
+                initialize();
             }
         } catch (Exception exception) {
             LOGGER.severe(new LogBuilder(RouteError.START_SERVICE).withException(exception).build());
@@ -111,6 +112,16 @@ public class RouteService {
      */
     private boolean isReadyToBeInitialized() {
         return isSpaceStationServiceReady && isSpaceShuttleModelServiceReady;
+    }
+
+    /**
+     * Initializes this service.
+     */
+    private void initialize() throws RouteException {
+        LOGGER.info(new LogBuilder("Initializing the route service.").build());
+        loadRoutes();
+        routeServiceInitEvent.fire(RouteServiceInit.create());
+        LOGGER.info(new LogBuilder("The route service is ready!").build());
     }
 
     /**
@@ -136,13 +147,9 @@ public class RouteService {
             }).collect(Collectors.toList());
 
             routeRepository.save(parsedRoutes);
-
             LOGGER.info(new LogBuilder(String.format("Created %d routes.", parsedRoutes.size())).build());
-
-            routeServiceInitEvent.fire(RouteServiceInit.create());
-
-            LOGGER.info(new LogBuilder("The route service is ready!").build());
-        } catch (JsonException | ObserverException | IllegalArgumentException | NullPointerException exception) {
+        } catch (JsonException | ObserverException | ClassCastException | DomainException |
+                 NullPointerException exception) {
             LOGGER.warning(new LogBuilder(RouteError.LOAD_INITIAL_DATA).withException(exception).build());
             throw new RouteException(RouteError.LOAD_INITIAL_DATA, exception);
         }

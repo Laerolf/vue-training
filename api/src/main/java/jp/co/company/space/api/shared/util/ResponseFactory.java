@@ -3,18 +3,19 @@ package jp.co.company.space.api.shared.util;
 import jakarta.ws.rs.core.Response;
 
 /**
- * Utility methods creating additional {@link Response} instances.
+ * Utility methods creating additional {@link Response.ResponseBuilder} instances.
  */
 public class ResponseFactory {
 
     /**
-     * Creates a new Response with the {@link Response.Status} NOT_FOUND status.
-     * @return a new Response with the {@link Response.Status} NOT_FOUND status.
+     * Creates a new {@link Response.ResponseBuilder} with the {@link Response.Status} NOT_FOUND status.
+     *
+     * @return a {@link Response.ResponseBuilder}.
      */
-    public static Response createNotFoundResponse() {
-        return Response.status(Response.Status.NOT_FOUND).build();
+    public static Response.ResponseBuilder notFound() {
+        return Response.status(Response.Status.NOT_FOUND);
     }
 
-    private ResponseFactory() {
+    protected ResponseFactory() {
     }
 }

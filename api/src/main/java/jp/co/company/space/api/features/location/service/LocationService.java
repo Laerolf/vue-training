@@ -56,8 +56,12 @@ public class LocationService {
     @Transactional
     public void onStartUp(@Observes @Initialized(ApplicationScoped.class) Object init) throws LocationRuntimeException {
         try {
+            LOGGER.info(new LogBuilder("Initializing the location service.").build());
+
             loadLocations();
             locationServiceInitEvent.fire(LocationServiceInit.create());
+
+            LOGGER.info(new LogBuilder("The location service is ready!").build());
         } catch (IllegalArgumentException | ObserverException exception) {
             LOGGER.severe(new LogBuilder(LocationError.START_SERVICE).withException(exception).build());
             throw new LocationRuntimeException(LocationError.START_SERVICE, exception);
@@ -83,6 +87,7 @@ public class LocationService {
             }).collect(Collectors.toList());
 
             locationRepository.save(parsedLocations);
+            LOGGER.info(new LogBuilder(String.format("Created %d location.", parsedLocations.size())).build());
         } catch (JsonException | NullPointerException | DomainException exception) {
             LOGGER.warning(new LogBuilder(LocationError.LOAD_INITIAL_DATA).withException(exception).build());
             throw new LocationException(LocationError.LOAD_INITIAL_DATA, exception);

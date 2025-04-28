@@ -11,7 +11,11 @@ import jakarta.ws.rs.core.Response;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 import jp.co.company.space.api.features.spaceStation.dto.SpaceStationBasicDto;
 import jp.co.company.space.api.features.spaceStation.dto.SpaceStationDto;
+import jp.co.company.space.api.features.spaceStation.exception.SpaceStationError;
+import jp.co.company.space.api.features.spaceStation.exception.SpaceStationException;
 import jp.co.company.space.api.features.spaceStation.service.SpaceStationService;
+import jp.co.company.space.api.shared.dto.DomainErrorDto;
+import jp.co.company.space.api.shared.util.LogBuilder;
 import jp.co.company.space.api.shared.util.ResponseFactory;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
@@ -19,12 +23,14 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
-import static jp.co.company.space.api.shared.openApi.examples.SPACE_STATION_ORIGIN_ID_EXAMPLE;
+import static jp.co.company.space.api.shared.openApi.Examples.SPACE_STATION_ORIGIN_ID_EXAMPLE;
 
 /**
  * This class represents the REST endpoint for the {@link SpaceStation} topic.
@@ -33,13 +39,18 @@ import static jp.co.company.space.api.shared.openApi.examples.SPACE_STATION_ORIG
 @Path("space-stations")
 @Tag(name = "Space stations")
 public class SpaceStationEndpoint {
+
+    // TODO: check modifiers
+    private static final Logger LOGGER = Logger.getLogger(SpaceStationEndpoint.class.getName());
+
     /**
      * The space station service.
      */
     @Inject
     private SpaceStationService spaceStationService;
 
-    protected SpaceStationEndpoint() {}
+    protected SpaceStationEndpoint() {
+    }
 
     /**
      * Returns all existing space stations.
@@ -48,14 +59,18 @@ public class SpaceStationEndpoint {
      */
     @GET
     @Operation(summary = "Returns all space stations.", description = "Gives a list of all space stations.")
-    @APIResponse(description = "A list of all space stations.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = SchemaType.ARRAY, implementation = SpaceStationBasicDto.class)))
+    @APIResponses({
+            @APIResponse(description = "A list of all space stations.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = SchemaType.ARRAY, implementation = SpaceStationBasicDto.class))),
+            @APIResponse(description = "Something went wrong.", responseCode = "500", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = DomainErrorDto.class)))
+    })
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllSpaceStations() {
         try {
             List<SpaceStationBasicDto> spaceStations = spaceStationService.getAll().stream().map(SpaceStationBasicDto::create).toList();
             return Response.ok().entity(spaceStations).build();
-        } catch (Exception exception) {
-            return Response.serverError().build();
+        } catch (SpaceStationException exception) {
+            LOGGER.warning(new LogBuilder(SpaceStationError.GET_ALL).withException(exception).build());
+            return Response.serverError().entity(DomainErrorDto.create(exception)).build();
         }
     }
 
@@ -69,15 +84,20 @@ public class SpaceStationEndpoint {
     @Path("{id}")
     @Operation(summary = "Returns an optional space station for the provided ID.", description = "Gets a space station if the provided ID matches any.")
     @Parameter(name = "id", description = "The ID of a space station.", example = SPACE_STATION_ORIGIN_ID_EXAMPLE)
-    @APIResponse(description = "An optional space station", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = SpaceStationDto.class)))
+    @APIResponses({
+            @APIResponse(description = "A space station", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = SpaceStationDto.class))),
+            @APIResponse(description = "The space station was not found.", responseCode = "404", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = DomainErrorDto.class))),
+            @APIResponse(description = "Something went wrong.", responseCode = "500", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = DomainErrorDto.class)))
+    })
     @Produces(MediaType.APPLICATION_JSON)
     public Response findSpaceStationById(@PathParam("id") String id) {
         try {
             return spaceStationService.findById(id)
                     .map(spaceStation -> Response.ok().entity(SpaceStationDto.create(spaceStation)).build())
-                    .orElse(ResponseFactory.createNotFoundResponse());
-        } catch(Exception exception) {
-            return Response.serverError().build();
+                    .orElse(ResponseFactory.notFound().build());
+        } catch (SpaceStationException exception) {
+            LOGGER.warning(new LogBuilder(SpaceStationError.GET_ALL).withException(exception).withProperty("id", id).build());
+            return Response.serverError().entity(DomainErrorDto.create(exception)).build();
         }
     }
 }

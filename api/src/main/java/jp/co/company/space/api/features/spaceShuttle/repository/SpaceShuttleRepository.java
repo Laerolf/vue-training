@@ -52,6 +52,21 @@ public class SpaceShuttleRepository {
     }
 
     /**
+     * Returns a {@link List} of {@link SpaceShuttle} instances matching the space shuttle model with the provided ID.
+     *
+     * @param id The ID to search with.
+     * @return A {@link List} of {@link SpaceShuttle} instances.
+     */
+    public List<SpaceShuttle> getAllSpaceShuttlesByModelId(String id) throws SpaceShuttleException {
+        try {
+            return entityManager.createNamedQuery("SpaceShuttle.selectAllByModelId", SpaceShuttle.class).setParameter("id", id).getResultList();
+        } catch (IllegalArgumentException | IllegalStateException | PersistenceException |
+                 NullPointerException exception) {
+            throw new SpaceShuttleException(SpaceShuttleError.GET_ALL_BY_MODEL_ID, exception);
+        }
+    }
+
+    /**
      * Saves a {@link SpaceStation} instance.
      *
      * @param spaceShuttle The {@link SpaceStation} instance to save.

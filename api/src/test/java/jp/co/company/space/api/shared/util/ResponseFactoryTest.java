@@ -13,9 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class ResponseFactoryTest {
 
     @Test
-    void createNotFoundResponse() {
+    void notFound() {
         // When
-        Response notFoundResponse = ResponseFactory.createNotFoundResponse();
+        Response notFoundResponse = ResponseFactory.notFound().build();
 
         // Then
         assertNotNull(notFoundResponse);

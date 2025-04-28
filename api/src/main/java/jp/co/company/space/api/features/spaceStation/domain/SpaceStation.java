@@ -2,6 +2,8 @@ package jp.co.company.space.api.features.spaceStation.domain;
 
 import jakarta.persistence.*;
 import jp.co.company.space.api.features.location.domain.Location;
+import jp.co.company.space.api.features.spaceStation.exception.SpaceStationError;
+import jp.co.company.space.api.features.spaceStation.exception.SpaceStationException;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -12,7 +14,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "space_stations")
 @Access(AccessType.FIELD)
-@NamedQueries({ @NamedQuery(name = "SpaceStation.selectAll", query = "SELECT s FROM SpaceStation s"), })
+@NamedQueries({@NamedQuery(name = "SpaceStation.selectAll", query = "SELECT s FROM SpaceStation s"),})
 public class SpaceStation {
 
     /**
@@ -24,7 +26,7 @@ public class SpaceStation {
      * @param location The location of the space station.
      * @return A new {@link SpaceStation} entity.
      */
-    public static SpaceStation create(String name, String code, String country, Location location) {
+    public static SpaceStation create(String name, String code, String country, Location location) throws SpaceStationException {
         return new SpaceStation(UUID.randomUUID().toString(), name, code, country, location);
     }
 
@@ -38,7 +40,7 @@ public class SpaceStation {
      * @param location The location of the space station.
      * @return A {@link SpaceStation} entity.
      */
-    public static SpaceStation reconstruct(String id, String name, String code, String country, Location location) {
+    public static SpaceStation reconstruct(String id, String name, String code, String country, Location location) throws SpaceStationException {
         return new SpaceStation(id, name, code, country, location);
     }
 
@@ -62,17 +64,18 @@ public class SpaceStation {
     @JoinColumn(name = "location_id", table = "space_stations", nullable = false, unique = true)
     private Location location;
 
-    protected SpaceStation() {}
+    protected SpaceStation() {
+    }
 
-    private SpaceStation(String id, String name, String code, String country, Location location) {
+    private SpaceStation(String id, String name, String code, String country, Location location) throws SpaceStationException {
         if (id == null) {
-            throw new IllegalArgumentException("The ID of the space station is missing.");
+            throw new SpaceStationException(SpaceStationError.MISSING_ID);
         } else if (name == null) {
-            throw new IllegalArgumentException("The name of the space station is missing.");
+            throw new SpaceStationException(SpaceStationError.MISSING_NAME);
         } else if (code == null) {
-            throw new IllegalArgumentException("The code of the space station is missing.");
+            throw new SpaceStationException(SpaceStationError.MISSING_CODE);
         } else if (location == null) {
-            throw new IllegalArgumentException("The location of the space station is missing.");
+            throw new SpaceStationException(SpaceStationError.MISSING_LOCATION);
         }
 
         this.id = id;

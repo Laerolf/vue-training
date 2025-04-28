@@ -21,6 +21,7 @@ public enum SpaceShuttleError implements DomainError {
 
     FIND_BY_ID("spaceShuttle.findById", "Failed to find a space shuttle with the provided ID."),
     GET_ALL("spaceShuttle.getAll", "Failed to get all existing space shuttles."),
+    GET_ALL_BY_MODEL_ID("spaceShuttle.getAllByModelId", "Failed to get all space shuttles for the provided model ID."),
     SAVE("spaceShuttle.save", "Failed to save a space shuttle."),
     MERGE("spaceShuttle.merge", "Failed to merge a space shuttle."),
     SAVE_LIST("spaceShuttle.saveList", "Failed to save space shuttles."),

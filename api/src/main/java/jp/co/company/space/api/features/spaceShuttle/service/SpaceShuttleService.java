@@ -90,10 +90,9 @@ public class SpaceShuttleService {
                 return SpaceShuttle.reconstruct(id, name, shuttleModel);
             }).collect(Collectors.toList());
 
-            // TODO: check exceptions from other topics
             repository.save(parsedSpaceShuttles);
             LOGGER.info(new LogBuilder(String.format("Created %d space shuttles.", parsedSpaceShuttles.size())).build());
-        } catch (JsonException | NullPointerException | SpaceShuttleException exception) {
+        } catch (JsonException | NullPointerException | DomainException exception) {
             LOGGER.warning(new LogBuilder(SpaceShuttleError.LOAD_INITIAL_DATA).withException(exception).build());
             throw new SpaceShuttleException(SpaceShuttleError.LOAD_INITIAL_DATA, exception);
         }
@@ -111,6 +110,17 @@ public class SpaceShuttleService {
             LOGGER.warning(new LogBuilder(SpaceShuttleError.GET_ALL).withException(exception).build());
             throw exception;
         }
+    }
+
+    /**
+     * Returns a {@link List} of all {@link SpaceShuttle} instances with the {@link SpaceShuttleModel} matching the provided
+     * ID.
+     *
+     * @param id The ID to search with.
+     * @return A {@link List} of {@link SpaceShuttle} instances.
+     */
+    public List<SpaceShuttle> getAllSpaceShuttlesByModelId(String id) throws SpaceShuttleException {
+        return repository.getAllSpaceShuttlesByModelId(id);
     }
 
     /**

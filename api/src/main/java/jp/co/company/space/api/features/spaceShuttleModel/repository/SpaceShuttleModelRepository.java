@@ -1,13 +1,10 @@
 package jp.co.company.space.api.features.spaceShuttleModel.repository;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TransactionRequiredException;
-import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
+import jakarta.persistence.*;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
-import jp.co.company.space.api.shared.exception.DomainException;
+import jp.co.company.space.api.features.spaceShuttleModel.exception.SpaceShuttleModelError;
+import jp.co.company.space.api.features.spaceShuttleModel.exception.SpaceShuttleModelException;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -30,8 +27,12 @@ public class SpaceShuttleModelRepository {
      * @param id The ID of the space shuttle model to search for.
      * @return An {@link Optional} {@link SpaceShuttleModel}.
      */
-    public Optional<SpaceShuttleModel> findById(String id) {
-        return Optional.ofNullable(entityManager.find(SpaceShuttleModel.class, id));
+    public Optional<SpaceShuttleModel> findById(String id) throws SpaceShuttleModelException {
+        try {
+            return Optional.ofNullable(entityManager.find(SpaceShuttleModel.class, id));
+        } catch (IllegalArgumentException exception) {
+            throw new SpaceShuttleModelException(SpaceShuttleModelError.FIND_BY_ID, exception);
+        }
     }
 
     /**
@@ -39,8 +40,13 @@ public class SpaceShuttleModelRepository {
      *
      * @return A {@link List} of {@link SpaceShuttleModel} instances.
      */
-    public List<SpaceShuttleModel> getAll() {
-        return entityManager.createNamedQuery("SpaceShuttleModel.selectAll", SpaceShuttleModel.class).getResultList();
+    public List<SpaceShuttleModel> getAll() throws SpaceShuttleModelException {
+        try {
+            return entityManager.createNamedQuery("SpaceShuttleModel.selectAll", SpaceShuttleModel.class).getResultList();
+        } catch (IllegalArgumentException | IllegalStateException | PersistenceException |
+                 NullPointerException exception) {
+            throw new SpaceShuttleModelException(SpaceShuttleModelError.GET_ALL, exception);
+        }
     }
 
     /**
@@ -49,13 +55,13 @@ public class SpaceShuttleModelRepository {
      * @param spaceShuttleModel The {@link SpaceShuttleModel} instance to save.
      * @return The saved {@link SpaceShuttleModel} instance.
      */
-    public SpaceShuttleModel save(SpaceShuttleModel spaceShuttleModel) {
+    public SpaceShuttleModel save(SpaceShuttleModel spaceShuttleModel) throws SpaceShuttleModelException {
         if (findById(spaceShuttleModel.getId()).isEmpty()) {
             try {
                 entityManager.persist(spaceShuttleModel);
                 return findById(spaceShuttleModel.getId()).orElseThrow();
             } catch (NoSuchElementException | EntityExistsException | TransactionRequiredException | IllegalArgumentException exception) {
-                throw new IllegalArgumentException("Failed to save a space shuttle model instance.", exception);
+                throw new SpaceShuttleModelException(SpaceShuttleModelError.SAVE, exception);
             }
         } else {
             return merge(spaceShuttleModel);
@@ -68,11 +74,11 @@ public class SpaceShuttleModelRepository {
      * @param spaceShuttleModel The {@link SpaceShuttleModel} instance to merge.
      * @return The merged {@link SpaceShuttleModel} instance.
      */
-    public SpaceShuttleModel merge(SpaceShuttleModel spaceShuttleModel) {
+    public SpaceShuttleModel merge(SpaceShuttleModel spaceShuttleModel) throws SpaceShuttleModelException {
         try {
             return entityManager.merge(spaceShuttleModel);
         } catch (TransactionRequiredException | IllegalArgumentException exception) {
-            throw new IllegalArgumentException("Failed to merge a space shuttle model instance.", exception);
+            throw new SpaceShuttleModelException(SpaceShuttleModelError.MERGE, exception);
         }
     }
 
@@ -82,25 +88,11 @@ public class SpaceShuttleModelRepository {
      * @param spaceShuttleModels The {@link List} of {@link SpaceShuttleModel} to save.
      * @return The {@link List} of saved {@link SpaceShuttleModel} instances.
      */
-    public List<SpaceShuttleModel> save(List<SpaceShuttleModel> spaceShuttleModels) {
+    public List<SpaceShuttleModel> save(List<SpaceShuttleModel> spaceShuttleModels) throws SpaceShuttleModelException {
         try {
             return spaceShuttleModels.stream().map(this::save).toList();
-        } catch (IllegalArgumentException exception) {
-            throw new IllegalArgumentException("Failed to save a list of space shuttle models.", exception);
-        }
-    }
-
-    /**
-     * Returns a {@link List} of {@link SpaceShuttle} instances matching the space shuttle model with the provided ID.
-     *
-     * @param id The ID to search with.
-     * @return A {@link List} of {@link SpaceShuttle} instances.
-     */
-    public List<SpaceShuttle> getAllSpaceShuttlesByModelId(String id) {
-        try {
-            return entityManager.createNamedQuery("SpaceShuttle.selectAllByModelId", SpaceShuttle.class).setParameter("id", id).getResultList();
-        } catch (Exception exception) {
-            throw new DomainException("Failed to get all space shuttles for the provided model ID.", exception);
+        } catch (SpaceShuttleModelException exception) {
+            throw new SpaceShuttleModelException(SpaceShuttleModelError.SAVE_LIST, exception);
         }
     }
 }
