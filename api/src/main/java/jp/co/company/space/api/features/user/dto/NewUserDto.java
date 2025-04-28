@@ -1,9 +1,11 @@
 package jp.co.company.space.api.features.user.dto;
 
 import jp.co.company.space.api.features.user.domain.User;
+import jp.co.company.space.api.features.user.exception.UserError;
+import jp.co.company.space.api.features.user.exception.UserException;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-import static jp.co.company.space.api.shared.openApi.examples.*;
+import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
  * A POJO representing a DTO of a newly created {@link User} instance.
@@ -13,10 +15,11 @@ public class NewUserDto {
 
     /**
      * Creates a {@link NewUserDto} instance based on a {@link User} instance.
+     *
      * @param user The base user.
      * @return A {@link NewUserDto} instance.
      */
-    public static NewUserDto create(User user) {
+    public static NewUserDto create(User user) throws UserException {
         return new NewUserDto(user.getId(), user.getLastName(), user.getFirstName(), user.getEmailAddress());
     }
 
@@ -44,20 +47,21 @@ public class NewUserDto {
     @Schema(description = "The email address of the user.", example = USER_EMAIL_ADDRESS_EXAMPLE)
     public String emailAddress;
 
-    protected NewUserDto() {}
+    protected NewUserDto() {
+    }
 
-    protected NewUserDto(String id, String lastName, String firstName, String emailAddress) {
+    protected NewUserDto(String id, String lastName, String firstName, String emailAddress) throws UserException {
         if (id == null) {
-            throw new IllegalArgumentException("The ID of the user is missing.");
+            throw new UserException(UserError.NEW_MISSING_ID);
         } else if (lastName == null) {
-            throw new IllegalArgumentException("The last name of the user is missing.");
+            throw new UserException(UserError.NEW_MISSING_LAST_NAME);
         } else if (firstName == null) {
-            throw new IllegalArgumentException("The first name of the user is missing.");
+            throw new UserException(UserError.NEW_MISSING_FIRST_NAME);
         } else if (emailAddress == null) {
-            throw new IllegalArgumentException("The email address of the newly created user is missing.");
+            throw new UserException(UserError.NEW_MISSING_EMAIL_ADDRESS);
         }
 
-        this.id =id;
+        this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
         this.emailAddress = emailAddress;

@@ -11,7 +11,7 @@ public class PasswordHashFactory {
 
     private final String rawPassword;
 
-    public PasswordHashFactory(String rawPassword) {
+    public PasswordHashFactory(String rawPassword) throws IllegalArgumentException {
         if (rawPassword == null) {
             throw new IllegalArgumentException("The password is missing.");
         }

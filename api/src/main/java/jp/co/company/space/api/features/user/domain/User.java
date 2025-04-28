@@ -2,6 +2,8 @@ package jp.co.company.space.api.features.user.domain;
 
 import jakarta.persistence.*;
 import jp.co.company.space.api.features.booking.domain.Booking;
+import jp.co.company.space.api.features.user.exception.UserError;
+import jp.co.company.space.api.features.user.exception.UserException;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -28,7 +30,7 @@ public class User {
      * @param password     The password of the user.
      * @return A new {@link User} instance.
      */
-    public static User create(String lastName, String firstName, String emailAddress, String password) {
+    public static User create(String lastName, String firstName, String emailAddress, String password) throws UserException {
         return new User(UUID.randomUUID().toString(), lastName, firstName, emailAddress, password);
     }
 
@@ -42,7 +44,7 @@ public class User {
      * @param password     The password of the user.
      * @return A {@link User} instance.
      */
-    public static User reconstruct(String id, String lastName, String firstName, String emailAddress, String password) {
+    public static User reconstruct(String id, String lastName, String firstName, String emailAddress, String password) throws UserException {
         return new User(id, lastName, firstName, emailAddress, password);
     }
 
@@ -90,17 +92,17 @@ public class User {
     protected User() {
     }
 
-    protected User(String id, String lastName, String firstName, String emailAddress, String password) {
+    protected User(String id, String lastName, String firstName, String emailAddress, String password) throws UserException {
         if (id == null) {
-            throw new IllegalArgumentException("The ID of the user is missing.");
+            throw new UserException(UserError.MISSING_ID);
         } else if (lastName == null) {
-            throw new IllegalArgumentException("The last name of the user is missing.");
+            throw new UserException(UserError.MISSING_LAST_NAME);
         } else if (firstName == null) {
-            throw new IllegalArgumentException("The first name of the user is missing.");
+            throw new UserException(UserError.MISSING_FIRST_NAME);
         } else if (emailAddress == null) {
-            throw new IllegalArgumentException("The email address of the user is missing.");
+            throw new UserException(UserError.MISSING_EMAIL_ADDRESS);
         } else if (password == null) {
-            throw new IllegalArgumentException("The password of the user is missing.");
+            throw new UserException(UserError.MISSING_PASSWORD);
         }
 
         this.id = id;

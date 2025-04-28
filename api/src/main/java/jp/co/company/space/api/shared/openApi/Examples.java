@@ -1,9 +1,9 @@
 package jp.co.company.space.api.shared.openApi;
 
 /**
- * A collection of Open API examples.
+ * A collection of Open API Examples.
  */
-public class examples {
+public class Examples {
     // Shared
     public static final String ID_EXAMPLE = "1";
     public static final String CREATION_DATE_EXAMPLE = "2025-04-14T08:49:20.507334+09:00";
@@ -72,4 +72,8 @@ public class examples {
     public static final String MEAL_PREFERENCE_ADDITIONAL_COST_EXAMPLE = "0";
     public static final String MEAL_PREFERENCE_AVAILABLE_FROM_EXAMPLE = PACKAGE_TYPE_KEY_EXAMPLE;
     public static final String MEAL_PREFERENCE_FREE_FROM_EXAMPLE = PACKAGE_TYPE_KEY_EXAMPLE;
+
+    // Error
+    public static final String ERROR_KEY_EXAMPLE = "Error.theRoofIsOnFire";
+    public static final String ERROR_KEY_MESSAGE = "Something went terribly wrong.";
 }

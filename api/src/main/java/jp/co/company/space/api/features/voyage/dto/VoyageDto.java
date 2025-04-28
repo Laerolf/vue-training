@@ -3,9 +3,11 @@ package jp.co.company.space.api.features.voyage.dto;
 import jp.co.company.space.api.features.route.dto.RouteDto;
 import jp.co.company.space.api.features.spaceShuttle.dto.SpaceShuttleDto;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
+import jp.co.company.space.api.features.voyage.exception.VoyageError;
+import jp.co.company.space.api.features.voyage.exception.VoyageException;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-import static jp.co.company.space.api.shared.openApi.examples.*;
+import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
  * A POJO representing a DTO of a {@link Voyage} instance.
@@ -19,13 +21,19 @@ public class VoyageDto {
      * @param voyage The base {@link Voyage} instance.
      * @return A new {@link VoyageDto} instance.
      */
-    public static VoyageDto create(Voyage voyage) {
+    public static VoyageDto create(Voyage voyage) throws VoyageException {
         if (voyage == null) {
-            throw new IllegalArgumentException("The voyage instance is missing.");
+            throw new VoyageException(VoyageError.MISSING);
         }
 
-        return new VoyageDto(voyage.getId(), voyage.getDepartureDate().toString(), voyage.getArrivalDate().toString(), voyage.getDuration().toSeconds(), voyage.getStatus().getKey(),
-                RouteDto.create(voyage.getRoute()), SpaceShuttleDto.create(voyage.getSpaceShuttle()));
+        return new VoyageDto(
+                voyage.getId(),
+                voyage.getDepartureDate().toString(), voyage.getArrivalDate().toString(),
+                voyage.getDuration().toSeconds(),
+                voyage.getStatus().getKey(),
+                RouteDto.create(voyage.getRoute()),
+                SpaceShuttleDto.create(voyage.getSpaceShuttle())
+        );
     }
 
     /**
@@ -73,21 +81,21 @@ public class VoyageDto {
     protected VoyageDto() {
     }
 
-    protected VoyageDto(String id, String departureDate, String arrivalDate, Long duration, String status, RouteDto route, SpaceShuttleDto spaceShuttle) {
+    protected VoyageDto(String id, String departureDate, String arrivalDate, Long duration, String status, RouteDto route, SpaceShuttleDto spaceShuttle) throws VoyageException {
         if (id == null) {
-            throw new IllegalArgumentException("The ID of the voyage is missing.");
+            throw new VoyageException(VoyageError.MISSING_ID);
         } else if (departureDate == null) {
-            throw new IllegalArgumentException("The departure date of the voyage is missing.");
+            throw new VoyageException(VoyageError.MISSING_DEPARTURE_DATE);
         } else if (arrivalDate == null) {
-            throw new IllegalArgumentException("The arrival date of the voyage is missing.");
+            throw new VoyageException(VoyageError.MISSING_ARRIVAL_DATE);
         } else if (duration == null) {
-            throw new IllegalArgumentException("The duration of the voyage is missing.");
+            throw new VoyageException(VoyageError.MISSING_DURATION);
         } else if (status == null) {
-            throw new IllegalArgumentException("The status of the voyage is missing.");
+            throw new VoyageException(VoyageError.MISSING_STATUS);
         } else if (route == null) {
-            throw new IllegalArgumentException("The route of the voyage is missing.");
+            throw new VoyageException(VoyageError.MISSING_ROUTE);
         } else if (spaceShuttle == null) {
-            throw new IllegalArgumentException("The space shuttle of the voyage is missing.");
+            throw new VoyageException(VoyageError.MISSING_SPACE_SHUTTLE);
         }
 
         this.id = id;

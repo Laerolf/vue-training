@@ -1,9 +1,11 @@
 package jp.co.company.space.api.features.user.input;
 
 import jp.co.company.space.api.features.user.domain.User;
+import jp.co.company.space.api.features.user.exception.UserError;
+import jp.co.company.space.api.features.user.exception.UserException;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-import static jp.co.company.space.api.shared.openApi.examples.*;
+import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
  * A POJO representing a form for creating a new {@link User} instance.
@@ -20,7 +22,7 @@ public class UserCreationForm {
      * @param password     The password of the user to create.
      * @return A new {@link UserCreationForm} instance.
      */
-    public static UserCreationForm create(String lastName, String firstName, String emailAddress, String password) {
+    public static UserCreationForm create(String lastName, String firstName, String emailAddress, String password) throws UserException {
         return new UserCreationForm(lastName, firstName, emailAddress, password);
     }
 
@@ -51,15 +53,15 @@ public class UserCreationForm {
     protected UserCreationForm() {
     }
 
-    protected UserCreationForm(String lastName, String firstName, String emailAddress, String password) {
+    protected UserCreationForm(String lastName, String firstName, String emailAddress, String password) throws UserException {
         if (lastName == null) {
-            throw new IllegalArgumentException("The last name of the user to create is missing.");
+            throw new UserException(UserError.NEW_MISSING_LAST_NAME);
         } else if (firstName == null) {
-            throw new IllegalArgumentException("The first name of the user to create is missing.");
+            throw new UserException(UserError.NEW_MISSING_FIRST_NAME);
         } else if (emailAddress == null) {
-            throw new IllegalArgumentException("The email address of the user to create is missing.");
+            throw new UserException(UserError.NEW_MISSING_EMAIL_ADDRESS);
         } else if (password == null) {
-            throw new IllegalArgumentException("The password of the user to create is missing.");
+            throw new UserException(UserError.NEW_MISSING_PASSWORD);
         }
 
         this.lastName = lastName;

@@ -7,6 +7,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonException;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
+import jp.co.company.space.api.features.location.exception.LocationError;
 import jp.co.company.space.api.features.pod.domain.Pod;
 import jp.co.company.space.api.features.pod.domain.PodReservation;
 import jp.co.company.space.api.features.pod.service.PodReservationService;
@@ -19,13 +20,18 @@ import jp.co.company.space.api.features.spaceShuttle.service.SpaceShuttleService
 import jp.co.company.space.api.features.spaceShuttleModel.service.SpaceShuttleModelService;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
 import jp.co.company.space.api.features.voyage.domain.VoyageStatus;
+import jp.co.company.space.api.features.voyage.exception.VoyageError;
+import jp.co.company.space.api.features.voyage.exception.VoyageException;
+import jp.co.company.space.api.features.voyage.exception.VoyageRuntimeException;
 import jp.co.company.space.api.features.voyage.repository.VoyageRepository;
 import jp.co.company.space.api.shared.exception.DomainException;
+import jp.co.company.space.api.shared.util.LogBuilder;
 
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -33,6 +39,8 @@ import java.util.stream.Collectors;
  */
 @ApplicationScoped
 public class VoyageService {
+
+    private static final Logger LOGGER = Logger.getLogger(VoyageService.class.getName());
 
     @Inject
     private VoyageRepository repository;
@@ -59,27 +67,29 @@ public class VoyageService {
     protected VoyageService() {
     }
 
-    protected void onStartUp(@Observes SpaceShuttleServiceInit spaceShuttleServiceInit) {
+    protected void onStartUp(@Observes SpaceShuttleServiceInit spaceShuttleServiceInit) throws VoyageRuntimeException {
         try {
             isSpaceShuttleServiceReady = true;
 
             if (isReadyToBeInitialized()) {
-                loadVoyages();
+                initialize();
             }
         } catch (Exception exception) {
-            throw new RuntimeException("Failed to load the initial data to the database.", exception);
+            LOGGER.severe(new LogBuilder(LocationError.START_SERVICE).withException(exception).build());
+            throw new VoyageRuntimeException(VoyageError.START_SERVICE, exception);
         }
     }
 
-    protected void onStartUp(@Observes RouteServiceInit routeServiceInit) {
+    protected void onStartUp(@Observes RouteServiceInit routeServiceInit) throws VoyageRuntimeException {
         try {
             isRouteServiceReady = true;
 
             if (isReadyToBeInitialized()) {
-                loadVoyages();
+                initialize();
             }
         } catch (DomainException exception) {
-            throw new RuntimeException("Failed to load the initial data to the database.", exception);
+            LOGGER.severe(new LogBuilder(LocationError.START_SERVICE).withException(exception).build());
+            throw new VoyageRuntimeException(VoyageError.START_SERVICE, exception);
         }
     }
 
@@ -91,35 +101,47 @@ public class VoyageService {
     }
 
     /**
+     * Initializes this service.
+     */
+    private void initialize() throws VoyageException {
+        try {
+            LOGGER.info(new LogBuilder("Initializing the voyage service.").build());
+            loadVoyages();
+            LOGGER.info(new LogBuilder("The voyage service is ready!").build());
+        } catch (VoyageException exception) {
+            LOGGER.warning(new LogBuilder(VoyageError.START_SERVICE).withException(exception).build());
+            throw new VoyageException(VoyageError.START_SERVICE, exception);
+        }
+    }
+
+    /**
      * Loads the initial {@link Voyage} instances into the database.
      */
-    private void loadVoyages() {
+    private void loadVoyages() throws VoyageException {
         try (JsonReader reader = Json.createReader(VoyageService.class.getResourceAsStream("/static/voyages.json"))) {
             List<Voyage> parsedVoyages = reader.readArray().stream().map(voyageJsonValue -> {
-                try {
-                    JsonObject voyageJson = voyageJsonValue.asJsonObject();
+                JsonObject voyageJson = voyageJsonValue.asJsonObject();
 
-                    String id = voyageJson.getString("id");
-                    ZonedDateTime departureDate = ZonedDateTime.parse(voyageJson.getString("departureDate"));
-                    ZonedDateTime arrivalDate = ZonedDateTime.parse(voyageJson.getString("arrivalDate"));
+                String id = voyageJson.getString("id");
+                ZonedDateTime departureDate = ZonedDateTime.parse(voyageJson.getString("departureDate"));
+                ZonedDateTime arrivalDate = ZonedDateTime.parse(voyageJson.getString("arrivalDate"));
 
-                    String routeId = voyageJson.getString("routeId");
-                    String spaceShuttleId = voyageJson.getString("spaceShuttleId");
-                    String statusKey = voyageJson.getString("status");
+                String routeId = voyageJson.getString("routeId");
+                String spaceShuttleId = voyageJson.getString("spaceShuttleId");
+                String statusKey = voyageJson.getString("status");
 
-                    Route route = routeService.findById(routeId).orElseThrow(() -> new NoSuchElementException("No route present"));
-                    SpaceShuttle spaceShuttle = spaceShuttleService.findById(spaceShuttleId).orElseThrow();
-                    VoyageStatus status = VoyageStatus.valueOf(statusKey);
+                Route route = routeService.findById(routeId).orElseThrow(() -> new NoSuchElementException("No route present"));
+                SpaceShuttle spaceShuttle = spaceShuttleService.findById(spaceShuttleId).orElseThrow();
+                VoyageStatus status = VoyageStatus.valueOf(statusKey);
 
-                    return Voyage.reconstruct(id, departureDate, arrivalDate, status, route, spaceShuttle);
-                } catch (NoSuchElementException exception) {
-                    throw new DomainException(String.format("Failed to find an element for a voyage [value='%s']: %s", voyageJsonValue, exception.getMessage()));
-                }
+                return Voyage.reconstruct(id, departureDate, arrivalDate, status, route, spaceShuttle);
             }).collect(Collectors.toList());
 
             repository.save(parsedVoyages);
-        } catch (JsonException | NullPointerException exception) {
-            throw new RuntimeException("Failed to load the initial space voyages into the database", exception);
+            LOGGER.info(new LogBuilder(String.format("Created %d voyages.", parsedVoyages.size())).build());
+        } catch (JsonException | NullPointerException | DomainException exception) {
+            LOGGER.warning(new LogBuilder(VoyageError.LOAD_INITIAL_DATA).withException(exception).build());
+            throw new VoyageException(VoyageError.LOAD_INITIAL_DATA, exception);
         }
     }
 
@@ -128,8 +150,13 @@ public class VoyageService {
      *
      * @return A {@link List} of all {@link Voyage} instances.
      */
-    public List<Voyage> getAll() {
-        return repository.getAll();
+    public List<Voyage> getAll() throws VoyageException {
+        try {
+            return repository.getAll();
+        } catch (VoyageException exception) {
+            LOGGER.warning(new LogBuilder(VoyageError.GET_ALL).withException(exception).build());
+            throw exception;
+        }
     }
 
     /**
@@ -138,8 +165,13 @@ public class VoyageService {
      * @param id The ID to search with.
      * @return An {@link Optional} {@link Voyage} instance.
      */
-    public Optional<Voyage> findById(String id) {
-        return repository.findById(id);
+    public Optional<Voyage> findById(String id) throws VoyageException {
+        try {
+            return repository.findById(id);
+        } catch (VoyageException exception) {
+            LOGGER.warning(new LogBuilder(VoyageError.FIND_BY_ID).withException(exception).withProperty("id", id).build());
+            throw exception;
+        }
     }
 
     /**
@@ -148,8 +180,13 @@ public class VoyageService {
      * @param originId The space station ID to search with.
      * @return A {@link List} of {@link Voyage} instances.
      */
-    public List<Voyage> getAllFrom(String originId) {
-        return repository.getAllVoyagesFromOriginId(originId);
+    public List<Voyage> getAllFrom(String originId) throws VoyageException {
+        try {
+            return repository.getAllVoyagesByOriginId(originId);
+        } catch (VoyageException exception) {
+            LOGGER.warning(new LogBuilder(VoyageError.GET_ALL_BY_ORIGIN_ID).withException(exception).withProperty("originId", originId).build());
+            throw exception;
+        }
     }
 
     /**
@@ -158,8 +195,13 @@ public class VoyageService {
      * @param destinationId The space station ID to search with.
      * @return A {@link List} of {@link Voyage} instances.
      */
-    public List<Voyage> getAllTo(String destinationId) {
-        return repository.getAllVoyagesToDestinationId(destinationId);
+    public List<Voyage> getAllTo(String destinationId) throws VoyageException {
+        try {
+            return repository.getAllVoyagesByDestinationId(destinationId);
+        } catch (VoyageException exception) {
+            LOGGER.warning(new LogBuilder(VoyageError.GET_ALL_BY_DESTINATION_ID).withException(exception).withProperty("destinationId", destinationId).build());
+            throw exception;
+        }
     }
 
     /**
@@ -170,8 +212,19 @@ public class VoyageService {
      * @param destinationId The destination space station ID to search with.
      * @return A {@link List} of {@link Voyage} instances.
      */
-    public List<Voyage> getAllFromTo(String originId, String destinationId) {
-        return repository.getAllVoyagesFromOriginIdToDestinationId(originId, destinationId);
+    public List<Voyage> getAllFromTo(String originId, String destinationId) throws VoyageException {
+        try {
+            return repository.getAllVoyagesByOriginIdAndDestinationId(originId, destinationId);
+        } catch (VoyageException exception) {
+            LOGGER.warning(
+                    new LogBuilder(VoyageError.GET_ALL_BY_ORIGIN_ID_AND_DESTINATION_ID)
+                            .withException(exception)
+                            .withProperty("originId", originId)
+                            .withProperty("originId", destinationId)
+                            .build()
+            );
+            throw exception;
+        }
     }
 
     /**
@@ -180,9 +233,19 @@ public class VoyageService {
      * @param id The ID to search for.
      * @return A {@link List} of {@link Pod} instances.
      */
-    public List<Pod> getAllPodsByVoyageId(String id) {
-        Voyage selectedVoyage =  findById(id).orElseThrow();
-        return getAllPodsByVoyage(selectedVoyage);
+    public List<Pod> getAllPodsByVoyageId(String id) throws VoyageException {
+        try {
+            Voyage selectedVoyage = findById(id).orElseThrow(() -> new VoyageException(VoyageError.FIND_BY_ID));
+            return getAllPodsByVoyage(selectedVoyage);
+        } catch (VoyageException exception) {
+            LOGGER.warning(
+                    new LogBuilder(VoyageError.GET_ALL_PODS_BY_VOYAGE_ID)
+                            .withException(exception)
+                            .withProperty("id", id)
+                            .build()
+            );
+            throw exception;
+        }
     }
 
     /**
@@ -191,8 +254,17 @@ public class VoyageService {
      * @param voyage The voyage to search for.
      * @return A {@link List} of {@link Pod} instances.
      */
-    public List<Pod> getAllPodsByVoyage(Voyage voyage) {
-        List<PodReservation> reservedPods = podReservationService.getAllPodReservationsByVoyage(voyage);
-        return voyage.getSpaceShuttle().getLayout().getAllPodsWithAvailability(reservedPods);
+    public List<Pod> getAllPodsByVoyage(Voyage voyage) throws VoyageException {
+        try {
+            List<PodReservation> reservedPods = podReservationService.getAllPodReservationsByVoyage(voyage);
+            return voyage.getSpaceShuttle().getLayout().getAllPodsWithAvailability(reservedPods);
+        } catch (DomainException exception) {
+            LOGGER.warning(
+                    new LogBuilder(VoyageError.GET_ALL_PODS_BY_VOYAGE)
+                            .withException(exception)
+                            .build()
+            );
+            throw new VoyageException(VoyageError.GET_ALL_PODS_BY_VOYAGE, exception);
+        }
     }
 }

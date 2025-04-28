@@ -1,11 +1,10 @@
 package jp.co.company.space.api.features.voyage.repository;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TransactionRequiredException;
+import jakarta.persistence.*;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
+import jp.co.company.space.api.features.voyage.exception.VoyageError;
+import jp.co.company.space.api.features.voyage.exception.VoyageException;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,7 +19,8 @@ public class VoyageRepository {
     @PersistenceContext(unitName = "domain")
     private EntityManager entityManager;
 
-    protected VoyageRepository() {}
+    protected VoyageRepository() {
+    }
 
     /**
      * Returns an {@link Optional} {@link Voyage} instance for the provided ID.
@@ -28,8 +28,12 @@ public class VoyageRepository {
      * @param id The ID to search with.
      * @return An {@link Optional} {@link Voyage} instance.
      */
-    public Optional<Voyage> findById(String id) {
-        return Optional.ofNullable(entityManager.find(Voyage.class, id));
+    public Optional<Voyage> findById(String id) throws VoyageException {
+        try {
+            return Optional.ofNullable(entityManager.find(Voyage.class, id));
+        } catch (IllegalArgumentException exception) {
+            throw new VoyageException(VoyageError.FIND_BY_ID, exception);
+        }
     }
 
     /**
@@ -37,8 +41,13 @@ public class VoyageRepository {
      *
      * @return A {@link List} of {@link Voyage} instances.
      */
-    public List<Voyage> getAll() {
-        return entityManager.createNamedQuery("Voyage.selectAll", Voyage.class).getResultList();
+    public List<Voyage> getAll() throws VoyageException {
+        try {
+            return entityManager.createNamedQuery("Voyage.selectAll", Voyage.class).getResultList();
+        } catch (IllegalArgumentException | IllegalStateException | PersistenceException |
+                 NullPointerException exception) {
+            throw new VoyageException(VoyageError.FIND_BY_ID, exception);
+        }
     }
 
     /**
@@ -48,8 +57,15 @@ public class VoyageRepository {
      * @param originId The space station ID to search with.
      * @return A {@link List} of {@link Voyage} instances.
      */
-    public List<Voyage> getAllVoyagesFromOriginId(String originId) {
-        return entityManager.createNamedQuery("Voyage.selectAllFromOriginId", Voyage.class).setParameter("originId", originId).getResultList();
+    public List<Voyage> getAllVoyagesByOriginId(String originId) throws VoyageException {
+        try {
+            return entityManager.createNamedQuery("Voyage.selectAllByOriginId", Voyage.class)
+                    .setParameter("originId", originId)
+                    .getResultList();
+        } catch (IllegalArgumentException | IllegalStateException | PersistenceException |
+                 NullPointerException exception) {
+            throw new VoyageException(VoyageError.GET_ALL_BY_ORIGIN_ID, exception);
+        }
     }
 
     /**
@@ -59,8 +75,15 @@ public class VoyageRepository {
      * @param destinationId The space station ID to search with.
      * @return A {@link List} of {@link Voyage} instances.
      */
-    public List<Voyage> getAllVoyagesToDestinationId(String destinationId) {
-        return entityManager.createNamedQuery("Voyage.selectAllToDestinationId", Voyage.class).setParameter("destinationId", destinationId).getResultList();
+    public List<Voyage> getAllVoyagesByDestinationId(String destinationId) throws VoyageException {
+        try {
+            return entityManager.createNamedQuery("Voyage.selectAllByDestinationId", Voyage.class)
+                    .setParameter("destinationId", destinationId)
+                    .getResultList();
+        } catch (IllegalArgumentException | IllegalStateException | PersistenceException |
+                 NullPointerException exception) {
+            throw new VoyageException(VoyageError.GET_ALL_BY_DESTINATION_ID, exception);
+        }
     }
 
     /**
@@ -71,8 +94,16 @@ public class VoyageRepository {
      * @param destinationId The destination space station ID to search with.
      * @return A {@link List} of {@link Voyage} instances.
      */
-    public List<Voyage> getAllVoyagesFromOriginIdToDestinationId(String originId, String destinationId) {
-        return entityManager.createNamedQuery("Voyage.selectAllFromOriginIdToDestinationId", Voyage.class).setParameter("originId", originId).setParameter("destinationId", destinationId).getResultList();
+    public List<Voyage> getAllVoyagesByOriginIdAndDestinationId(String originId, String destinationId) throws VoyageException {
+        try {
+            return entityManager.createNamedQuery("Voyage.selectAllByOriginIdAndDestinationId", Voyage.class)
+                    .setParameter("originId", originId)
+                    .setParameter("destinationId", destinationId)
+                    .getResultList();
+        } catch (IllegalArgumentException | IllegalStateException | PersistenceException |
+                 NullPointerException exception) {
+            throw new VoyageException(VoyageError.GET_ALL_BY_ORIGIN_ID_AND_DESTINATION_ID, exception);
+        }
     }
 
     /**
@@ -81,13 +112,14 @@ public class VoyageRepository {
      * @param voyage The voyage instance to persist.
      * @return A persisted {@link Voyage} instance.
      */
-    public Voyage save(Voyage voyage) {
+    public Voyage save(Voyage voyage) throws VoyageException {
         if (findById(voyage.getId()).isEmpty()) {
             try {
                 entityManager.persist(voyage);
                 return findById(voyage.getId()).orElseThrow();
-            } catch (TransactionRequiredException | EntityExistsException | NoSuchElementException | IllegalArgumentException exception) {
-                throw new IllegalArgumentException("Failed to save a voyage instance.", exception);
+            } catch (TransactionRequiredException | EntityExistsException | NoSuchElementException |
+                     IllegalArgumentException exception) {
+                throw new VoyageException(VoyageError.SAVE, exception);
             }
         } else {
             return merge(voyage);
@@ -100,11 +132,11 @@ public class VoyageRepository {
      * @param voyage The voyage instance to merge.
      * @return A merged {@link Voyage} instance.
      */
-    public Voyage merge(Voyage voyage) {
+    public Voyage merge(Voyage voyage) throws VoyageException {
         try {
             return entityManager.merge(voyage);
         } catch (TransactionRequiredException | IllegalArgumentException exception) {
-            throw new IllegalArgumentException("Failed to merge a voyage instance.", exception);
+            throw new VoyageException(VoyageError.MERGE, exception);
         }
     }
 
@@ -114,11 +146,11 @@ public class VoyageRepository {
      * @param voyages The list of voyage instances to persist.
      * @return A persisted {@link List} of {@link Voyage} instances.
      */
-    public List<Voyage> save(List<Voyage> voyages) {
+    public List<Voyage> save(List<Voyage> voyages) throws VoyageException {
         try {
             return voyages.stream().map(this::save).toList();
-        } catch (IllegalArgumentException exception) {
-            throw new IllegalArgumentException("Failed to save a list of voyages.", exception);
+        } catch (VoyageException exception) {
+            throw new VoyageException(VoyageError.SAVE_LIST, exception);
         }
     }
 }

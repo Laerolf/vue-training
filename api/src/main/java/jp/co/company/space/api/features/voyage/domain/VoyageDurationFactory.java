@@ -3,6 +3,8 @@ package jp.co.company.space.api.features.voyage.domain;
 import jp.co.company.space.api.features.route.domain.Route;
 import jp.co.company.space.api.features.route.domain.RouteDistanceFactory;
 import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
+import jp.co.company.space.api.features.voyage.exception.VoyageError;
+import jp.co.company.space.api.features.voyage.exception.VoyageException;
 
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -21,7 +23,7 @@ public class VoyageDurationFactory {
      * @throws IllegalArgumentException When the provided route is null.
      * @throws IllegalArgumentException When the provided space shuttle is null.
      */
-    public static VoyageDurationFactory create(final Route route, final SpaceShuttle spaceShuttle) {
+    public static VoyageDurationFactory create(final Route route, final SpaceShuttle spaceShuttle) throws VoyageException {
         return new VoyageDurationFactory(route, spaceShuttle);
     }
 
@@ -35,15 +37,19 @@ public class VoyageDurationFactory {
      */
     private final SpaceShuttle spaceShuttle;
 
-    private VoyageDurationFactory(Route route, SpaceShuttle spaceShuttle) {
-        if (route == null) {
-            throw new IllegalArgumentException("The route of the voyage duration factory is missing.");
-        } else if (spaceShuttle == null) {
-            throw new IllegalArgumentException("The space shuttle of the voyage duration factory is missing.");
-        }
+    protected VoyageDurationFactory(Route route, SpaceShuttle spaceShuttle) throws VoyageException {
+        try {
+            if (route == null) {
+                throw new VoyageException(VoyageError.MISSING_ROUTE);
+            } else if (spaceShuttle == null) {
+                throw new VoyageException(VoyageError.MISSING_SPACE_SHUTTLE);
+            }
 
-        this.spaceShuttle = spaceShuttle;
-        this.routeDistance = RouteDistanceFactory.create(route).calculate();
+            this.spaceShuttle = spaceShuttle;
+            this.routeDistance = RouteDistanceFactory.create(route).calculate();
+        } catch (VoyageException exception) {
+            throw new VoyageException(VoyageError.VOYAGE_DURATION_CALCULATION, exception);
+        }
     }
 
     /**
@@ -51,8 +57,12 @@ public class VoyageDurationFactory {
      *
      * @return A duration in days of a voyage.
      */
-    public Duration calculate() {
-        long durationInHours = routeDistance.longValue() / spaceShuttle.getModel().getMaxSpeed();
-        return Duration.ofHours(durationInHours);
+    public Duration calculate() throws VoyageException {
+        try {
+            long durationInHours = routeDistance.longValue() / spaceShuttle.getModel().getMaxSpeed();
+            return Duration.ofHours(durationInHours);
+        } catch (ArithmeticException exception) {
+            throw new VoyageException(VoyageError.VOYAGE_DURATION_CALCULATION);
+        }
     }
 }

@@ -2,9 +2,11 @@ package jp.co.company.space.api.features.voyage.dto;
 
 import jp.co.company.space.api.features.route.domain.Route;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
+import jp.co.company.space.api.features.voyage.exception.VoyageError;
+import jp.co.company.space.api.features.voyage.exception.VoyageException;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-import static jp.co.company.space.api.shared.openApi.examples.*;
+import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
  * A POJO representing a brief DTO of a {@link Voyage} instance.
@@ -17,15 +19,21 @@ public class VoyageBasicDto {
      * @param voyage The base {@link Voyage} instance.
      * @return A new {@link VoyageBasicDto} instance.
      */
-    public static VoyageBasicDto create(Voyage voyage) {
+    public static VoyageBasicDto create(Voyage voyage) throws VoyageException {
         if (voyage == null) {
-            throw new IllegalArgumentException("The voyage instance is missing.");
+            throw new VoyageException(VoyageError.MISSING);
         }
 
         Route voyageRoute = voyage.getRoute();
 
-        return new VoyageBasicDto(voyage.getId(), voyage.getDepartureDate().toString(), voyage.getArrivalDate().toString(), voyage.getDuration().toSeconds(), voyage.getStatus().getKey(),
-                voyageRoute.getId(), voyageRoute.getOrigin().getId(), voyageRoute.getDestination().getId(), voyage.getSpaceShuttle().getId());
+        return new VoyageBasicDto(
+                voyage.getId(),
+                voyage.getDepartureDate().toString(), voyage.getArrivalDate().toString(),
+                voyage.getDuration().toSeconds(),
+                voyage.getStatus().getKey(),
+                voyageRoute.getId(), voyageRoute.getOrigin().getId(), voyageRoute.getDestination().getId(),
+                voyage.getSpaceShuttle().getId()
+        );
     }
 
     /**
@@ -82,27 +90,28 @@ public class VoyageBasicDto {
     @Schema(description = "The ID of the voyage's space shuttle.", example = SPACE_SHUTTLE_ID_EXAMPLE)
     public String spaceShuttleId;
 
-    protected VoyageBasicDto() {}
+    protected VoyageBasicDto() {
+    }
 
-    protected VoyageBasicDto(String id, String departureDate, String arrivalDate, Long duration, String status, String routeId, String originId, String destinationId, String spaceShuttleId) {
+    protected VoyageBasicDto(String id, String departureDate, String arrivalDate, Long duration, String status, String routeId, String originId, String destinationId, String spaceShuttleId) throws VoyageException {
         if (id == null) {
-            throw new IllegalArgumentException("The ID of the voyage is missing.");
+            throw new VoyageException(VoyageError.MISSING_ID);
         } else if (departureDate == null) {
-            throw new IllegalArgumentException("The departure date of the voyage is missing.");
+            throw new VoyageException(VoyageError.MISSING_DEPARTURE_DATE);
         } else if (arrivalDate == null) {
-            throw new IllegalArgumentException("The arrival date of the voyage is missing.");
+            throw new VoyageException(VoyageError.MISSING_ARRIVAL_DATE);
         } else if (duration == null) {
-            throw new IllegalArgumentException("The duration of the voyage is missing.");
+            throw new VoyageException(VoyageError.MISSING_DURATION);
         } else if (status == null) {
-            throw new IllegalArgumentException("The status of the voyage is missing.");
+            throw new VoyageException(VoyageError.MISSING_STATUS);
         } else if (routeId == null) {
-            throw new IllegalArgumentException("The ID of the voyage's route is missing.");
+            throw new VoyageException(VoyageError.MISSING_ROUTE_ID);
         } else if (originId == null) {
-            throw new IllegalArgumentException("The ID of the voyage's route origin is missing.");
+            throw new VoyageException(VoyageError.MISSING_ORIGIN_ID);
         } else if (destinationId == null) {
-            throw new IllegalArgumentException("The ID of the voyage's route destination is missing.");
+            throw new VoyageException(VoyageError.MISSING_DESTINATION_ID);
         } else if (spaceShuttleId == null) {
-            throw new IllegalArgumentException("The ID of the voyage's space shuttle is missing.");
+            throw new VoyageException(VoyageError.MISSING_SPACE_SHUTTLE_ID);
         }
 
         this.id = id;
