@@ -8,7 +8,6 @@ import jp.co.company.space.api.features.user.exception.UserError;
 import jp.co.company.space.api.features.user.exception.UserException;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -49,9 +48,8 @@ public class UserRepository {
         if (findById(user.getId()).isEmpty()) {
             try {
                 entityManager.persist(user);
-                return findById(user.getId()).orElseThrow();
-            } catch (TransactionRequiredException | EntityExistsException | NoSuchElementException
-                     | IllegalArgumentException exception) {
+                return findById(user.getId()).orElseThrow(() -> new UserException(UserError.FIND_BY_ID));
+            } catch (TransactionRequiredException | EntityExistsException | IllegalArgumentException exception) {
                 throw new UserException(UserError.SAVE, exception);
             }
         } else {

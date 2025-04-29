@@ -3,8 +3,13 @@ package jp.co.company.space.utils.features.passenger;
 import jp.co.company.space.api.features.catalog.domain.MealPreference;
 import jp.co.company.space.api.features.catalog.domain.PackageType;
 import jp.co.company.space.api.features.catalog.domain.PodType;
+import jp.co.company.space.api.features.passenger.exception.PassengerError;
+import jp.co.company.space.api.features.passenger.exception.PassengerException;
 import jp.co.company.space.api.features.passenger.input.PassengerCreationForm;
 import jp.co.company.space.api.features.pod.domain.PodCodeFactory;
+import jp.co.company.space.api.features.pod.exception.PodError;
+import jp.co.company.space.api.features.pod.exception.PodException;
+import jp.co.company.space.api.shared.exception.DomainException;
 
 import java.util.Optional;
 
@@ -40,16 +45,20 @@ public class PassengerCreationFormTestDataBuilder {
      *
      * @return A {@link PassengerCreationForm} instance.
      */
-    public PassengerCreationForm create() {
-        PackageType selectedPackageType = Optional.ofNullable(packageType).orElse(DEFAULT_PACKAGE_TYPE);
+    public PassengerCreationForm create() throws PassengerException {
+        try {
+            PackageType selectedPackageType = Optional.ofNullable(packageType).orElse(DEFAULT_PACKAGE_TYPE);
 
-        PodType selectedPodType = PodType.findByPackageType(selectedPackageType).orElseThrow();
-        String podCode = new PodCodeFactory(selectedPodType.getPodCodePrefix(), DEFAULT_POD_DECK_NUMBER, DEFAULT_POD_NUMBER).create();
+            PodType selectedPodType = PodType.findByPackageType(selectedPackageType).orElseThrow(() -> new PodException(PodError.MISSING_TYPE));
+            String podCode = new PodCodeFactory(selectedPodType.getPodCodePrefix(), DEFAULT_POD_DECK_NUMBER, DEFAULT_POD_NUMBER).create();
 
-        PassengerCreationForm passengerCreationForm = new PassengerCreationForm(podCode, selectedPackageType.getKey(), Optional.ofNullable(mealPreference).orElse(DEFAULT_MEAL_PREFERENCE).getKey());
-        cleanUp();
+            PassengerCreationForm passengerCreationForm = new PassengerCreationForm(podCode, selectedPackageType.getKey(), Optional.ofNullable(mealPreference).orElse(DEFAULT_MEAL_PREFERENCE).getKey());
+            cleanUp();
 
-        return passengerCreationForm;
+            return passengerCreationForm;
+        } catch (DomainException exception) {
+            throw new PassengerException(PassengerError.CREATE, exception);
+        }
     }
 
     private void cleanUp() {

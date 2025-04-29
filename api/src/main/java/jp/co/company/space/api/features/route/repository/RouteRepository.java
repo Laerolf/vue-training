@@ -7,7 +7,6 @@ import jp.co.company.space.api.features.route.exception.RouteError;
 import jp.co.company.space.api.features.route.exception.RouteException;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -60,9 +59,8 @@ public class RouteRepository {
         if (findById(route.getId()).isEmpty()) {
             try {
                 entityManager.persist(route);
-                return findById(route.getId()).orElseThrow();
-            } catch (TransactionRequiredException | EntityExistsException | NoSuchElementException
-                     | IllegalArgumentException exception) {
+                return findById(route.getId()).orElseThrow(() -> new RouteException(RouteError.FIND_BY_ID));
+            } catch (TransactionRequiredException | EntityExistsException | IllegalArgumentException exception) {
                 throw new RouteException(RouteError.SAVE, exception);
             }
         } else {

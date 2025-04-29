@@ -16,6 +16,7 @@ public enum PodReservationError implements DomainError {
     MISSING_VOYAGE_ID("podReservation.missingVoyageId", "The voyage ID of the pod reservation is missing."),
     MISSING_RESERVATIONS("podReservation.missingReservations", "The existing reservations are missing."),
 
+    CREATE("podReservation.create", "Unable to create a new pod reservation."),
     RESERVED("podReservation.reserved", "The requested pod is already reserved."),
     MISMATCHED_PACKAGE_TYPE("podReservation.mismatchedPackageType", "The requested pod is not available for the passenger's package type."),
     FULLY_BOOKED("podReservation.fullyBooked", "The space shuttle is full."),

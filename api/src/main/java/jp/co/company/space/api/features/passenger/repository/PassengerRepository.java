@@ -11,7 +11,6 @@ import jp.co.company.space.api.features.passenger.exception.PassengerError;
 import jp.co.company.space.api.features.passenger.exception.PassengerException;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -51,9 +50,8 @@ public class PassengerRepository {
         if (findById(passenger.getId()).isEmpty()) {
             try {
                 entityManager.persist(passenger);
-                return findById(passenger.getId()).orElseThrow();
-            } catch (TransactionRequiredException | EntityExistsException | NoSuchElementException |
-                     IllegalArgumentException exception) {
+                return findById(passenger.getId()).orElseThrow(() -> new PassengerException(PassengerError.FIND_BY_ID));
+            } catch (TransactionRequiredException | EntityExistsException | IllegalArgumentException exception) {
                 throw new PassengerException(PassengerError.SAVE, exception);
             }
         } else {

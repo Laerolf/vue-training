@@ -13,9 +13,13 @@ import jp.co.company.space.api.features.pod.domain.PodReservation;
 import jp.co.company.space.api.features.pod.service.PodReservationService;
 import jp.co.company.space.api.features.route.domain.Route;
 import jp.co.company.space.api.features.route.events.RouteServiceInit;
+import jp.co.company.space.api.features.route.exception.RouteError;
+import jp.co.company.space.api.features.route.exception.RouteException;
 import jp.co.company.space.api.features.route.service.RouteService;
 import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
 import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttleServiceInit;
+import jp.co.company.space.api.features.spaceShuttle.exception.SpaceShuttleError;
+import jp.co.company.space.api.features.spaceShuttle.exception.SpaceShuttleException;
 import jp.co.company.space.api.features.spaceShuttle.service.SpaceShuttleService;
 import jp.co.company.space.api.features.spaceShuttleModel.service.SpaceShuttleModelService;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
@@ -29,7 +33,6 @@ import jp.co.company.space.api.shared.util.LogBuilder;
 
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -130,8 +133,8 @@ public class VoyageService {
                 String spaceShuttleId = voyageJson.getString("spaceShuttleId");
                 String statusKey = voyageJson.getString("status");
 
-                Route route = routeService.findById(routeId).orElseThrow(() -> new NoSuchElementException("No route present"));
-                SpaceShuttle spaceShuttle = spaceShuttleService.findById(spaceShuttleId).orElseThrow();
+                Route route = routeService.findById(routeId).orElseThrow(() -> new RouteException(RouteError.FIND_BY_ID));
+                SpaceShuttle spaceShuttle = spaceShuttleService.findById(spaceShuttleId).orElseThrow(() -> new SpaceShuttleException(SpaceShuttleError.FIND_BY_ID));
                 VoyageStatus status = VoyageStatus.valueOf(statusKey);
 
                 return Voyage.reconstruct(id, departureDate, arrivalDate, status, route, spaceShuttle);

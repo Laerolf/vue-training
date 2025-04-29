@@ -7,7 +7,6 @@ import jp.co.company.space.api.features.spaceShuttleModel.exception.SpaceShuttle
 import jp.co.company.space.api.features.spaceShuttleModel.exception.SpaceShuttleModelException;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -19,7 +18,8 @@ public class SpaceShuttleModelRepository {
     @PersistenceContext(unitName = "domain")
     private EntityManager entityManager;
 
-    protected SpaceShuttleModelRepository() {}
+    protected SpaceShuttleModelRepository() {
+    }
 
     /**
      * Searches an {@link Optional} instance of the {@link SpaceShuttleModel} class by its ID.
@@ -59,8 +59,8 @@ public class SpaceShuttleModelRepository {
         if (findById(spaceShuttleModel.getId()).isEmpty()) {
             try {
                 entityManager.persist(spaceShuttleModel);
-                return findById(spaceShuttleModel.getId()).orElseThrow();
-            } catch (NoSuchElementException | EntityExistsException | TransactionRequiredException | IllegalArgumentException exception) {
+                return findById(spaceShuttleModel.getId()).orElseThrow(() -> new SpaceShuttleModelException(SpaceShuttleModelError.FIND_BY_ID));
+            } catch (EntityExistsException | TransactionRequiredException | IllegalArgumentException exception) {
                 throw new SpaceShuttleModelException(SpaceShuttleModelError.SAVE, exception);
             }
         } else {

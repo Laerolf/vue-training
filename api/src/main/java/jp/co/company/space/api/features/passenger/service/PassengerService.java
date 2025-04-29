@@ -5,6 +5,8 @@ import jakarta.inject.Inject;
 import jp.co.company.space.api.features.booking.domain.Booking;
 import jp.co.company.space.api.features.catalog.domain.MealPreference;
 import jp.co.company.space.api.features.catalog.domain.PackageType;
+import jp.co.company.space.api.features.catalog.exception.CatalogError;
+import jp.co.company.space.api.features.catalog.exception.CatalogException;
 import jp.co.company.space.api.features.passenger.domain.Passenger;
 import jp.co.company.space.api.features.passenger.domain.PassengerCreationFactory;
 import jp.co.company.space.api.features.passenger.exception.PassengerError;
@@ -14,6 +16,7 @@ import jp.co.company.space.api.features.passenger.repository.PassengerRepository
 import jp.co.company.space.api.features.pod.domain.PodReservation;
 import jp.co.company.space.api.features.pod.exception.PodReservationException;
 import jp.co.company.space.api.features.pod.service.PodReservationService;
+import jp.co.company.space.api.shared.exception.DomainException;
 import jp.co.company.space.api.shared.util.LogBuilder;
 
 import java.util.List;
@@ -69,8 +72,8 @@ public class PassengerService {
 
             List<Passenger> createdPassengers = passengerForms.stream()
                     .map(passengerForm -> {
-                        PackageType selectedPackageType = PackageType.findByKey(passengerForm.packageType).orElseThrow();
-                        MealPreference selectedMealPreference = MealPreference.findByKey(passengerForm.mealPreference).orElseThrow();
+                        PackageType selectedPackageType = PackageType.findByKey(passengerForm.packageType).orElseThrow(() -> new CatalogException(CatalogError.PACKAGE_TYPE_MISSING));
+                        MealPreference selectedMealPreference = MealPreference.findByKey(passengerForm.mealPreference).orElseThrow(() -> new CatalogException(CatalogError.MEAL_PREFERENCE_MISSING));
 
                         Passenger newPassenger = new PassengerCreationFactory(booking, selectedPackageType, selectedMealPreference).create();
                         newPassenger = passengerRepository.save(newPassenger);
@@ -85,7 +88,7 @@ public class PassengerService {
             LOGGER.info(new LogBuilder(String.format("Created %d new passengers for a booking.", createdPassengers.size())).withProperty("booking.id", booking.getId()).build());
 
             return createdPassengers;
-        } catch (PassengerException | PodReservationException exception) {
+        } catch (DomainException exception) {
             LOGGER.warning(new LogBuilder(PassengerError.CREATE).withException(exception).build());
             throw new PassengerException(PassengerError.CREATE, exception);
         }

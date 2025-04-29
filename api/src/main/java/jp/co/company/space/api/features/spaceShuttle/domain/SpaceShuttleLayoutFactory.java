@@ -8,10 +8,7 @@ import jp.co.company.space.api.features.spaceShuttle.exception.SpaceShuttleError
 import jp.co.company.space.api.features.spaceShuttle.exception.SpaceShuttleException;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
@@ -67,11 +64,11 @@ public class SpaceShuttleLayoutFactory {
             List<PodType> podTypes = List.of(PodType.STANDARD_POD, PodType.ENHANCED_POD, PodType.PRIVATE_SUITE_POD);
 
             for (PodType podType : podTypes) {
-                double ratio = Optional.ofNullable(DISTRIBUTION_RATIOS_BY_TYPE.get(podType)).orElseThrow();
+                double ratio = Optional.ofNullable(DISTRIBUTION_RATIOS_BY_TYPE.get(podType)).orElseThrow(() -> new NoSuchElementException("Unable to find the distribution ratio for a pod type."));
 
                 int totalPodsForType = Math.toIntExact(Math.round(spaceShuttleModel.getMaxCapacity() * ratio));
-                int maxPodsPerDeck = Optional.ofNullable(MAX_PODS_PER_DECK_BY_TYPE.get(podType)).orElseThrow();
-                int podsPerRow = Optional.ofNullable(MAX_ROWS_PER_DECK_BY_TYPE.get(podType)).orElseThrow();
+                int maxPodsPerDeck = Optional.ofNullable(MAX_PODS_PER_DECK_BY_TYPE.get(podType)).orElseThrow(() -> new NoSuchElementException("Unable to find the maximum amount of pods per deck for a pod type."));
+                int podsPerRow = Optional.ofNullable(MAX_ROWS_PER_DECK_BY_TYPE.get(podType)).orElseThrow(() -> new NoSuchElementException("Unable to find the maximum amount of rows per deck for a pod type."));
 
                 int remainingPods = totalPodsForType;
 
@@ -86,7 +83,7 @@ public class SpaceShuttleLayoutFactory {
             }
             return podsByDeck;
         } catch (ArithmeticException | IllegalArgumentException | UnsupportedOperationException | ClassCastException |
-                 NullPointerException exception) {
+                 NullPointerException | NoSuchElementException exception) {
             throw new SpaceShuttleException(SpaceShuttleError.LAYOUT_CREATE_PODS_BY_DECK, exception);
         }
     }

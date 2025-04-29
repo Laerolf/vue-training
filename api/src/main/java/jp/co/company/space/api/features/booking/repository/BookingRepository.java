@@ -8,7 +8,6 @@ import jp.co.company.space.api.features.booking.exception.BookingError;
 import jp.co.company.space.api.features.booking.exception.BookingException;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -79,9 +78,8 @@ public class BookingRepository {
         if (findById(booking.getId()).isEmpty()) {
             try {
                 entityManager.persist(booking);
-                return findById(booking.getId()).orElseThrow();
-            } catch (TransactionRequiredException | EntityExistsException | NoSuchElementException |
-                     IllegalArgumentException exception) {
+                return findById(booking.getId()).orElseThrow(() -> new BookingException(BookingError.FIND_BY_ID));
+            } catch (TransactionRequiredException | EntityExistsException | IllegalArgumentException exception) {
                 throw new BookingException(BookingError.SAVE, exception);
             }
         } else {

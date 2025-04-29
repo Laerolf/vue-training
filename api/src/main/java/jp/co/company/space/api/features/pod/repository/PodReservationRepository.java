@@ -9,7 +9,6 @@ import jp.co.company.space.api.features.pod.exception.PodReservationException;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -66,9 +65,8 @@ public class PodReservationRepository {
         if (findById(podReservation.getId()).isEmpty()) {
             try {
                 entityManager.persist(podReservation);
-                return findById(podReservation.getId()).orElseThrow();
-            } catch (TransactionRequiredException | EntityExistsException | NoSuchElementException |
-                     IllegalArgumentException exception) {
+                return findById(podReservation.getId()).orElseThrow(() -> new PodReservationException(PodReservationError.FIND_BY_ID));
+            } catch (TransactionRequiredException | EntityExistsException | IllegalArgumentException exception) {
                 throw new PodReservationException(PodReservationError.SAVE, exception);
             }
         } else {

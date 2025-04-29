@@ -18,6 +18,8 @@ public enum SpaceShuttleError implements DomainError {
     LAYOUT_CREATE_PODS_BY_DECK("spaceShuttleLayout.createPodsByDeck", "Failed to create the pods by deck map for a space shuttle layout."),
     LAYOUT_MISSING_PODS_PER_DECK("spaceShuttleLayout.missingPodsPerDeck", "The pods per deck of a space shuttle layout are missing."),
     LAYOUT_NO_PODS_PER_DECK("spaceShuttleLayout.missingPodsPerDeck", "No pods per deck of a space shuttle layout were found."),
+    LAYOUT_GET_ALL_PODS_BY_PACKAGE_TYPE("spaceShuttleLayout.getAllPodsByPackageType", "Unable to get all pods matching the provided package type."),
+    FIND_FIRST_AVAILABLE_POD("spaceShuttleLayout.findFirstAvailablePod", "Unable to find the first next available pod."),
 
     FIND_BY_ID("spaceShuttle.findById", "Failed to find a space shuttle with the provided ID."),
     GET_ALL("spaceShuttle.getAll", "Failed to get all existing space shuttles."),

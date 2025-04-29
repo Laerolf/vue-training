@@ -9,6 +9,8 @@ import jakarta.json.*;
 import jakarta.transaction.Transactional;
 import jp.co.company.space.api.features.location.domain.Location;
 import jp.co.company.space.api.features.location.events.LocationServiceInit;
+import jp.co.company.space.api.features.location.exception.LocationError;
+import jp.co.company.space.api.features.location.exception.LocationException;
 import jp.co.company.space.api.features.location.service.LocationService;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStationServiceInit;
@@ -84,7 +86,7 @@ public class SpaceStationService {
                 String country = spaceStationJson.getOrDefault("country", JsonValue.NULL).toString();
 
                 String locationId = spaceStationJson.getString("locationId");
-                Location location = locationService.findById(locationId).orElseThrow();
+                Location location = locationService.findById(locationId).orElseThrow(() -> new LocationException(LocationError.FIND_BY_ID));
 
                 return SpaceStation.reconstruct(id, name, code, country, location);
             }).collect(Collectors.toList());

@@ -8,7 +8,6 @@ import jp.co.company.space.api.features.spaceShuttle.exception.SpaceShuttleExcep
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -76,9 +75,8 @@ public class SpaceShuttleRepository {
         if (findById(spaceShuttle.getId()).isEmpty()) {
             try {
                 entityManager.persist(spaceShuttle);
-                return findById(spaceShuttle.getId()).orElseThrow();
-            } catch (TransactionRequiredException | EntityExistsException | NoSuchElementException
-                     | IllegalArgumentException exception) {
+                return findById(spaceShuttle.getId()).orElseThrow(() -> new SpaceShuttleException(SpaceShuttleError.FIND_BY_ID));
+            } catch (TransactionRequiredException | EntityExistsException | IllegalArgumentException exception) {
                 throw new SpaceShuttleException(SpaceShuttleError.SAVE, exception);
             }
         } else {

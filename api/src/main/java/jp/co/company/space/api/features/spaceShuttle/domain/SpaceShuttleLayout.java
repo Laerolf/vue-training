@@ -5,8 +5,11 @@ import jp.co.company.space.api.features.catalog.domain.PodType;
 import jp.co.company.space.api.features.passenger.domain.Passenger;
 import jp.co.company.space.api.features.pod.domain.Pod;
 import jp.co.company.space.api.features.pod.domain.PodReservation;
+import jp.co.company.space.api.features.pod.exception.PodError;
+import jp.co.company.space.api.features.pod.exception.PodException;
 import jp.co.company.space.api.features.spaceShuttle.exception.SpaceShuttleError;
 import jp.co.company.space.api.features.spaceShuttle.exception.SpaceShuttleException;
+import jp.co.company.space.api.shared.exception.DomainException;
 
 import java.util.*;
 
@@ -55,9 +58,13 @@ public class SpaceShuttleLayout {
      * @param packageType The {@link PackageType} instance to search with.
      * @return A {@link List} of {@link Pod} instances.
      */
-    public List<Pod> getAllPodsByPackageType(PackageType packageType) {
-        PodType selectedPodType = PodType.findByPackageType(packageType).orElseThrow();
-        return getAllPods().stream().filter(pod -> pod.getType().equals(selectedPodType)).toList();
+    public List<Pod> getAllPodsByPackageType(PackageType packageType) throws SpaceShuttleException {
+        try {
+            PodType selectedPodType = PodType.findByPackageType(packageType).orElseThrow(() -> new PodException(PodError.MISSING_TYPE));
+            return getAllPods().stream().filter(pod -> pod.getType().equals(selectedPodType)).toList();
+        } catch (PodException exception) {
+            throw new SpaceShuttleException(SpaceShuttleError.LAYOUT_GET_ALL_PODS_BY_PACKAGE_TYPE, exception);
+        }
     }
 
     /**
@@ -130,14 +137,18 @@ public class SpaceShuttleLayout {
      * @return An {@link Optional} {@link Pod} instance.
      */
     public Optional<Pod> findFirstAvailablePodFor(Passenger passenger, List<PodReservation> reservations) throws SpaceShuttleException {
-        if (reservations == null) {
-            throw new SpaceShuttleException(SpaceShuttleError.MISSING_POD_RESERVATIONS);
-        } else if (passenger == null) {
-            throw new SpaceShuttleException(SpaceShuttleError.MISSING_PASSENGER_FOR_RESERVATION);
-        }
+        try {
+            if (reservations == null) {
+                throw new SpaceShuttleException(SpaceShuttleError.MISSING_POD_RESERVATIONS);
+            } else if (passenger == null) {
+                throw new SpaceShuttleException(SpaceShuttleError.MISSING_PASSENGER_FOR_RESERVATION);
+            }
 
-        PodType selectedPodType = PodType.findByPackageType(passenger.getPackageType()).orElseThrow();
-        return getAllPods().stream().filter(pod -> pod.getType().equals(selectedPodType) && isPodAvailable(pod.getCode(), reservations)).findFirst();
+            PodType selectedPodType = PodType.findByPackageType(passenger.getPackageType()).orElseThrow(() -> new PodException(PodError.MISSING_TYPE));
+            return getAllPods().stream().filter(pod -> pod.getType().equals(selectedPodType) && isPodAvailable(pod.getCode(), reservations)).findFirst();
+        } catch (DomainException exception) {
+            throw new SpaceShuttleException(SpaceShuttleError.FIND_FIRST_AVAILABLE_POD);
+        }
     }
 
     @Override

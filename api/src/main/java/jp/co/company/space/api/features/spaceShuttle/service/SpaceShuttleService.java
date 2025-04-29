@@ -18,6 +18,8 @@ import jp.co.company.space.api.features.spaceShuttle.exception.SpaceShuttleRunti
 import jp.co.company.space.api.features.spaceShuttle.repository.SpaceShuttleRepository;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModelServiceInit;
+import jp.co.company.space.api.features.spaceShuttleModel.exception.SpaceShuttleModelError;
+import jp.co.company.space.api.features.spaceShuttleModel.exception.SpaceShuttleModelException;
 import jp.co.company.space.api.features.spaceShuttleModel.service.SpaceShuttleModelService;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 import jp.co.company.space.api.shared.exception.DomainException;
@@ -86,7 +88,7 @@ public class SpaceShuttleService {
                 String name = shuttleJson.getString("name");
                 String modelId = shuttleJson.getString("modelId");
 
-                SpaceShuttleModel shuttleModel = spaceShuttleModelService.findById(modelId).orElseThrow();
+                SpaceShuttleModel shuttleModel = spaceShuttleModelService.findById(modelId).orElseThrow(() -> new SpaceShuttleModelException(SpaceShuttleModelError.FIND_BY_ID));
                 return SpaceShuttle.reconstruct(id, name, shuttleModel);
             }).collect(Collectors.toList());
 

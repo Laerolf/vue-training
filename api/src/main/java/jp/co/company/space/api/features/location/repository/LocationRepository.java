@@ -7,7 +7,6 @@ import jp.co.company.space.api.features.location.exception.LocationError;
 import jp.co.company.space.api.features.location.exception.LocationException;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -60,10 +59,8 @@ public class LocationRepository {
         if (findById(location.getId()).isEmpty()) {
             try {
                 entityManager.persist(location);
-                // TODO: add domain exception to orElseThrow()
-                return findById(location.getId()).orElseThrow();
-            } catch (TransactionRequiredException | EntityExistsException | NoSuchElementException |
-                     IllegalArgumentException exception) {
+                return findById(location.getId()).orElseThrow(() -> new LocationException(LocationError.FIND_BY_ID));
+            } catch (TransactionRequiredException | EntityExistsException | IllegalArgumentException exception) {
                 throw new LocationException(LocationError.SAVE, exception);
             }
         } else {

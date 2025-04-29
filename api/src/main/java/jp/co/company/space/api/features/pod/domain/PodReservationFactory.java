@@ -5,6 +5,7 @@ import jp.co.company.space.api.features.pod.exception.PodReservationError;
 import jp.co.company.space.api.features.pod.exception.PodReservationException;
 import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttleLayout;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
+import jp.co.company.space.api.shared.exception.DomainException;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,19 +41,23 @@ public class PodReservationFactory {
      * @return A {@link PodReservation} instance.
      */
     public PodReservation create() throws PodReservationException {
-        SpaceShuttleLayout layout = voyage.getSpaceShuttle().getLayout();
+        try {
+            SpaceShuttleLayout layout = voyage.getSpaceShuttle().getLayout();
 
-        return Optional.ofNullable(requestedPodCode).map(podCode -> {
-            if (!layout.isPodAvailable(podCode, existingReservations)) {
-                throw new PodReservationException(PodReservationError.RESERVED);
-            } else if (!layout.isPodAvailableForPassenger(podCode, passenger)) {
-                throw new PodReservationException(PodReservationError.MISMATCHED_PACKAGE_TYPE);
-            }
+            return Optional.ofNullable(requestedPodCode).map(podCode -> {
+                if (!layout.isPodAvailable(podCode, existingReservations)) {
+                    throw new PodReservationException(PodReservationError.RESERVED);
+                } else if (!layout.isPodAvailableForPassenger(podCode, passenger)) {
+                    throw new PodReservationException(PodReservationError.MISMATCHED_PACKAGE_TYPE);
+                }
 
-            return PodReservation.create(podCode, passenger, voyage);
-        }).orElseGet(() -> {
-            Pod selectedPod = layout.findFirstAvailablePodFor(passenger, existingReservations).orElseThrow(() -> new PodReservationException(PodReservationError.FULLY_BOOKED));
-            return PodReservation.create(selectedPod.getCode(), passenger, voyage);
-        });
+                return PodReservation.create(podCode, passenger, voyage);
+            }).orElseGet(() -> {
+                Pod selectedPod = layout.findFirstAvailablePodFor(passenger, existingReservations).orElseThrow(() -> new PodReservationException(PodReservationError.FULLY_BOOKED));
+                return PodReservation.create(selectedPod.getCode(), passenger, voyage);
+            });
+        } catch (DomainException exception) {
+            throw new PodReservationException(PodReservationError.CREATE, exception);
+        }
     }
 }

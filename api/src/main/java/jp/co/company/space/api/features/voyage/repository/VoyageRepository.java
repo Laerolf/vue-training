@@ -7,7 +7,6 @@ import jp.co.company.space.api.features.voyage.exception.VoyageError;
 import jp.co.company.space.api.features.voyage.exception.VoyageException;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -116,9 +115,8 @@ public class VoyageRepository {
         if (findById(voyage.getId()).isEmpty()) {
             try {
                 entityManager.persist(voyage);
-                return findById(voyage.getId()).orElseThrow();
-            } catch (TransactionRequiredException | EntityExistsException | NoSuchElementException |
-                     IllegalArgumentException exception) {
+                return findById(voyage.getId()).orElseThrow(() -> new VoyageException(VoyageError.FIND_BY_ID));
+            } catch (TransactionRequiredException | EntityExistsException | IllegalArgumentException exception) {
                 throw new VoyageException(VoyageError.SAVE, exception);
             }
         } else {
