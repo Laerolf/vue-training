@@ -13,6 +13,7 @@ import jp.co.company.space.api.features.location.dto.LocationDto;
 import jp.co.company.space.api.features.location.exception.LocationError;
 import jp.co.company.space.api.features.location.service.LocationService;
 import jp.co.company.space.api.shared.dto.DomainErrorDto;
+import jp.co.company.space.api.shared.exception.DomainErrorDtoBuilder;
 import jp.co.company.space.api.shared.exception.DomainException;
 import jp.co.company.space.api.shared.util.LogBuilder;
 import jp.co.company.space.api.shared.util.ResponseFactory;
@@ -92,10 +93,10 @@ public class LocationEndpoint {
         try {
             return locationService.findById(id)
                     .map(location -> Response.ok().entity(LocationDto.create(location)).build())
-                    .orElse(ResponseFactory.notFound().entity(DomainErrorDto.create(LocationError.FIND_BY_ID)).build());
+                    .orElse(ResponseFactory.notFound().entity(new DomainErrorDtoBuilder(LocationError.FIND_BY_ID).withProperty("id", id).build()).build());
         } catch (DomainException exception) {
             LOGGER.warning(new LogBuilder(LocationError.FIND_BY_ID).withException(exception).withProperty("id", id).build());
-            return Response.serverError().entity(DomainErrorDto.create(exception)).build();
+            return Response.serverError().entity(new DomainErrorDtoBuilder(exception).withProperty("id", id).build()).build();
         }
     }
 }

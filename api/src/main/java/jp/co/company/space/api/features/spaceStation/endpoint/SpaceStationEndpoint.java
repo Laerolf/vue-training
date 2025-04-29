@@ -15,6 +15,7 @@ import jp.co.company.space.api.features.spaceStation.exception.SpaceStationError
 import jp.co.company.space.api.features.spaceStation.exception.SpaceStationException;
 import jp.co.company.space.api.features.spaceStation.service.SpaceStationService;
 import jp.co.company.space.api.shared.dto.DomainErrorDto;
+import jp.co.company.space.api.shared.exception.DomainErrorDtoBuilder;
 import jp.co.company.space.api.shared.util.LogBuilder;
 import jp.co.company.space.api.shared.util.ResponseFactory;
 import org.eclipse.microprofile.openapi.annotations.Operation;
@@ -93,10 +94,10 @@ public class SpaceStationEndpoint {
         try {
             return spaceStationService.findById(id)
                     .map(spaceStation -> Response.ok().entity(SpaceStationDto.create(spaceStation)).build())
-                    .orElse(ResponseFactory.notFound().build());
+                    .orElse(ResponseFactory.notFound().entity(new DomainErrorDtoBuilder(SpaceStationError.FIND_BY_ID).withProperty("id", id).build()).build());
         } catch (SpaceStationException exception) {
             LOGGER.warning(new LogBuilder(SpaceStationError.GET_ALL).withException(exception).withProperty("id", id).build());
-            return Response.serverError().entity(DomainErrorDto.create(exception)).build();
+            return Response.serverError().entity(new DomainErrorDtoBuilder(exception).withProperty("id", id).build()).build();
         }
     }
 }

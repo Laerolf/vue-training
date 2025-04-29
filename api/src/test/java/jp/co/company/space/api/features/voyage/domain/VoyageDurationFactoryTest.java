@@ -55,7 +55,7 @@ public class VoyageDurationFactoryTest {
             Exception exception = assertThrows(IllegalArgumentException.class, () -> VoyageDurationFactory.create(null, MX_REDLINE_SPACE_SHUTTLE));
 
             // Then
-            assertEquals("The route of the voyage duration factory is missing.", exception.getMessage());
+            assertEquals("Unable to calculate the duration of a voyage.", exception.getMessage());
         }
 
         @Test
@@ -64,7 +64,7 @@ public class VoyageDurationFactoryTest {
             Exception exception = assertThrows(IllegalArgumentException.class, () -> VoyageDurationFactory.create(ROUTE_FROM_EARTH_TO_MARS, null));
 
             // Then
-            assertEquals("The space shuttle of the voyage duration factory is missing.", exception.getMessage());
+            assertEquals("Unable to calculate the duration of a voyage.", exception.getMessage());
         }
     }
 

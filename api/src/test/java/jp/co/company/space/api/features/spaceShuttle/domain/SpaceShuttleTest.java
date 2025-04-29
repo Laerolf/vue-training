@@ -49,7 +49,7 @@ public class SpaceShuttleTest {
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                     () -> SpaceShuttle.create(null, shuttleModel));
 
-            assertEquals("The name of the space shuttle is missing.", exception.getMessage());
+            assertEquals("The name of a space shuttle is missing.", exception.getMessage());
         }
 
         @Test
@@ -58,7 +58,7 @@ public class SpaceShuttleTest {
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                     () -> SpaceShuttle.create("A", null));
 
-            assertEquals("The model of the space shuttle is missing.", exception.getMessage());
+            assertEquals("The model of a space shuttle is missing.", exception.getMessage());
         }
     }
 
@@ -88,7 +88,7 @@ public class SpaceShuttleTest {
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                     () -> SpaceShuttle.reconstruct(null, "A", shuttleModel));
 
-            assertEquals("The ID of the space shuttle is missing.", exception.getMessage());
+            assertEquals("The ID of a space shuttle is missing.", exception.getMessage());
         }
 
         @Test
@@ -101,7 +101,7 @@ public class SpaceShuttleTest {
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                     () -> SpaceShuttle.reconstruct(id, null, shuttleModel));
 
-            assertEquals("The name of the space shuttle is missing.", exception.getMessage());
+            assertEquals("The name of a space shuttle is missing.", exception.getMessage());
         }
 
         @Test
@@ -113,7 +113,7 @@ public class SpaceShuttleTest {
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                     () -> SpaceShuttle.reconstruct(id, "A", null));
 
-            assertEquals("The model of the space shuttle is missing.", exception.getMessage());
+            assertEquals("The model of a space shuttle is missing.", exception.getMessage());
         }
     }
 

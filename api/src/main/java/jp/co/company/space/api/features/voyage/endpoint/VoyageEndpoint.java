@@ -24,6 +24,7 @@ import jp.co.company.space.api.features.voyage.exception.VoyageError;
 import jp.co.company.space.api.features.voyage.exception.VoyageException;
 import jp.co.company.space.api.features.voyage.service.VoyageService;
 import jp.co.company.space.api.shared.dto.DomainErrorDto;
+import jp.co.company.space.api.shared.exception.DomainErrorDtoBuilder;
 import jp.co.company.space.api.shared.util.LogBuilder;
 import jp.co.company.space.api.shared.util.ResponseFactory;
 import org.eclipse.microprofile.openapi.annotations.Operation;
@@ -105,7 +106,7 @@ public class VoyageEndpoint {
         try {
             return voyageService.findById(id)
                     .map(voyage -> Response.ok(VoyageDto.create(voyage)).build())
-                    .orElse(ResponseFactory.notFound().entity(DomainErrorDto.create(VoyageError.FIND_BY_ID)).build());
+                    .orElse(ResponseFactory.notFound().entity(new DomainErrorDtoBuilder(VoyageError.FIND_BY_ID).withProperty("id", id).build()).build());
         } catch (VoyageException exception) {
             LOGGER.warning(
                     new LogBuilder(VoyageError.FIND_BY_ID)
@@ -113,7 +114,7 @@ public class VoyageEndpoint {
                             .withProperty("id", id)
                             .build()
             );
-            return Response.serverError().entity(DomainErrorDto.create(exception)).build();
+            return Response.serverError().entity(new DomainErrorDtoBuilder(exception).withProperty("id", id).build()).build();
         }
     }
 
@@ -143,7 +144,7 @@ public class VoyageEndpoint {
                             .withProperty("voyageId", voyageId)
                             .build()
             );
-            return Response.serverError().entity(DomainErrorDto.create(exception)).build();
+            return Response.serverError().entity(new DomainErrorDtoBuilder(exception).withProperty("voyageId", voyageId).build()).build();
         }
     }
 
@@ -173,7 +174,7 @@ public class VoyageEndpoint {
                             .withProperty("originId", originId)
                             .build()
             );
-            return Response.serverError().entity(DomainErrorDto.create(exception)).build();
+            return Response.serverError().entity(new DomainErrorDtoBuilder(exception).withProperty("originId", originId).build()).build();
         }
     }
 
@@ -203,7 +204,7 @@ public class VoyageEndpoint {
                             .withProperty("destinationId", destinationId)
                             .build()
             );
-            return Response.serverError().entity(DomainErrorDto.create(exception)).build();
+            return Response.serverError().entity(new DomainErrorDtoBuilder(exception).withProperty("destinationId", destinationId).build()).build();
         }
     }
 
@@ -237,7 +238,12 @@ public class VoyageEndpoint {
                             .withProperty("destinationId", destinationId)
                             .build()
             );
-            return Response.serverError().entity(DomainErrorDto.create(exception)).build();
+            return Response.serverError().entity(
+                    new DomainErrorDtoBuilder(exception)
+                            .withProperty("originId", originId)
+                            .withProperty("destinationId", destinationId)
+                            .build()
+            ).build();
         }
     }
 
@@ -267,7 +273,7 @@ public class VoyageEndpoint {
                             .withProperty("id", id)
                             .build()
             );
-            return Response.serverError().entity(DomainErrorDto.create(exception)).build();
+            return Response.serverError().entity(new DomainErrorDtoBuilder(exception).withProperty("id", id).build()).build();
         }
     }
 }

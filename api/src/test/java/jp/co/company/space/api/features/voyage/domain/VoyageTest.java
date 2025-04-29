@@ -69,7 +69,7 @@ public class VoyageTest {
             Exception exception = assertThrows(IllegalArgumentException.class, () -> Voyage.create(null, EXAMPLE_ROUTE, EXAMPLE_SHUTTLE));
 
             // Then
-            assertEquals("The departure date of the voyage is missing.", exception.getMessage());
+            assertEquals("The departure date of a voyage is missing.", exception.getMessage());
         }
 
         @Test
@@ -78,7 +78,7 @@ public class VoyageTest {
             Exception exception = assertThrows(IllegalArgumentException.class, () -> Voyage.create(EXAMPLE_DEPARTURE_DATE, null, EXAMPLE_SHUTTLE));
 
             // Then
-            assertEquals("The route of the voyage is missing.", exception.getMessage());
+            assertEquals("The route of a voyage is missing.", exception.getMessage());
         }
 
         @Test
@@ -87,7 +87,7 @@ public class VoyageTest {
             Exception exception = assertThrows(IllegalArgumentException.class, () -> Voyage.create(EXAMPLE_DEPARTURE_DATE, EXAMPLE_ROUTE, null));
 
             // Then
-            assertEquals("The space shuttle of the voyage is missing.", exception.getMessage());
+            assertEquals("The space shuttle of a voyage is missing.", exception.getMessage());
         }
     }
 
@@ -114,7 +114,7 @@ public class VoyageTest {
                     () -> Voyage.reconstruct(null, EXAMPLE_DEPARTURE_DATE, EXAMPLE_ARRIVAL_DATE, EXAMPLE_STATUS, EXAMPLE_ROUTE, EXAMPLE_SHUTTLE));
 
             // Then
-            assertEquals("The ID of the voyage is missing.", exception.getMessage());
+            assertEquals("The ID of a voyage is missing.", exception.getMessage());
         }
 
         @Test
@@ -123,7 +123,7 @@ public class VoyageTest {
             Exception exception = assertThrows(IllegalArgumentException.class, () -> Voyage.reconstruct(EXAMPLE_ID, null, EXAMPLE_ARRIVAL_DATE, EXAMPLE_STATUS, EXAMPLE_ROUTE, EXAMPLE_SHUTTLE));
 
             // Then
-            assertEquals("The departure date of the voyage is missing.", exception.getMessage());
+            assertEquals("The departure date of a voyage is missing.", exception.getMessage());
         }
 
         @Test
@@ -132,7 +132,7 @@ public class VoyageTest {
             Exception exception = assertThrows(IllegalArgumentException.class, () -> Voyage.reconstruct(EXAMPLE_ID, EXAMPLE_DEPARTURE_DATE, null, EXAMPLE_STATUS, EXAMPLE_ROUTE, EXAMPLE_SHUTTLE));
 
             // Then
-            assertEquals("The arrival date of the voyage is missing.", exception.getMessage());
+            assertEquals("The arrival date of a voyage is missing.", exception.getMessage());
         }
 
         @Test
@@ -142,7 +142,7 @@ public class VoyageTest {
                     () -> Voyage.reconstruct(EXAMPLE_ID, EXAMPLE_DEPARTURE_DATE, EXAMPLE_ARRIVAL_DATE, null, EXAMPLE_ROUTE, EXAMPLE_SHUTTLE));
 
             // Then
-            assertEquals("The status of the voyage is missing.", exception.getMessage());
+            assertEquals("The status of a voyage is missing.", exception.getMessage());
         }
 
         @Test
@@ -152,7 +152,7 @@ public class VoyageTest {
                     () -> Voyage.reconstruct(EXAMPLE_ID, EXAMPLE_DEPARTURE_DATE, EXAMPLE_ARRIVAL_DATE, EXAMPLE_STATUS, null, EXAMPLE_SHUTTLE));
 
             // Then
-            assertEquals("The route of the voyage is missing.", exception.getMessage());
+            assertEquals("The route of a voyage is missing.", exception.getMessage());
         }
 
         @Test
@@ -161,7 +161,7 @@ public class VoyageTest {
             Exception exception = assertThrows(IllegalArgumentException.class, () -> Voyage.reconstruct(EXAMPLE_ID, EXAMPLE_DEPARTURE_DATE, EXAMPLE_ARRIVAL_DATE, EXAMPLE_STATUS, EXAMPLE_ROUTE, null));
 
             // Then
-            assertEquals("The space shuttle of the voyage is missing.", exception.getMessage());
+            assertEquals("The space shuttle of a voyage is missing.", exception.getMessage());
         }
     }
 

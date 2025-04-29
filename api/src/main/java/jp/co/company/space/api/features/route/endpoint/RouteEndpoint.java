@@ -14,6 +14,7 @@ import jp.co.company.space.api.features.route.dto.RouteDto;
 import jp.co.company.space.api.features.route.exception.RouteError;
 import jp.co.company.space.api.features.route.service.RouteService;
 import jp.co.company.space.api.shared.dto.DomainErrorDto;
+import jp.co.company.space.api.shared.exception.DomainErrorDtoBuilder;
 import jp.co.company.space.api.shared.exception.DomainException;
 import jp.co.company.space.api.shared.util.ResponseFactory;
 import org.eclipse.microprofile.openapi.annotations.Operation;
@@ -84,9 +85,9 @@ public class RouteEndpoint {
         try {
             return routeService.findById(id)
                     .map(route -> Response.ok().entity(RouteDto.create(route)).build())
-                    .orElse(ResponseFactory.notFound().entity(DomainErrorDto.create(RouteError.FIND_BY_ID)).build());
+                    .orElse(ResponseFactory.notFound().entity(new DomainErrorDtoBuilder(RouteError.FIND_BY_ID).withProperty("id", id).build()).build());
         } catch (DomainException exception) {
-            return Response.serverError().entity(DomainErrorDto.create(exception)).build();
+            return Response.serverError().entity(new DomainErrorDtoBuilder(exception).withProperty("id", id).build()).build();
         }
     }
 }

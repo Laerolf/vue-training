@@ -50,7 +50,7 @@ public class RouteDistanceFactoryTest {
             Exception exception = assertThrows(IllegalArgumentException.class, () -> RouteDistanceFactory.create(null));
 
             // Then
-            assertEquals("The route for the voyage distance factory is missing.", exception.getMessage());
+            assertEquals("The route to calculate the voyage distance with is missing.", exception.getMessage());
         }
     }
 

@@ -34,9 +34,9 @@ public class Examples {
     public static final String VOYAGE_STATUS_EXAMPLE = "scheduled";
 
     // Route
-    public static final String ROUTE_ID_EXAMPLE = "872123e1-81e3-424b-8e40-607e932e910a";
-    public static final String ROUTE_ORIGIN_ID_EXAMPLE = "872123e1-81e3-424b-8e40-607e932e910a";
-    public static final String ROUTE_DESTINATION_ID_EXAMPLE = "872123e1-81e3-424b-8e40-607e932e910a";
+    public static final String ROUTE_ID_EXAMPLE = "08bd4df1-97eb-4a9a-aa21-d9b7bed299a3";
+    public static final String ROUTE_ORIGIN_ID_EXAMPLE = "00000000-0000-1000-8000-000000000003";
+    public static final String ROUTE_DESTINATION_ID_EXAMPLE = "00000000-0000-1000-8000-000000000012";
 
     public static final String ROUTE_DESTINATION_EXAMPLE = "{ \"code\": \"RHV\", \"country\": \"null\", \"id\": \"872123e1-81e3-424b-8e40-607e932e910a\", \"location\": { \"id\": \"4\", \"latitude\": 0, \"longitude\": 13.1, \"name\": \"Mars\", \"radialDistance\": 1.5},\"name\": \"Red Haven - Mars\"}";
 
@@ -74,6 +74,7 @@ public class Examples {
     public static final String MEAL_PREFERENCE_FREE_FROM_EXAMPLE = PACKAGE_TYPE_KEY_EXAMPLE;
 
     // Error
-    public static final String ERROR_KEY_EXAMPLE = "Error.theRoofIsOnFire";
+    public static final String ERROR_KEY_EXAMPLE = "error.theRoofIsOnFire";
     public static final String ERROR_KEY_MESSAGE = "Something went terribly wrong.";
+    public static final String ERROR_PROPERTIES = "{\"id\": \"66600000-0000-1000-8000-000000000012\"}";
 }

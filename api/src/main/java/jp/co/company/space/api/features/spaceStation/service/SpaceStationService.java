@@ -61,11 +61,10 @@ public class SpaceStationService {
     protected void onStartUp(@Observes LocationServiceInit init) throws SpaceStationRuntimeException {
         try {
             LOGGER.info(new LogBuilder("Initializing the space station service.").build());
-
             loadSpaceStations();
-            event.fire(SpaceStationServiceInit.create());
-
             LOGGER.info(new LogBuilder("The space station service is ready!").build());
+
+            event.fire(SpaceStationServiceInit.create());
         } catch (IllegalArgumentException | ObserverException exception) {
             LOGGER.warning(new LogBuilder(SpaceStationError.LOAD_INITIAL_DATA).withException(exception).build());
             throw new SpaceStationRuntimeException(SpaceStationError.START_SERVICE, exception);

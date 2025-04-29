@@ -56,11 +56,10 @@ public class SpaceShuttleModelService {
     protected void onStartUp(@Observes @Initialized(ApplicationScoped.class) Object init) throws SpaceShuttleModelRuntimeException {
         try {
             LOGGER.info(new LogBuilder("Initializing the space shuttle model service.").build());
-
             loadSpaceShuttleModels();
-            spaceShuttleServiceInitEvent.fire(SpaceShuttleModelServiceInit.create());
-
             LOGGER.info(new LogBuilder("The space shuttle model service is ready!").build());
+
+            spaceShuttleServiceInitEvent.fire(SpaceShuttleModelServiceInit.create());
         } catch (SpaceShuttleModelException exception) {
             LOGGER.severe(new LogBuilder(SpaceShuttleModelError.START_SERVICE).withException(exception).build());
             throw new SpaceShuttleModelRuntimeException(SpaceShuttleModelError.START_SERVICE, exception);

@@ -14,6 +14,7 @@ import jp.co.company.space.api.features.spaceShuttle.dto.SpaceShuttleDto;
 import jp.co.company.space.api.features.spaceShuttle.exception.SpaceShuttleError;
 import jp.co.company.space.api.features.spaceShuttle.service.SpaceShuttleService;
 import jp.co.company.space.api.shared.dto.DomainErrorDto;
+import jp.co.company.space.api.shared.exception.DomainErrorDtoBuilder;
 import jp.co.company.space.api.shared.exception.DomainException;
 import jp.co.company.space.api.shared.util.LogBuilder;
 import jp.co.company.space.api.shared.util.ResponseFactory;
@@ -92,10 +93,10 @@ public class SpaceShuttleEndpoint {
         try {
             return spaceShuttleService.findById(id)
                     .map(spaceShuttle -> Response.ok().entity(SpaceShuttleDto.create(spaceShuttle)).build())
-                    .orElse(ResponseFactory.notFound().entity(DomainErrorDto.create(SpaceShuttleError.FIND_BY_ID)).build());
+                    .orElse(ResponseFactory.notFound().entity(new DomainErrorDtoBuilder(SpaceShuttleError.FIND_BY_ID).withProperty("id", id).build()).build());
         } catch (DomainException exception) {
             LOGGER.warning(new LogBuilder(SpaceShuttleError.FIND_BY_ID).withException(exception).withProperty("id", id).build());
-            return Response.serverError().entity(DomainErrorDto.create(exception)).build();
+            return Response.serverError().entity(new DomainErrorDtoBuilder(exception).withProperty("id", id).build()).build();
         }
     }
 }

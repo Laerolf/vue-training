@@ -88,7 +88,7 @@ public class RouteTest {
             // Then
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Route.create(origin, destination, null));
 
-            assertEquals("The space shuttle model for the route is missing.", exception.getMessage());
+            assertEquals("The space shuttle model of the route is missing.", exception.getMessage());
         }
     }
 
@@ -166,7 +166,7 @@ public class RouteTest {
             // Then
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Route.reconstruct(id, origin, destination, null));
 
-            assertEquals("The space shuttle model for the route is missing.", exception.getMessage());
+            assertEquals("The space shuttle model of the route is missing.", exception.getMessage());
         }
     }
 

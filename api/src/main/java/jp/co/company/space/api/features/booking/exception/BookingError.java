@@ -24,6 +24,7 @@ public enum BookingError implements DomainError {
     MISSING_PASSENGER_IDS("booking.missingPassengerIds", "The passenger IDs of the booking are missing."),
     INVALID_PASSENGER_COUNT("booking.invalidPassengerCount", "A booking needs at least one passenger."),
 
+    CREATE("booking.create", "Unable to create a booking."),
     FIND_BY_ID("booking.findById", "Failed to find the booking with the provided ID."),
     FIND_BY_USER_ID("booking.findByUserId", "Failed to find the booking with the provided user ID."),
     FIND_BY_VOYAGE_ID("booking.findByVoyageId", "Failed to find the booking with the provided voyage ID."),

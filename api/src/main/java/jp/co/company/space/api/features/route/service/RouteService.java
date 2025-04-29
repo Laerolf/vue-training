@@ -124,16 +124,15 @@ public class RouteService {
     private void initialize() throws RouteException {
         LOGGER.info(new LogBuilder("Initializing the route service.").build());
         loadRoutes();
-        routeServiceInitEvent.fire(RouteServiceInit.create());
         LOGGER.info(new LogBuilder("The route service is ready!").build());
+
+        routeServiceInitEvent.fire(RouteServiceInit.create());
     }
 
     /**
      * Loads all initial {@link SpaceShuttle} instances into the database.
      */
     private void loadRoutes() throws RouteException {
-        LOGGER.info(new LogBuilder("Initializing the route service.").build());
-
         try (JsonReader reader = Json.createReader(RouteService.class.getResourceAsStream("/static/routes.json"))) {
             List<Route> parsedRoutes = reader.readArray().stream().map(routeJsonValue -> {
                 JsonObject routeJson = routeJsonValue.asJsonObject();

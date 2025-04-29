@@ -46,7 +46,7 @@ public class SpaceStationTest {
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                     () -> SpaceStation.create(null, "AJ", "Japan", location));
 
-            assertEquals("The name of the space station is missing.", exception.getMessage());
+            assertEquals("The name of a space station is missing.", exception.getMessage());
         }
 
         @Test
@@ -58,7 +58,7 @@ public class SpaceStationTest {
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                     () -> SpaceStation.create("A", null, "Japan", location));
 
-            assertEquals("The code of the space station is missing.", exception.getMessage());
+            assertEquals("The code of a space station is missing.", exception.getMessage());
         }
 
         @Test
@@ -67,7 +67,7 @@ public class SpaceStationTest {
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                     () -> SpaceStation.create("A", "AJ", "Japan", null));
 
-            assertEquals("The location of the space station is missing.", exception.getMessage());
+            assertEquals("The location of a space station is missing.", exception.getMessage());
         }
     }
 
@@ -99,7 +99,7 @@ public class SpaceStationTest {
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                     () -> SpaceStation.reconstruct(null, "A", "AJ", "Japan", location));
 
-            assertEquals("The ID of the space station is missing.", exception.getMessage());
+            assertEquals("The ID of a space station is missing.", exception.getMessage());
         }
 
         @Test
@@ -112,7 +112,7 @@ public class SpaceStationTest {
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                     () -> SpaceStation.reconstruct(id, null, "AJ", "Japan", location));
 
-            assertEquals("The name of the space station is missing.", exception.getMessage());
+            assertEquals("The name of a space station is missing.", exception.getMessage());
         }
 
         @Test
@@ -125,7 +125,7 @@ public class SpaceStationTest {
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                     () -> SpaceStation.reconstruct(id, "A", null, "Japan", location));
 
-            assertEquals("The code of the space station is missing.", exception.getMessage());
+            assertEquals("The code of a space station is missing.", exception.getMessage());
         }
 
         @Test
@@ -137,7 +137,7 @@ public class SpaceStationTest {
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                     () -> SpaceStation.reconstruct(id, "A", "AJ", "Japan", null));
 
-            assertEquals("The location of the space station is missing.", exception.getMessage());
+            assertEquals("The location of a space station is missing.", exception.getMessage());
         }
     }
 

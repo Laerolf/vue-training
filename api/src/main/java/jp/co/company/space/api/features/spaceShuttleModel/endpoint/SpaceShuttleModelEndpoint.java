@@ -19,6 +19,7 @@ import jp.co.company.space.api.features.spaceShuttleModel.exception.SpaceShuttle
 import jp.co.company.space.api.features.spaceShuttleModel.exception.SpaceShuttleModelException;
 import jp.co.company.space.api.features.spaceShuttleModel.service.SpaceShuttleModelService;
 import jp.co.company.space.api.shared.dto.DomainErrorDto;
+import jp.co.company.space.api.shared.exception.DomainErrorDtoBuilder;
 import jp.co.company.space.api.shared.util.LogBuilder;
 import jp.co.company.space.api.shared.util.ResponseFactory;
 import org.eclipse.microprofile.openapi.annotations.Operation;
@@ -97,10 +98,10 @@ public class SpaceShuttleModelEndpoint {
         try {
             return spaceShuttleModelService.findById(id)
                     .map(spaceShuttleModel -> Response.ok().entity(SpaceShuttleModelDto.create(spaceShuttleModel)).build())
-                    .orElse(ResponseFactory.notFound().entity(DomainErrorDto.create(SpaceShuttleModelError.FIND_BY_ID)).build());
+                    .orElse(ResponseFactory.notFound().entity(new DomainErrorDtoBuilder(SpaceShuttleModelError.FIND_BY_ID).withProperty("id", id).build()).build());
         } catch (SpaceShuttleModelException exception) {
             LOGGER.warning(new LogBuilder(SpaceShuttleModelError.FIND_BY_ID).withException(exception).withProperty("id", id).build());
-            return Response.serverError().entity(DomainErrorDto.create(exception)).build();
+            return Response.serverError().entity(new DomainErrorDtoBuilder(exception).withProperty("id", id).build()).build();
         }
     }
 
@@ -113,7 +114,7 @@ public class SpaceShuttleModelEndpoint {
     @Path("{modelId}/space-shuttles")
     @GET
     @Operation(summary = "Returns all space shuttles with the space shuttle model matching the provided ID.", description = "Gets a list of space shuttles with the space shuttle model matching the provided ID.")
-    @Parameter(name = "id", description = "The ID of a space shuttle model.", example = SPACE_SHUTTLE_MODEL_ID_EXAMPLE)
+    @Parameter(name = "modelId", description = "The ID of a space shuttle model.", example = SPACE_SHUTTLE_MODEL_ID_EXAMPLE)
     @APIResponses({
             @APIResponse(description = "A list of space shuttles.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = SchemaType.ARRAY, implementation = SpaceShuttleBasicDto.class))),
             @APIResponse(description = "Something went wrong.", responseCode = "500", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = DomainErrorDto.class)))
@@ -125,7 +126,7 @@ public class SpaceShuttleModelEndpoint {
             return Response.ok().entity(spaceShuttles).build();
         } catch (SpaceShuttleException exception) {
             LOGGER.warning(new LogBuilder(SpaceShuttleError.GET_ALL_BY_MODEL_ID).withException(exception).withProperty("modelId", modelId).build());
-            return Response.serverError().entity(DomainErrorDto.create(exception)).build();
+            return Response.serverError().entity(new DomainErrorDtoBuilder(exception).withProperty("modelId", modelId).build()).build();
         }
     }
 }

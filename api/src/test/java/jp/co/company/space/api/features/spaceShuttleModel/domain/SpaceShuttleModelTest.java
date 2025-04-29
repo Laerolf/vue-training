@@ -38,7 +38,7 @@ public class SpaceShuttleModelTest {
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                     () -> SpaceShuttleModel.create(null, 100, 10000));
 
-            assertEquals("The name of the space shuttle model is missing.", exception.getMessage());
+            assertEquals("The name of a space shuttle model is missing.", exception.getMessage());
         }
     }
 
@@ -65,7 +65,7 @@ public class SpaceShuttleModelTest {
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                     () -> SpaceShuttleModel.reconstruct(null, "A", 100, 10000));
 
-            assertEquals("The ID of the space shuttle model is missing.", exception.getMessage());
+            assertEquals("The ID of a space shuttle model is missing.", exception.getMessage());
         }
 
         @Test
@@ -77,7 +77,7 @@ public class SpaceShuttleModelTest {
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                     () -> SpaceShuttleModel.reconstruct(id, null, 100, 10000));
 
-            assertEquals("The name of the space shuttle model is missing.", exception.getMessage());
+            assertEquals("The name of a space shuttle model is missing.", exception.getMessage());
         }
     }
 

@@ -1,9 +1,13 @@
 package jp.co.company.space.api.shared.dto;
 
+import jakarta.annotation.Nonnull;
+import jakarta.json.bind.annotation.JsonbNillable;
 import jp.co.company.space.api.shared.exception.DomainError;
 import jp.co.company.space.api.shared.exception.DomainException;
 import jp.co.company.space.api.shared.openApi.Examples;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+import java.util.Map;
 
 /**
  * A POJO representing a DTO of a {@link DomainError} instance.
@@ -17,7 +21,7 @@ public class DomainErrorDto {
      * @param exception The base for the {@link DomainErrorDto} instance.
      * @return A {@link DomainErrorDto} instance.
      */
-    public static DomainErrorDto create(DomainException exception) {
+    public static DomainErrorDto create(@Nonnull DomainException exception) {
         return new DomainErrorDto(exception.getKey(), exception.getMessage());
     }
 
@@ -27,8 +31,19 @@ public class DomainErrorDto {
      * @param error The base for the {@link DomainErrorDto} instance.
      * @return A {@link DomainErrorDto} instance.
      */
-    public static DomainErrorDto create(DomainError error) {
+    public static DomainErrorDto create(@Nonnull DomainError error) {
         return new DomainErrorDto(error.getKey(), error.getDescription());
+    }
+
+    /**
+     * Creates a {@link DomainErrorDto} instance based on the provided error key and error message.
+     *
+     * @param errorKey     The key of the error.
+     * @param errorMessage The message of the error.
+     * @return A {@link DomainErrorDto} instance.
+     */
+    public static DomainErrorDto create(@Nonnull String errorKey, @Nonnull String errorMessage) {
+        return new DomainErrorDto(errorKey, errorMessage);
     }
 
     /**
@@ -43,10 +58,17 @@ public class DomainErrorDto {
     @Schema(description = "The message of the error.", example = Examples.ERROR_KEY_MESSAGE)
     public String message;
 
+    /**
+     * The properties of the error.
+     */
+    @JsonbNillable(false)
+    @Schema(description = "The properties of the error.", example = Examples.ERROR_PROPERTIES)
+    public Map<String, String> properties;
+
     protected DomainErrorDto() {
     }
 
-    protected DomainErrorDto(String key, String message) {
+    protected DomainErrorDto(@Nonnull String key, @Nonnull String message) {
         this.key = key;
         this.message = message;
     }

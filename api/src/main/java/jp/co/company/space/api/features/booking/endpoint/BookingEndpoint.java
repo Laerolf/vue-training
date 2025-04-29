@@ -11,6 +11,7 @@ import jp.co.company.space.api.features.booking.exception.BookingError;
 import jp.co.company.space.api.features.booking.input.BookingCreationForm;
 import jp.co.company.space.api.features.booking.service.BookingService;
 import jp.co.company.space.api.shared.dto.DomainErrorDto;
+import jp.co.company.space.api.shared.exception.DomainErrorDtoBuilder;
 import jp.co.company.space.api.shared.exception.DomainException;
 import jp.co.company.space.api.shared.util.LogBuilder;
 import jp.co.company.space.api.shared.util.ResponseFactory;
@@ -63,7 +64,7 @@ public class BookingEndpoint {
             Booking newBooking = bookingService.create(form);
             return Response.ok(BookingDto.create(newBooking)).build();
         } catch (DomainException exception) {
-            LOGGER.warning(new LogBuilder("Booking rejected").withException(exception).build());
+            LOGGER.warning(new LogBuilder(BookingError.CREATE).withException(exception).build());
             return Response.serverError().entity(DomainErrorDto.create(exception)).build();
         }
     }
@@ -88,10 +89,10 @@ public class BookingEndpoint {
         try {
             return bookingService.findById(id)
                     .map(booking -> Response.ok(BookingDto.create(booking)).build())
-                    .orElse(ResponseFactory.notFound().entity(DomainErrorDto.create(BookingError.FIND_BY_ID)).build());
+                    .orElse(ResponseFactory.notFound().entity(new DomainErrorDtoBuilder(BookingError.FIND_BY_ID).withProperty("id", id).build()).build());
         } catch (DomainException exception) {
-            LOGGER.warning(new LogBuilder("Booking not found").withException(exception).withProperty("id", id).build());
-            return Response.serverError().entity(DomainErrorDto.create(exception)).build();
+            LOGGER.warning(new LogBuilder(BookingError.FIND_BY_ID).withException(exception).withProperty("id", id).build());
+            return Response.serverError().entity(new DomainErrorDtoBuilder(exception).withProperty("id", id).build()).build();
         }
     }
 }

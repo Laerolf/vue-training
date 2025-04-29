@@ -14,6 +14,7 @@ import jp.co.company.space.api.features.user.exception.UserException;
 import jp.co.company.space.api.features.user.input.UserCreationForm;
 import jp.co.company.space.api.features.user.service.UserService;
 import jp.co.company.space.api.shared.dto.DomainErrorDto;
+import jp.co.company.space.api.shared.exception.DomainErrorDtoBuilder;
 import jp.co.company.space.api.shared.util.LogBuilder;
 import jp.co.company.space.api.shared.util.ResponseFactory;
 import org.eclipse.microprofile.openapi.annotations.Operation;
@@ -92,10 +93,10 @@ public class UserEndpoint {
         try {
             return userService.findById(id)
                     .map(user -> Response.ok().entity(UserDto.create(user)).build())
-                    .orElse(ResponseFactory.notFound().entity(DomainErrorDto.create(UserError.FIND_BY_ID)).build());
+                    .orElse(ResponseFactory.notFound().entity(new DomainErrorDtoBuilder(UserError.FIND_BY_ID).withProperty("id", id).build()).build());
         } catch (UserException exception) {
             LOGGER.warning(new LogBuilder(UserError.FIND_BY_ID).withException(exception).withProperty("id", id).build());
-            return Response.serverError().entity(DomainErrorDto.create(exception)).build();
+            return Response.serverError().entity(new DomainErrorDtoBuilder(exception).withProperty("id", id).build()).build();
         }
     }
 }

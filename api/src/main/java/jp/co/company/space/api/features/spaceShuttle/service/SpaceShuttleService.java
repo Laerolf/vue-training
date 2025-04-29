@@ -64,12 +64,11 @@ public class SpaceShuttleService {
     @Transactional
     protected void onStartUp(@Observes SpaceShuttleModelServiceInit init) throws SpaceShuttleRuntimeException {
         try {
-            LOGGER.info(new LogBuilder("Initializing the location service.").build());
-
+            LOGGER.info(new LogBuilder("Initializing the space shuttle service.").build());
             loadSpaceShuttles();
-            spaceShuttleServiceInitEvent.fire(SpaceShuttleServiceInit.create());
+            LOGGER.info(new LogBuilder("The space shuttle service is ready!").build());
 
-            LOGGER.info(new LogBuilder("The location service is ready!").build());
+            spaceShuttleServiceInitEvent.fire(SpaceShuttleServiceInit.create());
         } catch (Exception exception) {
             LOGGER.severe(new LogBuilder(SpaceShuttleError.START_SERVICE).withException(exception).build());
             throw new SpaceShuttleRuntimeException(SpaceShuttleError.START_SERVICE, exception);

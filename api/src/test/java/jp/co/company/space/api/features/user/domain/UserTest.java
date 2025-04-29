@@ -40,7 +40,7 @@ public class UserTest {
                     () -> User.create(null, EXAMPLE_FIRST_NAME, EXAMPLE_EMAIL_ADDRESS, EXAMPLE_PASSWORD));
 
             // Then
-            assertEquals("The last name of the user is missing.", exception.getMessage());
+            assertEquals("The last name of a user is missing.", exception.getMessage());
         }
 
         @Test
@@ -50,7 +50,7 @@ public class UserTest {
                     () -> User.create(EXAMPLE_LAST_NAME, null, EXAMPLE_EMAIL_ADDRESS, EXAMPLE_PASSWORD));
 
             // Then
-            assertEquals("The first name of the user is missing.", exception.getMessage());
+            assertEquals("The first name of a user is missing.", exception.getMessage());
         }
 
         @Test
@@ -60,7 +60,7 @@ public class UserTest {
                     () -> User.create(EXAMPLE_LAST_NAME, EXAMPLE_FIRST_NAME, null, EXAMPLE_PASSWORD));
 
             // Then
-            assertEquals("The email address of the user is missing.", exception.getMessage());
+            assertEquals("The email address of a user is missing.", exception.getMessage());
         }
 
         @Test
@@ -70,7 +70,7 @@ public class UserTest {
                     () -> User.create(EXAMPLE_LAST_NAME, EXAMPLE_FIRST_NAME, EXAMPLE_EMAIL_ADDRESS, null));
 
             // Then
-            assertEquals("The password of the user is missing.", exception.getMessage());
+            assertEquals("The password of a user is missing.", exception.getMessage());
         }
     }
 
@@ -98,7 +98,7 @@ public class UserTest {
                     .reconstruct(null, EXAMPLE_LAST_NAME, EXAMPLE_FIRST_NAME, EXAMPLE_EMAIL_ADDRESS, EXAMPLE_PASSWORD));
 
             // Then
-            assertEquals("The ID of the user is missing.", exception.getMessage());
+            assertEquals("The ID of a user is missing.", exception.getMessage());
         }
 
         @Test
@@ -108,7 +108,7 @@ public class UserTest {
                     .reconstruct(EXAMPLE_ID, null, EXAMPLE_FIRST_NAME, EXAMPLE_EMAIL_ADDRESS, EXAMPLE_PASSWORD));
 
             // Then
-            assertEquals("The last name of the user is missing.", exception.getMessage());
+            assertEquals("The last name of a user is missing.", exception.getMessage());
         }
 
         @Test
@@ -118,7 +118,7 @@ public class UserTest {
                     .reconstruct(EXAMPLE_ID, EXAMPLE_LAST_NAME, null, EXAMPLE_EMAIL_ADDRESS, EXAMPLE_PASSWORD));
 
             // Then
-            assertEquals("The first name of the user is missing.", exception.getMessage());
+            assertEquals("The first name of a user is missing.", exception.getMessage());
         }
 
         @Test
@@ -128,7 +128,7 @@ public class UserTest {
                     () -> User.reconstruct(EXAMPLE_ID, EXAMPLE_LAST_NAME, EXAMPLE_FIRST_NAME, null, EXAMPLE_PASSWORD));
 
             // Then
-            assertEquals("The email address of the user is missing.", exception.getMessage());
+            assertEquals("The email address of a user is missing.", exception.getMessage());
         }
 
         @Test
@@ -138,7 +138,7 @@ public class UserTest {
                     .reconstruct(EXAMPLE_ID, EXAMPLE_LAST_NAME, EXAMPLE_FIRST_NAME, EXAMPLE_EMAIL_ADDRESS, null));
 
             // Then
-            assertEquals("The password of the user is missing.", exception.getMessage());
+            assertEquals("The password of a user is missing.", exception.getMessage());
         }
     }
 
