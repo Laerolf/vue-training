@@ -40,7 +40,6 @@ import static jp.co.company.space.api.shared.openApi.Examples.SPACE_STATION_ORIG
 @Tag(name = "Space stations")
 public class SpaceStationEndpoint {
 
-    // TODO: check modifiers
     private static final Logger LOGGER = Logger.getLogger(SpaceStationEndpoint.class.getName());
 
     /**

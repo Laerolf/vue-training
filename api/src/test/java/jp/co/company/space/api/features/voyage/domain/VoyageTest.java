@@ -25,27 +25,27 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class VoyageTest {
 
-    private final static LocationTestDataBuilder LOCATION_BUILDER = new LocationTestDataBuilder();
-    private final static SpaceStationTestDataBuilder SPACE_STATION_BUILDER = new SpaceStationTestDataBuilder();
-    private final static SpaceShuttleModelTestDataBuilder SPACE_SHUTTLE_MODEL_BUILDER = new SpaceShuttleModelTestDataBuilder();
-    private final static RouteTestDataBuilder ROUTE_BUILDER = new RouteTestDataBuilder();
-    private final static SpaceShuttleTestDataBuilder SPACE_SHUTTLE_BUILDER = new SpaceShuttleTestDataBuilder();
+    private static final LocationTestDataBuilder LOCATION_BUILDER = new LocationTestDataBuilder();
+    private static final SpaceStationTestDataBuilder SPACE_STATION_BUILDER = new SpaceStationTestDataBuilder();
+    private static final SpaceShuttleModelTestDataBuilder SPACE_SHUTTLE_MODEL_BUILDER = new SpaceShuttleModelTestDataBuilder();
+    private static final RouteTestDataBuilder ROUTE_BUILDER = new RouteTestDataBuilder();
+    private static final SpaceShuttleTestDataBuilder SPACE_SHUTTLE_BUILDER = new SpaceShuttleTestDataBuilder();
 
-    private final static Location EARTH = LOCATION_BUILDER.create();
-    private final static Location MARS = LOCATION_BUILDER.withName("Mars").withLatitude(0).withLongitude(13.1).withRadialDistance(1.5).create();
-    private final static SpaceStation EARTH_STATION = SPACE_STATION_BUILDER.create(EARTH);
-    private final static SpaceStation MARS_STATION = SPACE_STATION_BUILDER.create(MARS);
+    private static final Location EARTH = LOCATION_BUILDER.create();
+    private static final Location MARS = LOCATION_BUILDER.withName("Mars").withLatitude(0).withLongitude(13.1).withRadialDistance(1.5).create();
+    private static final SpaceStation EARTH_STATION = SPACE_STATION_BUILDER.create(EARTH);
+    private static final SpaceStation MARS_STATION = SPACE_STATION_BUILDER.create(MARS);
 
-    private final static SpaceShuttleModel MX_REDLINE = SPACE_SHUTTLE_MODEL_BUILDER.withMaxSpeed(60000).create();
-    private final static SpaceShuttle EXAMPLE_SHUTTLE = SPACE_SHUTTLE_BUILDER.withModel(MX_REDLINE).create();
+    private static final SpaceShuttleModel MX_REDLINE = SPACE_SHUTTLE_MODEL_BUILDER.withMaxSpeed(60000).create();
+    private static final SpaceShuttle EXAMPLE_SHUTTLE = SPACE_SHUTTLE_BUILDER.withModel(MX_REDLINE).create();
 
     private static final String EXAMPLE_ID = UUID.randomUUID().toString();
     private static final ZonedDateTime EXAMPLE_DEPARTURE_DATE = ZonedDateTime.now();
     private static final VoyageStatus EXAMPLE_STATUS = VoyageStatus.SCHEDULED;
     private static final Route EXAMPLE_ROUTE = ROUTE_BUILDER.create(EARTH_STATION, MARS_STATION, MX_REDLINE);
 
-    private final static Duration EXAMPLE_VOYAGE_DURATION = VoyageDurationFactory.create(EXAMPLE_ROUTE, EXAMPLE_SHUTTLE).calculate();
-    private final static ZonedDateTime EXAMPLE_ARRIVAL_DATE = EXAMPLE_DEPARTURE_DATE.plus(EXAMPLE_VOYAGE_DURATION);
+    private static final Duration EXAMPLE_VOYAGE_DURATION = VoyageDurationFactory.create(EXAMPLE_ROUTE, EXAMPLE_SHUTTLE).calculate();
+    private static final ZonedDateTime EXAMPLE_ARRIVAL_DATE = EXAMPLE_DEPARTURE_DATE.plus(EXAMPLE_VOYAGE_DURATION);
 
     @Nested
     class create {

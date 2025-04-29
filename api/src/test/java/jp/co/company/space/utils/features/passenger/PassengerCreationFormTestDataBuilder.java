@@ -13,11 +13,11 @@ import java.util.Optional;
  */
 public class PassengerCreationFormTestDataBuilder {
 
-    private final static PackageType DEFAULT_PACKAGE_TYPE = PackageType.ECONOMY;
-    private final static MealPreference DEFAULT_MEAL_PREFERENCE = MealPreference.STANDARD;
+    private static final PackageType DEFAULT_PACKAGE_TYPE = PackageType.ECONOMY;
+    private static final MealPreference DEFAULT_MEAL_PREFERENCE = MealPreference.STANDARD;
 
-    private final static int DEFAULT_POD_DECK_NUMBER = 1;
-    private final static int DEFAULT_POD_NUMBER = 1;
+    private static final int DEFAULT_POD_DECK_NUMBER = 1;
+    private static final int DEFAULT_POD_NUMBER = 1;
 
     private PackageType packageType;
     private MealPreference mealPreference;

@@ -19,19 +19,19 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class RouteDistanceFactoryTest {
 
-    private final static LocationTestDataBuilder locationBuilder = new LocationTestDataBuilder();
-    private final static SpaceStationTestDataBuilder spaceStationBuilder = new SpaceStationTestDataBuilder();
-    private final static SpaceShuttleModelTestDataBuilder spaceShuttleModelBuilder = new SpaceShuttleModelTestDataBuilder();
-    private final static RouteTestDataBuilder routeBuilder = new RouteTestDataBuilder();
+    private static final LocationTestDataBuilder locationBuilder = new LocationTestDataBuilder();
+    private static final SpaceStationTestDataBuilder spaceStationBuilder = new SpaceStationTestDataBuilder();
+    private static final SpaceShuttleModelTestDataBuilder spaceShuttleModelBuilder = new SpaceShuttleModelTestDataBuilder();
+    private static final RouteTestDataBuilder routeBuilder = new RouteTestDataBuilder();
 
-    private final static Location EARTH = locationBuilder.create();
-    private final static Location MARS = locationBuilder.withName("Mars").withLatitude(0).withLongitude(13.1).withRadialDistance(1.5).create();
-    private final static SpaceStation EARTH_STATION = spaceStationBuilder.create(EARTH);
-    private final static SpaceStation MARS_STATION = spaceStationBuilder.create(MARS);
+    private static final Location EARTH = locationBuilder.create();
+    private static final Location MARS = locationBuilder.withName("Mars").withLatitude(0).withLongitude(13.1).withRadialDistance(1.5).create();
+    private static final SpaceStation EARTH_STATION = spaceStationBuilder.create(EARTH);
+    private static final SpaceStation MARS_STATION = spaceStationBuilder.create(MARS);
 
-    private final static SpaceShuttleModel MX_REDLINE = spaceShuttleModelBuilder.withMaxSpeed(60000).create();
+    private static final SpaceShuttleModel MX_REDLINE = spaceShuttleModelBuilder.withMaxSpeed(60000).create();
 
-    private final static Route ROUTE_FROM_EARTH_TO_MARS = routeBuilder.create(MARS_STATION, EARTH_STATION, MX_REDLINE);
+    private static final Route ROUTE_FROM_EARTH_TO_MARS = routeBuilder.create(MARS_STATION, EARTH_STATION, MX_REDLINE);
 
     @Nested
     class create {

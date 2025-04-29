@@ -20,19 +20,19 @@ import java.util.stream.IntStream;
  */
 public class SpaceShuttleLayoutFactory {
 
-    public final static Map<PodType, Double> DISTRIBUTION_RATIOS_BY_TYPE = Map.ofEntries(
+    public static final Map<PodType, Double> DISTRIBUTION_RATIOS_BY_TYPE = Map.ofEntries(
             Map.entry(PodType.STANDARD_POD, 0.7),
             Map.entry(PodType.ENHANCED_POD, 0.27),
             Map.entry(PodType.PRIVATE_SUITE_POD, 0.03)
     );
 
-    public final static Map<PodType, Integer> MAX_PODS_PER_DECK_BY_TYPE = Map.ofEntries(
+    public static final Map<PodType, Integer> MAX_PODS_PER_DECK_BY_TYPE = Map.ofEntries(
             Map.entry(PodType.STANDARD_POD, 30),
             Map.entry(PodType.ENHANCED_POD, 20),
             Map.entry(PodType.PRIVATE_SUITE_POD, 10)
     );
 
-    private final static Map<PodType, Integer> MAX_ROWS_PER_DECK_BY_TYPE = Map.ofEntries(
+    private static final Map<PodType, Integer> MAX_ROWS_PER_DECK_BY_TYPE = Map.ofEntries(
             Map.entry(PodType.STANDARD_POD, 3),
             Map.entry(PodType.ENHANCED_POD, 2),
             Map.entry(PodType.PRIVATE_SUITE_POD, 1)

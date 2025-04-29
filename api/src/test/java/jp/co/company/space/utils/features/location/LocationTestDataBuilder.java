@@ -11,22 +11,22 @@ public class LocationTestDataBuilder {
     /**
      * The default name for the location.
      */
-    private final static String DEFAULT_NAME = "Earth";
+    private static final String DEFAULT_NAME = "Earth";
 
     /**
      * The default ecliptic latitude for the location.
      */
-    private final static double DEFAULT_LATITUDE = 0;
+    private static final double DEFAULT_LATITUDE = 0;
 
     /**
      * The default ecliptic longitude for the location.
      */
-    private final static double DEFAULT_LONGITUDE = 326;
+    private static final double DEFAULT_LONGITUDE = 326;
 
     /**
      * The default radial distance for the location.
      */
-    private final static double DEFAULT_RADIAL_DISTANCE = 1;
+    private static final double DEFAULT_RADIAL_DISTANCE = 1;
 
     private String name;
     private Double latitude;

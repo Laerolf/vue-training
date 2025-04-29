@@ -41,15 +41,15 @@ import static org.junit.jupiter.api.Assertions.*;
 @HelidonTest
 public class VoyageEndpointTest {
 
-    private final static String JAPAN_SPACE_STATION_ID = "00000000-0000-1000-8000-000000000003";
-    private final static String MARS_SPACE_STATION_ID = "00000000-0000-1000-8000-000000000012";
+    private static final String JAPAN_SPACE_STATION_ID = "00000000-0000-1000-8000-000000000003";
+    private static final String MARS_SPACE_STATION_ID = "00000000-0000-1000-8000-000000000012";
 
-    private final static SpaceShuttleModel SPACE_SHUTTLE_MODEL = new SpaceShuttleModelTestDataBuilder().withMaxCapacity(20).create();
-    private final static SpaceShuttle SPACE_SHUTTLE = new SpaceShuttleTestDataBuilder().withModel(SPACE_SHUTTLE_MODEL).create();
+    private static final SpaceShuttleModel SPACE_SHUTTLE_MODEL = new SpaceShuttleModelTestDataBuilder().withMaxCapacity(20).create();
+    private static final SpaceShuttle SPACE_SHUTTLE = new SpaceShuttleTestDataBuilder().withModel(SPACE_SHUTTLE_MODEL).create();
 
-    private final static User USER = new UserTestDataBuilder().create();
-    private final static Voyage VOYAGE = new VoyageTestDataBuilder().withSpaceShuttle(SPACE_SHUTTLE).create();
-    private final static Booking BOOKING = Booking.create(USER, VOYAGE);
+    private static final User USER = new UserTestDataBuilder().create();
+    private static final Voyage VOYAGE = new VoyageTestDataBuilder().withSpaceShuttle(SPACE_SHUTTLE).create();
+    private static final Booking BOOKING = Booking.create(USER, VOYAGE);
 
     @Inject
     private WebTarget target;

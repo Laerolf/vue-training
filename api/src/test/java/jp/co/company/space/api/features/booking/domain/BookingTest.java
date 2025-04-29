@@ -17,11 +17,11 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class BookingTest {
 
-    private final static String ID = UUID.randomUUID().toString();
-    private final static ZonedDateTime CREATION_DATE = ZonedDateTime.now();
-    private final static BookingStatus STATUS = BookingStatus.CREATED;
-    private final static User USER = new UserTestDataBuilder().create();
-    private final static Voyage VOYAGE = new VoyageTestDataBuilder().create();
+    private static final String ID = UUID.randomUUID().toString();
+    private static final ZonedDateTime CREATION_DATE = ZonedDateTime.now();
+    private static final BookingStatus STATUS = BookingStatus.CREATED;
+    private static final User USER = new UserTestDataBuilder().create();
+    private static final Voyage VOYAGE = new VoyageTestDataBuilder().create();
 
     @Nested
     class create {
