@@ -1,6 +1,6 @@
 package jp.co.company.space.api.application;
 
-import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.ext.Provider;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.flywaydb.core.Flyway;
@@ -9,7 +9,7 @@ import org.flywaydb.core.api.FlywayException;
 /**
  * This class provides methods to interact with the {@link Flyway} instance.
  */
-@ApplicationScoped
+@Provider
 public class FlywayProvider {
 
     private static final Flyway flyway;
