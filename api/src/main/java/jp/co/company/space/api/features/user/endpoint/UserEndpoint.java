@@ -24,6 +24,7 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import java.util.logging.Logger;
@@ -49,6 +50,7 @@ public class UserEndpoint {
     protected UserEndpoint() {
     }
 
+    // TODO: Replace this with a register authentication endpoint
     /**
      * Creates a new user and returns the newly created user information.
      *
@@ -56,6 +58,7 @@ public class UserEndpoint {
      * @return A {@link NewUserDto} instance if the request was successful.
      */
     @POST
+    @SecurityRequirement(name = "jwt")
     @Operation(summary = "Creates a new user.", description = "Creates a new user and returns the newly created user information if the request was successful.")
     @RequestBody(name = "form", description = "A form with details for a new user.", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = UserCreationForm.class)))
     @APIResponses({
@@ -81,6 +84,7 @@ public class UserEndpoint {
      */
     @GET
     @Path("{id}")
+    @SecurityRequirement(name = "jwt")
     @Operation(summary = "Returns a user for the provided ID.", description = "Gets a user if the provided ID matches any.")
     @Parameter(name = "id", description = "The ID of a user.", example = ID_EXAMPLE)
     @APIResponses({

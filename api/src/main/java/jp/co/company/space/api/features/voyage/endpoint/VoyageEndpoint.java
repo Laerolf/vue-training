@@ -1,5 +1,6 @@
 package jp.co.company.space.api.features.voyage.endpoint;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -35,6 +36,7 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameters;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import java.util.List;
@@ -71,6 +73,7 @@ public class VoyageEndpoint {
      * @return A {@link List} of all existing {@link Voyage} instances.
      */
     @GET
+    @PermitAll
     @Operation(summary = "Returns all space voyages.", description = "Gives a list of all space voyages.")
     @APIResponses({
             @APIResponse(description = "A JSON list of all space voyages.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = SchemaType.ARRAY, implementation = VoyageBasicDto.class))),
@@ -94,6 +97,7 @@ public class VoyageEndpoint {
      */
     @Path("{id}")
     @GET
+    @PermitAll
     @Operation(summary = "Returns the space voyage for the provided ID if there is any.", description = "Returns the space voyage for the provided ID.")
     @Parameter(name = "id", description = "The ID of a space voyage.", example = VOYAGE_ID_EXAMPLE)
     @APIResponses({
@@ -156,6 +160,7 @@ public class VoyageEndpoint {
      */
     @Path("/from/{originId}")
     @GET
+    @PermitAll
     @Operation(summary = "Returns all space voyages starting from the provided space station ID.", description = "Returns all space voyages with an origin space station matching the provided space station ID.")
     @Parameter(name = "originId", description = "The ID of the origin space station.", example = SPACE_STATION_ORIGIN_ID_EXAMPLE)
     @APIResponses({
@@ -186,6 +191,7 @@ public class VoyageEndpoint {
      */
     @Path("/to/{destinationId}")
     @GET
+    @PermitAll
     @Operation(summary = "Returns all space voyages starting to the provided space station ID.", description = "Returns all space voyages with an destination space station matching the provided space station ID.")
     @Parameter(name = "destinationId", description = "The ID of the destination space station.", example = SPACE_STATION_DESTINATION_ID_EXAMPLE)
     @APIResponses({
@@ -216,6 +222,7 @@ public class VoyageEndpoint {
      */
     @Path("/from/{originId}/to/{destinationId}")
     @GET
+    @PermitAll
     @Operation(summary = "Returns all space voyages starting from the provided origin space station ID to provided destination space station ID.", description = "Returns all space voyages with an origin space station matching the provided space station ID and a destination space station matching the provided destination space station ID.")
     @Parameters({
             @Parameter(name = "originId", description = "The ID of the origin space station.", example = SPACE_STATION_ORIGIN_ID_EXAMPLE),
@@ -255,6 +262,7 @@ public class VoyageEndpoint {
      */
     @GET
     @Path("{id}/pods")
+    @SecurityRequirement(name = "jwt")
     @Operation(summary = "Returns all pods for the voyage matching the provided ID.", description = "Gets all pods for the voyage matching the provided ID.")
     @Parameter(name = "id", description = "The ID of a space voyage.", example = VOYAGE_ID_EXAMPLE)
     @APIResponses({

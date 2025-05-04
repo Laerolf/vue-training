@@ -1,5 +1,6 @@
 package jp.co.company.space.api.features.catalog.endpoint;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -47,6 +48,7 @@ public class CatalogEndpoint {
      */
     @Path("meal-preferences")
     @GET
+    @PermitAll
     @Operation(summary = "Returns all meal preferences.", description = "Gives a list of all meal preferences.")
     @APIResponses({
             @APIResponse(description = "A JSON list of all meal preferences.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = SchemaType.ARRAY, implementation = MealPreferenceDto.class))),

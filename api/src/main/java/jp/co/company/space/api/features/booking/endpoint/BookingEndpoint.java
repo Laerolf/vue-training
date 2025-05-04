@@ -22,6 +22,7 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import java.util.Optional;
@@ -52,6 +53,7 @@ public class BookingEndpoint {
      * @return A new {@link BookingDto} instance
      */
     @POST
+    @SecurityRequirement(name = "jwt")
     @Operation(summary = "Creates a new booking.", description = "Creates a new booking and returns it.")
     @RequestBody(name = "form", description = "A form with details for a new booking.", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = BookingCreationForm.class)))
     @APIResponses({
@@ -77,6 +79,7 @@ public class BookingEndpoint {
      */
     @Path("{id}")
     @GET
+    @SecurityRequirement(name = "jwt")
     @Operation(summary = "Returns the booking for the provided ID if there is any.", description = "Returns the booking for the provided ID.")
     @Parameter(name = "id", description = "The ID of a booking.", example = ID_EXAMPLE)
     @APIResponses({

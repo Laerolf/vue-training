@@ -1,5 +1,6 @@
 package jp.co.company.space.api.features.route.endpoint;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -51,6 +52,7 @@ public class RouteEndpoint {
      * @return A {@link List} of all existing {@link RouteBasicDto} instances.
      */
     @GET
+    @PermitAll
     @Operation(summary = "Returns all routes.", description = "Gives a list of all routes.")
     @APIResponses({
             @APIResponse(description = "A JSON list of all routes.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = SchemaType.ARRAY, implementation = RouteBasicDto.class))),
@@ -74,6 +76,7 @@ public class RouteEndpoint {
      */
     @Path("{id}")
     @GET
+    @PermitAll
     @Operation(summary = "Returns an optional route for the provided ID.", description = "Gets a route if the provided ID matches any.")
     @Parameter(name = "id", description = "The ID of a route.", example = ROUTE_ID_EXAMPLE)
     @APIResponses({

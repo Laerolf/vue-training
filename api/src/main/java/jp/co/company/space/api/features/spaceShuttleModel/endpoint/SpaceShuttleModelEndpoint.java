@@ -1,5 +1,6 @@
 package jp.co.company.space.api.features.spaceShuttleModel.endpoint;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -62,6 +63,7 @@ public class SpaceShuttleModelEndpoint {
      * @return A {@link List} of all existing {@link SpaceShuttleModelDto} instances.
      */
     @GET
+    @PermitAll
     @Operation(summary = "Returns all space shuttle models.", description = "Gives a list of all space shuttle models.")
     @APIResponses({
             @APIResponse(description = "A JSON list of all space shuttle models.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = SchemaType.ARRAY, implementation = SpaceShuttleModelDto.class))),
@@ -86,6 +88,7 @@ public class SpaceShuttleModelEndpoint {
      */
     @Path("{id}")
     @GET
+    @PermitAll
     @Operation(summary = "Returns an optional space shuttle model for the provided ID.", description = "Gets a space shuttle model if the provided ID matches any.")
     @Parameter(name = "id", description = "The ID of a space shuttle model.", example = SPACE_SHUTTLE_MODEL_ID_EXAMPLE)
     @APIResponses({
@@ -113,6 +116,7 @@ public class SpaceShuttleModelEndpoint {
      */
     @Path("{modelId}/space-shuttles")
     @GET
+    @PermitAll
     @Operation(summary = "Returns all space shuttles with the space shuttle model matching the provided ID.", description = "Gets a list of space shuttles with the space shuttle model matching the provided ID.")
     @Parameter(name = "modelId", description = "The ID of a space shuttle model.", example = SPACE_SHUTTLE_MODEL_ID_EXAMPLE)
     @APIResponses({

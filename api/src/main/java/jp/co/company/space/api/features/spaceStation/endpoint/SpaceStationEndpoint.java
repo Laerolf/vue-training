@@ -1,5 +1,6 @@
 package jp.co.company.space.api.features.spaceStation.endpoint;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -58,6 +59,7 @@ public class SpaceStationEndpoint {
      * @return A {@link List} of all existing {@link SpaceStationBasicDto} instances.
      */
     @GET
+    @PermitAll
     @Operation(summary = "Returns all space stations.", description = "Gives a list of all space stations.")
     @APIResponses({
             @APIResponse(description = "A list of all space stations.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = SchemaType.ARRAY, implementation = SpaceStationBasicDto.class))),
@@ -80,8 +82,9 @@ public class SpaceStationEndpoint {
      * @param id The ID to search with.
      * @return an {@link Optional} {@link SpaceStationDto} instance.
      */
-    @GET
     @Path("{id}")
+    @GET
+    @PermitAll
     @Operation(summary = "Returns an optional space station for the provided ID.", description = "Gets a space station if the provided ID matches any.")
     @Parameter(name = "id", description = "The ID of a space station.", example = SPACE_STATION_ORIGIN_ID_EXAMPLE)
     @APIResponses({

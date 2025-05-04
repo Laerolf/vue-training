@@ -53,10 +53,10 @@ public class AuthenticationEndpoint {
     @POST
     @PermitAll
     @Operation(summary = "Handles a login attempt", description = "Handles an incoming login attempt, when successful, a authentication token will provided with a cookie.")
-    @RequestBody(name = "form", description = "A form with details for a login attempt.", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = LoginRequestForm.class)))
+    @RequestBody(name = "loginForm", description = "A form with details for a login attempt.", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = LoginRequestForm.class)))
     @APIResponses({
-            @APIResponse(description = "The user is logged in.", responseCode = "200"),
-            @APIResponse(description = "The login attempt was unsuccessful.", responseCode = "401", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = DomainErrorDto.class)))
+            @APIResponse(description = "The login attempt is unsuccessful.", responseCode = "200"),
+            @APIResponse(description = "The login attempt is unsuccessful.", responseCode = "401", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = DomainErrorDto.class)))
     })
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(@RequestBody LoginRequestForm loginForm) {

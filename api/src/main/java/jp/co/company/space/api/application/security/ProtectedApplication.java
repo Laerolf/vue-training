@@ -6,7 +6,7 @@ import org.eclipse.microprofile.auth.LoginConfig;
 import org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme;
 
-@SecurityScheme(securitySchemeName = "jwt", description = "A JWT as a HTTP header for authentication.", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")
+@SecurityScheme(securitySchemeName = "jwt", description = "Use the Authorization header with the value", type = SecuritySchemeType.HTTP, scheme = "bearer")
 @LoginConfig(authMethod = "MP-JWT")
 @ApplicationScoped
 public class ProtectedApplication extends Application {

@@ -1,5 +1,6 @@
 package jp.co.company.space.api.features.location.endpoint;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -57,6 +58,7 @@ public class LocationEndpoint {
      * @return A {@link List} of all existing {@link LocationDto} instances.
      */
     @GET
+    @PermitAll
     @Operation(summary = "Returns all locations.", description = "Gives a list of all locations.")
     @APIResponses({
             @APIResponse(description = "A JSON list of all locations.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = SchemaType.ARRAY, implementation = LocationDto.class))),
@@ -81,6 +83,7 @@ public class LocationEndpoint {
      */
     @Path("{id}")
     @GET
+    @PermitAll
     @Operation(summary = "Returns an optional location for the provided ID.", description = "Gets a location if the provided ID matches any.")
     @Parameter(name = "id", description = "The ID of a location.", example = LOCATION_ID_EXAMPLE)
     @APIResponses({
