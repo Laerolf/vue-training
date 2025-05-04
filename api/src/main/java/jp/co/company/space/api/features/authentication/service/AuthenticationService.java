@@ -3,6 +3,7 @@ package jp.co.company.space.api.features.authentication.service;
 import com.nimbusds.jwt.SignedJWT;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jp.co.company.space.api.features.authentication.domain.PasswordValidationFactory;
 import jp.co.company.space.api.features.authentication.exception.AuthenticationError;
 import jp.co.company.space.api.features.authentication.exception.AuthenticationException;
 import jp.co.company.space.api.features.authentication.input.LoginRequestForm;
@@ -42,8 +43,13 @@ public class AuthenticationService {
             }
 
             User selectedUser = userService.findByEmailAddress(loginForm.emailAddress).orElseThrow(() -> new AuthenticationException(AuthenticationError.MISSING_LOGIN_USER));
+
+            if (!new PasswordValidationFactory(loginForm.password, selectedUser.getPassword()).validate()) {
+                throw new AuthenticationException(AuthenticationError.LOGIN_MISMATCH_CREDENTIALS);
+            }
+
             return authenticationTokenService.generateToken(selectedUser.getId());
-        } catch (AuthenticationException exception) {
+        } catch (IllegalArgumentException exception) {
             LOGGER.warning(new LogBuilder(AuthenticationError.LOGIN).withException(exception).build());
             throw new AuthenticationException(AuthenticationError.LOGIN, exception);
         }

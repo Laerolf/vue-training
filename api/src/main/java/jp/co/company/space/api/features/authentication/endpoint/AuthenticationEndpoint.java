@@ -67,7 +67,7 @@ public class AuthenticationEndpoint {
             return Response.ok().cookie(authenticationCookie).build();
         } catch (DomainException exception) {
             LOGGER.warning(new LogBuilder(AuthenticationError.LOGIN).withException(exception).build());
-            return ResponseFactory.unauthorized().entity(DomainErrorDto.create(AuthenticationError.LOGIN)).build();
+            return ResponseFactory.unauthorized().entity(DomainErrorDto.create(exception)).build();
         }
     }
 }
