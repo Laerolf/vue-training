@@ -41,6 +41,23 @@ class DomainErrorDtoBuilderTest {
             assertEquals(USER_EXCEPTION.getMessage(), errorDto.message);
             assertNull(errorDto.properties);
         }
+
+        @Test
+        void withADomainExceptionAndACause() {
+            // Given
+            UserException exceptionCause = new UserException(UserError.SAVE);
+            UserException exception = new UserException(UserError.CREATE, new UserException(UserError.SAVE, exceptionCause));
+
+            // When
+            DomainErrorDto errorDto = new DomainErrorDtoBuilder(exception).withCause().build();
+
+            // Then
+            assertEquals(UserError.CREATE.getKey(), errorDto.key);
+            assertEquals(UserError.CREATE.getDescription(), errorDto.message);
+            assertNotNull(errorDto.properties);
+
+            assertEquals(exceptionCause.getMessage(), errorDto.properties.get("cause"));
+        }
     }
 
     @Nested
