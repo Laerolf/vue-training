@@ -22,6 +22,7 @@ public enum UserError implements DomainError {
     CREATE("user.create", "Unable to create a user."),
 
     FIND_BY_ID("user.findById", "Failed to find a user with the provided ID."),
+    FIND_BY_EMAIL_ADDRESS("user.findByEmailAddress", "Failed to find a user with the provided email address."),
     GET_ALL("user.getAll", "Failed to get all existing users."),
     SAVE("user.save", "Failed to save a user."),
     MERGE("user.merge", "Failed to merge a user."),

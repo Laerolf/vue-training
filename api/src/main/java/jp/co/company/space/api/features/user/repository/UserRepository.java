@@ -23,7 +23,7 @@ public class UserRepository {
     }
 
     /**
-     * Searches an {@link Optional} instance of the {@link User} class by its ID.
+     * Searches a {@link User} instance by its ID.
      *
      * @param id The ID of the user to search for.
      * @return An {@link Optional} {@link User}.
@@ -34,6 +34,21 @@ public class UserRepository {
         } catch (IllegalArgumentException | IllegalStateException | PersistenceException |
                  NullPointerException exception) {
             throw new UserException(UserError.FIND_BY_ID, exception);
+        }
+    }
+
+    /**
+     * Searches a {@link User} instance by its email address.
+     *
+     * @param emailAddress The email address of the user to search for.
+     * @return An {@link Optional} {@link User}.
+     */
+    public Optional<User> findByEmailAddress(String emailAddress) throws UserException {
+        try {
+            return entityManager.createNamedQuery("User.selectByEmailAddress", User.class).setParameter("emailAddress", emailAddress).getResultStream().findFirst();
+        } catch (IllegalArgumentException | IllegalStateException | PersistenceException |
+                 NullPointerException exception) {
+            throw new UserException(UserError.FIND_BY_EMAIL_ADDRESS, exception);
         }
     }
 

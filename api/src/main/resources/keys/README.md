@@ -1,6 +1,6 @@
 # 🔐 Custom JWT Authentication – Key Generation Guide
 
-This project uses **custom JWT authentication** based on RSA-encrypted JWTs. To enable secure token generation and validation, you must generate a private/public RSA key pair.
+This project uses **custom JWT authentication** based on RSA-signed JWTs. To enable secure token generation and validation, you must generate a private/public RSA key pair.
 
 ## 🔧 Generating Keys
 

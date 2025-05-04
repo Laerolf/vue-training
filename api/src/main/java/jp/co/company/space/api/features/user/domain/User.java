@@ -17,7 +17,8 @@ import java.util.UUID;
 @Table(name = "users")
 @Access(AccessType.FIELD)
 @NamedQueries({
-        @NamedQuery(name = "User.selectById", query = "SELECT u FROM User u LEFT JOIN FETCH u.bookings b LEFT JOIN FETCH b.passengers WHERE u.id = :id")
+        @NamedQuery(name = "User.selectById", query = "SELECT u FROM User u LEFT JOIN FETCH u.bookings b LEFT JOIN FETCH b.passengers WHERE u.id = :id"),
+        @NamedQuery(name = "User.selectByEmailAddress", query = "SELECT u FROM User u LEFT JOIN FETCH u.bookings b LEFT JOIN FETCH b.passengers WHERE u.emailAddress = :emailAddress")
 })
 public class User {
 

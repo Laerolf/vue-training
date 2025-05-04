@@ -1,5 +1,6 @@
 package jp.co.company.space.api.features.authentication.service;
 
+import com.nimbusds.jwt.SignedJWT;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Initialized;
 import jakarta.enterprise.event.ObserverException;
@@ -18,13 +19,12 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
-import java.security.interfaces.RSAPublicKey;
+import java.security.interfaces.RSAPrivateKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.time.ZonedDateTime;
+import java.time.Duration;
 import java.util.Base64;
-import java.util.Date;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.logging.Logger;
@@ -46,10 +46,10 @@ public class AuthenticationTokenService {
     private final String tokenLifeSpan;
     private final String tokenIssuer;
 
-    private RSAPublicKey publicKey;
+    private RSAPrivateKey privateKey;
 
     @Inject
-    protected AuthenticationTokenService(@ConfigProperty(name = "mp.jwt.decrypt.key.location") String privateKeyFilePath, @ConfigProperty(name = "mp.jwt.verify.publickey.location") String publicKeyFilePath, @ConfigProperty(name = "mp.jwt.verify.token.age") String lifeSpan, @ConfigProperty(name = "mp.jwt.verify.issuer") String issuer) {
+    protected AuthenticationTokenService(@ConfigProperty(name = "mp.jwt.create.privatekey.location") String privateKeyFilePath, @ConfigProperty(name = "mp.jwt.verify.publickey.location") String publicKeyFilePath, @ConfigProperty(name = "mp.jwt.verify.token.age") String lifeSpan, @ConfigProperty(name = "mp.jwt.verify.issuer") String issuer) {
         tokenPrivateKeyFilePath = privateKeyFilePath;
         tokenPublicKeyFilePath = publicKeyFilePath;
         tokenLifeSpan = lifeSpan;
@@ -67,8 +67,8 @@ public class AuthenticationTokenService {
             LOGGER.info(new LogBuilder("Initializing the authentication token service.").build());
 
             try {
-                validatePrivateKey();
-                publicKey = loadTokenPublicKey();
+                validateTokenPublicKey();
+                privateKey = loadPrivateKey();
             } catch (AuthenticationException exception) {
                 LOGGER.severe(new LogBuilder(AuthenticationError.TOKEN_SERVICE_LOAD_INITIAL_DATA).withException(exception).build());
                 throw exception;
@@ -87,10 +87,10 @@ public class AuthenticationTokenService {
      * @param subject The subject of the authentication token.
      * @return An authentication token.
      */
-    public String generateToken(String subject) {
+    public SignedJWT generateToken(String subject) {
         try {
-            return new JwtTokenCreationFactory(subject, getTokenIssuer(), getTokenExpirationTime(), publicKey).generate();
-        } catch (Exception exception) {
+            return new JwtTokenCreationFactory(subject, getTokenIssuer(), getTokenLifeSpan(), privateKey).generate();
+        } catch (AuthenticationException exception) {
             LOGGER.warning(new LogBuilder(AuthenticationError.TOKEN_CREATE).withException(exception).build());
             throw new AuthenticationException(AuthenticationError.TOKEN_CREATE, exception);
         }
@@ -100,34 +100,37 @@ public class AuthenticationTokenService {
         return Optional.ofNullable(tokenIssuer).orElse(DEFAULT_TOKEN_ISSUER);
     }
 
-    private Date getTokenExpirationTime() {
-        int lifeSpan = DEFAULT_TOKEN_LIFE_SPAN;
-
+    private Duration getTokenLifeSpan() {
         try {
-            lifeSpan = Integer.parseInt(tokenLifeSpan);
-        } catch (NumberFormatException exception) {
-            LOGGER.warning(
-                    new LogBuilder(AuthenticationError.TOKEN_CREATE_INVALID_EXPIRATION_MINUTES)
-                            .withException(exception)
-                            .withProperty("expirationTime", tokenLifeSpan)
-                            .build()
-            );
-            LOGGER.info(
-                    new LogBuilder("Using the default authentication token expiration time.")
-                            .withProperty("defaultExpirationTime", DEFAULT_TOKEN_LIFE_SPAN)
-                            .build()
-            );
-        }
+            int lifeSpan = DEFAULT_TOKEN_LIFE_SPAN;
 
-        return Date.from(ZonedDateTime.now().plusMinutes(lifeSpan).toInstant());
+            try {
+                lifeSpan = Integer.parseInt(tokenLifeSpan);
+            } catch (NumberFormatException exception) {
+                LOGGER.warning(
+                        new LogBuilder(AuthenticationError.TOKEN_CREATE_INVALID_EXPIRATION_MINUTES)
+                                .withException(exception)
+                                .withProperty("expirationTime", tokenLifeSpan)
+                                .build()
+                );
+                LOGGER.info(
+                        new LogBuilder("Using the default authentication token expiration time.")
+                                .withProperty("defaultExpirationTime", DEFAULT_TOKEN_LIFE_SPAN)
+                                .build()
+                );
+            }
+
+            return Duration.ofMinutes(lifeSpan);
+        } catch (ArithmeticException exception) {
+            LOGGER.warning(new LogBuilder(AuthenticationError.TOKEN_CREATE_INVALID_LIFE_SPAN).withException(exception).build());
+            throw new AuthenticationException(AuthenticationError.TOKEN_CREATE_INVALID_LIFE_SPAN);
+        }
     }
 
     /**
-     * Loads the authentication token's public key to encrypt the token.
-     *
-     * @return The authentication token's public key.
+     * Validates the authentication token's public key.
      */
-    private RSAPublicKey loadTokenPublicKey() throws AuthenticationException {
+    private void validateTokenPublicKey() throws AuthenticationException {
         try (InputStream publicKeyStream = AuthenticationTokenService.class.getClassLoader().getResourceAsStream(tokenPublicKeyFilePath)) {
             if (publicKeyStream == null) {
                 throw new IllegalArgumentException("The authentication token's public key file could not be found with the provided path.");
@@ -140,23 +143,25 @@ public class AuthenticationTokenService {
 
             byte[] decoded = Base64.getDecoder().decode(pemContent);
             X509EncodedKeySpec keySpec = new X509EncodedKeySpec(decoded);
-            return (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(keySpec);
+            KeyFactory.getInstance("RSA").generatePublic(keySpec);
         } catch (IOException | IllegalArgumentException | NullPointerException | NoSuchAlgorithmException |
                  InvalidKeySpecException exception) {
             LOGGER.warning(
-                    new LogBuilder(AuthenticationError.TOKEN_PUBLIC_KEY)
+                    new LogBuilder(AuthenticationError.MISSING_TOKEN_PUBLIC_KEY)
                             .withException(exception)
                             .withProperty("filePath", tokenPublicKeyFilePath)
                             .build()
             );
-            throw new AuthenticationException(AuthenticationError.TOKEN_PUBLIC_KEY, exception);
+            throw new AuthenticationException(AuthenticationError.MISSING_TOKEN_PUBLIC_KEY, exception);
         }
     }
 
     /**
-     * Validates the authentication token's private key.
+     * Returns the authentication token's private key.
+     *
+     * @return A {@link RSAPrivateKey} instance.
      */
-    private void validatePrivateKey() throws AuthenticationException {
+    private RSAPrivateKey loadPrivateKey() throws AuthenticationException {
         try (InputStream privateKeyStream = AuthenticationTokenService.class.getClassLoader().getResourceAsStream(tokenPrivateKeyFilePath)) {
             if (privateKeyStream == null) {
                 throw new IllegalArgumentException("The authentication token's private key file could not be found with the provided path.");
@@ -169,16 +174,16 @@ public class AuthenticationTokenService {
 
             byte[] decoded = Base64.getDecoder().decode(pemContent);
             PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(decoded);
-            KeyFactory.getInstance("RSA").generatePrivate(keySpec);
+            return (RSAPrivateKey) KeyFactory.getInstance("RSA").generatePrivate(keySpec);
         } catch (IOException | IllegalArgumentException | NullPointerException | NoSuchAlgorithmException |
                  InvalidKeySpecException exception) {
             LOGGER.warning(
-                    new LogBuilder(AuthenticationError.TOKEN_PRIVATE_KEY)
+                    new LogBuilder(AuthenticationError.MISSING_TOKEN_PRIVATE_KEY)
                             .withException(exception)
                             .withProperty("filePath", tokenPrivateKeyFilePath)
                             .build()
             );
-            throw new AuthenticationException(AuthenticationError.TOKEN_PRIVATE_KEY, exception);
+            throw new AuthenticationException(AuthenticationError.MISSING_TOKEN_PRIVATE_KEY, exception);
         }
     }
 

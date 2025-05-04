@@ -46,6 +46,21 @@ public class UserService {
     }
 
     /**
+     * Gets an {@link Optional} {@link User} instance for the provided email address.
+     *
+     * @param emailAddress The email address to search with.
+     * @return An {@link Optional} {@link User} instance.
+     */
+    public Optional<User> findByEmailAddress(String emailAddress) throws UserException {
+        try {
+            return userRepository.findByEmailAddress(emailAddress);
+        } catch (UserException exception) {
+            LOGGER.warning(new LogBuilder(UserError.FIND_BY_EMAIL_ADDRESS).withException(exception).withProperty("emailAddress", emailAddress).build());
+            throw exception;
+        }
+    }
+
+    /**
      * Returns a new {@link User} instance based on a {@link UserCreationForm} instance.
      *
      * @param creationForm The base of the user.

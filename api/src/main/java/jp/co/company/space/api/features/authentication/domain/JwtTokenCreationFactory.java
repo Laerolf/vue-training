@@ -1,16 +1,17 @@
 package jp.co.company.space.api.features.authentication.domain;
 
-import com.nimbusds.jose.EncryptionMethod;
 import com.nimbusds.jose.JOSEException;
-import com.nimbusds.jose.JWEAlgorithm;
-import com.nimbusds.jose.JWEHeader;
-import com.nimbusds.jose.crypto.RSAEncrypter;
-import com.nimbusds.jwt.EncryptedJWT;
+import com.nimbusds.jose.JWSAlgorithm;
+import com.nimbusds.jose.JWSHeader;
+import com.nimbusds.jose.crypto.RSASSASigner;
 import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.SignedJWT;
 import jp.co.company.space.api.features.authentication.exception.AuthenticationError;
 import jp.co.company.space.api.features.authentication.exception.AuthenticationException;
 
-import java.security.interfaces.RSAPublicKey;
+import java.security.interfaces.RSAPrivateKey;
+import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 /**
@@ -29,28 +30,28 @@ public class JwtTokenCreationFactory {
     private final String issuer;
 
     /**
-     * The expiration time of the JWT authentication token.
+     * The life span of the JWT authentication token.
      */
-    private final Date expirationTime;
+    private final Duration lifeSpan;
 
     /**
      * The public key of the JWT authentication token.
      */
-    private final RSAPublicKey publicKey;
+    private final RSAPrivateKey privateKey;
 
     /**
      * Creates a new {@link JwtTokenCreationFactory} instance.
      *
-     * @param subject        The subject of the JWT authentication token.
-     * @param issuer         The issuer of the JWT authentication token.
-     * @param expirationTime The expiration time of the JWT authentication token.
-     * @param publicKey      The public key of the JWT authentication token.
+     * @param subject    The subject of the JWT authentication token.
+     * @param issuer     The issuer of the JWT authentication token.
+     * @param lifeSpan   The life span of the JWT authentication token.
+     * @param privateKey The private key of the JWT authentication token.
      */
-    public JwtTokenCreationFactory(String subject, String issuer, Date expirationTime, RSAPublicKey publicKey) {
+    public JwtTokenCreationFactory(String subject, String issuer, Duration lifeSpan, RSAPrivateKey privateKey) {
         this.subject = subject;
         this.issuer = issuer;
-        this.expirationTime = expirationTime;
-        this.publicKey = publicKey;
+        this.lifeSpan = lifeSpan;
+        this.privateKey = privateKey;
     }
 
     /**
@@ -58,20 +59,28 @@ public class JwtTokenCreationFactory {
      *
      * @return A JWT authentication token.
      */
-    public String generate() throws AuthenticationException {
+    public SignedJWT generate() throws AuthenticationException {
         try {
+            ZonedDateTime issueDate = ZonedDateTime.now();
+            ZonedDateTime expirationDate = issueDate.plus(lifeSpan);
+
             JWTClaimsSet claims = new JWTClaimsSet.Builder()
                     .subject(subject)
                     .issuer(issuer)
-                    .expirationTime(expirationTime)
+                    .issueTime(Date.from(issueDate.toInstant()))
+                    .expirationTime(Date.from(expirationDate.toInstant()))
                     .build();
 
-            JWEHeader header = new JWEHeader(JWEAlgorithm.RSA_OAEP_256, EncryptionMethod.A256GCM);
-            EncryptedJWT encryptedJWT = new EncryptedJWT(header, claims);
+            JWSHeader header = new JWSHeader.Builder(JWSAlgorithm.RS256)
+//                     .type(JOSEObjectType.JWT)
+//                    .contentType("JWT")
+                    .build();
 
-            encryptedJWT.encrypt(new RSAEncrypter(publicKey));
+            SignedJWT signedJWT = new SignedJWT(header, claims);
+            RSASSASigner signer = new RSASSASigner(privateKey);
+            signedJWT.sign(signer);
 
-            return encryptedJWT.serialize();
+            return signedJWT;
         } catch (JOSEException exception) {
             throw new AuthenticationException(AuthenticationError.TOKEN_CREATE, exception);
         }
