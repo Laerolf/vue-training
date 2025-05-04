@@ -4,7 +4,7 @@ import jp.co.company.space.api.features.booking.exception.BookingError;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit tests for the {@link LogBuilder} class.
@@ -14,7 +14,7 @@ class LogBuilderTest {
     @Nested
     class build {
 
-        private static final String BASE_MESSAGE = "Hello world";
+        private static final String BASE_MESSAGE = "Hello world!";
 
         @Test
         void withMessageOnly() {
@@ -43,7 +43,7 @@ class LogBuilderTest {
             String logMessage = new LogBuilder(BASE_MESSAGE).withException(exception).build();
 
             // Then
-            assertEquals(String.format("%s: %s", BASE_MESSAGE, exception.getMessage()), logMessage);
+            assertEquals(String.format("Hello world: %s", exception.getMessage()), logMessage);
         }
 
         @Test

@@ -132,6 +132,7 @@ public class LogBuilder {
         }
 
         if (exception != null) {
+            logMessage = logMessage.replaceAll("[!.,;:?\\s]+$", "");
             logMessage += ": " + exception.getMessage();
         }
 
