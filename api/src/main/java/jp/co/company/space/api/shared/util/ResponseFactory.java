@@ -16,6 +16,15 @@ public class ResponseFactory {
         return Response.status(Response.Status.NOT_FOUND);
     }
 
+    /**
+     * Creates a new {@link Response.ResponseBuilder} with the {@link Response.Status} UNAUTHORIZED status.
+     *
+     * @return a {@link Response.ResponseBuilder}.
+     */
+    public static Response.ResponseBuilder unauthorized() {
+        return Response.status(Response.Status.UNAUTHORIZED);
+    }
+
     protected ResponseFactory() {
     }
 }
