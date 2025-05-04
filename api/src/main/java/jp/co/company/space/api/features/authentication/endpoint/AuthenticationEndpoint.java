@@ -12,8 +12,11 @@ import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
 import jp.co.company.space.api.features.authentication.domain.AuthenticationTokenCookieCreationFactory;
 import jp.co.company.space.api.features.authentication.exception.AuthenticationError;
+import jp.co.company.space.api.features.authentication.exception.AuthenticationException;
 import jp.co.company.space.api.features.authentication.input.LoginRequestForm;
 import jp.co.company.space.api.features.authentication.service.AuthenticationService;
+import jp.co.company.space.api.features.user.dto.NewUserDto;
+import jp.co.company.space.api.features.user.input.UserCreationForm;
 import jp.co.company.space.api.shared.dto.DomainErrorDto;
 import jp.co.company.space.api.shared.exception.DomainException;
 import jp.co.company.space.api.shared.util.LogBuilder;
@@ -47,6 +50,32 @@ public class AuthenticationEndpoint {
     @Inject
     protected AuthenticationEndpoint(@ConfigProperty(name = "mp.jwt.token.cookie") String cookiePropertyName) {
         authenticationCookiePropertyName = cookiePropertyName;
+    }
+
+    /**
+     * Registers a new user and returns the newly created user information.
+     *
+     * @param form A form with details about the user registration request.
+     * @return A {@link NewUserDto} instance if the request was successful.
+     */
+    @Path("register")
+    @POST
+    @PermitAll
+    @Operation(summary = "Registers a new user.", description = "Registers a new user and returns the newly created user information if the request was successful.")
+    @RequestBody(name = "form", description = "A form with details about the user registration request.", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = UserCreationForm.class)))
+    @APIResponses({
+            @APIResponse(description = "The newly created user's details.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = NewUserDto.class))),
+            @APIResponse(description = "Something went wrong.", responseCode = "500", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = DomainErrorDto.class)))
+    })
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createUser(@RequestBody UserCreationForm form) {
+        try {
+            NewUserDto newUser = NewUserDto.create(authenticationService.registerUser(form));
+            return Response.ok().entity(newUser).build();
+        } catch (AuthenticationException exception) {
+            LOGGER.warning(new LogBuilder(AuthenticationError.LOGIN).withException(exception).build());
+            return Response.serverError().entity(DomainErrorDto.create(AuthenticationError.LOGIN)).build();
+        }
     }
 
     @Path("login")

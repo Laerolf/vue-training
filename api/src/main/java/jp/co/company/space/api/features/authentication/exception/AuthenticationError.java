@@ -22,8 +22,10 @@ public enum AuthenticationError implements DomainError {
     TOKEN_SERVICE_START_UP("authentication.tokenServiceStartUp", "Failed to start up the authentication token service."),
     TOKEN_SERVICE_LOAD_INITIAL_DATA("authentication.tokenServiceLoadInitialData", "Failed to load the initial authentication token information."),
 
-    LOGIN("authentication.login", "The login request has been rejected."),
-    LOGIN_MISMATCH_CREDENTIALS("authentication.loginMisMatchCredentials", "The provided credentials don't match the existing credentials.");
+    LOGIN("authentication.login", "A login request has been rejected."),
+    LOGIN_MISMATCH_CREDENTIALS("authentication.loginMisMatchCredentials", "The provided credentials don't match the existing credentials."),
+
+    REGISTER("authentication.register", "A user registration request has been rejected.");
 
     private final String key;
     private final String description;

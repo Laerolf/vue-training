@@ -107,6 +107,17 @@ public class LogBuilder {
     }
 
     /**
+     * Adds a property to the log message.
+     *
+     * @param key   The key of the property to use.
+     * @param value The value of the property to use.
+     * @return A {@link LogBuilder} instance.
+     */
+    public LogBuilder withProperty(String key, Integer value) throws IllegalArgumentException {
+        return withProperty(key, String.valueOf(value));
+    }
+
+    /**
      * Creates a log message based on the provided values.
      *
      * @return A log message.

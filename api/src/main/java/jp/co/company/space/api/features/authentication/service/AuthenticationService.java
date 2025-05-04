@@ -8,6 +8,8 @@ import jp.co.company.space.api.features.authentication.exception.AuthenticationE
 import jp.co.company.space.api.features.authentication.exception.AuthenticationException;
 import jp.co.company.space.api.features.authentication.input.LoginRequestForm;
 import jp.co.company.space.api.features.user.domain.User;
+import jp.co.company.space.api.features.user.exception.UserException;
+import jp.co.company.space.api.features.user.input.UserCreationForm;
 import jp.co.company.space.api.features.user.service.UserService;
 import jp.co.company.space.api.shared.util.LogBuilder;
 
@@ -28,6 +30,21 @@ public class AuthenticationService {
     private AuthenticationTokenService authenticationTokenService;
 
     protected AuthenticationService() {
+    }
+
+    /**
+     * Registers a new user by creating it.
+     *
+     * @param form The details of the user registration.
+     * @return A {@link User} instance.
+     */
+    public User registerUser(UserCreationForm form) throws AuthenticationException {
+        try {
+            return userService.create(form);
+        } catch (UserException exception) {
+            LOGGER.warning(new LogBuilder(AuthenticationError.REGISTER).withException(exception).build());
+            throw new AuthenticationException(AuthenticationError.REGISTER);
+        }
     }
 
     /**
