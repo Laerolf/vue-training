@@ -26,7 +26,9 @@ public enum UserError implements DomainError {
     GET_ALL("user.getAll", "Failed to get all existing users."),
     SAVE("user.save", "Failed to save a user."),
     MERGE("user.merge", "Failed to merge a user."),
-    SAVE_LIST("user.saveList", "Failed to save space stations.");
+    SAVE_LIST("user.saveList", "Failed to save space stations."),
+
+    EMAIL_ALREADY_IN_USE("user.emailAlreadyInUse", "Unable to register with this email address.");
 
     private final String key;
     private final String description;

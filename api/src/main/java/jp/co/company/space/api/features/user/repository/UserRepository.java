@@ -7,6 +7,7 @@ import jp.co.company.space.api.features.user.domain.User;
 import jp.co.company.space.api.features.user.exception.UserError;
 import jp.co.company.space.api.features.user.exception.UserException;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +18,6 @@ import java.util.Optional;
 public class UserRepository {
 
     // TODO: add a way to remove existing users
-    // TODO: user email addresses should be unique
 
     @PersistenceContext(unitName = "domain")
     private EntityManager entityManager;
@@ -66,8 +66,15 @@ public class UserRepository {
         if (findById(user.getId()).isEmpty()) {
             try {
                 entityManager.persist(user);
-                return findById(user.getId()).orElseThrow(() -> new UserException(UserError.FIND_BY_ID));
+                entityManager.flush();
+                return user;
             } catch (TransactionRequiredException | EntityExistsException | IllegalArgumentException exception) {
+                throw new UserException(UserError.SAVE, exception);
+            } catch (Exception exception) {
+                if (exception.getCause() != null && exception.getCause() instanceof SQLIntegrityConstraintViolationException && exception.getCause().getMessage().contains("email")) {
+                    throw new UserException(UserError.EMAIL_ALREADY_IN_USE, exception);
+                }
+
                 throw new UserException(UserError.SAVE, exception);
             }
         } else {

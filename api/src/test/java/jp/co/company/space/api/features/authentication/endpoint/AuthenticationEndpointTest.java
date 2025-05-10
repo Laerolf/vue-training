@@ -10,10 +10,13 @@ import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
 import jp.co.company.space.api.features.authentication.exception.AuthenticationError;
 import jp.co.company.space.api.features.authentication.input.LoginRequestForm;
+import jp.co.company.space.api.features.user.domain.User;
 import jp.co.company.space.api.features.user.dto.NewUserDto;
+import jp.co.company.space.api.features.user.exception.UserError;
 import jp.co.company.space.api.features.user.input.UserCreationForm;
 import jp.co.company.space.api.shared.dto.DomainErrorDto;
 import jp.co.company.space.utils.features.user.PersistedUserTestScenario;
+import jp.co.company.space.utils.features.user.UserTestDataBuilder;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -61,7 +64,7 @@ class AuthenticationEndpointTest {
     }
 
     @Test
-    void register_happyFlow() {
+    void register() {
         // Given
         String lastName = "Laerolf";
         String firstName = "Salocin";
@@ -84,6 +87,38 @@ class AuthenticationEndpointTest {
         assertEquals(emailAddress, newUser.emailAddress);
 
         testUserDto(newUser);
+    }
+
+    @Test
+    void register_doubleRegistration() {
+        // Given
+        User user = new UserTestDataBuilder().withEmailAddress("laerolf.salocin@test.be").create();
+        UserCreationForm userCreationForm = UserCreationForm.create(user.getLastName(), user.getFirstName(), user.getEmailAddress(), UUID.randomUUID().toString());
+
+        // When
+        Response firstRegistrationResponse = target.path("auth/register").request().post(Entity.json(userCreationForm));
+        Response secondRegistrationResponse = target.path("auth/register").request().post(Entity.json(userCreationForm));
+
+        // Then
+        assertNotNull(firstRegistrationResponse);
+        assertEquals(Status.OK_200.code(), firstRegistrationResponse.getStatus());
+
+        assertNotNull(secondRegistrationResponse);
+        assertEquals(Status.INTERNAL_SERVER_ERROR_500.code(), secondRegistrationResponse.getStatus());
+
+        DomainErrorDto errorDto = secondRegistrationResponse.readEntity(DomainErrorDto.class);
+        assertNotNull(errorDto);
+
+        assertEquals(AuthenticationError.REGISTER.getKey(), errorDto.key);
+        assertEquals(AuthenticationError.REGISTER.getDescription(), errorDto.message);
+
+        Map<String, Object> properties = errorDto.properties;
+        assertNotNull(properties);
+
+        HashMap<String, Object> causeDto = (HashMap<String, Object>) properties.get("cause");
+
+        assertEquals(UserError.EMAIL_ALREADY_IN_USE.getKey(), causeDto.get("key"));
+        assertEquals(UserError.EMAIL_ALREADY_IN_USE.getDescription(), causeDto.get("message"));
     }
 
     @Test

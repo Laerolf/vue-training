@@ -43,7 +43,7 @@ public class AuthenticationService {
             return userService.create(form);
         } catch (UserException exception) {
             LOGGER.warning(new LogBuilder(AuthenticationError.REGISTER).withException(exception).build());
-            throw new AuthenticationException(AuthenticationError.REGISTER);
+            throw new AuthenticationException(AuthenticationError.REGISTER, exception);
         }
     }
 

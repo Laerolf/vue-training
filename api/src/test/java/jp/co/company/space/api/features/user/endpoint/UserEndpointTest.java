@@ -96,7 +96,7 @@ class UserEndpointTest {
 
         testUserDto(foundUser);
 
-        BookingDto selectedBooking = foundUser.bookings.getFirst();
+        BookingDto selectedBooking = foundUser.bookings.stream().filter(booking -> booking.id.equals(persistedBookingTestScenario.getPersistedBooking().getId())).findFirst().orElseThrow();
         assertEquals(persistedBookingTestScenario.getPersistedBooking().getId(), selectedBooking.id);
         assertEquals(persistedBookingTestScenario.getPersistedBooking().getCreationDate().getDayOfYear(), selectedBooking.creationDate.getDayOfYear());
         assertEquals(persistedBookingTestScenario.getPersistedBooking().getStatus().getKey(), selectedBooking.status);
