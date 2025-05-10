@@ -29,7 +29,7 @@ public class LogBuilder {
     /**
      * The properties in the log message.
      */
-    private final Map<String, String> properties = new LinkedHashMap<>();
+    private final Map<String, Object> properties = new LinkedHashMap<>();
 
     /**
      * Creates a new {@link LogBuilder} instance based on a message.
@@ -95,7 +95,7 @@ public class LogBuilder {
      * @param value The value of the property to use.
      * @return A {@link LogBuilder} instance.
      */
-    public LogBuilder withProperty(String key, String value) throws IllegalArgumentException {
+    public LogBuilder withProperty(String key, Object value) throws IllegalArgumentException {
         if (key == null) {
             throw new IllegalArgumentException("The key of the log message property is missing.");
         } else if (value == null) {
@@ -104,17 +104,6 @@ public class LogBuilder {
 
         properties.put(key, value);
         return this;
-    }
-
-    /**
-     * Adds a property to the log message.
-     *
-     * @param key   The key of the property to use.
-     * @param value The value of the property to use.
-     * @return A {@link LogBuilder} instance.
-     */
-    public LogBuilder withProperty(String key, Integer value) throws IllegalArgumentException {
-        return withProperty(key, String.valueOf(value));
     }
 
     /**

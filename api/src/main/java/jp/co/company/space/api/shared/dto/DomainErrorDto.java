@@ -63,7 +63,7 @@ public class DomainErrorDto {
      */
     @JsonbNillable(false)
     @Schema(description = "The properties of the error.", example = Examples.ERROR_PROPERTIES)
-    public Map<String, String> properties;
+    public Map<String, Object> properties;
 
     protected DomainErrorDto() {
     }

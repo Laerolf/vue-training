@@ -87,7 +87,7 @@ class LogBuilderTest {
             String logMessage = new LogBuilder(BASE_MESSAGE).withException(exception).withProperty(propertyKey, propertyValue).build();
 
             // Then
-            assertEquals(String.format("%s: %s [%s=%s]", BASE_MESSAGE, exception.getMessage(), propertyKey, propertyValue), logMessage);
+            assertEquals(String.format("Hello world: %s [%s=%s]", exception.getMessage(), propertyKey, propertyValue), logMessage);
         }
     }
 

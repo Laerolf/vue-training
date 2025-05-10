@@ -5,7 +5,6 @@ import jp.co.company.space.api.shared.dto.DomainErrorDto;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * A builder for the {@link DomainErrorDto} class.
@@ -23,14 +22,14 @@ public class DomainErrorDtoBuilder {
     private final String errorMessage;
 
     /**
-     * The message of the error causing the {@link DomainException} instance.
+     * The error causing the {@link DomainException} instance.
      */
-    private String errorCauseMessage;
+    private DomainException errorCause;
 
     /**
      * The properties of the error.
      */
-    private final Map<String, String> properties = new HashMap<>();
+    private final Map<String, Object> properties = new HashMap<>();
 
     /**
      * When true, include the cause of the exception, if any. Don't otherwise.
@@ -40,7 +39,10 @@ public class DomainErrorDtoBuilder {
     public DomainErrorDtoBuilder(@Nonnull DomainException exception) {
         errorKey = exception.getKey();
         errorMessage = exception.getMessage();
-        errorCauseMessage = Optional.ofNullable(exception.getCause()).map(Throwable::getMessage).orElse(null);
+
+        if (exception.getCause() instanceof DomainException) {
+            errorCause = (DomainException) exception.getCause();
+        }
     }
 
     public DomainErrorDtoBuilder(@Nonnull DomainError error) {
@@ -78,8 +80,8 @@ public class DomainErrorDtoBuilder {
     public DomainErrorDto build() {
         DomainErrorDto errorDto = DomainErrorDto.create(errorKey, errorMessage);
 
-        if (includeCause && errorCauseMessage != null) {
-            properties.put("cause", errorCauseMessage);
+        if (includeCause && errorCause != null) {
+            properties.put("cause", new DomainErrorDtoBuilder(errorCause).build());
         }
 
         if (!properties.isEmpty()) {
