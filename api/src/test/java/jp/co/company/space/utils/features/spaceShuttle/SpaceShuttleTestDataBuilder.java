@@ -1,13 +1,14 @@
 package jp.co.company.space.utils.features.spaceShuttle;
 
 import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
+import jp.co.company.space.api.features.spaceShuttle.exception.SpaceShuttleException;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
 import jp.co.company.space.utils.features.spaceShuttleModel.SpaceShuttleModelTestDataBuilder;
 
 import java.util.Optional;
 
 /**
- * A utility class that creates {@link SpaceShuttle} instances for tests.
+ * A test data builder that creates a {@link SpaceShuttle} instance for testing purposes.
  */
 public class SpaceShuttleTestDataBuilder {
 
@@ -43,7 +44,7 @@ public class SpaceShuttleTestDataBuilder {
      *
      * @return a new {@link SpaceShuttle} instance
      */
-    public SpaceShuttle create() {
+    public SpaceShuttle create() throws SpaceShuttleException {
         return SpaceShuttle.create(
                 Optional.ofNullable(name).orElse(DEFAULT_NAME),
                 Optional.ofNullable(model).orElse(DEFAULT_SPACE_SHUTTLE_MODEL)

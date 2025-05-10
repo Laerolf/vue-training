@@ -18,11 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class RouteTest {
     /**
-     * The test data builder for locations.
-     */
-    private static final LocationTestDataBuilder locationBuilder = new LocationTestDataBuilder();
-
-    /**
      * The test data builder for space station.
      */
     private static final SpaceStationTestDataBuilder spaceStationBuilder = new SpaceStationTestDataBuilder();
@@ -37,7 +32,7 @@ public class RouteTest {
         @Test
         void withValidArguments() {
             // Given
-            Location earth = locationBuilder.create();
+            Location earth = new LocationTestDataBuilder().create();
             SpaceStation origin = spaceStationBuilder.create(earth);
             SpaceStation destination = spaceStationBuilder.create(earth);
             SpaceShuttleModel shuttleModel = spaceShuttleModelBuilder.create();
@@ -55,7 +50,7 @@ public class RouteTest {
         @Test
         void whenOriginIsMissing() {
             // Given
-            Location earth = locationBuilder.create();
+            Location earth = new LocationTestDataBuilder().create();
             SpaceStation destination = spaceStationBuilder.create(earth);
             SpaceShuttleModel shuttleModel = spaceShuttleModelBuilder.create();
 
@@ -68,7 +63,7 @@ public class RouteTest {
         @Test
         void whenDestinationIsMissing() {
             // Given
-            Location earth = locationBuilder.create();
+            Location earth = new LocationTestDataBuilder().create();
             SpaceStation origin = spaceStationBuilder.create(earth);
             SpaceShuttleModel shuttleModel = spaceShuttleModelBuilder.create();
 
@@ -81,7 +76,7 @@ public class RouteTest {
         @Test
         void whenSpaceShuttleModelIsMissing() {
             // Given
-            Location earth = locationBuilder.create();
+            Location earth = new LocationTestDataBuilder().create();
             SpaceStation origin = spaceStationBuilder.create(earth);
             SpaceStation destination = spaceStationBuilder.create(earth);
 
@@ -98,7 +93,7 @@ public class RouteTest {
         void withValidArguments() {
             // Given
             String id = UUID.randomUUID().toString();
-            Location earth = locationBuilder.create();
+            Location earth = new LocationTestDataBuilder().create();
             SpaceStation origin = spaceStationBuilder.create(earth);
             SpaceStation destination = spaceStationBuilder.create(earth);
             SpaceShuttleModel shuttleModel = spaceShuttleModelBuilder.create();
@@ -116,7 +111,7 @@ public class RouteTest {
         @Test
         void whenIdIsMissing() {
             // Given
-            Location earth = locationBuilder.create();
+            Location earth = new LocationTestDataBuilder().create();
             SpaceStation origin = spaceStationBuilder.create(earth);
             SpaceStation destination = spaceStationBuilder.create(earth);
             SpaceShuttleModel shuttleModel = spaceShuttleModelBuilder.create();
@@ -131,7 +126,7 @@ public class RouteTest {
         void whenOriginIsMissing() {
             // Given
             String id = UUID.randomUUID().toString();
-            Location earth = locationBuilder.create();
+            Location earth = new LocationTestDataBuilder().create();
             SpaceStation destination = spaceStationBuilder.create(earth);
             SpaceShuttleModel shuttleModel = spaceShuttleModelBuilder.create();
 
@@ -145,7 +140,7 @@ public class RouteTest {
         void whenDestinationIsMissing() {
             // Given
             String id = UUID.randomUUID().toString();
-            Location earth = locationBuilder.create();
+            Location earth = new LocationTestDataBuilder().create();
             SpaceStation origin = spaceStationBuilder.create(earth);
             SpaceShuttleModel shuttleModel = spaceShuttleModelBuilder.create();
 
@@ -159,7 +154,7 @@ public class RouteTest {
         void whenSpaceShuttleModelIsMissing() {
             // Given
             String id = UUID.randomUUID().toString();
-            Location earth = locationBuilder.create();
+            Location earth = new LocationTestDataBuilder().create();
             SpaceStation origin = spaceStationBuilder.create(earth);
             SpaceStation destination = spaceStationBuilder.create(earth);
 
@@ -173,8 +168,8 @@ public class RouteTest {
     @Test
     void whenMatched() {
         // Given
-        Location earth = locationBuilder.create();
-        Location moon = locationBuilder.create();
+        Location earth = new LocationTestDataBuilder().create();
+        Location moon = new LocationTestDataBuilder().create();
         SpaceStation earthStation = spaceStationBuilder.create(earth);
         SpaceStation moonStation = spaceStationBuilder.create(moon);
         SpaceShuttleModel shuttleModel = spaceShuttleModelBuilder.create();
@@ -189,8 +184,8 @@ public class RouteTest {
     @Test
     void whenNotMatched() {
         // Given
-        Location earth = locationBuilder.create();
-        Location moon = locationBuilder.create();
+        Location earth = new LocationTestDataBuilder().create();
+        Location moon = new LocationTestDataBuilder().create();
         SpaceStation earthStation = spaceStationBuilder.create(earth);
         SpaceStation moonStation = spaceStationBuilder.create(moon);
         SpaceShuttleModel shuttleModel = spaceShuttleModelBuilder.create();

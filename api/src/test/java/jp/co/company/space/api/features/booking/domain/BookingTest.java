@@ -3,7 +3,7 @@ package jp.co.company.space.api.features.booking.domain;
 import jp.co.company.space.api.features.user.domain.User;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
 import jp.co.company.space.utils.features.user.UserTestDataBuilder;
-import jp.co.company.space.utils.features.voyage.user.VoyageTestDataBuilder;
+import jp.co.company.space.utils.features.voyage.VoyageTestDataBuilder;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 

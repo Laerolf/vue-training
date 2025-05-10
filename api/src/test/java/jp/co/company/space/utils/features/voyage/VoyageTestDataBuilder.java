@@ -1,4 +1,4 @@
-package jp.co.company.space.utils.features.voyage.user;
+package jp.co.company.space.utils.features.voyage;
 
 import jp.co.company.space.api.features.location.domain.Location;
 import jp.co.company.space.api.features.route.domain.Route;
@@ -6,6 +6,7 @@ import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
+import jp.co.company.space.api.features.voyage.exception.VoyageException;
 import jp.co.company.space.utils.features.location.LocationTestDataBuilder;
 import jp.co.company.space.utils.features.route.RouteTestDataBuilder;
 import jp.co.company.space.utils.features.spaceShuttle.SpaceShuttleTestDataBuilder;
@@ -16,7 +17,7 @@ import java.time.ZonedDateTime;
 import java.util.Optional;
 
 /**
- * A utility class that creates {@link Voyage} instances for tests.
+ * A test data builder that creates a {@link Voyage} instance for testing purposes.
  */
 public class VoyageTestDataBuilder {
 
@@ -32,7 +33,7 @@ public class VoyageTestDataBuilder {
     private static final SpaceShuttleModel DEFAULT_SHUTTLE_MODEL = new SpaceShuttleModelTestDataBuilder().create();
 
     private static final ZonedDateTime DEFAULT_DEPARTURE_DATE = ZonedDateTime.now();
-    private static Route DEFAULT_ROUTE = new RouteTestDataBuilder().create(DEFAULT_ORIGIN_SPACE_STATION, DEFAULT_DESTINATION_SPACE_STATION, DEFAULT_SHUTTLE_MODEL);
+    private static final Route DEFAULT_ROUTE = new RouteTestDataBuilder().create(DEFAULT_ORIGIN_SPACE_STATION, DEFAULT_DESTINATION_SPACE_STATION, DEFAULT_SHUTTLE_MODEL);
     private static final SpaceShuttle DEFAULT_SPACE_SHUTTLE = new SpaceShuttleTestDataBuilder().withModel(DEFAULT_SHUTTLE_MODEL).create();
 
     private ZonedDateTime departureDate;
@@ -57,28 +58,11 @@ public class VoyageTestDataBuilder {
         return this;
     }
 
-    public Voyage create() {
-        Optional.ofNullable(spaceShuttle).ifPresent(customSpaceShuttle -> {
-            if (route != null) {
-                route = new RouteTestDataBuilder().create(route.getOrigin(), route.getDestination(), customSpaceShuttle.getModel());
-            } else {
-                DEFAULT_ROUTE = new RouteTestDataBuilder().create(DEFAULT_ROUTE.getOrigin(), DEFAULT_ROUTE.getDestination(), customSpaceShuttle.getModel());
-            }
-        });
-
-        Voyage voyage = Voyage.create(
+    public Voyage create() throws VoyageException {
+        return Voyage.create(
                 Optional.ofNullable(departureDate).orElse(DEFAULT_DEPARTURE_DATE),
                 Optional.ofNullable(route).orElse(DEFAULT_ROUTE),
                 Optional.ofNullable(spaceShuttle).orElse(DEFAULT_SPACE_SHUTTLE)
         );
-
-        cleanUp();
-        return voyage;
-    }
-
-    private void cleanUp() {
-        departureDate = null;
-        route = null;
-        spaceShuttle = null;
     }
 }

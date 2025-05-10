@@ -1,15 +1,14 @@
 package jp.co.company.space.utils.features.route;
 
 import jp.co.company.space.api.features.route.domain.Route;
+import jp.co.company.space.api.features.route.exception.RouteException;
 import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 
 /**
- * A utility class that creates {@link Route} instances for tests.
+ * A test data builder that creates a {@link Route} instance for testing purposes.
  */
 public class RouteTestDataBuilder {
-    public RouteTestDataBuilder() {}
-
     /**
      * Creates a new {@link Route} instance.
      *
@@ -18,7 +17,7 @@ public class RouteTestDataBuilder {
      * @param shuttleModel The space shuttle model for the route.
      * @return a new {@link Route} instance.
      */
-    public Route create(SpaceStation origin, SpaceStation destination, SpaceShuttleModel shuttleModel) {
+    public Route create(SpaceStation origin, SpaceStation destination, SpaceShuttleModel shuttleModel) throws RouteException {
         return Route.create(origin, destination, shuttleModel);
     }
 }

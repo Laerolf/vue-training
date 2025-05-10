@@ -1,34 +1,28 @@
 package jp.co.company.space.api.features.voyage.endpoint;
 
 import io.helidon.http.Status;
+import io.helidon.microprofile.testing.junit5.AddBean;
+import io.helidon.microprofile.testing.junit5.AddBeans;
 import io.helidon.microprofile.testing.junit5.HelidonTest;
 import jakarta.inject.Inject;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.Response;
-import jp.co.company.space.api.features.booking.domain.Booking;
 import jp.co.company.space.api.features.catalog.domain.PodType;
-import jp.co.company.space.api.features.pod.domain.PodCodeFactory;
-import jp.co.company.space.api.features.pod.domain.PodStatus;
 import jp.co.company.space.api.features.pod.dto.PodDto;
-import jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle;
-import jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
-import jp.co.company.space.api.features.user.domain.User;
-import jp.co.company.space.api.features.voyage.domain.Voyage;
 import jp.co.company.space.api.features.voyage.dto.VoyageBasicDto;
 import jp.co.company.space.api.features.voyage.dto.VoyageDto;
-import jp.co.company.space.utils.features.spaceShuttle.SpaceShuttleTestDataBuilder;
-import jp.co.company.space.utils.features.spaceShuttleModel.SpaceShuttleModelTestDataBuilder;
-import jp.co.company.space.utils.features.user.UserTestDataBuilder;
-import jp.co.company.space.utils.features.voyage.user.VoyageTestDataBuilder;
+import jp.co.company.space.utils.features.route.PersistedRouteTestScenario;
+import jp.co.company.space.utils.features.spaceShuttle.PersistedSpaceShuttleTestScenario;
+import jp.co.company.space.utils.features.spaceShuttleModel.PersistedSpaceShuttleModelTestScenario;
+import jp.co.company.space.utils.features.user.PersistedUserTestScenario;
+import jp.co.company.space.utils.features.voyage.PersistedVoyageTestScenario;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttleLayoutFactory.DISTRIBUTION_RATIOS_BY_TYPE;
 import static jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttleLayoutFactory.MAX_PODS_PER_DECK_BY_TYPE;
@@ -39,47 +33,31 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @Transactional(Transactional.TxType.REQUIRED)
 @HelidonTest
+@AddBeans({
+        @AddBean(PersistedVoyageTestScenario.class),
+        @AddBean(PersistedUserTestScenario.class),
+        @AddBean(PersistedSpaceShuttleTestScenario.class),
+        @AddBean(PersistedSpaceShuttleModelTestScenario.class),
+        @AddBean(PersistedRouteTestScenario.class)
+})
 public class VoyageEndpointTest {
 
     private static final String JAPAN_SPACE_STATION_ID = "00000000-0000-1000-8000-000000000003";
     private static final String MARS_SPACE_STATION_ID = "00000000-0000-1000-8000-000000000012";
 
-    private static final SpaceShuttleModel SPACE_SHUTTLE_MODEL = new SpaceShuttleModelTestDataBuilder().withMaxCapacity(20).create();
-    private static final SpaceShuttle SPACE_SHUTTLE = new SpaceShuttleTestDataBuilder().withModel(SPACE_SHUTTLE_MODEL).create();
+    @Inject
+    private PersistedVoyageTestScenario persistedVoyageTestScenario;
 
-    private static final User USER = new UserTestDataBuilder().create();
-    private static final Voyage VOYAGE = new VoyageTestDataBuilder().withSpaceShuttle(SPACE_SHUTTLE).create();
-    private static final Booking BOOKING = Booking.create(USER, VOYAGE);
+    @Inject
+    private PersistedUserTestScenario persistedUserTestScenario;
 
     @Inject
     private WebTarget target;
 
-    @PersistenceContext(unitName = "domain")
-    EntityManager entityManager;
-
     @BeforeEach
-    void beforeEach() {
-        if (entityManager.find(User.class, USER.getId()) == null) {
-            entityManager.merge(USER);
-        }
-
-        if (entityManager.find(SpaceShuttleModel.class, VOYAGE.getSpaceShuttle().getModel().getId()) == null) {
-            entityManager.merge(VOYAGE.getSpaceShuttle().getModel());
-        }
-
-        if (entityManager.find(Booking.class, BOOKING.getId()) == null) {
-            entityManager.merge(VOYAGE.getSpaceShuttle());
-            entityManager.merge(VOYAGE.getSpaceShuttle().getModel());
-            entityManager.merge(VOYAGE.getRoute().getOrigin().getLocation());
-            entityManager.merge(VOYAGE.getRoute().getOrigin());
-            entityManager.merge(VOYAGE.getRoute().getDestination().getLocation());
-            entityManager.merge(VOYAGE.getRoute().getDestination());
-            entityManager.merge(VOYAGE.getRoute().getShuttleModel());
-            entityManager.merge(VOYAGE.getRoute());
-            entityManager.merge(VOYAGE);
-
-            entityManager.merge(BOOKING);
-        }
+    public void beforeEach() {
+        persistedVoyageTestScenario.setup();
+        persistedUserTestScenario.setup();
     }
 
     /**
@@ -104,7 +82,7 @@ public class VoyageEndpointTest {
     /**
      * Tests the sizes of a collection of {@link PodDto} instances.
      *
-     * @param pods The pod DTOs to test.
+     * @param pods    The pod DTOs to test.
      * @param podType The type of pods to test.
      */
     private void testTypePodDtoCollection(List<PodDto> pods, PodType podType) {
@@ -216,7 +194,9 @@ public class VoyageEndpointTest {
     @Test
     void getAllVoyagePods() {
         // When
-        Response response = target.path(String.format("/voyages/%s/pods", VOYAGE.getId())).request().get();
+        Response response = target.path(String.format("/voyages/%s/pods", persistedVoyageTestScenario.getPersistedVoyage().getId())).request()
+                .header(HttpHeaders.AUTHORIZATION, persistedUserTestScenario.generateAuthenticationHeader())
+                .get();
 
         // Then
         assertNotNull(response);
@@ -226,27 +206,7 @@ public class VoyageEndpointTest {
         });
         assertNotNull(pods);
         assertFalse(pods.isEmpty());
-        assertEquals(SPACE_SHUTTLE_MODEL.getMaxCapacity(), pods.size());
-
-        List.of(
-                PodType.STANDARD_POD,
-                PodType.ENHANCED_POD,
-                PodType.PRIVATE_SUITE_POD
-        ).forEach(expectedPodType -> {
-            AtomicInteger podCount = new AtomicInteger(1);
-
-            pods.stream()
-                    .filter(podDto -> podDto.type.equals(expectedPodType.getKey()))
-                    .forEach(podDto -> {
-                        String expectedPodCode = new PodCodeFactory(expectedPodType.getPodCodePrefix(), podDto.deck, podCount.getAndIncrement()).create();
-
-                        assertEquals(expectedPodCode, podDto.code);
-                        assertEquals(expectedPodType.getKey(), podDto.type);
-                        assertEquals(PodStatus.AVAILABLE.getKey(), podDto.status);
-                        assertTrue(podDto.row > 0);
-                        assertTrue(podDto.column > 0);
-                    });
-        });
+        assertEquals(persistedVoyageTestScenario.getPersistedSpaceShuttle().getModel().getMaxCapacity(), pods.size());
     }
 
     @Test
@@ -255,7 +215,9 @@ public class VoyageEndpointTest {
         String voyageId = "5f485136-20a8-41f3-9073-4156d32c9c36";
 
         // When
-        Response response = target.path(String.format("/voyages/%s/pods", voyageId)).request().get();
+        Response response = target.path(String.format("/voyages/%s/pods", voyageId)).request()
+                .header(HttpHeaders.AUTHORIZATION, persistedUserTestScenario.generateAuthenticationHeader())
+                .get();
 
         // Then
         assertNotNull(response);

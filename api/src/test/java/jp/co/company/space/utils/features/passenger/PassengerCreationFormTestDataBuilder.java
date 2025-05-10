@@ -14,7 +14,7 @@ import jp.co.company.space.api.shared.exception.DomainException;
 import java.util.Optional;
 
 /**
- * A utility class that creates {@link PassengerCreationForm} instances for tests.
+ * A test data builder that creates a {@link PassengerCreationForm} instance for testing purposes.
  */
 public class PassengerCreationFormTestDataBuilder {
 
@@ -52,17 +52,9 @@ public class PassengerCreationFormTestDataBuilder {
             PodType selectedPodType = PodType.findByPackageType(selectedPackageType).orElseThrow(() -> new PodException(PodError.MISSING_TYPE));
             String podCode = new PodCodeFactory(selectedPodType.getPodCodePrefix(), DEFAULT_POD_DECK_NUMBER, DEFAULT_POD_NUMBER).create();
 
-            PassengerCreationForm passengerCreationForm = new PassengerCreationForm(podCode, selectedPackageType.getKey(), Optional.ofNullable(mealPreference).orElse(DEFAULT_MEAL_PREFERENCE).getKey());
-            cleanUp();
-
-            return passengerCreationForm;
+            return new PassengerCreationForm(podCode, selectedPackageType.getKey(), Optional.ofNullable(mealPreference).orElse(DEFAULT_MEAL_PREFERENCE).getKey());
         } catch (DomainException exception) {
             throw new PassengerException(PassengerError.CREATE, exception);
         }
-    }
-
-    private void cleanUp() {
-        this.packageType = null;
-        this.mealPreference = null;
     }
 }

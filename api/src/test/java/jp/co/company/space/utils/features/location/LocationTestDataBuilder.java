@@ -5,7 +5,7 @@ import jp.co.company.space.api.features.location.domain.Location;
 import java.util.Optional;
 
 /**
- * A utility class that creates {@link Location} instances for tests.
+ * A test data builder that creates a {@link Location} instance for testing purposes.
  */
 public class LocationTestDataBuilder {
     /**
@@ -33,8 +33,6 @@ public class LocationTestDataBuilder {
     private Double longitude;
     private Double radialDistance;
 
-    public LocationTestDataBuilder() {}
-
     public LocationTestDataBuilder withName(String name) {
         this.name = name;
         return this;
@@ -61,17 +59,7 @@ public class LocationTestDataBuilder {
      * @return a new {@link Location} instance
      */
     public Location create() {
-        Location location = Location.create(Optional.ofNullable(name).orElse(DEFAULT_NAME), Optional.ofNullable(latitude).orElse(DEFAULT_LATITUDE),
+        return Location.create(Optional.ofNullable(name).orElse(DEFAULT_NAME), Optional.ofNullable(latitude).orElse(DEFAULT_LATITUDE),
                 Optional.ofNullable(longitude).orElse(DEFAULT_LONGITUDE), Optional.ofNullable(radialDistance).orElse(DEFAULT_RADIAL_DISTANCE));
-
-        cleanUp();
-        return location;
-    }
-
-    private void cleanUp() {
-        name = null;
-        latitude = null;
-        longitude = null;
-        radialDistance = null;
     }
 }
