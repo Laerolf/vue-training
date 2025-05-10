@@ -65,7 +65,7 @@ public class PodReservationRepository {
         if (findById(podReservation.getId()).isEmpty()) {
             try {
                 entityManager.persist(podReservation);
-                return findById(podReservation.getId()).orElseThrow(() -> new PodReservationException(PodReservationError.FIND_BY_ID));
+                return podReservation;
             } catch (TransactionRequiredException | EntityExistsException | IllegalArgumentException exception) {
                 throw new PodReservationException(PodReservationError.SAVE, exception);
             }

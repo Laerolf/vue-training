@@ -59,7 +59,7 @@ public class SpaceStationRepository {
         if (findById(spaceStation.getId()).isEmpty()) {
             try {
                 entityManager.persist(spaceStation);
-                return findById(spaceStation.getId()).orElseThrow(() -> new SpaceStationException(SpaceStationError.FIND_BY_ID));
+                return spaceStation;
             } catch (TransactionRequiredException | EntityExistsException | IllegalArgumentException exception) {
                 throw new SpaceStationException(SpaceStationError.SAVE, exception);
             }

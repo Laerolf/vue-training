@@ -52,7 +52,7 @@ public class PassengerRepository {
         if (findById(passenger.getId()).isEmpty()) {
             try {
                 entityManager.persist(passenger);
-                return findById(passenger.getId()).orElseThrow(() -> new PassengerException(PassengerError.FIND_BY_ID));
+                return passenger;
             } catch (TransactionRequiredException | EntityExistsException | IllegalArgumentException exception) {
                 throw new PassengerException(PassengerError.SAVE, exception);
             }

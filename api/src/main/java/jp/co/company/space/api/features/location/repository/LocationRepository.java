@@ -59,7 +59,7 @@ public class LocationRepository {
         if (findById(location.getId()).isEmpty()) {
             try {
                 entityManager.persist(location);
-                return findById(location.getId()).orElseThrow(() -> new LocationException(LocationError.FIND_BY_ID));
+                return location;
             } catch (TransactionRequiredException | EntityExistsException | IllegalArgumentException exception) {
                 throw new LocationException(LocationError.SAVE, exception);
             }

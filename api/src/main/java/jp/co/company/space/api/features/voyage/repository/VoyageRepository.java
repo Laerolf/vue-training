@@ -115,7 +115,7 @@ public class VoyageRepository {
         if (findById(voyage.getId()).isEmpty()) {
             try {
                 entityManager.persist(voyage);
-                return findById(voyage.getId()).orElseThrow(() -> new VoyageException(VoyageError.FIND_BY_ID));
+                return voyage;
             } catch (TransactionRequiredException | EntityExistsException | IllegalArgumentException exception) {
                 throw new VoyageException(VoyageError.SAVE, exception);
             }

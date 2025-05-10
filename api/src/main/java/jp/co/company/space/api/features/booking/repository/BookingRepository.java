@@ -80,7 +80,7 @@ public class BookingRepository {
         if (findById(booking.getId()).isEmpty()) {
             try {
                 entityManager.persist(booking);
-                return findById(booking.getId()).orElseThrow(() -> new BookingException(BookingError.FIND_BY_ID));
+                return booking;
             } catch (TransactionRequiredException | EntityExistsException | IllegalArgumentException exception) {
                 throw new BookingException(BookingError.SAVE, exception);
             }

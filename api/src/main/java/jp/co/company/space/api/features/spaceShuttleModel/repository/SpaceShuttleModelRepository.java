@@ -59,7 +59,7 @@ public class SpaceShuttleModelRepository {
         if (findById(spaceShuttleModel.getId()).isEmpty()) {
             try {
                 entityManager.persist(spaceShuttleModel);
-                return findById(spaceShuttleModel.getId()).orElseThrow(() -> new SpaceShuttleModelException(SpaceShuttleModelError.FIND_BY_ID));
+                return spaceShuttleModel;
             } catch (EntityExistsException | TransactionRequiredException | IllegalArgumentException exception) {
                 throw new SpaceShuttleModelException(SpaceShuttleModelError.SAVE, exception);
             }
