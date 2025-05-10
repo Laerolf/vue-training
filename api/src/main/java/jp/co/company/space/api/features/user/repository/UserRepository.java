@@ -16,6 +16,9 @@ import java.util.Optional;
 @ApplicationScoped
 public class UserRepository {
 
+    // TODO: add a way to remove existing users
+    // TODO: user email addresses should be unique
+
     @PersistenceContext(unitName = "domain")
     private EntityManager entityManager;
 

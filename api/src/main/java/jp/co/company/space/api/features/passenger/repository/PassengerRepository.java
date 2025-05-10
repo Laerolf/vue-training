@@ -19,6 +19,8 @@ import java.util.Optional;
 @ApplicationScoped
 public class PassengerRepository {
 
+    // TODO: add a way to remove existing passengers
+
     @PersistenceContext(unitName = "domain")
     private EntityManager entityManager;
 

@@ -59,7 +59,7 @@ public class RouteRepository {
         if (findById(route.getId()).isEmpty()) {
             try {
                 entityManager.persist(route);
-                return findById(route.getId()).orElseThrow(() -> new RouteException(RouteError.FIND_BY_ID));
+                return route;
             } catch (TransactionRequiredException | EntityExistsException | IllegalArgumentException exception) {
                 throw new RouteException(RouteError.SAVE, exception);
             }

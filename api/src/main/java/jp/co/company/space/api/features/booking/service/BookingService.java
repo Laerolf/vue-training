@@ -52,6 +52,7 @@ public class BookingService {
      * @throws BookingException When the form is missing or the form's passengers are missing or invalid.
      */
     public Booking create(BookingCreationForm creationForm) throws BookingException {
+        // TODO: it should not be possible to adjust a booking with the status "created"
         try {
             if (creationForm == null) {
                 throw new BookingException(BookingError.NEW_MISSING_CREATION_FORM);
@@ -75,7 +76,7 @@ public class BookingService {
 
             return newBooking;
         } catch (DomainException exception) {
-            LOGGER.warning(new LogBuilder("Failed to create a new booking").withException(exception).build());
+            LOGGER.warning(new LogBuilder(BookingError.CREATE).withException(exception).build());
             throw exception;
         }
     }
@@ -95,6 +96,8 @@ public class BookingService {
         }
     }
 
+    // TODO: use
+    // TODO: all actions that could use the principal, should use the principal
     /**
      * Returns a {@link List} of saved {@link Booking} instances matching the provided user ID.
      *

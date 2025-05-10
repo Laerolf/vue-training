@@ -16,6 +16,8 @@ import java.util.Optional;
 @ApplicationScoped
 public class BookingRepository {
 
+    // TODO: add a way to remove existing bookings
+
     @PersistenceContext(unitName = "domain")
     private EntityManager entityManager;
 
