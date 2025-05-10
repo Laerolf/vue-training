@@ -3,8 +3,10 @@ package jp.co.company.space.api.features.booking.endpoint;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 import jp.co.company.space.api.features.booking.domain.Booking;
 import jp.co.company.space.api.features.booking.dto.BookingDto;
 import jp.co.company.space.api.features.booking.exception.BookingError;
@@ -49,6 +51,7 @@ public class BookingEndpoint {
     /**
      * Creates a new {@link Booking} instance and returns it as a {@link BookingDto} instance.
      *
+     * @param context The context of the request.
      * @param form A form with details about the new {@link Booking} instance.
      * @return A new {@link BookingDto} instance
      */
@@ -61,9 +64,9 @@ public class BookingEndpoint {
             @APIResponse(description = "Booking rejected.", responseCode = "500", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = DomainErrorDto.class)))
     })
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createBooking(@RequestBody BookingCreationForm form) {
+    public Response createBooking(@RequestBody BookingCreationForm form, @Context SecurityContext context) {
         try {
-            Booking newBooking = bookingService.create(form);
+            Booking newBooking = bookingService.create(context.getUserPrincipal(), form);
             return Response.ok(BookingDto.create(newBooking)).build();
         } catch (DomainException exception) {
             LOGGER.warning(new LogBuilder(BookingError.CREATE).withException(exception).build());
@@ -74,6 +77,7 @@ public class BookingEndpoint {
     /**
      * Returns an {@link Optional} {@link Booking} matching the provided ID.
      *
+     * @param context The context of the request.
      * @param id The ID to search with.
      * @return An {@link Optional} {@link Booking}.
      */
@@ -88,9 +92,10 @@ public class BookingEndpoint {
             @APIResponse(description = "Something went wrong.", responseCode = "500", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = DomainErrorDto.class)))
     })
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findBookingById(@PathParam("id") String id) {
+    public Response findBookingById(@Context SecurityContext context, @PathParam("id") String id) {
         try {
             return bookingService.findById(id)
+                    .filter(booking -> booking.getUser().getId().equals(context.getUserPrincipal().getName()))
                     .map(booking -> Response.ok(BookingDto.create(booking)).build())
                     .orElse(ResponseFactory.notFound().entity(new DomainErrorDtoBuilder(BookingError.FIND_BY_ID).withProperty("id", id).build()).build());
         } catch (DomainException exception) {

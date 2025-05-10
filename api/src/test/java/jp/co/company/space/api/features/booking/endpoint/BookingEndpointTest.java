@@ -61,7 +61,6 @@ class BookingEndpointTest {
     void createBooking() {
         // Given
         BookingCreationForm creationForm = new BookingCreationForm(
-                persistedBookingTestScenario.getPersistedUser().getId(),
                 persistedBookingTestScenario.getPersistedVoyage().getId(),
                 List.of(new PassengerCreationFormTestDataBuilder().create())
         );
@@ -96,7 +95,6 @@ class BookingEndpointTest {
     void createBooking_withNoPassengers() {
         BookingCreationForm creationForm = new BookingCreationForm(
                 persistedBookingTestScenario.getPersistedUser().getId(),
-                persistedBookingTestScenario.getPersistedVoyage().getId(),
                 List.of()
         );
 

@@ -6,7 +6,6 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.util.List;
 
-import static jp.co.company.space.api.shared.openApi.Examples.ID_EXAMPLE;
 import static jp.co.company.space.api.shared.openApi.Examples.VOYAGE_ID_EXAMPLE;
 
 /**
@@ -14,12 +13,6 @@ import static jp.co.company.space.api.shared.openApi.Examples.VOYAGE_ID_EXAMPLE;
  */
 @Schema(description = "A form with details for a new booking.")
 public class BookingCreationForm {
-    /**
-     * The ID of the user making this booking.
-     */
-    @Schema(description = "The ID of the user making the booking.", required = true, example = ID_EXAMPLE)
-    public String userId;
-
     /**
      * The ID of the voyage for the new booking.
      */
@@ -32,10 +25,10 @@ public class BookingCreationForm {
     @Schema(description = "The passengers for the new booking.", required = true)
     public List<PassengerCreationForm> passengers;
 
-    protected BookingCreationForm() {}
+    protected BookingCreationForm() {
+    }
 
-    public BookingCreationForm(String userId, String voyageId, List<PassengerCreationForm> passengers) {
-        this.userId = userId;
+    public BookingCreationForm(String voyageId, List<PassengerCreationForm> passengers) {
         this.voyageId = voyageId;
         this.passengers = passengers;
     }

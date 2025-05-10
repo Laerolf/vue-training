@@ -17,6 +17,7 @@ import jp.co.company.space.api.features.voyage.service.VoyageService;
 import jp.co.company.space.api.shared.exception.DomainException;
 import jp.co.company.space.api.shared.util.LogBuilder;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -51,7 +52,7 @@ public class BookingService {
      * @return A new {@link Booking} instance.
      * @throws BookingException When the form is missing or the form's passengers are missing or invalid.
      */
-    public Booking create(BookingCreationForm creationForm) throws BookingException {
+    public Booking create(Principal userPrincipal, BookingCreationForm creationForm) throws BookingException {
         // TODO: it should not be possible to adjust a booking with the status "created"
         try {
             if (creationForm == null) {
@@ -62,7 +63,7 @@ public class BookingService {
                 throw new BookingException(BookingError.INVALID_PASSENGER_COUNT);
             }
 
-            User selectedUser = userService.findById(creationForm.userId).orElseThrow(() -> new BookingException(BookingError.NEW_USER_NOT_FOUND));
+            User selectedUser = userService.findById(userPrincipal.getName()).orElseThrow(() -> new BookingException(BookingError.NEW_USER_NOT_FOUND));
             Voyage selectedVoyage = voyageService.findById(creationForm.voyageId).orElseThrow(() -> new BookingException(BookingError.NEW_VOYAGE_NOT_FOUND));
 
             Booking newBooking = new BookingCreationFactory(selectedUser, selectedVoyage).create();
