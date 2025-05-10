@@ -80,6 +80,7 @@ public class AuthenticationEndpoint {
 
     @Path("login")
     @POST
+    @PermitAll
     @Operation(summary = "Handles a login attempt", description = "Handles an incoming login attempt, when successful, a authentication token will provided with a cookie.")
     @RequestBody(name = "loginForm", description = "A form with details for a login attempt.", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = LoginRequestForm.class)))
     @APIResponses({
