@@ -7,10 +7,13 @@ import io.helidon.microprofile.testing.junit5.HelidonTest;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.Response;
+import jp.co.company.space.api.features.authentication.exception.AuthenticationError;
 import jp.co.company.space.api.features.booking.dto.BookingDto;
 import jp.co.company.space.api.features.user.dto.UserDto;
+import jp.co.company.space.api.shared.dto.DomainErrorDto;
 import jp.co.company.space.utils.features.booking.PersistedBookingTestScenario;
 import jp.co.company.space.utils.features.route.PersistedRouteTestScenario;
 import jp.co.company.space.utils.features.spaceShuttle.PersistedSpaceShuttleTestScenario;
@@ -20,8 +23,10 @@ import jp.co.company.space.utils.features.voyage.PersistedVoyageTestScenario;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.List;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the {@link UserEndpoint} class.
@@ -85,5 +90,40 @@ class UserEndpointTest {
         assertEquals(persistedBookingTestScenario.getPersistedBooking().getStatus().getKey(), selectedBooking.status);
         assertEquals(persistedBookingTestScenario.getPersistedUser().getId(), selectedBooking.userId);
         assertEquals(persistedBookingTestScenario.getPersistedVoyage().getId(), selectedBooking.voyageId);
+    }
+
+    @Test
+    void findBookingsByUserId() {
+        // When
+        Response response = target.path(String.format("users/%s/bookings", persistedBookingTestScenario.getPersistedUser().getId())).request()
+                .header(HttpHeaders.AUTHORIZATION, persistedBookingTestScenario.getAuthenticationHeader())
+                .get();
+
+        // Then
+        assertNotNull(response);
+        assertEquals(Status.OK_200.code(), response.getStatus());
+
+        List<BookingDto> foundBookings = response.readEntity(new GenericType<>(){});
+        assertNotNull(foundBookings);
+        assertFalse(foundBookings.isEmpty());
+    }
+
+    @Test
+    void findBookingsByUserId_forDifferentUser() {
+        // When
+        Response response = target.path(String.format("users/%s/bookings", UUID.randomUUID())).request()
+                .header(HttpHeaders.AUTHORIZATION, persistedBookingTestScenario.getAuthenticationHeader())
+                .get();
+
+        // Then
+        assertNotNull(response);
+        assertEquals(Status.FORBIDDEN_403.code(), response.getStatus());
+
+        DomainErrorDto errorDto = response.readEntity(DomainErrorDto.class);
+        assertNotNull(errorDto);
+
+        assertEquals(AuthenticationError.FORBIDDEN.getKey(), errorDto.key);
+        assertEquals(AuthenticationError.FORBIDDEN.getDescription(), errorDto.message);
+        assertNull(errorDto.properties);
     }
 }

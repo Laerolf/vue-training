@@ -61,6 +61,7 @@ public class BookingEndpoint {
     @RequestBody(name = "form", description = "A form with details for a new booking.", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = BookingCreationForm.class)))
     @APIResponses({
             @APIResponse(description = "A new booking.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = BookingDto.class))),
+            @APIResponse(description = "Unauthorized", responseCode = "401"),
             @APIResponse(description = "Booking rejected.", responseCode = "500", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = DomainErrorDto.class)))
     })
     @Produces(MediaType.APPLICATION_JSON)
@@ -89,6 +90,7 @@ public class BookingEndpoint {
     @APIResponses({
             @APIResponse(description = "A booking.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = BookingDto.class))),
             @APIResponse(description = "The booking was not found.", responseCode = "404", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = DomainErrorDto.class))),
+            @APIResponse(description = "Unauthorized", responseCode = "401"),
             @APIResponse(description = "Something went wrong.", responseCode = "500", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = DomainErrorDto.class)))
     })
     @Produces(MediaType.APPLICATION_JSON)

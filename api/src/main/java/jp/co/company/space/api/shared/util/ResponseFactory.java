@@ -25,6 +25,15 @@ public class ResponseFactory {
         return Response.status(Response.Status.UNAUTHORIZED);
     }
 
+    /**
+     * Creates a new {@link Response.ResponseBuilder} with the {@link Response.Status} FORBIDDEN status.
+     *
+     * @return a {@link Response.ResponseBuilder}.
+     */
+    public static Response.ResponseBuilder forbidden() {
+        return Response.status(Response.Status.FORBIDDEN);
+    }
+
     protected ResponseFactory() {
     }
 }

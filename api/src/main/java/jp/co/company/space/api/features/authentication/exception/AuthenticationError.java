@@ -25,7 +25,9 @@ public enum AuthenticationError implements DomainError {
     LOGIN("authentication.login", "A login request has been rejected."),
     LOGIN_MISMATCH_CREDENTIALS("authentication.loginMisMatchCredentials", "The provided credentials don't match the existing credentials."),
 
-    REGISTER("authentication.register", "A user registration request has been rejected.");
+    REGISTER("authentication.register", "A user registration request has been rejected."),
+
+    FORBIDDEN("authentication.forbidden", "Access denied.");
 
     private final String key;
     private final String description;

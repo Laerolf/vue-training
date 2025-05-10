@@ -97,8 +97,6 @@ public class BookingService {
         }
     }
 
-    // TODO: use
-    // TODO: all actions that could use the principal, should use the principal
     /**
      * Returns a {@link List} of saved {@link Booking} instances matching the provided user ID.
      *

@@ -218,8 +218,9 @@ public class VoyageEndpoint {
      * @param id The ID to search with for a voyage.
      * @return A {@link List} of all {@link PodDto} instances.
      */
-    @GET
     @Path("{id}/pods")
+    @GET
+    @PermitAll
     @SecurityRequirement(name = "jwt")
     @Operation(summary = "Returns all pods for the voyage matching the provided ID.", description = "Gets all pods for the voyage matching the provided ID.")
     @Parameter(name = "id", description = "The ID of a space voyage.", example = VOYAGE_ID_EXAMPLE)
