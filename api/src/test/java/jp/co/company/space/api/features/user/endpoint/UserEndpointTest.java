@@ -64,26 +64,9 @@ class UserEndpointTest {
     }
 
     @Test
-    void findUserById() {
+    void findByRequestContext() {
         // When
-        Response response = target.path(String.format("users/%s", persistedBookingTestScenario.getPersistedUser().getId())).request()
-                .header(HttpHeaders.AUTHORIZATION, persistedBookingTestScenario.getAuthenticationHeader())
-                .get();
-
-        // Then
-        assertNotNull(response);
-        assertEquals(Status.OK_200.code(), response.getStatus());
-
-        UserDto foundUser = response.readEntity(UserDto.class);
-        assertNotNull(foundUser);
-
-        testUserDto(foundUser);
-    }
-
-    @Test
-    void findUserById_withBookings() {
-        // When
-        Response response = target.path(String.format("users/%s", persistedBookingTestScenario.getPersistedUser().getId())).request()
+        Response response = target.path("users").request()
                 .header(HttpHeaders.AUTHORIZATION, persistedBookingTestScenario.getAuthenticationHeader())
                 .get();
 

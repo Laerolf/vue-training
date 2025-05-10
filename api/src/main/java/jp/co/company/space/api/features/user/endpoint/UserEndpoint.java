@@ -4,10 +4,11 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 import jp.co.company.space.api.features.booking.service.BookingService;
 import jp.co.company.space.api.features.user.domain.User;
 import jp.co.company.space.api.features.user.dto.UserDto;
@@ -53,13 +54,12 @@ public class UserEndpoint {
     /**
      * Returns a user for the provided ID.
      *
-     * @param id The ID to search with.
+     * @param context The security context of the request.
      * @return a {@link UserDto} instance.
      */
     @GET
-    @Path("{id}")
     @SecurityRequirement(name = "jwt")
-    @Operation(summary = "Returns a user for the provided ID.", description = "Gets a user if the provided ID matches any.")
+    @Operation(summary = "Returns the user of the request.", description = "Gets the user of the request if there is any.")
     @Parameter(name = "id", description = "The ID of a user.", example = ID_EXAMPLE)
     @APIResponses({
             @APIResponse(description = "A user.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = UserDto.class))),
@@ -67,14 +67,14 @@ public class UserEndpoint {
             @APIResponse(description = "Something went wrong.", responseCode = "500", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = DomainErrorDto.class)))
     })
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findUserById(@PathParam("id") String id) {
+    public Response findByRequestContext(@Context SecurityContext context) {
         try {
-            return userService.findById(id)
+            return userService.findByUserPrincipal(context.getUserPrincipal())
                     .map(user -> Response.ok().entity(UserDto.create(user)).build())
-                    .orElse(ResponseFactory.notFound().entity(new DomainErrorDtoBuilder(UserError.FIND_BY_ID).withProperty("id", id).build()).build());
+                    .orElse(ResponseFactory.notFound().entity(new DomainErrorDtoBuilder(UserError.FIND_BY_REQUEST_CONTEXT).build()).build());
         } catch (UserException exception) {
-            LOGGER.warning(new LogBuilder(UserError.FIND_BY_ID).withException(exception).withProperty("id", id).build());
-            return Response.serverError().entity(new DomainErrorDtoBuilder(exception).withProperty("id", id).build()).build();
+            LOGGER.warning(new LogBuilder(UserError.FIND_BY_REQUEST_CONTEXT).withException(exception).build());
+            return Response.serverError().entity(new DomainErrorDtoBuilder(exception).build()).build();
         }
     }
 }

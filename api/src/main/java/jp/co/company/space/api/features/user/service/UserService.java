@@ -10,6 +10,7 @@ import jp.co.company.space.api.features.user.input.UserCreationForm;
 import jp.co.company.space.api.features.user.repository.UserRepository;
 import jp.co.company.space.api.shared.util.LogBuilder;
 
+import java.security.Principal;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -28,6 +29,21 @@ public class UserService {
     private UserRepository userRepository;
 
     protected UserService() {
+    }
+
+    /**
+     * Gets an {@link Optional} {@link User} instance for the provided ID.
+     *
+     * @param userPrincipal The user principal of the session.
+     * @return An {@link Optional} {@link User} instance.
+     */
+    public Optional<User> findByUserPrincipal(Principal userPrincipal) throws UserException {
+        try {
+            return userRepository.findById(userPrincipal.getName());
+        } catch (UserException exception) {
+            LOGGER.warning(new LogBuilder(UserError.FIND_BY_REQUEST_CONTEXT).withException(exception).build());
+            throw exception;
+        }
     }
 
     /**
