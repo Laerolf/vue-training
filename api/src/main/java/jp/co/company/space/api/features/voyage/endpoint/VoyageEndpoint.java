@@ -9,14 +9,8 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import jp.co.company.space.api.features.booking.domain.Booking;
-import jp.co.company.space.api.features.booking.dto.BookingDto;
-import jp.co.company.space.api.features.booking.exception.BookingError;
-import jp.co.company.space.api.features.booking.exception.BookingException;
-import jp.co.company.space.api.features.booking.service.BookingService;
 import jp.co.company.space.api.features.pod.domain.Pod;
 import jp.co.company.space.api.features.pod.dto.PodDto;
-import jp.co.company.space.api.features.pod.service.PodReservationService;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
 import jp.co.company.space.api.features.voyage.dto.VoyageBasicDto;
@@ -57,12 +51,6 @@ public class VoyageEndpoint {
 
     @Inject
     private VoyageService voyageService;
-
-    @Inject
-    private BookingService bookingService;
-
-    @Inject
-    private PodReservationService podReservationService;
 
     protected VoyageEndpoint() {
     }
@@ -119,36 +107,6 @@ public class VoyageEndpoint {
                             .build()
             );
             return Response.serverError().entity(new DomainErrorDtoBuilder(exception).withProperty("id", id).build()).build();
-        }
-    }
-
-    /**
-     * Returns a {@link List} of all {@link Booking} instances with a user matching the provided {@link Voyage} ID.
-     *
-     * @param voyageId The user ID to search with.
-     * @return A {@link List} of {@link Booking} instances.
-     */
-    @Path("{voyageId}/bookings")
-    @GET
-    @Operation(summary = "Returns all bookings with a voyage matching the provided voyage ID.", description = "Returns the booking with a voyage ID matching the provided ID.")
-    @Parameter(name = "voyageId", description = "The ID of a voyage.", example = VOYAGE_ID_EXAMPLE)
-    @APIResponses({
-            @APIResponse(description = "A list of bookings.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = SchemaType.ARRAY, implementation = VoyageBasicDto.class))),
-            @APIResponse(description = "Something went wrong.", responseCode = "500", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = DomainErrorDto.class)))
-    })
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllBookingsByVoyageId(@PathParam("voyageId") String voyageId) {
-        try {
-            List<BookingDto> voyages = bookingService.getAllByVoyageId(voyageId).stream().map(BookingDto::create).toList();
-            return Response.ok().entity(voyages).build();
-        } catch (BookingException exception) {
-            LOGGER.warning(
-                    new LogBuilder(BookingError.FIND_BY_VOYAGE_ID)
-                            .withException(exception)
-                            .withProperty("voyageId", voyageId)
-                            .build()
-            );
-            return Response.serverError().entity(new DomainErrorDtoBuilder(exception).withProperty("voyageId", voyageId).build()).build();
         }
     }
 
