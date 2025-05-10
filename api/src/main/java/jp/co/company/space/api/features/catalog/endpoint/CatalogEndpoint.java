@@ -30,6 +30,7 @@ import java.util.logging.Logger;
  */
 @ApplicationScoped
 @Path("catalog")
+@PermitAll
 @Tag(name = "Catalog")
 public class CatalogEndpoint {
 
@@ -48,7 +49,6 @@ public class CatalogEndpoint {
      */
     @Path("meal-preferences")
     @GET
-    @PermitAll
     @Operation(summary = "Returns all meal preferences.", description = "Gives a list of all meal preferences.")
     @APIResponses({
             @APIResponse(description = "A JSON list of all meal preferences.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = SchemaType.ARRAY, implementation = MealPreferenceDto.class))),

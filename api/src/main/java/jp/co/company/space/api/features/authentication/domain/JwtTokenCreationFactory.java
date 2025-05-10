@@ -71,10 +71,7 @@ public class JwtTokenCreationFactory {
                     .expirationTime(Date.from(expirationDate.toInstant()))
                     .build();
 
-            JWSHeader header = new JWSHeader.Builder(JWSAlgorithm.RS256)
-//                     .type(JOSEObjectType.JWT)
-//                    .contentType("JWT")
-                    .build();
+            JWSHeader header = new JWSHeader.Builder(JWSAlgorithm.RS256).build();
 
             SignedJWT signedJWT = new SignedJWT(header, claims);
             RSASSASigner signer = new RSASSASigner(privateKey);

@@ -37,24 +37,35 @@ public class AuthenticationTokenService {
 
     private static final Logger LOGGER = Logger.getLogger(AuthenticationTokenService.class.getName());
 
-    private static final int DEFAULT_TOKEN_LIFE_SPAN = 30;
-    private static final String DEFAULT_TOKEN_ISSUER = "localhost";
+    /**
+     * The default token life span in seconds.
+     */
+    private static final int DEFAULT_TOKEN_LIFE_SPAN = 30 * 60 * 1000;
 
-    private final String tokenPrivateKeyFilePath;
-    private final String tokenPublicKeyFilePath;
+    /**
+     * The default name of the token issuer.
+     */
+    private static final String DEFAULT_TOKEN_ISSUER = "Company Space API";
 
-    private final String tokenLifeSpan;
-    private final String tokenIssuer;
+    @Inject
+    @ConfigProperty(name = "mp.jwt.create.privatekey.location")
+    private String tokenPrivateKeyFilePath;
+
+    @Inject
+    @ConfigProperty(name = "mp.jwt.verify.publickey.location")
+    private String tokenPublicKeyFilePath;
+
+    @Inject
+    @ConfigProperty(name = "mp.jwt.verify.token.age")
+    private String tokenLifeSpan;
+
+    @Inject
+    @ConfigProperty(name = "mp.jwt.verify.issuer")
+    private String tokenIssuer;
 
     private RSAPrivateKey privateKey;
 
-    @Inject
-    protected AuthenticationTokenService(@ConfigProperty(name = "mp.jwt.create.privatekey.location") String privateKeyFilePath, @ConfigProperty(name = "mp.jwt.verify.publickey.location") String publicKeyFilePath, @ConfigProperty(name = "mp.jwt.verify.token.age") String lifeSpan, @ConfigProperty(name = "mp.jwt.verify.issuer") String issuer) {
-        tokenPrivateKeyFilePath = privateKeyFilePath;
-        tokenPublicKeyFilePath = publicKeyFilePath;
-        tokenLifeSpan = lifeSpan;
-        tokenIssuer = issuer;
-    }
+    protected AuthenticationTokenService() {}
 
     /**
      * Initializes the {@link AuthenticationTokenService}.
@@ -120,7 +131,7 @@ public class AuthenticationTokenService {
                 );
             }
 
-            return Duration.ofMinutes(lifeSpan);
+            return Duration.ofSeconds(lifeSpan);
         } catch (ArithmeticException exception) {
             LOGGER.warning(new LogBuilder(AuthenticationError.TOKEN_CREATE_INVALID_LIFE_SPAN).withException(exception).build());
             throw new AuthenticationException(AuthenticationError.TOKEN_CREATE_INVALID_LIFE_SPAN);
