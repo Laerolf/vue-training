@@ -12,12 +12,12 @@ import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
 import jp.co.company.space.api.features.authentication.domain.AuthenticationTokenCookieCreationFactory;
 import jp.co.company.space.api.features.authentication.exception.AuthenticationError;
-import jp.co.company.space.api.features.authentication.exception.AuthenticationException;
 import jp.co.company.space.api.features.authentication.input.LoginRequestForm;
 import jp.co.company.space.api.features.authentication.service.AuthenticationService;
 import jp.co.company.space.api.features.user.dto.NewUserDto;
 import jp.co.company.space.api.features.user.input.UserCreationForm;
 import jp.co.company.space.api.shared.dto.DomainErrorDto;
+import jp.co.company.space.api.shared.exception.DomainErrorDtoBuilder;
 import jp.co.company.space.api.shared.exception.DomainException;
 import jp.co.company.space.api.shared.util.LogBuilder;
 import jp.co.company.space.api.shared.util.ResponseFactory;
@@ -68,13 +68,13 @@ public class AuthenticationEndpoint {
             @APIResponse(description = "Something went wrong.", responseCode = "500", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = DomainErrorDto.class)))
     })
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createUser(@RequestBody UserCreationForm form) {
+    public Response register(@RequestBody UserCreationForm form) {
         try {
             NewUserDto newUser = NewUserDto.create(authenticationService.registerUser(form));
             return Response.ok().entity(newUser).build();
-        } catch (AuthenticationException exception) {
-            LOGGER.warning(new LogBuilder(AuthenticationError.LOGIN).withException(exception).build());
-            return Response.serverError().entity(DomainErrorDto.create(AuthenticationError.LOGIN)).build();
+        } catch (DomainException exception) {
+            LOGGER.warning(new LogBuilder(AuthenticationError.REGISTER).withException(exception).build());
+            return Response.serverError().entity(new DomainErrorDtoBuilder(exception).withCause().build()).build();
         }
     }
 
@@ -96,7 +96,7 @@ public class AuthenticationEndpoint {
             return Response.ok().cookie(authenticationCookie).build();
         } catch (DomainException exception) {
             LOGGER.warning(new LogBuilder(AuthenticationError.LOGIN).withException(exception).build());
-            return ResponseFactory.unauthorized().entity(DomainErrorDto.create(exception)).build();
+            return ResponseFactory.unauthorized().entity(new DomainErrorDtoBuilder(exception).withCause().build()).build();
         }
     }
 }
