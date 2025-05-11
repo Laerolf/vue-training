@@ -58,11 +58,11 @@ public class PodReservation {
      * The pod code of the pod reservation.
      */
     @Basic
-    @Column(name = "pod_code")
+    @Column(name = "pod_code", nullable = false)
     private String podCode;
 
     @Basic
-    @Column(name = "creation_date")
+    @Column(name = "creation_date", nullable = false)
     private ZonedDateTime creationDate;
 
     @OneToOne(optional = false)

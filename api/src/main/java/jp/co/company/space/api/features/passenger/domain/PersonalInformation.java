@@ -64,35 +64,35 @@ public class PersonalInformation {
      * The last name of the passenger.
      */
     @Basic(optional = false)
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
     /**
      * The middle name of the passenger.
      */
     @Basic(optional = false)
-    @Column(name = "middle_name")
+    @Column(name = "middle_name", nullable = false)
     private String middleName;
 
     /**
      * The first name of the user.
      */
     @Basic(optional = false)
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
     /**
      * The birthdate of the passenger.
      */
     @Basic
-    @Column(name = "birthdate")
+    @Column(name = "birthdate", nullable = false)
     private LocalDate birthdate;
 
     /**
      * The nationality of the passenger.
      */
     @Basic(optional = false)
-    @Column(name = "nationality")
+    @Column(name = "nationality", nullable = false)
     @Convert(converter = NationalityConverter.class)
     private Nationality nationality;
 
@@ -103,7 +103,6 @@ public class PersonalInformation {
     @Column(name = "gender", nullable = false)
     private Gender gender;
 
-    // TODO: Correct all nullables
     /**
      * The passport number of the passenger.
      */

@@ -77,14 +77,14 @@ public class Passenger {
      * The creation date of the passenger.
      */
     @Basic
-    @Column(name = "creation_date")
+    @Column(name = "creation_date", nullable = false)
     private ZonedDateTime creationDate;
 
     /**
      * The meal preference of the user.
      */
     @Basic
-    @Column(name = "meal_preference")
+    @Column(name = "meal_preference", nullable = false)
     private MealPreference mealPreference;
 
     /**

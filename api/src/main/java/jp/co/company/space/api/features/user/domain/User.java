@@ -74,7 +74,7 @@ public class User {
      * The email address of the user.
      */
     @Basic(optional = false)
-    @Column(name = "email_address", nullable = false)
+    @Column(name = "email_address", nullable = false, unique = true)
     private String emailAddress;
 
     /**
