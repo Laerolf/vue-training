@@ -3,17 +3,17 @@ package jp.co.company.space.api.shared.exception;
 /**
  * An abstract class representing a domain specific {@link RuntimeException} instance.
  */
-public abstract class DomainRuntimeException extends RuntimeException {
+public abstract class DomainRuntimeException extends ApplicationRuntimeException {
 
     private final DomainError error;
 
     public DomainRuntimeException(DomainError error) {
-        super(error.getDescription());
+        super(error);
         this.error = error;
     }
 
     public DomainRuntimeException(DomainError error, Throwable throwable) {
-        super(error.getDescription(), throwable);
+        super(error, throwable);
         this.error = error;
     }
 

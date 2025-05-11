@@ -1,19 +1,19 @@
 package jp.co.company.space.api.shared.exception;
 
 /**
- * An abstract class representing a domain specific {@link IllegalArgumentException} instance.
+ * An abstract class representing an application {@link RuntimeException} instance.
  */
-public abstract class DomainException extends ApplicationException {
+public abstract class ApplicationRuntimeException extends RuntimeException {
 
     private final String key;
 
-    public DomainException(DomainError error) {
-        super(error);
+    public ApplicationRuntimeException(ApplicationError error) {
+        super(error.getDescription());
         this.key = error.getKey();
     }
 
-    public DomainException(DomainError error, Throwable throwable) {
-        super(error, throwable);
+    public ApplicationRuntimeException(ApplicationError error, Throwable throwable) {
+        super(error.getDescription(), throwable);
         this.key = error.getKey();
     }
 

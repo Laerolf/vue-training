@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * A POJO representing a DTO of a {@link DomainError} instance.
  */
-@Schema(name = "DomainError", description = "The details of an error.")
+@Schema(name = "DomainError", description = "The details of a domain specific error.")
 public class DomainErrorDto {
 
     /**
