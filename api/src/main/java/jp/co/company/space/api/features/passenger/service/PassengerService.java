@@ -9,10 +9,14 @@ import jp.co.company.space.api.features.catalog.exception.CatalogError;
 import jp.co.company.space.api.features.catalog.exception.CatalogException;
 import jp.co.company.space.api.features.passenger.domain.Passenger;
 import jp.co.company.space.api.features.passenger.domain.PassengerCreationFactory;
+import jp.co.company.space.api.features.passenger.domain.PersonalInformation;
+import jp.co.company.space.api.features.passenger.domain.PersonalInformationCreationFactory;
 import jp.co.company.space.api.features.passenger.exception.PassengerError;
 import jp.co.company.space.api.features.passenger.exception.PassengerException;
 import jp.co.company.space.api.features.passenger.input.PassengerCreationForm;
+import jp.co.company.space.api.features.passenger.input.PersonalInformationCreationForm;
 import jp.co.company.space.api.features.passenger.repository.PassengerRepository;
+import jp.co.company.space.api.features.passenger.repository.PersonalInformationRepository;
 import jp.co.company.space.api.features.pod.domain.PodReservation;
 import jp.co.company.space.api.features.pod.exception.PodReservationException;
 import jp.co.company.space.api.features.pod.service.PodReservationService;
@@ -35,9 +39,31 @@ public class PassengerService {
     private PassengerRepository passengerRepository;
 
     @Inject
+    private PersonalInformationRepository personalInformationRepository;
+
+    @Inject
     private PodReservationService podReservationService;
 
     protected PassengerService() {
+    }
+
+    /**
+     * Adds {@link PersonalInformation} to a {@link Passenger}.
+     *
+     * @param passenger               The subject of the personal information.
+     * @param personalInformationForm The information to add.
+     * @return A {@link Passenger}.
+     */
+    private Passenger addPersonalInformation(Passenger passenger, PersonalInformationCreationForm personalInformationForm) {
+        try {
+            PersonalInformation personalInformation = new PersonalInformationCreationFactory(passenger, personalInformationForm).create();
+            personalInformationRepository.save(personalInformation);
+            passenger.assignPersonalInformation(personalInformation);
+            return passenger;
+        } catch (DomainException exception) {
+            LOGGER.warning(new LogBuilder(PassengerError.ADD_PERSONAL_INFORMATION).withException(exception).build());
+            throw new PassengerException(PassengerError.ADD_PERSONAL_INFORMATION, exception);
+        }
     }
 
     /**
@@ -78,8 +104,9 @@ public class PassengerService {
                         Passenger newPassenger = new PassengerCreationFactory(booking, selectedPackageType, selectedMealPreference).create();
                         newPassenger = passengerRepository.save(newPassenger);
 
-                        PodReservation podReservation = podReservationService.reservePodForPassenger(booking.getVoyage(), newPassenger, passengerForm.podCode);
+                        addPersonalInformation(newPassenger, passengerForm.personalInformation);
 
+                        PodReservation podReservation = podReservationService.reservePodForPassenger(booking.getVoyage(), newPassenger, passengerForm.podCode);
                         newPassenger.assignPodReservation(podReservation);
 
                         return newPassenger;

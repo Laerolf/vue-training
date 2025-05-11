@@ -88,6 +88,20 @@ CREATE TABLE
          FOREIGN KEY (voyage_id) REFERENCES voyages (id) ON DELETE CASCADE
      );
 
+ CREATE TABLE
+     IF NOT EXISTS passenger_personal_information (
+         id VARCHAR(50) NOT NULL PRIMARY KEY,
+         last_name VARCHAR(50) NOT NULL,
+         middle_name VARCHAR(50) NOT NULL,
+         first_name VARCHAR(50) NOT NULL,
+         birthdate DATE NOT NULL,
+         nationality VARCHAR(50) NOT NULL,
+         gender VARCHAR(20) NOT NULL,
+         passport_number VARCHAR(50) NOT NULL UNIQUE,
+         passenger_id VARCHAR(50) NOT NULL,
+         FOREIGN KEY (passenger_id) REFERENCES passengers (id) ON DELETE CASCADE
+     );
+
 CREATE TABLE
     IF NOT EXISTS pod_reservations (
         id VARCHAR(50) NOT NULL PRIMARY KEY,

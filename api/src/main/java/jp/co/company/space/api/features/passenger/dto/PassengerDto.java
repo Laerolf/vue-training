@@ -9,6 +9,8 @@ import java.time.ZonedDateTime;
 
 import static jp.co.company.space.api.shared.openApi.Examples.*;
 
+// TODO: Create an endpoint exposing the passengers
+
 /**
  * A POJO representing a DTO of a {@link Passenger} instance.
  */
@@ -27,21 +29,15 @@ public class PassengerDto {
         }
 
         return new PassengerDto(
-                passenger.getId(),
                 passenger.getCreationDate(),
                 passenger.getMealPreference().getKey(),
                 passenger.getPackageType().getKey(),
                 passenger.getPodReservation().getId(),
+                PersonalInformationDto.create(passenger.getPersonalInformation()),
                 passenger.getBooking().getId(),
                 passenger.getVoyage().getId()
         );
     }
-
-    /**
-     * The ID of the passenger.
-     */
-    @Schema(description = "The ID of the passenger.", example = ID_EXAMPLE)
-    public String id;
 
     /**
      * The creation date of the passenger.
@@ -68,6 +64,12 @@ public class PassengerDto {
     public String podReservationId;
 
     /**
+     * The personal information of the passenger.
+     */
+    @Schema(description = "The personal information of the passenger.")
+    public PersonalInformationDto personalInformation;
+
+    /**
      * The booking ID of the passenger.
      */
     @Schema(description = "The booking ID of the passenger.", example = ID_EXAMPLE)
@@ -82,10 +84,8 @@ public class PassengerDto {
     protected PassengerDto() {
     }
 
-    protected PassengerDto(String id, ZonedDateTime creationDate, String mealPreference, String packageType, String podReservationId, String bookingId, String voyageId) throws PassengerException {
-        if (id == null) {
-            throw new PassengerException(PassengerError.MISSING_ID);
-        } else if (creationDate == null) {
+    protected PassengerDto(ZonedDateTime creationDate, String mealPreference, String packageType, String podReservationId, PersonalInformationDto personalInformation, String bookingId, String voyageId) throws PassengerException {
+        if (creationDate == null) {
             throw new PassengerException(PassengerError.MISSING_CREATION_DATE);
         } else if (mealPreference == null) {
             throw new PassengerException(PassengerError.MISSING_MEAL_PREFERENCE);
@@ -93,17 +93,19 @@ public class PassengerDto {
             throw new PassengerException(PassengerError.MISSING_PACKAGE_TYPE);
         } else if (podReservationId == null) {
             throw new PassengerException(PassengerError.MISSING_POD_RESERVATION_ID);
+        } else if (personalInformation == null) {
+            throw new PassengerException(PassengerError.MISSING_PERSONAL_INFORMATION);
         } else if (bookingId == null) {
             throw new PassengerException(PassengerError.MISSING_BOOKING_ID);
         } else if (voyageId == null) {
             throw new PassengerException(PassengerError.MISSING_VOYAGE_ID);
         }
 
-        this.id = id;
         this.creationDate = creationDate;
         this.mealPreference = mealPreference;
         this.packageType = packageType;
         this.podReservationId = podReservationId;
+        this.personalInformation = personalInformation;
         this.bookingId = bookingId;
         this.voyageId = voyageId;
     }

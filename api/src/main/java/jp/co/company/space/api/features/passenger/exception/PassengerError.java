@@ -16,6 +16,7 @@ public enum PassengerError implements DomainError {
     MISSING_BOOKING_ID("passenger.missingBookingId", "The booking ID of the passenger is missing."),
     MISSING_VOYAGE("passenger.missingVoyage", "The voyage of the passenger is missing."),
     MISSING_VOYAGE_ID("passenger.missingVoyageId", "The voyage ID of the passenger is missing."),
+    MISSING_PERSONAL_INFORMATION("passenger.missingPersonalInformation", "The personal information for the passenger is missing."),
     MISSING_POD_RESERVATION("passenger.missingPodReservation", "The pod reservation for the passenger is missing."),
     MISSING_POD_RESERVATION_ID("passenger.missingPodReservationId", "The pod reservation ID for the passenger is missing."),
 
@@ -25,6 +26,8 @@ public enum PassengerError implements DomainError {
     SAVE("passenger.save", "Failed to save a passenger."),
     MERGE("passenger.merge", "Failed to merge a passenger."),
     SAVE_LIST("passenger.saveList", "Failed to save a list of passengers."),
+
+    ADD_PERSONAL_INFORMATION("passenger.addPersonalInformation", "Failed to add personal information to a passenger."),
     CREATE("passenger.create", "Failed to create passengers.");
 
     private final String key;

@@ -52,7 +52,12 @@ public class PassengerCreationFormTestDataBuilder {
             PodType selectedPodType = PodType.findByPackageType(selectedPackageType).orElseThrow(() -> new PodException(PodError.MISSING_TYPE));
             String podCode = new PodCodeFactory(selectedPodType.getPodCodePrefix(), DEFAULT_POD_DECK_NUMBER, DEFAULT_POD_NUMBER).create();
 
-            return new PassengerCreationForm(podCode, selectedPackageType.getKey(), Optional.ofNullable(mealPreference).orElse(DEFAULT_MEAL_PREFERENCE).getKey());
+            return new PassengerCreationForm(
+                    podCode,
+                    selectedPackageType.getKey(),
+                    Optional.ofNullable(mealPreference).orElse(DEFAULT_MEAL_PREFERENCE).getKey(),
+                    new PersonalInformationFormTestDataBuilder().create()
+            );
         } catch (DomainException exception) {
             throw new PassengerException(PassengerError.CREATE, exception);
         }

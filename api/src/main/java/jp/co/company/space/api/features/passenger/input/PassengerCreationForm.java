@@ -27,12 +27,19 @@ public class PassengerCreationForm {
     @Schema(description = "The meal preference of the new passenger.", required = true, example = MEAL_PREFERENCE_KEY_EXAMPLE)
     public String mealPreference;
 
+    /**
+     * The personal information of the new passenger.
+     */
+    @Schema(description = "The personal information of the new passenger.", required = true)
+    public PersonalInformationCreationForm personalInformation;
+
     protected PassengerCreationForm() {
     }
 
-    public PassengerCreationForm(String podCode, String packageType, String mealPreference) {
+    public PassengerCreationForm(String podCode, String packageType, String mealPreference, PersonalInformationCreationForm personalInformation) {
         this.podCode = podCode;
         this.packageType = packageType;
         this.mealPreference = mealPreference;
+        this.personalInformation = personalInformation;
     }
 }

@@ -64,6 +64,11 @@ public class Examples {
     public static final String USER_EMAIL_ADDRESS_EXAMPLE = "jekyll.henry@test.test";
     public static final String USER_PASSWORD_EXAMPLE = "test";
 
+    // Passenger
+    public static final String PASSENGER_MIDDLE_NAME_EXAMPLE = "Edward";
+    public static final String PASSENGER_BIRTHDATE_EXAMPLE = "1835-11-12";
+    public static final String PASSENGER_PASSPORT_NUMBER_EXAMPLE = "752104983";
+
     // Package type
     public static final String PACKAGE_TYPE_KEY_EXAMPLE = "economy";
 
@@ -72,6 +77,13 @@ public class Examples {
     public static final String MEAL_PREFERENCE_ADDITIONAL_COST_EXAMPLE = "0";
     public static final String MEAL_PREFERENCE_AVAILABLE_FROM_EXAMPLE = PACKAGE_TYPE_KEY_EXAMPLE;
     public static final String MEAL_PREFERENCE_FREE_FROM_EXAMPLE = PACKAGE_TYPE_KEY_EXAMPLE;
+
+    // Nationality
+    public static final String NATIONALITY_INPUT_EXAMPLE = "GB";
+    public static final String NATIONALITY_EXAMPLE = "United Kingdom";
+
+    // Gender
+    public static final String GENDER_EXAMPLE = "male";
 
     // Error
     public static final String ERROR_KEY_EXAMPLE = "error.theRoofIsOnFire";

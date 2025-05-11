@@ -16,6 +16,7 @@
         <class>jp.co.company.space.api.features.booking.domain.Booking</class>
         <class>jp.co.company.space.api.features.pod.domain.PodReservation</class>
         <class>jp.co.company.space.api.features.passenger.domain.Passenger</class>
+        <class>jp.co.company.space.api.features.passenger.domain.PersonalInformation</class>
         <properties>
             <property name="hibernate.column_ordering_strategy" value="legacy"/>
         </properties>

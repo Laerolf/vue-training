@@ -24,15 +24,16 @@ public class Passenger {
     /**
      * Creates a {@link Passenger} instance.
      *
-     * @param mealPreference The meal preference of a passenger.
-     * @param packageType    The package type assigned to a passenger.
-     * @param podReservation The pod reservation of a passenger.
-     * @param booking        The booking of a passenger.
-     * @param voyage         The voyage of a passenger.
+     * @param mealPreference      The meal preference of a passenger.
+     * @param packageType         The package type assigned to a passenger.
+     * @param podReservation      The pod reservation of a passenger.
+     * @param personalInformation The personal information of a passenger.
+     * @param booking             The booking of a passenger.
+     * @param voyage              The voyage of a passenger.
      * @return A {@link Passenger} instance.
      */
-    public static Passenger create(MealPreference mealPreference, PackageType packageType, PodReservation podReservation, Booking booking, Voyage voyage) throws PassengerException {
-        return new Passenger(UUID.randomUUID().toString(), ZonedDateTime.now(), mealPreference, packageType, podReservation, booking, voyage);
+    public static Passenger create(MealPreference mealPreference, PackageType packageType, PodReservation podReservation, PersonalInformation personalInformation, Booking booking, Voyage voyage) throws PassengerException {
+        return new Passenger(UUID.randomUUID().toString(), ZonedDateTime.now(), mealPreference, packageType, podReservation, personalInformation, booking, voyage);
     }
 
     /**
@@ -45,23 +46,24 @@ public class Passenger {
      * @return A {@link Passenger} instance.
      */
     public static Passenger create(MealPreference mealPreference, PackageType packageType, Booking booking, Voyage voyage) throws PassengerException {
-        return new Passenger(UUID.randomUUID().toString(), ZonedDateTime.now(), mealPreference, packageType, null, booking, voyage);
+        return new Passenger(UUID.randomUUID().toString(), ZonedDateTime.now(), mealPreference, packageType, null, null, booking, voyage);
     }
 
     /**
      * Recreates a {@link Passenger} instance.
      *
-     * @param id             The ID of a passenger.
-     * @param creationDate   The creation date of a passenger.
-     * @param mealPreference The meal preference of a passenger.
-     * @param packageType    The package type assigned to a passenger.
-     * @param podReservation The pod reservation of a passenger.
-     * @param booking        The booking of a passenger.
-     * @param voyage         The voyage of a passenger.
+     * @param id                  The ID of a passenger.
+     * @param creationDate        The creation date of a passenger.
+     * @param mealPreference      The meal preference of a passenger.
+     * @param packageType         The package type assigned to a passenger.
+     * @param podReservation      The pod reservation of a passenger.
+     * @param personalInformation The personal information of a passenger.
+     * @param booking             The booking of a passenger.
+     * @param voyage              The voyage of a passenger.
      * @return A {@link Passenger} instance.
      */
-    public static Passenger recreate(String id, ZonedDateTime creationDate, MealPreference mealPreference, PackageType packageType, PodReservation podReservation, Booking booking, Voyage voyage) throws PassengerException {
-        return new Passenger(id, creationDate, mealPreference, packageType, podReservation, booking, voyage);
+    public static Passenger recreate(String id, ZonedDateTime creationDate, MealPreference mealPreference, PackageType packageType, PodReservation podReservation, PersonalInformation personalInformation, Booking booking, Voyage voyage) throws PassengerException {
+        return new Passenger(id, creationDate, mealPreference, packageType, podReservation, personalInformation, booking, voyage);
     }
 
     /**
@@ -99,6 +101,9 @@ public class Passenger {
     @OneToOne(mappedBy = "passenger")
     private PodReservation podReservation;
 
+    @OneToOne(mappedBy = "passenger")
+    private PersonalInformation personalInformation;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "booking_id", table = "passengers", nullable = false)
     private Booking booking;
@@ -110,7 +115,7 @@ public class Passenger {
     protected Passenger() {
     }
 
-    protected Passenger(String id, ZonedDateTime creationDate, MealPreference mealPreference, PackageType packageType, PodReservation podReservation, Booking booking, Voyage voyage) throws PassengerException {
+    protected Passenger(String id, ZonedDateTime creationDate, MealPreference mealPreference, PackageType packageType, PodReservation podReservation, PersonalInformation personalInformation, Booking booking, Voyage voyage) throws PassengerException {
         if (id == null) {
             throw new PassengerException(PassengerError.MISSING_ID);
         } else if (creationDate == null) {
@@ -130,6 +135,7 @@ public class Passenger {
         this.mealPreference = mealPreference;
         this.packageType = packageType;
         this.podReservation = podReservation;
+        this.personalInformation = personalInformation;
         this.booking = booking;
         this.voyage = voyage;
     }
@@ -154,6 +160,10 @@ public class Passenger {
         return podReservation;
     }
 
+    public PersonalInformation getPersonalInformation() {
+        return personalInformation;
+    }
+
     public Booking getBooking() {
         return booking;
     }
@@ -175,6 +185,19 @@ public class Passenger {
         }
 
         this.podReservation = podReservation;
+    }
+
+    /**
+     * Assigns {@link PersonalInformation} to this passenger.
+     *
+     * @param personalInformation The information to set.
+     */
+    public void assignPersonalInformation(PersonalInformation personalInformation) throws PassengerException {
+        if (personalInformation == null) {
+            throw new PassengerException(PassengerError.MISSING_PERSONAL_INFORMATION);
+        }
+
+        this.personalInformation = personalInformation;
     }
 
     @Override
