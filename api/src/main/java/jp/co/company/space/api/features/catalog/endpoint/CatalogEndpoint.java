@@ -9,7 +9,6 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jp.co.company.space.api.features.catalog.domain.CatalogItem;
-import jp.co.company.space.api.features.catalog.domain.CatalogTopic;
 import jp.co.company.space.api.features.catalog.dto.*;
 import jp.co.company.space.api.features.catalog.service.CatalogService;
 import jp.co.company.space.api.shared.dto.DomainErrorDto;
@@ -53,15 +52,15 @@ public class CatalogEndpoint {
     @GET
     @Operation(summary = "Returns all catalog items.", description = "Gives a map of all catalog items, mapped by their catalog topic.")
     @APIResponses({
-            @APIResponse(description = "A JSON map of all catalog items.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = SchemaType.OBJECT, implementation = Map.class))),
+            @APIResponse(description = "A JSON map of all catalog items.", responseCode = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = SchemaType.OBJECT))),
             @APIResponse(description = "Something went wrong.", responseCode = "500", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = DomainErrorDto.class)))
     })
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllCatalogItems() {
         try {
-            Map<CatalogTopic, List<CatalogItemDto>> catalogItemMap = catalogService.getAllCatalogItems().entrySet().stream()
+            Map<String, List<CatalogItemDto>> catalogItemMap = catalogService.getAllCatalogItems().entrySet().stream()
                     .collect(Collectors.toMap(
-                            Map.Entry::getKey,
+                            catalogTopicListEntry -> catalogTopicListEntry.getKey().getLabel(),
                             entry -> entry.getValue().stream()
                                     .map(CatalogItemDto::fromCatalogItem)
                                     .toList()
