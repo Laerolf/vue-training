@@ -9,8 +9,6 @@ import java.time.ZonedDateTime;
 
 import static jp.co.company.space.api.shared.openApi.Examples.*;
 
-// TODO: Create an endpoint exposing the passengers
-
 /**
  * A POJO representing a DTO of a {@link Passenger} instance.
  */

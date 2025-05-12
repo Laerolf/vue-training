@@ -7,8 +7,6 @@ import jp.co.company.space.api.shared.util.LogBuilder;
 import java.util.*;
 import java.util.logging.Logger;
 
-// TODO: Expose in the catalog
-
 /**
  * Represents the accepted nationality values.
  */
