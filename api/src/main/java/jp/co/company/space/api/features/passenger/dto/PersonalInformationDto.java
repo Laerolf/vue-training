@@ -31,7 +31,7 @@ public class PersonalInformationDto {
                 personalInformation.getMiddleName(),
                 personalInformation.getFirstName(),
                 personalInformation.getBirthdate(),
-                personalInformation.getNationality().getCountryName(),
+                personalInformation.getNationality().getLabel(),
                 personalInformation.getGender().getKey(),
                 personalInformation.getPassportNumber()
         );

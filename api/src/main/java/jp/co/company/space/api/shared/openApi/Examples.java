@@ -71,19 +71,29 @@ public class Examples {
 
     // Package type
     public static final String PACKAGE_TYPE_KEY_EXAMPLE = "economy";
+    public static final String PACKAGE_TYPE_LABEL_EXAMPLE = "packageType.economy";
+
+    // Pod type
+    public static final String POD_TYPE_KEY_EXAMPLE = "standardPod";
+    public static final String POD_TYPE_LABEL_EXAMPLE = "podType.standardPod";
 
     // Meal preference
     public static final String MEAL_PREFERENCE_KEY_EXAMPLE = "standard";
+    public static final String MEAL_PREFERENCE_LABEL_EXAMPLE = "mealPreference.standard";
     public static final String MEAL_PREFERENCE_ADDITIONAL_COST_EXAMPLE = "0";
     public static final String MEAL_PREFERENCE_AVAILABLE_FROM_EXAMPLE = PACKAGE_TYPE_KEY_EXAMPLE;
     public static final String MEAL_PREFERENCE_FREE_FROM_EXAMPLE = PACKAGE_TYPE_KEY_EXAMPLE;
 
     // Nationality
-    public static final String NATIONALITY_INPUT_EXAMPLE = "GB";
+    public static final String NATIONALITY_CODE_EXAMPLE = "GB";
     public static final String NATIONALITY_EXAMPLE = "United Kingdom";
+    public static final String NATIONALITY_KEY_EXAMPLE = NATIONALITY_CODE_EXAMPLE;
+    public static final String NATIONALITY_LABEL_EXAMPLE = "nationality.gb";
 
     // Gender
     public static final String GENDER_EXAMPLE = "male";
+    public static final String GENDER_KEY_EXAMPLE = "male";
+    public static final String GENDER_LABEL_EXAMPLE = "gender.male";
 
     // Error
     public static final String ERROR_KEY_EXAMPLE = "error.theRoofIsOnFire";

@@ -2,7 +2,7 @@ package jp.co.company.space.api.features.passenger.converter;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import jp.co.company.space.api.features.passenger.domain.Nationality;
+import jp.co.company.space.api.features.catalog.domain.Nationality;
 import jp.co.company.space.api.features.passenger.exception.PersonalInformationException;
 
 /**
@@ -12,7 +12,7 @@ import jp.co.company.space.api.features.passenger.exception.PersonalInformationE
 public class NationalityConverter implements AttributeConverter<Nationality, String> {
     @Override
     public String convertToDatabaseColumn(Nationality nationality) {
-        return nationality.getIsoCode();
+        return nationality.getKey();
     }
 
     @Override

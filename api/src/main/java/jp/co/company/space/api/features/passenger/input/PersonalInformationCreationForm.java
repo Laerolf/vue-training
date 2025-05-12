@@ -38,7 +38,7 @@ public class PersonalInformationCreationForm {
     /**
      * The nationality of the passenger.
      */
-    @Schema(description = "The nationality of the passenger.", example = NATIONALITY_INPUT_EXAMPLE)
+    @Schema(description = "The nationality of the passenger.", example = NATIONALITY_CODE_EXAMPLE)
     public String nationality;
 
     /**

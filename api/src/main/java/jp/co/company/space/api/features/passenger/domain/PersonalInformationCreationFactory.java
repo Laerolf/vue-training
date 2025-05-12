@@ -1,5 +1,7 @@
 package jp.co.company.space.api.features.passenger.domain;
 
+import jp.co.company.space.api.features.catalog.domain.Gender;
+import jp.co.company.space.api.features.catalog.domain.Nationality;
 import jp.co.company.space.api.features.passenger.exception.PersonalInformationError;
 import jp.co.company.space.api.features.passenger.exception.PersonalInformationException;
 import jp.co.company.space.api.features.passenger.input.PersonalInformationCreationForm;

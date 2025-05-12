@@ -18,7 +18,7 @@ public class PersonalInformationFormTestDataBuilder {
     private static final String DEFAULT_MIDDLE_NAME = Examples.PASSENGER_MIDDLE_NAME_EXAMPLE;
     private static final String DEFAULT_FIRST_NAME = Examples.USER_FIRST_NAME_EXAMPLE;
     private static final LocalDate DEFAULT_BIRTHDATE = LocalDate.parse(Examples.PASSENGER_BIRTHDATE_EXAMPLE);
-    private static final String DEFAULT_NATIONALITY = Examples.NATIONALITY_INPUT_EXAMPLE;
+    private static final String DEFAULT_NATIONALITY = Examples.NATIONALITY_CODE_EXAMPLE;
     private static final String DEFAULT_GENDER = Examples.GENDER_EXAMPLE;
     private static final String DEFAULT_PASSPORT_NUMBER = Examples.PASSENGER_PASSPORT_NUMBER_EXAMPLE;
 

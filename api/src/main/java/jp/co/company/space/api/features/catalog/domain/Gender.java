@@ -1,22 +1,20 @@
-package jp.co.company.space.api.features.passenger.domain;
+package jp.co.company.space.api.features.catalog.domain;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
-// TODO: Expose in the catalog
+import java.util.StringJoiner;
 
 /**
- * The gender of a passenger.
+ * Represents the accepted gender values.
  */
-public enum Gender {
+public enum Gender implements CatalogItem {
     MALE("male"),
     FEMALE("female"),
     OTHER("other");
 
-    private final String key;
-
     private static final Map<String, Gender> BY_KEY = new HashMap<>();
+    private static final String CATALOG_PREFIX = "podType";
 
     static {
         for (Gender gender : values()) {
@@ -34,11 +32,21 @@ public enum Gender {
         return Optional.ofNullable(BY_KEY.get(key));
     }
 
+    private final String key;
+    private final String label;
+
     Gender(String key) {
         this.key = key;
+        this.label = new StringJoiner(".").add(CATALOG_PREFIX).add(key).toString();
     }
 
+    @Override
     public String getKey() {
         return key;
+    }
+
+    @Override
+    public String getLabel() {
+        return label;
     }
 }

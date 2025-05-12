@@ -1,6 +1,8 @@
 package jp.co.company.space.api.features.passenger.domain;
 
 import jakarta.persistence.*;
+import jp.co.company.space.api.features.catalog.domain.Gender;
+import jp.co.company.space.api.features.catalog.domain.Nationality;
 import jp.co.company.space.api.features.passenger.converter.NationalityConverter;
 import jp.co.company.space.api.features.passenger.exception.PersonalInformationError;
 import jp.co.company.space.api.features.passenger.exception.PersonalInformationException;
