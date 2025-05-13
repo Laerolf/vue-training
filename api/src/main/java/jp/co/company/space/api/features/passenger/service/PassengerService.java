@@ -54,7 +54,7 @@ public class PassengerService {
      * @param personalInformationForm The information to add.
      * @return A {@link Passenger}.
      */
-    private Passenger addPersonalInformation(Passenger passenger, PersonalInformationCreationForm personalInformationForm) {
+    private Passenger addPersonalInformation(Passenger passenger, PersonalInformationCreationForm personalInformationForm) throws PassengerException {
         try {
             PersonalInformation personalInformation = new PersonalInformationCreationFactory(passenger, personalInformationForm).create();
             personalInformationRepository.save(personalInformation);

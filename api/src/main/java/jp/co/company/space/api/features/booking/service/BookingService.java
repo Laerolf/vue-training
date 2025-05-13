@@ -69,11 +69,11 @@ public class BookingService {
             Booking newBooking = new BookingCreationFactory(selectedUser, selectedVoyage).create();
             newBooking.setCreated();
             newBooking = bookingRepository.save(newBooking);
-            LOGGER.info(new LogBuilder("A new booking has been saved to the database.").build());
 
             List<Passenger> passengers = passengerService.create(newBooking, creationForm.passengers);
-
             newBooking.assignPassengers(passengers);
+
+            LOGGER.info(new LogBuilder("A new booking has been saved to the database.").build());
 
             return newBooking;
         } catch (DomainException exception) {

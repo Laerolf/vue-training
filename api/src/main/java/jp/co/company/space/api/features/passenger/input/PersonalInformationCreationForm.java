@@ -9,6 +9,7 @@ import static jp.co.company.space.api.shared.openApi.Examples.*;
 /**
  * A DTO representing a form with personal information for a new passenger.
  */
+@Schema(name = "PersonalInformationForm", description = "A form with details of a new passenger.")
 public class PersonalInformationCreationForm {
 
     /**

@@ -6,7 +6,7 @@ import jp.co.company.space.api.features.catalog.domain.Nationality;
 import jp.co.company.space.api.features.passenger.converter.NationalityConverter;
 import jp.co.company.space.api.features.passenger.exception.PersonalInformationError;
 import jp.co.company.space.api.features.passenger.exception.PersonalInformationException;
-import jp.co.company.space.api.features.passenger.validation.ValidPassportNumberFormat;
+import jp.co.company.space.api.features.passenger.validation.PassportNumberValidator;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -108,7 +108,6 @@ public class PersonalInformation {
     /**
      * The passport number of the passenger.
      */
-    @ValidPassportNumberFormat
     @Basic(optional = false)
     @Column(name = "passport_number", nullable = false, unique = true)
     private String passportNumber;
@@ -140,6 +139,8 @@ public class PersonalInformation {
             throw new PersonalInformationException(PersonalInformationError.MISSING_GENDER);
         } else if (passportNumber == null) {
             throw new PersonalInformationException(PersonalInformationError.MISSING_PASSPORT_NUMBER);
+        } else if (!PassportNumberValidator.isValid(passportNumber)) {
+            throw new PersonalInformationException(PersonalInformationError.INVALID_PASSPORT_NUMBER);
         } else if (passenger == null) {
             throw new PersonalInformationException(PersonalInformationError.MISSING_PASSENGER);
         }
