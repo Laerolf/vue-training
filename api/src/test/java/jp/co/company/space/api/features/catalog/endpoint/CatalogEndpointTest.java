@@ -35,12 +35,12 @@ class CatalogEndpointTest {
         assertNotNull(response);
         assertEquals(Status.OK_200.code(), response.getStatus());
 
-        Map<CatalogTopic, List<CatalogItemDto>> allCatalogItems = response.readEntity(new GenericType<>() {
+        Map<String, List<CatalogItemDto>> allCatalogItems = response.readEntity(new GenericType<>() {
         });
         assertNotNull(allCatalogItems);
         assertEquals(CatalogTopic.values().length, allCatalogItems.size());
 
-        assertTrue(Arrays.stream(CatalogTopic.values()).allMatch(allCatalogItems::containsKey));
+        assertTrue(Arrays.stream(CatalogTopic.values()).allMatch(catalogTopic -> allCatalogItems.containsKey(catalogTopic.getLabel())));
         assertTrue(allCatalogItems.values().stream().noneMatch(List::isEmpty));
     }
 
