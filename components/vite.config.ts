@@ -1,38 +1,50 @@
-import { fileURLToPath, URL } from 'node:url'
-
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
+
 import vue from '@vitejs/plugin-vue'
-import dts from 'vite-plugin-dts'
+import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
+import tsconfigPaths from "vite-tsconfig-paths"
 
-// https://vite.dev/config/
+const baseFolderPath = fileURLToPath(import.meta.url);
+const __dirname = dirname(baseFolderPath)
+
+// From https://vite.dev/guide/build.html#library-mode
 export default defineConfig({
-  plugins: [
-    vue(),
-    dts({
-      tsconfigPath: './tsconfig.build.json',
-    })
-  ],
-
+  plugins: [vue(), cssInjectedByJsPlugin(), tsconfigPaths()],
   build: {
     lib: {
-      entry: 'src/index.ts',
-      name: 'RsComponents',
-      fileName: (format) => `rs-components.${format}.js`
+      entry: resolve(__dirname, 'lib/main.ts'),
+      name: 'CompanyComponents',
+      fileName: 'company-components'
     },
-
     rollupOptions: {
+      // make sure to externalize deps that shouldn't be bundled
+      // into your library
       external: ['vue'],
       output: {
+        // Provide global variables to use in the UMD build
+        // for externalized deps
         globals: {
-          vue: 'Vue'
-        }
-      }
-    }
+          vue: 'Vue',
+        },
+      },
+    },
   },
-
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+  test: {
+    include: ['test/**\/*.{test,spec}.?(c|m)[jt]s?(x)'],
+    environment: "happy-dom",
+    coverage: {
+      include: [
+        "lib/components/**/*.vue"
+      ],
+      reportOnFailure: true,
+      watermarks: {
+        statements: [80, 100],
+        branches: [80, 100],
+        functions: [80, 100],
+        lines: [80, 100]
+      }
     }
   }
 })

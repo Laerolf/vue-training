@@ -1,0 +1,19 @@
+:root {
+  /* Spacing */
+  --spacing-small: 0.25rem;
+  --spacing-normal: 0.5rem;
+
+  /* Margin */
+  --margin-normal: var(--spacing-normal);
+
+  /* Padding */
+  --padding-vertical-normal: var(--spacing-small);
+  --padding-horizontal-normal: var(--spacing-normal);
+
+  --padding-normal: var(--padding-vertical-normal)
+    var(--padding-horizontal-normal);
+
+  /* Border */
+  --border-normal: 0.1rem black solid;
+  --border-radius-normal: 0.25rem;
+}
