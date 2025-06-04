@@ -1,0 +1,7 @@
+.storybook
+.vscode
+coverage
+dist
+node_modules
+stories
+.gitignore

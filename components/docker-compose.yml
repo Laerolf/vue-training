@@ -1,0 +1,29 @@
+services:
+  verdaccio:
+    image: verdaccio/verdaccio:5
+    container_name: verdaccio
+    ports:
+      - "4873:4873"
+    volumes:
+      - ./verdaccio:/verdaccio/conf
+      - storage:/verdaccio/storage
+    environment:
+      - VERDACCIO_PORT=4873
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://verdaccio:4873/-/ping"]
+      interval: 5s
+      retries: 10
+
+  publish:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      verdaccio:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=production
+    command: ["sh", "-c", "./scripts/publish-library.sh"]
+
+volumes:
+  storage:
