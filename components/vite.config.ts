@@ -5,18 +5,23 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 import tsconfigPaths from "vite-tsconfig-paths"
+import dts from 'vite-plugin-dts'
 
 const baseFolderPath = fileURLToPath(import.meta.url);
 const __dirname = dirname(baseFolderPath)
 
 // From https://vite.dev/guide/build.html#library-mode
 export default defineConfig({
-  plugins: [vue(), cssInjectedByJsPlugin(), tsconfigPaths()],
+  plugins: [vue(), cssInjectedByJsPlugin(), tsconfigPaths(), dts({
+    tsconfigPath: "./tsconfig.build.json"
+  })],
   build: {
     lib: {
-      entry: resolve(__dirname, 'lib/main.ts'),
-      name: 'CompanyComponents',
-      fileName: 'company-components'
+      entry: {
+        'company-space': resolve(__dirname, 'src/index.ts'),
+        components: resolve(__dirname, 'src/components/index.ts')
+      },
+      name: 'company-space',
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
@@ -36,7 +41,7 @@ export default defineConfig({
     environment: "happy-dom",
     coverage: {
       include: [
-        "lib/components/**/*.vue"
+        "src"
       ],
       reportOnFailure: true,
       watermarks: {

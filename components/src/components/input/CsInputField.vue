@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import CsInput from './CsInput.vue'
 
-interface Props {
-    /**
+defineOptions({
+    name: "CsInputField"
+})
+
+const value = defineModel<string>()
+
+defineProps<{
+        /**
      * The text of the label.
      */
     label?: string
@@ -11,11 +17,7 @@ interface Props {
      * Show the input field with the label on top of it.
      */
     stacked?: boolean
-}
-
-const value = defineModel<string>()
-
-defineProps<Props>()
+}>()
 </script>
 
 <template>

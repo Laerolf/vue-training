@@ -3,7 +3,12 @@ import { computed } from 'vue'
 
 import CsInputLabel from './CsInputLabel.vue'
 
-interface Props {
+defineOptions({
+    name: "CsInput",
+    inheritAttrs: false
+})
+
+const props = defineProps<{
     /**
      * The text of the label.
      */
@@ -13,13 +18,7 @@ interface Props {
      * Show the input field with the label on top of it.
      */
     stacked?: boolean
-}
-
-defineOptions({
-    inheritAttrs: false
-})
-
-const props = defineProps<Props>()
+}>()
 
 
 const classes = computed(() => ({
