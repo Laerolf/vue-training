@@ -24,6 +24,7 @@ services:
     environment:
       - NODE_ENV=production
     command: ["sh", "-c", "./scripts/publish-library.sh"]
+    restart: no
 
 volumes:
   storage:

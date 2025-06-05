@@ -2,25 +2,19 @@
 
 set -e
 
+echo "Creating the .npmrc file..."
 echo "registry=http://verdaccio:4873" > .npmrc
 echo "//verdaccio:4873/:_authToken=fake" > .npmrc
+echo "✅  The .npmrc file has been created"
 
 echo "Installing the dependencies of the component library..."
-
-# Configure pnpm to use Verdaccio
-pnpm config set registry http://verdaccio:4873
-
-# Install dependencies and build
 pnpm install
+echo "✅  The component library dependencies were installed"
 
-echo "✅ The component library dependencies were installed successfully"
 echo "Building the component library..."
 pnpm build
+echo "✅  The component library dependencies was built"
 
-echo "✅ The component library dependencies was built successfully"
 echo "Publishing component library to Verdaccio..."
-
-# Publish without prompt (assumes public access, no auth)
-pnpm publish --registry http://verdaccio:4873
-
-echo "✅ Component library published successfully to Verdaccio"
+pnpm publish
+echo "✅  Component library published successfully to Verdaccio"
