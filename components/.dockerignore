@@ -1,7 +1,9 @@
-.storybook
+# Editor directories and files
 .vscode
-coverage
+
+# Project
 dist
 node_modules
-stories
-.gitignore
+
+# Test coverage
+coverage

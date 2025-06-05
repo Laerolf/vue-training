@@ -1,0 +1,29 @@
+# Stage 1: Build the Storybook static site
+FROM node:20-slim AS builder
+
+WORKDIR /app
+
+# Install pnpm globally
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# Copy all source files
+COPY . .
+# Install dependencies
+RUN pnpm install
+
+# Build the Storybook static site
+RUN pnpm build:storybook
+
+# Stage 2: Serve the built static site with nginx
+FROM nginx:stable-alpine-slim AS production
+
+# Remove default nginx static content
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy built Storybook static files from builder stage
+COPY --from=builder /app/storybook-static /usr/share/nginx/html
+
+EXPOSE 80
+
+# Start nginx server
+CMD ["nginx", "-g", "daemon off;"]
