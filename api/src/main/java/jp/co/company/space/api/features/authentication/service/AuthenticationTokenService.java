@@ -147,11 +147,7 @@ public class AuthenticationTokenService {
                 throw new IllegalArgumentException("The authentication token's public key file could not be found with the provided path.");
             }
 
-            String pemContent = readPemFile(publicKeyStream)
-                    .replace("-----BEGIN PUBLIC KEY-----", "")
-                    .replace("-----END PUBLIC KEY-----", "")
-                    .replaceAll("\\s+", "");
-
+            String pemContent = readPemFile(publicKeyStream);
             byte[] decoded = Base64.getDecoder().decode(pemContent);
             X509EncodedKeySpec keySpec = new X509EncodedKeySpec(decoded);
             KeyFactory.getInstance("RSA").generatePublic(keySpec);
@@ -178,11 +174,7 @@ public class AuthenticationTokenService {
                 throw new IllegalArgumentException("The authentication token's private key file could not be found with the provided path.");
             }
 
-            String pemContent = readPemFile(privateKeyStream)
-                    .replace("-----BEGIN PRIVATE KEY-----", "")
-                    .replace("-----END PRIVATE KEY-----", "")
-                    .replaceAll("\\s+", "");
-
+            String pemContent = readPemFile(privateKeyStream);
             byte[] decoded = Base64.getDecoder().decode(pemContent);
             PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(decoded);
             return (RSAPrivateKey) KeyFactory.getInstance("RSA").generatePrivate(keySpec);
@@ -206,7 +198,10 @@ public class AuthenticationTokenService {
      */
     private String readPemFile(InputStream keyInputStream) {
         try (Scanner scanner = new Scanner(keyInputStream, StandardCharsets.UTF_8)) {
-            return scanner.useDelimiter("\\A").next();
+            return scanner.useDelimiter("\\A").next()
+                    .replaceAll("-----BEGIN ([A-Z ]+)-----", "")
+                    .replaceAll("-----END ([A-Z ]+)-----", "")
+                    .replaceAll("\\s+", "");
         }
     }
 }

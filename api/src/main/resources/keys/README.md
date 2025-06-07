@@ -10,3 +10,4 @@ Use the provided script to generate the keys:
 
 ```bash
 bash generate-keys.sh
+```
