@@ -1,4 +1,13 @@
 services:
+
+  docs:
+    container_name: "docs"
+    build:
+      context: ./docs
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+  
   api:
     container_name: exercise_api
     build:
@@ -7,9 +16,6 @@ services:
     environment:
       - DB_HOST=exercise_db
       - DB_PORT=9092
-      - DB_NAME=company_space_db
-      - DB_USER=sa
-      - DB_PASSWORD=
     ports:
       - "8000:8000"
     depends_on:
@@ -21,6 +27,9 @@ services:
     build:
       context: ./components
       dockerfile: Dockerfile
+    environment:
+      - VERDACCIO_HOST=verdaccio
+      - VERDACCIO_PORT=4873
     depends_on:
       verdaccio:
         condition: service_healthy
@@ -50,8 +59,6 @@ services:
     volumes:
       - ./components/verdaccio:/verdaccio/conf
       - verdaccio_storage:/verdaccio/storage
-    environment:
-      - VERDACCIO_PORT=4873
     healthcheck:
       test: ["CMD", "wget", "--spider", "http://verdaccio:4873/-/ping"]
       interval: 5s

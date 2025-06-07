@@ -1,4 +1,8 @@
-FROM node:20-slim AS builder
+FROM node:22-slim AS builder
+
+ENV VERDACCIO_HOST=verdaccio
+ENV VERDACCIO_PORT=4873
+ENV VERDACCIO_AUTHENTICATION_TOKEN=fake
 
 WORKDIR /app
 
@@ -8,8 +12,8 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 COPY . .
 
 # Create the .npmrc file
-RUN echo "registry=http://verdaccio:4873" > .npmrc
-RUN echo "//verdaccio:4873/:_authToken=fake" > .npmrc
+RUN echo "registry=http://${VERDACCIO_HOST}:${VERDACCIO_PORT}" > .npmrc
+RUN echo "//${VERDACCIO_HOST}:${VERDACCIO_PORT}/:_authToken=${VERDACCIO_AUTHENTICATION_TOKEN}" > .npmrc
 
 # Install the dependencies
 RUN pnpm install
