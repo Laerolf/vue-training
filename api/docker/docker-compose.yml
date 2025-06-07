@@ -1,8 +1,0 @@
-services:
-  db:
-    build:
-      context: ./h2
-      dockerfile: Dockerfile.h2
-    ports:
-      - "8082:8082" # Web console
-      - "9092:9092" # TCP server

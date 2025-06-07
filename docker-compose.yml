@@ -1,0 +1,61 @@
+services:
+  api:
+    container_name: exercise_api
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    environment:
+      - DB_HOST=exercise_db
+      - DB_PORT=9092
+      - DB_NAME=company_space_db
+      - DB_USER=sa
+      - DB_PASSWORD=
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_started
+
+  component_library:
+    container_name: component_library
+    build:
+      context: ./components
+      dockerfile: Dockerfile
+    depends_on:
+      verdaccio:
+        condition: service_healthy
+
+  db:
+    container_name: exercise_db
+    build:
+      context: ./api/h2
+      dockerfile: Dockerfile.h2
+    ports:
+      - "8082:8082" 
+      - "9092:9092"
+
+  storybook:
+    container_name: storybook
+    build:
+      context: ./components
+      dockerfile: Dockerfile.storybook
+    ports:
+      - "6006:80"
+
+  verdaccio:
+    image: verdaccio/verdaccio:6
+    container_name: verdaccio
+    ports:
+      - "4873:4873"
+    volumes:
+      - ./components/verdaccio:/verdaccio/conf
+      - verdaccio_storage:/verdaccio/storage
+    environment:
+      - VERDACCIO_PORT=4873
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://verdaccio:4873/-/ping"]
+      interval: 5s
+      retries: 10
+
+volumes:
+  verdaccio_storage:
