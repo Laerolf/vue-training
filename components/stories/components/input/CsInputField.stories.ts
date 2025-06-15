@@ -27,6 +27,7 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
     args: {
+        label: "Label",
         stacked: false
     }
 }
@@ -39,5 +40,19 @@ export const Stacked: Story = {
         label: "First name",
         modelValue: "Henry",
         stacked: true
+    }
+}
+
+export const Disabled: Story = {
+    render: (args: any) => ({
+        components: { CsInputField },
+        setup() {
+            return { args }
+        },
+        template: '<cs-input-field id="input-field" v-model="args.modelValue" :label="args.label" :stacked="args.stacked" disabled />'
+    }),
+    args: {
+        label: "Label",
+        stacked: false
     }
 }

@@ -1,19 +1,29 @@
 :root {
+  /* Color */
+  --color-dark: black;
+  --color-light: white;
+
   /* Spacing */
   --spacing-small: 0.25rem;
   --spacing-normal: 0.5rem;
+  --spacing-large: 1rem;
 
   /* Margin */
   --margin-normal: var(--spacing-normal);
 
   /* Padding */
+  --padding-vertical-small: var(--spacing-small);
   --padding-vertical-normal: var(--spacing-small);
   --padding-horizontal-normal: var(--spacing-normal);
+  --padding-horizontal-large: var(--spacing-large);
 
   --padding-normal: var(--padding-vertical-normal)
     var(--padding-horizontal-normal);
 
   /* Border */
-  --border-normal: 0.1rem black solid;
+  --border-normal: 0.1rem var(--color-dark) solid;
   --border-radius-normal: 0.25rem;
+
+  /* Opacity */
+  --opacity-half: 0.5;
 }

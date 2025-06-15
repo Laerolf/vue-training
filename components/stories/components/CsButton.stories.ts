@@ -17,16 +17,25 @@ const meta = {
         setup() {
             return { args }
         },
-        template: '<cs-button>{{args.label}}</cs-button>'
+        template: '<cs-button v-bind="args">{{args.label}}</cs-button>'
     }),
     args: {
-        label: "Click"
+        label: "Click",
+        square: false
     }
 } satisfies Meta<CsButtonStory>
 
 export default meta;
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {
+export const Default: Story = {}
 
+export const Disabled: Story = {
+    render: (args: any) => ({
+        components: { CsButton },
+        setup() {
+            return { args }
+        },
+        template: '<cs-button v-bind="args" disabled>{{args.label}}</cs-button>'
+    }),    
 }
