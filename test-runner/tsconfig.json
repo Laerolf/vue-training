@@ -10,11 +10,17 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths" : {
-      "@api/*": [
-        "src/api/*"
-      ]
+      "@application/*": [
+        "src/application/*"
+      ],
+      "@features/*": [
+        "src/features/*"
+      ],
+      "@lib/*": [
+        "lib/*"
+      ],
     }
   },
-  "include": ["src/**/*", "__test__/**/*"],
+  "include": ["src/**/*", "lib/tests/**/*", "__test__/**/*"],
   "exclude": ["dist"]
 }
