@@ -26,7 +26,21 @@ describe("features/missions", () => {
             expect(response.status).toBe(200)
             expect(response.body).not.toBeNull()
 
-            console.log(response.body)
+            const report: TestRunReport = response.body
+
+            expect(report).not.toBeNull()
+            expect(report.createdAt).not.toBeNull()
+            expect(report.tests).not.toBeNull()
+            expect(report.tests).toHaveLength(3)
+
+            report.tests.forEach(test => {
+                expect(test).toBeDefined()
+                expect(test.id).toBeDefined()
+                expect(test.title).toBeDefined()
+                expect(test.pass).toBeUndefined()
+                expect(test.steps).toBeUndefined()
+                expect(test.errors).toBeUndefined()
+            })
         })
     })
 
@@ -44,11 +58,13 @@ describe("features/missions", () => {
             // Then
             expect(response.status).toBe(200)
             expect(response.body).not.toBeNull()
+            expect(response.body).toBeDefined()
 
-            const report: TestRunReport = response.body.report
+            const report: TestRunReport = response.body
 
-            expect(report).not.toBeNull()
-            expect(report.tests).not.toBeNull()
+            expect(report).toBeDefined()
+            expect(report.createdAt).toBeDefined()
+            expect(report.tests).toBeDefined()
             expect(report.tests).toHaveLength(3)
 
             const expectedFailingTest = report.tests.find(test => test.id === expectedFailingTestId)
