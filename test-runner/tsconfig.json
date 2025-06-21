@@ -8,10 +8,8 @@
 
     /* Bundler mode */
     "moduleResolution": "node",
-    "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
-    "noEmit": true,
     "allowSyntheticDefaultImports": true,
 
     "outDir": "./dist",
@@ -31,7 +29,6 @@
   "include": [
     "src/**/*",
     "lib/tests/**/*",
-    "__test__/**/*"
   ],
   "exclude": [
     "dist"
