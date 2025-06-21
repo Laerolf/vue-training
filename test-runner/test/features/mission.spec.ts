@@ -1,16 +1,9 @@
 import { describe, expect, test } from 'vitest'
 import supertest from 'supertest'
 
-import { createServer } from '../../src/application/utils'
-import { createRouter } from '../../src/application/router'
-import { Server } from 'http'
-import { TestRunReport } from '../../reporter'
+import { createTestApi } from '../shared/utils'
 
-/**
- * Creates a new server.
- * @returns {Server} A server.
- */
-const createApi = (): Server => createServer(createRouter())
+import type { TestRunReport } from '../../reporter'
 
 describe("features/missions", () => {
 
@@ -20,7 +13,7 @@ describe("features/missions", () => {
             const missionId = "example"
 
             // When
-            const response = await supertest(createApi()).get(`/api/missions/${missionId}/requirements`).set('Accept', 'application/json')
+            const response = await supertest(createTestApi()).get(`/api/missions/${missionId}/requirements`).set('Accept', 'application/json')
 
             // Then
             expect(response.status).toBe(200)
@@ -53,7 +46,7 @@ describe("features/missions", () => {
             const expectedFailingStepTitle = "Test the page title"
 
             // When
-            const response = await supertest(createApi()).get(`/api/missions/${missionId}/verify`).set('Accept', 'application/json')
+            const response = await supertest(createTestApi()).get(`/api/missions/${missionId}/verify`).set('Accept', 'application/json')
 
             // Then
             expect(response.status).toBe(200)
@@ -109,7 +102,7 @@ describe("features/missions", () => {
 
         test("It should not be possible to verify a mission with an id", async () => {
             // When
-            const response = await supertest(createApi()).get(`/api/missions/verify`).set('Accept', 'application/json')
+            const response = await supertest(createTestApi()).get(`/api/missions/verify`).set('Accept', 'application/json')
 
             // Then
             expect(response.status).toBe(404)

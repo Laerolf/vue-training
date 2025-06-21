@@ -3,7 +3,6 @@ import { exec } from 'node:child_process'
 import { Command } from './constants'
 
 import type { ExecException } from 'node:child_process'
-import type { JSONReport } from '@playwright/test/reporter'
 import type { TestRunReport } from '../../../reporter'
 
 /**
@@ -52,7 +51,7 @@ function performCommand(command: Command, parameters?: string[]): Promise<Proces
 
         return new Promise((resolve, reject) =>
             exec(preparedCommand, (error, stdout, stderr) => {
-                if (stderr) {
+                if (stderr && !stdout) {
                     reject({ error, stdout, stderr })
                 } else {
                     resolve({ stdout, stderr })

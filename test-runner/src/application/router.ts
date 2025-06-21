@@ -1,6 +1,7 @@
 import Router from '@koa/router'
 
-import { registerRoutes } from '@features/mission/routes'
+import {registerRoutes as registerHealthCheckRoute} from '@features/healthCheck/routes'
+import { registerRoutes as registerMissionRoutes } from '@features/mission/routes'
 
 /**
  * Creates a new {@link Router}.
@@ -8,5 +9,6 @@ import { registerRoutes } from '@features/mission/routes'
  */
 export function createRouter(): Router {
     const router = new Router({ prefix: '/api' })
-    return registerRoutes(router)
+    registerHealthCheckRoute(router)
+    return registerMissionRoutes(router)
 }
