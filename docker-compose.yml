@@ -51,6 +51,14 @@ services:
     ports:
       - "6006:80"
 
+  test_runner:
+    container_name: test_runner
+    build:
+      context: ./test-runner
+      dockerfile: Dockerfile
+    ports:
+      - "6000:80"
+
   verdaccio:
     image: verdaccio/verdaccio:6
     container_name: verdaccio
