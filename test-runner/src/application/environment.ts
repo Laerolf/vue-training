@@ -1,4 +1,4 @@
-import dotenv from 'dotenv'
+import { config } from 'dotenv'
 
 /**
  * Represents an environment's properties.
@@ -14,9 +14,9 @@ type Environment = {
   port: number
 }
 
-dotenv.config()
+config()
 
-const { HOST,PORT } = process.env
+const { HOST, PORT } = process.env
 
 /**
  * The properties of the current environment.

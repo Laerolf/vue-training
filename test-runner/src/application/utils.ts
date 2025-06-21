@@ -59,8 +59,6 @@ function getBaseUrl(app: Server): string {
     let { address } = appInformation
     const { port } = appInformation
 
-    console.log(address)
-
     if (address === '::1') {
       address = 'http://localhost'
     }

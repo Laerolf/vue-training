@@ -1,36 +1,87 @@
-import type { FullResult, Reporter, TestCase, TestError, TestResult, TestStep } from '@playwright/test/reporter'
+import type { FullConfig, FullResult, Reporter, Suite, TestCase, TestError, TestResult, TestStep } from '@playwright/test/reporter'
 
 export type ParsedError = {
+    /**
+     * The error message.
+     */
     message?: string
+
+    /**
+     * The expected value of the test.
+     */
     expected?: string
+
+    /**
+     * The actual value of the test.
+     */
     actual?: string
 }
 
 export type StepReport = {
+    /**
+     * The title of the test step.
+     */
     title: string
+
+    /**
+     * Whether the test step passed or not.
+     */
     pass: boolean
+
+    /**
+     * The error that occurred during the execution of the test step.
+     */
     error?: ParsedError
 }
 
 export type Report = {
+    /**
+     * The ID of the test.
+     */
     id: string
+
+    /**
+     * The title of the test.
+     */
     title: string
-    pass: boolean
+
+    /**
+     * Whether the test passed or not.
+     */
+    pass?: boolean
+
+    /**
+     * The steps of the test.
+     */
     steps?: StepReport[]
+
+    /**
+     * The errors that occurred during the execution of the test.
+     */
     errors?: ParsedError[] | undefined
 }
 
 export type TestRunReport = {
+    /**
+     * The timestamp when the report was created.
+     */
+    createdAt?: Date
+
+    /**
+     * The reports of each ran test.
+     */
     tests: Report[]
 }
 
-
+/**
+ * A custom reporter that takes steps into account, producing a {@link TestRunReport}.
+ */
 export default class StepReporter implements Reporter {
 
     #report: TestRunReport = { tests: [] }
 
-    onTestBegin({ id, title }: TestCase, result: TestResult): void {
-        this.#report.tests.push({ id, title, pass: false })
+    onBegin(config: FullConfig, suite: Suite): void {
+        this.#report = { tests: suite.allTests().map(test => ({ id: test.id, title: test.title })) }
     }
 
     onStepBegin(test: TestCase, result: TestResult, step: TestStep): void {
@@ -38,7 +89,7 @@ export default class StepReporter implements Reporter {
             return
         }
 
-        const testReport = this.#report.tests.find(t => t.id === test.id)
+        const testReport = this.#report.tests.find(({ id }) => id === test.id)
 
         if (!testReport) {
             return
@@ -52,8 +103,8 @@ export default class StepReporter implements Reporter {
     }
 
     onStepEnd(test: TestCase, result: TestResult, step: TestStep): void {
-        const testReport = this.#report.tests.find(t => t.id === test.id)
-        const stepReport = testReport?.steps?.find(s => s.title === step.title)
+        const testReport = this.#report.tests.find(({ id }) => id === test.id)
+        const stepReport = testReport?.steps?.find(({ title }) => title === step.title)
 
         if (!stepReport) {
             return
@@ -64,20 +115,29 @@ export default class StepReporter implements Reporter {
     }
 
     onTestEnd(test: TestCase, result: TestResult): void {
-        const testReport = this.#report.tests.find(t => t.id === test.id)
+        const testReport = this.#report.tests.find(({ id }) => id === test.id)
 
         if (!testReport) {
             return
         }
 
         testReport.pass = result.status === 'passed'
-        testReport.errors = result.errors.length ? result.errors.map(error => this.#parseError(error)).filter(parsedError => parsedError) as ParsedError[] : undefined
+
+        if (result.errors.length) {
+            testReport.errors = result.errors.map(error => this.#parseError(error)).filter(parsedError => parsedError) as ParsedError[]
+        }
     }
 
     onEnd(result: FullResult): Promise<{ status?: FullResult['status'] } | undefined | void> | void {
+        this.#report.createdAt = new Date()
         console.info(JSON.stringify(this.#report))
     }
 
+    /**
+     * Parses a {@link TestError} into a {@link ParsedError} if possible.
+     * @param error The error to parse.
+     * @returns A {@link ParsedError} or `undefined`.
+     */
     #parseError(error?: TestError): ParsedError | undefined {
         if (!error || !error.message) {
             return

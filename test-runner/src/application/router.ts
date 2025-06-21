@@ -1,6 +1,6 @@
 import Router from '@koa/router'
 
-import { registerRoutes } from 'src/features/mission/routes'
+import { registerRoutes } from '@features/mission/routes'
 
 /**
  * Creates a new {@link Router}.
