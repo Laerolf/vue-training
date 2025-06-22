@@ -1,7 +1,7 @@
-import { describe, expect, test } from 'vitest'
+import { describe, test, expect } from 'vitest'
 import supertest from 'supertest'
 
-import { createTestApi } from '../shared/utils'
+import { createTestApi } from '@unit-tests/shared/utils'
 
 describe("features/healthCheck", () => {
 

@@ -1,5 +1,5 @@
-import { createRouter } from '../../src/application/router'
-import { createServer } from '../../src/application/utils'
+import { createRouter } from '@application/router'
+import { createServer } from '@application/utils'
 
 import type { Server } from 'http'
 

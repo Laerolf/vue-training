@@ -8,7 +8,6 @@
 
     /* Bundler mode */
     "moduleResolution": "node",
-    "verbatimModuleSyntax": true,
     "moduleDetection": "force",
     "allowSyntheticDefaultImports": true,
 
@@ -24,11 +23,15 @@
       "@lib/*": [
         "lib/*"
       ],
+      "@unit-tests/*": [
+        "test/*"
+      ],
     }
   },
   "include": [
     "src/**/*",
     "lib/tests/**/*",
+    "test/**/*"
   ],
   "exclude": [
     "dist"

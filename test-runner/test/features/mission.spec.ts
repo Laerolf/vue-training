@@ -1,14 +1,15 @@
 import { describe, expect, test } from 'vitest'
 import supertest from 'supertest'
 
-import { createTestApi } from '../shared/utils'
+import { createTestApi } from '@unit-tests/shared/utils'
 
 import type { TestRunReport } from '../../reporter'
+import { timeouts } from '@unit-tests/shared/constants'
 
 describe("features/missions", () => {
 
     describe("/requirements", () => {
-        test("It should be possible to get the requirements of a mission", { timeout: 60 * 1000 }, async () => {
+        test("It should be possible to get the requirements of a mission", { timeout: timeouts.WAIT_FOR_PLAYWRIGHT }, async () => {
             // Given
             const missionId = "example"
 
@@ -38,7 +39,7 @@ describe("features/missions", () => {
     })
 
     describe("/verify", () => {
-        test("It should be possible to verify a mission", { timeout: 60 * 1000 }, async () => {
+        test("It should be possible to verify a mission", { timeout: timeouts.WAIT_FOR_PLAYWRIGHT }, async () => {
             // Given
             const missionId = "example"
             const expectedPassingTestId = "a30a6eba6312f6b87ea5-73299983c20d138d5a6e"
