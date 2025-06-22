@@ -1,5 +1,7 @@
 {
     "recommendations": [
-        "vitest.explorer"
+        "vitest.explorer",
+        "seatonjiang.gitmoji-vscode",
+        "esbenp.prettier-vscode"
     ]
 }

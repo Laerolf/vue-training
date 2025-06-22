@@ -1,4 +1,4 @@
 ignoredBuiltDependencies:
-  - esbuild
+    - esbuild
 onlyBuiltDependencies:
-  - unrs-resolver
+    - unrs-resolver

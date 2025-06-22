@@ -5,14 +5,14 @@ import type { RouterContext } from '@koa/router'
 
 /**
  * Handles the request to verify a mission.
- * @param context The context of the request. 
+ * @param context The context of the request.
  */
 async function handleHealthCheck(context: RouterContext): Promise<void> {
-  try {
-    context.body = "OK"
-  } catch (error) {
-    handleError(context, error)
-  }
+    try {
+        context.body = 'OK'
+    } catch (error) {
+        handleError(context, error)
+    }
 }
 
 /**
@@ -21,6 +21,7 @@ async function handleHealthCheck(context: RouterContext): Promise<void> {
  * @returns {Router} The provided router with the health check route.
  */
 export function registerRoutes(router: Router): Router {
-  return router
-    .get(`/health-check`, (context: RouterContext) => handleHealthCheck(context))
+    return router.get(`/health-check`, (context: RouterContext) =>
+        handleHealthCheck(context)
+    )
 }

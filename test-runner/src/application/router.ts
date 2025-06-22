@@ -1,6 +1,6 @@
 import Router from '@koa/router'
 
-import {registerRoutes as registerHealthCheckRoute} from '@features/healthCheck/routes'
+import { registerRoutes as registerHealthCheckRoute } from '@features/healthCheck/routes'
 import { registerRoutes as registerMissionRoutes } from '@features/mission/routes'
 
 /**

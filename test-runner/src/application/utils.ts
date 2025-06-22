@@ -2,8 +2,8 @@ import Koa from 'koa'
 import KoaCors from '@koa/cors'
 import KoaBodyParser from 'koa-bodyparser'
 
-import type Router from "@koa/router"
-import type { Server } from "http"
+import type Router from '@koa/router'
+import type { Server } from 'http'
 
 import { properties } from './environment'
 
@@ -14,18 +14,22 @@ import { properties } from './environment'
  * @returns {Server} The provided server with listeners.
  */
 function addListeners(server: Server, router: Router): Server {
-  server.on('listening', () => {
-    const baseUrl = getBaseUrl(server)
+    server.on('listening', () => {
+        const baseUrl = getBaseUrl(server)
 
-    console.info(`The server is listening on the following address: ${baseUrl}`)
-    console.info('\nThe following end-points are available:')
+        console.info(
+            `The server is listening on the following address: ${baseUrl}`
+        )
+        console.info('\nThe following end-points are available:')
 
-    router.stack.forEach(({ methods, path }) =>
-      console.info(`- ${methods.map(method => `[${method}]`).join('')} ${[baseUrl, path].join('')}`)
-    )
-  })
+        router.stack.forEach(({ methods, path }) =>
+            console.info(
+                `- ${methods.map((method) => `[${method}]`).join('')} ${[baseUrl, path].join('')}`
+            )
+        )
+    })
 
-  return server.on('error', error => console.error(error))
+    return server.on('error', (error) => console.error(error))
 }
 
 /**
@@ -34,16 +38,18 @@ function addListeners(server: Server, router: Router): Server {
  * @returns {Server} A new server.
  */
 export function createServer(router: Router): Server {
-  const server = new Koa()
-    .use(KoaBodyParser({
-      enableTypes: ["text"]
-    }))
-    .use(KoaCors())
-    .use(router.routes())
-    .use(router.allowedMethods())
-    .listen(properties.port, properties.host)
+    const server = new Koa()
+        .use(
+            KoaBodyParser({
+                enableTypes: ['text']
+            })
+        )
+        .use(KoaCors())
+        .use(router.routes())
+        .use(router.allowedMethods())
+        .listen(properties.port, properties.host)
 
-  return addListeners(server, router)
+    return addListeners(server, router)
 }
 
 /**
@@ -51,18 +57,21 @@ export function createServer(router: Router): Server {
  * @returns {string} A base url.
  */
 function getBaseUrl(app: Server): string {
-  const appInformation = app.address() || { address: 'localhost', port: properties.port }
-
-  if (typeof appInformation == 'string') {
-    return appInformation
-  } else {
-    let { address } = appInformation
-    const { port } = appInformation
-
-    if (address === '::1') {
-      address = 'http://localhost'
+    const appInformation = app.address() || {
+        address: 'localhost',
+        port: properties.port
     }
 
-    return [address, port].join(':')
-  }
+    if (typeof appInformation == 'string') {
+        return appInformation
+    } else {
+        let { address } = appInformation
+        const { port } = appInformation
+
+        if (address === '::1') {
+            address = 'http://localhost'
+        }
+
+        return [address, port].join(':')
+    }
 }

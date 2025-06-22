@@ -33,10 +33,10 @@ type ProcessResult = {
  */
 function prepareCommand(command: Command, parameters?: string[]): string {
     if (!parameters || parameters.length === 0) {
-        return command;
+        return command
     }
 
-    return `${command} ${parameters.join(" ")}`;
+    return `${command} ${parameters.join(' ')}`
 }
 
 /**
@@ -45,9 +45,12 @@ function prepareCommand(command: Command, parameters?: string[]): string {
  * @param parameters The paramaters of the command to run.
  * @returns {Promise<ProcessResult>} A command result.
  */
-function performCommand(command: Command, parameters?: string[]): Promise<ProcessResult> {
+function performCommand(
+    command: Command,
+    parameters?: string[]
+): Promise<ProcessResult> {
     try {
-        const preparedCommand = prepareCommand(command, parameters);
+        const preparedCommand = prepareCommand(command, parameters)
 
         return new Promise((resolve, reject) =>
             exec(preparedCommand, (error, stdout, stderr) => {
@@ -59,8 +62,10 @@ function performCommand(command: Command, parameters?: string[]): Promise<Proces
             })
         )
     } catch (error) {
-        console.error("Failed to perform a command", error)
-        throw new Error(`Failed to perform a command: ${(error as Error).message}`)
+        console.error('Failed to perform a command', error)
+        throw new Error(
+            `Failed to perform a command: ${(error as Error).message}`
+        )
     }
 }
 
@@ -74,8 +79,8 @@ function parseJsonOutput<T>(output: ProcessResult): T {
     try {
         return JSON.parse(output.stdout) as T
     } catch (error) {
-        console.error("Failed to parse JSON output", error);
-        throw new Error(`JSON parse error: ${(error as Error).message}`);
+        console.error('Failed to parse JSON output', error)
+        throw new Error(`JSON parse error: ${(error as Error).message}`)
     }
 }
 
@@ -85,7 +90,7 @@ function parseJsonOutput<T>(output: ProcessResult): T {
  * @returns {Promise<TestRunReport>} A report.
  */
 export async function verify(...parameters: string[]): Promise<TestRunReport> {
-    const result = await performCommand(Command.TEST, parameters);
+    const result = await performCommand(Command.TEST, parameters)
     return parseJsonOutput<TestRunReport>(result)
 }
 
@@ -94,7 +99,9 @@ export async function verify(...parameters: string[]): Promise<TestRunReport> {
  * @param parameters The parameters of the test to get list.
  * @returns {Promise<TestRunReport>} A report.
  */
-export async function getAllTestRequirements(...parameters: string[]): Promise<TestRunReport> {
-    const result = await performCommand(Command.LIST, parameters);
+export async function getAllTestRequirements(
+    ...parameters: string[]
+): Promise<TestRunReport> {
+    const result = await performCommand(Command.LIST, parameters)
     return parseJsonOutput<TestRunReport>(result)
 }

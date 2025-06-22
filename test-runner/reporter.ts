@@ -1,4 +1,13 @@
-import type { FullConfig, FullResult, Reporter, Suite, TestCase, TestError, TestResult, TestStep } from '@playwright/test/reporter'
+import type {
+    FullConfig,
+    FullResult,
+    Reporter,
+    Suite,
+    TestCase,
+    TestError,
+    TestResult,
+    TestStep
+} from '@playwright/test/reporter'
 
 export type ParsedError = {
     /**
@@ -77,15 +86,18 @@ export type TestRunReport = {
  * A custom reporter that takes steps into account, producing a {@link TestRunReport}.
  */
 export default class StepReporter implements Reporter {
-
     #report: TestRunReport = { tests: [] }
 
-    onBegin(config: FullConfig, suite: Suite): void {
-        this.#report = { tests: suite.allTests().map(test => ({ id: test.id, title: test.title })) }
+    onBegin(_config: FullConfig, suite: Suite): void {
+        this.#report = {
+            tests: suite
+                .allTests()
+                .map((test) => ({ id: test.id, title: test.title }))
+        }
     }
 
-    onStepBegin(test: TestCase, result: TestResult, step: TestStep): void {
-        if (step.category != "test.step") {
+    onStepBegin(test: TestCase, _result: TestResult, step: TestStep): void {
+        if (step.category != 'test.step') {
             return
         }
 
@@ -102,9 +114,11 @@ export default class StepReporter implements Reporter {
         testReport.steps.push({ title: step.title, pass: false })
     }
 
-    onStepEnd(test: TestCase, result: TestResult, step: TestStep): void {
+    onStepEnd(test: TestCase, _result: TestResult, step: TestStep): void {
         const testReport = this.#report.tests.find(({ id }) => id === test.id)
-        const stepReport = testReport?.steps?.find(({ title }) => title === step.title)
+        const stepReport = testReport?.steps?.find(
+            ({ title }) => title === step.title
+        )
 
         if (!stepReport) {
             return
@@ -124,11 +138,15 @@ export default class StepReporter implements Reporter {
         testReport.pass = result.status === 'passed'
 
         if (result.errors.length) {
-            testReport.errors = result.errors.map(error => this.#parseError(error)).filter(parsedError => parsedError) as ParsedError[]
+            testReport.errors = result.errors
+                .map((error) => this.#parseError(error))
+                .filter((parsedError) => parsedError) as ParsedError[]
         }
     }
 
-    onEnd(result: FullResult): Promise<{ status?: FullResult['status'] } | undefined | void> | void {
+    onEnd(
+        _result: FullResult
+    ): Promise<{ status?: FullResult['status'] } | undefined | void> | void {
         this.#report.createdAt = new Date()
         console.info(JSON.stringify(this.#report))
     }
@@ -143,26 +161,33 @@ export default class StepReporter implements Reporter {
             return
         }
 
-        const ansiRegex = /\u001b\[[0-9;]*m/g;
-        const cleaned = error.message.replace(ansiRegex, '');
+        const ansiRegex = /\u001b\[[0-9;]*m/g
+        const cleaned = error.message.replace(ansiRegex, '')
 
-        const lines = cleaned.split('\n').map(line => line.trim()).filter(Boolean);
+        const lines = cleaned
+            .split('\n')
+            .map((line) => line.trim())
+            .filter(Boolean)
 
-        const parsedError: ParsedError = {};
+        const parsedError: ParsedError = {}
 
         for (let i = 0; i < lines.length; i++) {
-            const line = lines[i];
+            const line = lines[i]
 
             if (line.startsWith('Error:')) {
-                parsedError.message = line.replace('Error:', '').trim();
+                parsedError.message = line.replace('Error:', '').trim()
             } else if (line.startsWith('Expected pattern:')) {
-                parsedError.expected = line.replace('Expected pattern:', '').trim();
+                parsedError.expected = line
+                    .replace('Expected pattern:', '')
+                    .trim()
             } else if (line.startsWith('Received string:')) {
-                parsedError.actual = line.replace('Received string:', '').replace(/^"|"$/g, '').trim();
+                parsedError.actual = line
+                    .replace('Received string:', '')
+                    .replace(/^"|"$/g, '')
+                    .trim()
             }
         }
 
-        return parsedError;
+        return parsedError
     }
-
 }

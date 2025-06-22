@@ -6,31 +6,34 @@ import type { RouterContext } from '@koa/router'
 
 /**
  * Handles the request to verify a mission.
- * @param context The context of the request. 
+ * @param context The context of the request.
  */
-async function handleVerifyMission(context: RouterContext<{ missionId: string }>): Promise<void> {
-  const { missionId } = context.params
+async function handleVerifyMission(
+    context: RouterContext<{ missionId: string }>
+): Promise<void> {
+    const { missionId } = context.params
 
-  try {
-    context.body = await verifyMission(missionId)
-  } catch (error) {
-    handleError(context, error)
-  }
-
+    try {
+        context.body = await verifyMission(missionId)
+    } catch (error) {
+        handleError(context, error)
+    }
 }
 
 /**
  * Handles the request to get the requirements of a mission.
- * @param context The context of the request. 
+ * @param context The context of the request.
  */
-async function handleGetMissionRequirements(context: RouterContext<{ missionId: string }>): Promise<void> {
-  const { missionId } = context.params
+async function handleGetMissionRequirements(
+    context: RouterContext<{ missionId: string }>
+): Promise<void> {
+    const { missionId } = context.params
 
-  try {
-    context.body = await getAllMissionRequirements(missionId)
-  } catch (error) {
-    handleError(context, error)
-  }
+    try {
+        context.body = await getAllMissionRequirements(missionId)
+    } catch (error) {
+        handleError(context, error)
+    }
 }
 
 /**
@@ -39,9 +42,17 @@ async function handleGetMissionRequirements(context: RouterContext<{ missionId: 
  * @returns {Router} The provided router with the mission routes.
  */
 export function registerRoutes(router: Router): Router {
-  const baseUrl = "missions"
+    const baseUrl = 'missions'
 
-  return router
-    .get(`/${baseUrl}/:missionId/verify`, (context: RouterContext<{ missionId: string }>) => handleVerifyMission(context))
-    .get(`/${baseUrl}/:missionId/requirements`, (context: RouterContext<{ missionId: string }>) => handleGetMissionRequirements(context))
+    return router
+        .get(
+            `/${baseUrl}/:missionId/verify`,
+            (context: RouterContext<{ missionId: string }>) =>
+                handleVerifyMission(context)
+        )
+        .get(
+            `/${baseUrl}/:missionId/requirements`,
+            (context: RouterContext<{ missionId: string }>) =>
+                handleGetMissionRequirements(context)
+        )
 }

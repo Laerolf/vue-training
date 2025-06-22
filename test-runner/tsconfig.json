@@ -1,39 +1,24 @@
 {
-  "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "esnext",
+        "skipLibCheck": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
 
-    /* Bundler mode */
-    "moduleResolution": "node",
-    "moduleDetection": "force",
-    "allowSyntheticDefaultImports": true,
+        "moduleResolution": "node",
+        "moduleDetection": "force",
+        "allowSyntheticDefaultImports": true,
 
-    "outDir": "./dist",
-    "baseUrl": ".",
-    "paths": {
-      "@application/*": [
-        "src/application/*"
-      ],
-      "@features/*": [
-        "src/features/*"
-      ],
-      "@lib/*": [
-        "lib/*"
-      ],
-      "@unit-tests/*": [
-        "test/*"
-      ],
-    }
-  },
-  "include": [
-    "src/**/*",
-    "lib/tests/**/*",
-    "test/**/*"
-  ],
-  "exclude": [
-    "dist"
-  ]
+        "outDir": "./dist",
+        "baseUrl": ".",
+        "paths": {
+            "@application/*": ["src/application/*"],
+            "@features/*": ["src/features/*"],
+            "@lib/*": ["lib/*"],
+            "@unit-tests/*": ["test/*"]
+        }
+    },
+    "include": ["src/**/*", "lib/tests/**/*", "test/**/*"],
+    "exclude": ["dist"]
 }

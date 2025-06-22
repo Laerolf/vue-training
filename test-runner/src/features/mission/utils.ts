@@ -8,11 +8,11 @@ const { verify, getAllTestRequirements } = utils
  * @returns The result of the provided mission's verification.
  */
 export async function verifyMission(missionId: string) {
-  try {
-    return verify(missionId)
-  } catch (error) {
-    throw new Error(`Failed to test a mission: ${(error as Error).message}`)
-  }
+    try {
+        return verify(missionId)
+    } catch (error) {
+        throw new Error(`Failed to test a mission: ${(error as Error).message}`)
+    }
 }
 
 /**
@@ -21,9 +21,11 @@ export async function verifyMission(missionId: string) {
  * @returns {Promise<VerificationResult>} A verification result.
  */
 export async function getAllMissionRequirements(missionId: string) {
-  try {
-    return getAllTestRequirements(missionId)
-  } catch (error) {
-    throw new Error(`Failed to get a mission's requirements: ${(error as Error).message}`)
-  }
+    try {
+        return getAllTestRequirements(missionId)
+    } catch (error) {
+        throw new Error(
+            `Failed to get a mission's requirements: ${(error as Error).message}`
+        )
+    }
 }
