@@ -5,7 +5,7 @@ import KoaBodyParser from 'koa-bodyparser'
 import type Router from '@koa/router'
 import type { Server } from 'http'
 
-import { properties } from './environment'
+import { properties, targetAddress } from './environment'
 
 /**
  * Adds listeners to the provided server.
@@ -19,6 +19,9 @@ function addListeners(server: Server, router: Router): Server {
 
         console.info(
             `The server is listening on the following address: ${baseUrl}`
+        )
+        console.info(
+            `The target application is assumed to be running on the following address: ${targetAddress}`
         )
         console.info('\nThe following end-points are available:')
 

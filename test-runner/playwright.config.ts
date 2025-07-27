@@ -1,5 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
 
+import { targetAddress } from './src/application/environment'
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -12,7 +14,11 @@ export default defineConfig({
     projects: [
         {
             name: 'chromium',
-            use: { ...devices['Desktop Chrome'] },
-        },
+            use: { ...devices['Desktop Chrome'] }
+        }
     ],
+
+    use: {
+        baseURL: targetAddress
+    }
 })
