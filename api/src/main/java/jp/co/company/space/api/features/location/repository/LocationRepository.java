@@ -22,15 +22,19 @@ public class LocationRepository {
     }
 
     /**
-     * Searches an {@link Optional} instance of the {@link Location} class by its ID.
+     * Searches an {@link Optional} {@link Location} with the provided ID.
      *
      * @param id The ID of the location to search for.
      * @return An {@link Optional} {@link Location}.
      */
     public Optional<Location> findById(String id) throws LocationException {
         try {
-            return Optional.ofNullable(entityManager.find(Location.class, id));
-        } catch (IllegalArgumentException exception) {
+            return entityManager
+                    .createNamedQuery("Location.selectById", Location.class)
+                    .setParameter("id", id)
+                    .getResultStream()
+                    .findFirst();
+        } catch (IllegalArgumentException | PersistenceException | NullPointerException exception) {
             throw new LocationException(LocationError.FIND_BY_ID, exception);
         }
     }

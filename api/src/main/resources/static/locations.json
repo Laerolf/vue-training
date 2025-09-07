@@ -4,55 +4,63 @@
         "name": "Sun",
         "latitude": 0,
         "longitude": 0,
-        "radialDistance": 0
+        "radialDistance": 0,
+        "characteristics": ["hot", "radioactive", "plasma"]
     },
     {
         "id": "00000000-0000-1000-8000-000000000001",
         "name": "Earth",
         "latitude": 0,
         "longitude": 326,
-        "radialDistance": 1
+        "radialDistance": 1,
+        "characteristics": ["blue", "living", "temperate"]
     },
     {
         "id": "00000000-0000-1000-8000-000000000002",
         "name": "Moon",
         "latitude": 0,
         "longitude": 326,
-        "radialDistance": 1.002
+        "radialDistance": 1.002,
+        "characteristics": ["silent", "cratered", "airless"]
     },
     {
         "id": "00000000-0000-1000-8000-000000000003",
         "name": "Venus",
         "latitude": 0,
         "longitude": 13.1,
-        "radialDistance": 0.72
+        "radialDistance": 0.72,
+        "characteristics": ["hot", "toxic", "crushing"]
     },
     {
         "id": "00000000-0000-1000-8000-000000000004",
         "name": "Mars",
         "latitude": 0,
         "longitude": 13.1,
-        "radialDistance": 1.5
+        "radialDistance": 1.5,
+        "characteristics": ["red", "cold", "dusty"]
     },
     {
         "id": "00000000-0000-1000-8000-000000000005",
         "name": "Europa",
         "latitude": 0,
         "longitude": 13.1,
-        "radialDistance": 5.204
+        "radialDistance": 5.204,
+        "characteristics": ["icy", "oceanic", "mysterious"]
     },
     {
         "id": "00000000-0000-1000-8000-000000000006",
         "name": "Callisto",
         "latitude": -0,
         "longitude": 13.1,
-        "radialDistance": 5.216
+        "radialDistance": 5.216,
+        "characteristics": ["ancient", "cratered", "dark"]
     },
     {
         "id": "00000000-0000-1000-8000-000000000007",
         "name": "Titan",
         "latitude": 0,
         "longitude": 13.1,
-        "radialDistance": 9.588
+        "radialDistance": 9.588,
+        "characteristics": ["hazy", "methane-rich", "orange"]
     }
 ]

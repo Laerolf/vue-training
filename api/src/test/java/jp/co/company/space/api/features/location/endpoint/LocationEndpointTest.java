@@ -33,9 +33,10 @@ public class LocationEndpointTest {
 
         assertNotNull(locationDto.id);
         assertNotNull(locationDto.name);
-        assertEquals(0, locationDto.latitude);
-        assertNotEquals(0, locationDto.longitude);
-        assertNotEquals(0, locationDto.radialDistance);
+        assertNotNull(locationDto.latitude);
+        assertNotNull(locationDto.longitude);
+        assertNotNull(locationDto.radialDistance);
+        assertFalse(locationDto.locationCharacteristics.isEmpty());
     }
 
     @Test
@@ -50,7 +51,7 @@ public class LocationEndpointTest {
         List<LocationDto> locations = response.readEntity(new GenericType<>() {});
         assertNotNull(locations);
 
-        testLocationDto(locations.getFirst());
+        locations.forEach(this::testLocationDto);
     }
 
     @Test

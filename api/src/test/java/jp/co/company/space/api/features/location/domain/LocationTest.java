@@ -3,6 +3,8 @@ package jp.co.company.space.api.features.location.domain;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -15,7 +17,7 @@ public class LocationTest {
         @Test
         void withValidArguments() {
             // When
-            Location location = Location.create("Earth", 0, 0, 27000);
+            Location location = Location.create("Earth", 0, 0, 27000, Collections.emptyList());
 
             // Then
             assertEquals("Earth", location.getName());
@@ -27,7 +29,7 @@ public class LocationTest {
         @Test
         void whenNameIsMissing() {
             // When
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Location.create(null, 0, 0, 27000));
+            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Location.create(null, 0, 0, 27000, Collections.emptyList()));
 
             // Then
             assertEquals("The name of the location is missing.", exception.getMessage());
@@ -39,7 +41,7 @@ public class LocationTest {
         @Test
         void withValidArguments() {
             // When
-            Location location = Location.reconstruct("1", "Earth", 0, 0, 27000);
+            Location location = Location.reconstruct("1", "Earth", 0, 0, 27000, Collections.emptyList());
 
             // Then
             assertEquals("1", location.getId());
@@ -52,7 +54,7 @@ public class LocationTest {
         @Test
         void whenIdIsMissing() {
             // When
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Location.reconstruct(null, "Earth", 0, 0, 27000));
+            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Location.reconstruct(null, "Earth", 0, 0, 27000, Collections.emptyList()));
 
             // Then
             assertEquals("The ID of the location is missing.", exception.getMessage());
@@ -61,7 +63,7 @@ public class LocationTest {
         @Test
         void whenNameIsMissing() {
             // When
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Location.reconstruct("1", null, 0, 0, 27000));
+            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Location.reconstruct("1", null, 0, 0, 27000, Collections.emptyList()));
 
             // Then
             assertEquals("The name of the location is missing.", exception.getMessage());
@@ -71,8 +73,8 @@ public class LocationTest {
     @Test
     void whenMatched() {
         // Given
-        Location earth = Location.create("Earth", 0, 0, 27000);
-        Location duplicatedEarth = Location.reconstruct(earth.getId(), "Earth", 0, 0, 27000);
+        Location earth = Location.create("Earth", 0, 0, 27000, Collections.emptyList());
+        Location duplicatedEarth = Location.reconstruct(earth.getId(), "Earth", 0, 0, 27000, Collections.emptyList());
 
         // Then
         assertEquals(duplicatedEarth, earth);
@@ -81,8 +83,8 @@ public class LocationTest {
     @Test
     void whenNotMatched() {
         // Given
-        Location earth = Location.create("Earth", 0, 326, 1);
-        Location mars = Location.create("Mars", 0, 13.1, 1.5);
+        Location earth = Location.create("Earth", 0, 326, 1, Collections.emptyList());
+        Location mars = Location.create("Mars", 0, 13.1, 1.5, Collections.emptyList());
 
         // Then
         assertNotEquals(mars, earth);

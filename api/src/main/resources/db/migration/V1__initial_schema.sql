@@ -24,6 +24,14 @@ CREATE TABLE
   );
 
 CREATE TABLE
+  IF NOT EXISTS location_characteristics (
+    id VARCHAR(50) NOT NULL PRIMARY KEY,
+    characteristic VARCHAR(50) NOT NULL,
+    location_id VARCHAR(50) NOT NULL,
+    FOREIGN KEY (location_id) REFERENCES locations (id) ON DELETE CASCADE
+  );
+
+CREATE TABLE
   IF NOT EXISTS space_stations (
     id VARCHAR(50) NOT NULL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,

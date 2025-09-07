@@ -6,10 +6,7 @@ import jakarta.enterprise.event.Event;
 import jakarta.enterprise.event.ObserverException;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
-import jakarta.json.Json;
-import jakarta.json.JsonException;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonReader;
+import jakarta.json.*;
 import jakarta.transaction.Transactional;
 import jp.co.company.space.api.features.location.domain.Location;
 import jp.co.company.space.api.features.location.events.LocationServiceInit;
@@ -17,6 +14,9 @@ import jp.co.company.space.api.features.location.exception.LocationError;
 import jp.co.company.space.api.features.location.exception.LocationException;
 import jp.co.company.space.api.features.location.exception.LocationRuntimeException;
 import jp.co.company.space.api.features.location.repository.LocationRepository;
+import jp.co.company.space.api.features.locationCharacteristic.domain.LocationCharacteristic;
+import jp.co.company.space.api.features.locationCharacteristic.domain.PlanetCharacteristic;
+import jp.co.company.space.api.features.locationCharacteristic.service.LocationCharacteristicService;
 import jp.co.company.space.api.shared.exception.DomainException;
 import jp.co.company.space.api.shared.util.LogBuilder;
 
@@ -38,6 +38,12 @@ public class LocationService {
      */
     @Inject
     private LocationRepository locationRepository;
+
+    /**
+     * The location characteristics service.
+     */
+    @Inject
+    private LocationCharacteristicService locationCharacteristicService;
 
     /**
      * The location service initialization event.
@@ -81,8 +87,14 @@ public class LocationService {
                 double latitude = locationJson.getJsonNumber("latitude").doubleValue();
                 double longitude = locationJson.getJsonNumber("longitude").doubleValue();
                 double radialDistance = locationJson.getJsonNumber("radialDistance").doubleValue();
+                List<String> characteristics = locationJson.getJsonArray("characteristics").getValuesAs(jsonValue -> ((JsonString) jsonValue).getString());
 
-                return Location.reconstruct(id, name, latitude, longitude, radialDistance);
+                List<PlanetCharacteristic> planetCharacteristics = PlanetCharacteristic.of(characteristics);
+                List<LocationCharacteristic> locationCharacteristics = planetCharacteristics.stream()
+                        .map(planetCharacteristic -> locationCharacteristicService.create(planetCharacteristic))
+                        .toList();
+
+                return Location.reconstruct(id, name, latitude, longitude, radialDistance, locationCharacteristics);
             }).collect(Collectors.toList());
 
             locationRepository.save(parsedLocations);

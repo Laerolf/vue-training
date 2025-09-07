@@ -15,6 +15,10 @@ public class Examples {
     public static final String LOCATION_LONGITUDE_EXAMPLE = "0.0";
     public static final String LOCATION_RADIAL_DISTANCE_EXAMPLE = "27000";
 
+    // Location characteristics
+    public static final String LOCATION_CHARACTERISTICS_KEY_EXAMPLE = "silent";
+    public static final String LOCATION_CHARACTERISTICS_LOCALE_CODE_EXAMPLE = "planetCharacteristic.silent";
+
     // Space station
     public static final String SPACE_STATION_ORIGIN_ID_EXAMPLE = "00000000-0000-1000-8000-000000000003";
     public static final String SPACE_STATION_DESTINATION_ID_EXAMPLE = "00000000-0000-1000-8000-000000000012";

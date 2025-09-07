@@ -2,6 +2,7 @@ package jp.co.company.space.utils.features.location;
 
 import jp.co.company.space.api.features.location.domain.Location;
 
+import java.util.Collections;
 import java.util.Optional;
 
 /**
@@ -60,6 +61,6 @@ public class LocationTestDataBuilder {
      */
     public Location create() {
         return Location.create(Optional.ofNullable(name).orElse(DEFAULT_NAME), Optional.ofNullable(latitude).orElse(DEFAULT_LATITUDE),
-                Optional.ofNullable(longitude).orElse(DEFAULT_LONGITUDE), Optional.ofNullable(radialDistance).orElse(DEFAULT_RADIAL_DISTANCE));
+                Optional.ofNullable(longitude).orElse(DEFAULT_LONGITUDE), Optional.ofNullable(radialDistance).orElse(DEFAULT_RADIAL_DISTANCE), Collections.emptyList());
     }
 }
