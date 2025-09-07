@@ -1,6 +1,6 @@
 package jp.co.company.space.api.features.spaceStation.dto;
 
-import jp.co.company.space.api.features.location.dto.LocationDto;
+import jp.co.company.space.api.features.location.dto.BasicLocationDto;
 import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
@@ -23,7 +23,7 @@ public class SpaceStationDto {
             throw new IllegalArgumentException("the base space station is missing.");
         }
 
-        return new SpaceStationDto(spaceStation.getId(), spaceStation.getName(), spaceStation.getCode(), spaceStation.getCountry(), LocationDto.create(spaceStation.getLocation()));
+        return new SpaceStationDto(spaceStation.getId(), spaceStation.getName(), spaceStation.getCode(), spaceStation.getCountry(), BasicLocationDto.create(spaceStation.getLocation()));
     }
 
     @Schema(description = "The ID of the space station.", example = SPACE_STATION_ORIGIN_ID_EXAMPLE)
@@ -39,11 +39,11 @@ public class SpaceStationDto {
     public String country;
 
     @Schema(description = "The location of the space station.")
-    public LocationDto location;
+    public BasicLocationDto location;
 
     protected SpaceStationDto() {}
 
-    private SpaceStationDto(String id, String name, String code, String country, LocationDto location) {
+    private SpaceStationDto(String id, String name, String code, String country, BasicLocationDto location) {
         if (id == null) {
             throw new IllegalArgumentException("The ID of the space station is missing.");
         } else if (name == null) {

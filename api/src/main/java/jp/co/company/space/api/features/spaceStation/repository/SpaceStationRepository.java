@@ -29,7 +29,10 @@ public class SpaceStationRepository {
      */
     public Optional<SpaceStation> findById(String id) throws SpaceStationException {
         try {
-            return Optional.ofNullable(entityManager.find(SpaceStation.class, id));
+            return entityManager.createNamedQuery("SpaceStation.selectById", SpaceStation.class)
+                    .setParameter("id", id)
+                    .getResultStream()
+                    .findFirst();
         } catch (IllegalArgumentException exception) {
             throw new SpaceStationException(SpaceStationError.FIND_BY_ID, exception);
         }

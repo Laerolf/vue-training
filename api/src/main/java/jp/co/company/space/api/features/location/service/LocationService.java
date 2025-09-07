@@ -33,6 +33,8 @@ public class LocationService {
 
     private static final Logger LOGGER = Logger.getLogger(LocationService.class.getName());
 
+    private static boolean INITIALIZED;
+
     /**
      * The location repository.
      */
@@ -62,11 +64,14 @@ public class LocationService {
     @Transactional
     public void onStartUp(@Observes @Initialized(ApplicationScoped.class) Object init) throws LocationRuntimeException {
         try {
-            LOGGER.info(new LogBuilder("Initializing the location service.").build());
-            loadLocations();
-            LOGGER.info(new LogBuilder("The location service is ready!").build());
+            if (!INITIALIZED) {
+                LOGGER.info(new LogBuilder("Initializing the location service.").build());
+                loadLocations();
+                LOGGER.info(new LogBuilder("The location service is ready!").build());
 
-            locationServiceInitEvent.fire(LocationServiceInit.create());
+                locationServiceInitEvent.fire(LocationServiceInit.create());
+                INITIALIZED = true;
+            }
         } catch (IllegalArgumentException | ObserverException exception) {
             LOGGER.severe(new LogBuilder(LocationError.START_SERVICE).withException(exception).build());
             throw new LocationRuntimeException(LocationError.START_SERVICE, exception);

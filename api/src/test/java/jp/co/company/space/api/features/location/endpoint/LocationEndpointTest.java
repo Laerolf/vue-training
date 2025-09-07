@@ -7,7 +7,9 @@ import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 import jp.co.company.space.api.features.location.dto.LocationDto;
+import jp.co.company.space.utils.shared.DatabaseResetExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.List;
 
@@ -16,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Unit tests for the {@link LocationEndpoint} class.
  */
+@ExtendWith(DatabaseResetExtension.class)
 @HelidonTest
 public class LocationEndpointTest {
     /**
