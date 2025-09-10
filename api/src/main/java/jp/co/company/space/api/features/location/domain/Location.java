@@ -36,7 +36,7 @@ public class Location {
     }
 
     /**
-     * Recreates a {@link Location} instance.
+     * Reconstructs a {@link Location} instance.
      *
      * @param id              The ID of the location.
      * @param name            The name of the location.

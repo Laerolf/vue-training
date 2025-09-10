@@ -36,7 +36,7 @@ public class User {
     }
 
     /**
-     * Recreates a {@link User} instance.
+     * Reconstructs a {@link User} instance.
      *
      * @param id           The ID of the user.
      * @param lastName     The last name of the user.

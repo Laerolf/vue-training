@@ -30,13 +30,13 @@ public class LocationCharacteristic {
     }
 
     /**
-     * Recreates a {@link LocationCharacteristic} instance.
+     * Reconstructs a {@link LocationCharacteristic} instance.
      *
      * @param id             The ID of the location characteristic.
      * @param characteristic The characteristic of the location characteristic.
      * @return A {@link LocationCharacteristic}.
      */
-    public static LocationCharacteristic recreate(String id, PlanetCharacteristic characteristic) throws LocationCharacteristicException {
+    public static LocationCharacteristic reconstruct(String id, PlanetCharacteristic characteristic) throws LocationCharacteristicException {
         return new LocationCharacteristic(id, characteristic);
     }
 

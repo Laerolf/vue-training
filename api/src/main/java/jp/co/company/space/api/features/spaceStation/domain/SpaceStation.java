@@ -34,7 +34,7 @@ public class SpaceStation {
     }
 
     /**
-     * Recreates a {@link SpaceStation} entity.
+     * Reconstructs a {@link SpaceStation} entity.
      *
      * @param id       The ID of the space station.
      * @param name     The name of the space station.

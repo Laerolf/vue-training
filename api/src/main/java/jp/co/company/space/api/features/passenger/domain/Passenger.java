@@ -50,7 +50,7 @@ public class Passenger {
     }
 
     /**
-     * Recreates a {@link Passenger} instance.
+     * Reconstructs a {@link Passenger} instance.
      *
      * @param id                  The ID of a passenger.
      * @param creationDate        The creation date of a passenger.
@@ -62,7 +62,7 @@ public class Passenger {
      * @param voyage              The voyage of a passenger.
      * @return A {@link Passenger} instance.
      */
-    public static Passenger recreate(String id, ZonedDateTime creationDate, MealPreference mealPreference, PackageType packageType, PodReservation podReservation, PersonalInformation personalInformation, Booking booking, Voyage voyage) throws PassengerException {
+    public static Passenger reconstruct(String id, ZonedDateTime creationDate, MealPreference mealPreference, PackageType packageType, PodReservation podReservation, PersonalInformation personalInformation, Booking booking, Voyage voyage) throws PassengerException {
         return new Passenger(id, creationDate, mealPreference, packageType, podReservation, personalInformation, booking, voyage);
     }
 

@@ -30,13 +30,13 @@ public class Route {
     }
 
     /**
-     * Recreates a {@link Route} instance.
+     * Reconstructs a {@link Route} instance.
      *
      * @param id           The ID of the route.
      * @param origin       The origin of the route.
      * @param destination  The destination of the route.
      * @param shuttleModel The space shuttle model for the route.
-     * @return the recreated {@link Route} instance.
+     * @return A {@link Route}.
      */
     public static Route reconstruct(String id, SpaceStation origin, SpaceStation destination, SpaceShuttleModel shuttleModel) throws RouteException {
         return new Route(id, origin, destination, shuttleModel);

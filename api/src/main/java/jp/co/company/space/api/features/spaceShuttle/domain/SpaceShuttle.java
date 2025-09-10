@@ -32,7 +32,7 @@ public class SpaceShuttle {
     }
 
     /**
-     * Recreates a {@link SpaceShuttle} entity.
+     * Reconstructs a {@link SpaceShuttle} entity.
      *
      * @param id           The ID of the space shuttle.
      * @param name         The name of the space shuttle.

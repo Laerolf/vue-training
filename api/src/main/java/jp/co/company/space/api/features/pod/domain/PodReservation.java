@@ -34,7 +34,7 @@ public class PodReservation {
     }
 
     /**
-     * Recreates a new {@link PodReservation} instance.
+     * Reconstructs a new {@link PodReservation} instance.
      *
      * @param id           The ID of the pod reservation.
      * @param podCode      The pod code of the pod reservation.
@@ -43,7 +43,7 @@ public class PodReservation {
      * @param voyage       The voyage of the pod the reservation.
      * @return A new {@link PodReservation} instance.
      */
-    public static PodReservation recreate(String id, String podCode, ZonedDateTime creationDate, Passenger passenger, Voyage voyage) throws PodReservationException {
+    public static PodReservation reconstruct(String id, String podCode, ZonedDateTime creationDate, Passenger passenger, Voyage voyage) throws PodReservationException {
         return new PodReservation(id, podCode, creationDate, passenger, voyage);
     }
 
