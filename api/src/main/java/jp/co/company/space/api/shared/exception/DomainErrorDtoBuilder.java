@@ -22,7 +22,7 @@ public class DomainErrorDtoBuilder {
     private final String errorMessage;
 
     /**
-     * The error causing the {@link DomainException} instance.
+     * The error causing the {@link DomainException}.
      */
     private DomainException errorCause;
 
@@ -55,7 +55,7 @@ public class DomainErrorDtoBuilder {
      *
      * @param key   The key of the property to use.
      * @param value The value of the property to use.
-     * @return A {@link DomainErrorDtoBuilder} instance.
+     * @return A {@link DomainErrorDtoBuilder}.
      */
     public DomainErrorDtoBuilder withProperty(String key, String value) {
         properties.put(key, value);
@@ -63,9 +63,9 @@ public class DomainErrorDtoBuilder {
     }
 
     /**
-     * Makes sure the cause of a {@link DomainException} instance is included into the properties if there is any exception.
+     * Makes sure the cause of a {@link DomainException} is included into the properties if there is any exception.
      *
-     * @return A {@link DomainErrorDtoBuilder} instance.
+     * @return A {@link DomainErrorDtoBuilder}.
      */
     public DomainErrorDtoBuilder withCause() {
         this.includeCause = true;
@@ -73,9 +73,9 @@ public class DomainErrorDtoBuilder {
     }
 
     /**
-     * Creates a {@link DomainErrorDto} instance based on the provided values.
+     * Creates a {@link DomainErrorDto} based on the provided values.
      *
-     * @return A {@link DomainErrorDto} instance.
+     * @return A {@link DomainErrorDto}.
      */
     public DomainErrorDto build() {
         DomainErrorDto errorDto = DomainErrorDto.create(errorKey, errorMessage);

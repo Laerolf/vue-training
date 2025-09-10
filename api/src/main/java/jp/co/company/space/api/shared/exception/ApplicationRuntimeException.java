@@ -1,7 +1,7 @@
 package jp.co.company.space.api.shared.exception;
 
 /**
- * An abstract class representing an application {@link RuntimeException} instance.
+ * An abstract class representing an application {@link RuntimeException}.
  */
 public abstract class ApplicationRuntimeException extends RuntimeException {
 

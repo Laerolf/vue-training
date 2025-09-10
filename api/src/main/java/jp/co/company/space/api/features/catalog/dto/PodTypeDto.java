@@ -16,10 +16,10 @@ import static jp.co.company.space.api.shared.openApi.Examples.POD_TYPE_LABEL_EXA
 public class PodTypeDto extends CatalogItemDto {
 
     /**
-     * Creates a {@link PodTypeDto} instance based on a {@link PodType} instance.
+     * Creates a {@link PodTypeDto} based on a {@link PodType}.
      *
-     * @param podType The base for the {@link PodTypeDto} instance.
-     * @return A {@link PodTypeDto} instance.
+     * @param podType The base for the {@link PodTypeDto}.
+     * @return A {@link PodTypeDto}.
      */
     public static PodTypeDto create(PodType podType) throws CatalogException {
         if (podType == null) {
@@ -30,10 +30,10 @@ public class PodTypeDto extends CatalogItemDto {
     }
 
     /**
-     * Creates a {@link PodTypeDto} instance based on a {@link CatalogItem} instance.
+     * Creates a {@link PodTypeDto} based on a {@link CatalogItem}.
      *
-     * @param catalogItem The base for the {@link PodTypeDto} instance.
-     * @return A {@link PodTypeDto} instance.
+     * @param catalogItem The base for the {@link PodTypeDto}.
+     * @return A {@link PodTypeDto}.
      */
     public static PodTypeDto fromCatalogItem(CatalogItem catalogItem) throws CatalogException {
         if (!(catalogItem instanceof PodType)) {

@@ -8,16 +8,16 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
- * A POJO representing a brief DTO of a {@link Location} instance.
+ * A POJO representing a brief DTO of a {@link Location}.
  */
 @Schema(name = "Basic location", description = "The brief details of a location.")
 public class BasicLocationDto {
 
     /**
-     * Creates a new {@link BasicLocationDto} instance based on a {@link Location} instance.
+     * Creates a new {@link BasicLocationDto} based on a {@link Location}.
      *
-     * @param location The base {@link Location} instance.
-     * @return A new {@link BasicLocationDto} instance.
+     * @param location The base {@link Location}.
+     * @return A new {@link BasicLocationDto}.
      */
     public static BasicLocationDto create(Location location) throws LocationException {
         return new BasicLocationDto(location.getId(), location.getName(), location.getLatitude(), location.getLongitude(), location.getRadialDistance());

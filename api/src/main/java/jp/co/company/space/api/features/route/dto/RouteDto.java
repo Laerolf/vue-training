@@ -11,15 +11,15 @@ import static jp.co.company.space.api.shared.openApi.Examples.ROUTE_DESTINATION_
 import static jp.co.company.space.api.shared.openApi.Examples.ROUTE_ID_EXAMPLE;
 
 /**
- * A POJO representing a DTO of a {@link Route} instance.
+ * A POJO representing a DTO of a {@link Route}.
  */
 @Schema(name = "Route", description = "The details of a route between a space station and another space station.")
 public class RouteDto {
     /**
-     * Creates a new {@link RouteDto} instance based on a {@link Route} instance.
+     * Creates a new {@link RouteDto} based on a {@link Route}.
      *
-     * @param route The base {@link Route} instance.
-     * @return a new {@link RouteDto} instance.
+     * @param route The base {@link Route}.
+     * @return a new {@link RouteDto}.
      */
     public static RouteDto create(Route route) {
         if (route == null) {

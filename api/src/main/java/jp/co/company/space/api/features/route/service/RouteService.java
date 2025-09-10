@@ -130,7 +130,7 @@ public class RouteService {
     }
 
     /**
-     * Loads all initial {@link SpaceShuttle} instances into the database.
+     * Loads all initial {@link SpaceShuttle}s into the database.
      */
     private void loadRoutes() throws RouteException {
         try (JsonReader reader = Json.createReader(RouteService.class.getResourceAsStream("/static/routes.json"))) {
@@ -159,9 +159,9 @@ public class RouteService {
     }
 
     /**
-     * Gets a {@link List} of existing {@link Route} instances
+     * Gets a {@link List} of existing {@link Route}s
      *
-     * @return The {@link List} of existing {@link Route} instances.
+     * @return The {@link List} of existing {@link Route}s.
      */
     public List<Route> getAll() throws RouteException {
         try {
@@ -173,10 +173,10 @@ public class RouteService {
     }
 
     /**
-     * Gets an {@link Optional} {@link Route} instance for the provided ID.
+     * Gets an {@link Optional} {@link Route} for the provided ID.
      *
      * @param id The ID to search with.
-     * @return An {@link Optional} {@link Route} instance.
+     * @return An {@link Optional} {@link Route}.
      */
     public Optional<Route> findById(String id) throws RouteException {
         try {

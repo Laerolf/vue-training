@@ -40,9 +40,9 @@ public class LocationRepository {
     }
 
     /**
-     * Gets all the saved {@link Location} instances.
+     * Gets all the saved {@link Location}s.
      *
-     * @return A {@link List} of {@link Location} instances.
+     * @return A {@link List} of {@link Location}s.
      */
     public List<Location> getAll() throws LocationException {
         try {
@@ -54,10 +54,10 @@ public class LocationRepository {
     }
 
     /**
-     * Saves a {@link Location} instance.
+     * Saves a {@link Location}.
      *
-     * @param location The {@link Location} instance to save.
-     * @return The saved {@link Location} instance.
+     * @param location The {@link Location} to save.
+     * @return The saved {@link Location}.
      */
     public Location save(Location location) throws LocationException {
         if (findById(location.getId()).isEmpty()) {
@@ -73,10 +73,10 @@ public class LocationRepository {
     }
 
     /**
-     * Merges a persisted {@link Location} instance with the provided instance.
+     * Merges a persisted {@link Location}.
      *
-     * @param location The {@link Location} instance to merge.
-     * @return The merged {@link Location} instance.
+     * @param location The {@link Location} to merge.
+     * @return The merged {@link Location}.
      */
     public Location merge(Location location) throws LocationException {
         try {
@@ -87,10 +87,10 @@ public class LocationRepository {
     }
 
     /**
-     * Saves a {@link List} of {@link Location} instances.
+     * Saves a {@link List} of {@link Location}s.
      *
      * @param locations The {@link List} of {@link Location} to save.
-     * @return The {@link List} of saved {@link Location} instances.
+     * @return The {@link List} of saved {@link Location}s.
      */
     public List<Location> save(List<Location> locations) throws LocationException {
         try {

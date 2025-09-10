@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 /**
- * A test data builder that creates a {@link Location} instance for testing purposes.
+ * A test data builder that creates a {@link Location} for testing purposes.
  */
 public class LocationTestDataBuilder {
     /**
@@ -55,9 +55,9 @@ public class LocationTestDataBuilder {
     }
 
     /**
-     * Creates a new {@link Location} instance.
+     * Creates a new {@link Location}.
      *
-     * @return a new {@link Location} instance
+     * @return a new {@link Location}
      */
     public Location create() {
         return Location.create(Optional.ofNullable(name).orElse(DEFAULT_NAME), Optional.ofNullable(latitude).orElse(DEFAULT_LATITUDE),

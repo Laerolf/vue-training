@@ -26,9 +26,9 @@ public enum MealPreference implements CatalogItem {
     private static final String CATALOG_PREFIX = "mealPreference";
 
     /**
-     * Searches a {@link MealPreference} instance by its key.
+     * Searches a {@link MealPreference} by its key.
      * @param key The key search for a meal preference.
-     * @return An {@link Optional} {@link MealPreference} instance.
+     * @return An {@link Optional} {@link MealPreference}.
      */
     public static Optional<MealPreference> findByKey(String key) {
         return Arrays.stream(MealPreference.values()).filter(mealPreference -> mealPreference.key.equals(key)).findFirst();

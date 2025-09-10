@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SpaceStationTest {
 
     /**
-     * The builder to create {@link Location} instances with.
+     * The builder to create {@link Location}s with.
      */
     private final LocationTestDataBuilder locationBuilder = new LocationTestDataBuilder();
 

@@ -32,7 +32,7 @@ public class LogBuilder {
     private final Map<String, Object> properties = new LinkedHashMap<>();
 
     /**
-     * Creates a new {@link LogBuilder} instance based on a message.
+     * Creates a new {@link LogBuilder} based on a message.
      */
     public LogBuilder(String message) throws IllegalArgumentException {
         if (message == null) {
@@ -43,7 +43,7 @@ public class LogBuilder {
     }
 
     /**
-     * Creates a new {@link LogBuilder} instance based on a {@link DomainError} instance, setting its key as the key of the log message to create.
+     * Creates a new {@link LogBuilder} based on a {@link DomainError}, setting its key as the key of the log message to create.
      *
      * @param error The domain error to use.
      */
@@ -59,10 +59,10 @@ public class LogBuilder {
     }
 
     /**
-     * Adds an {@link Throwable} instance's message to the log message.
+     * Adds an {@link Throwable}'s message to the log message.
      *
      * @param exception The throwable to use.
-     * @return A {@link LogBuilder} instance.
+     * @return A {@link LogBuilder}.
      */
     public LogBuilder withException(Throwable exception) throws IllegalArgumentException {
         if (exception == null) {
@@ -77,7 +77,7 @@ public class LogBuilder {
      * Adds a key to the log message.
      *
      * @param key The key to use.
-     * @return A {@link LogBuilder} instance.
+     * @return A {@link LogBuilder}.
      */
     public LogBuilder withKey(String key) throws IllegalArgumentException {
         if (key == null) {
@@ -93,7 +93,7 @@ public class LogBuilder {
      *
      * @param key   The key of the property to use.
      * @param value The value of the property to use.
-     * @return A {@link LogBuilder} instance.
+     * @return A {@link LogBuilder}.
      */
     public LogBuilder withProperty(String key, Object value) throws IllegalArgumentException {
         if (key == null) {

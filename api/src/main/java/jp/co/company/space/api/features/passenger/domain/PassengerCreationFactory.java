@@ -6,7 +6,7 @@ import jp.co.company.space.api.features.catalog.domain.PackageType;
 import jp.co.company.space.api.features.passenger.exception.PassengerException;
 
 /**
- * A POJO representing a factory creating {@link Passenger} instances.
+ * A POJO representing a factory creating {@link Passenger}s.
  */
 public class PassengerCreationFactory {
 
@@ -21,9 +21,9 @@ public class PassengerCreationFactory {
     }
 
     /**
-     * Creates a new {@link Passenger} instance.
+     * Creates a new {@link Passenger}.
      *
-     * @return A {@link Passenger} instance.
+     * @return A {@link Passenger}.
      */
     public Passenger create() throws PassengerException {
         return Passenger.create(mealPreference, packageType, booking, booking.getVoyage());

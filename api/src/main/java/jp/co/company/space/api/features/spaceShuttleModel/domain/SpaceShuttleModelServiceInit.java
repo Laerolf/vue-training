@@ -8,9 +8,9 @@ import jp.co.company.space.api.features.spaceShuttleModel.service.SpaceShuttleMo
 public class SpaceShuttleModelServiceInit {
 
     /**
-     * Creates a new {@link SpaceShuttleModelServiceInit} instance.
+     * Creates a new {@link SpaceShuttleModelServiceInit}.
      *
-     * @return a new {@link SpaceShuttleModelServiceInit} instance
+     * @return a new {@link SpaceShuttleModelServiceInit}
      */
     public static SpaceShuttleModelServiceInit create() {
         return new SpaceShuttleModelServiceInit();

@@ -55,7 +55,7 @@ public class LocationEndpoint {
     /**
      * Returns all existing locations.
      *
-     * @return A {@link List} of all existing {@link LocationDto} instances.
+     * @return A {@link List} of all existing {@link LocationDto}s.
      */
     @GET
     @PermitAll
@@ -79,7 +79,7 @@ public class LocationEndpoint {
      * Returns an {@link Optional} {@link LocationDto} for the provided ID.
      *
      * @param id The ID to search with.
-     * @return an {@link Optional} {@link LocationDto} instance.
+     * @return an {@link Optional} {@link LocationDto}.
      */
     @Path("{id}")
     @GET

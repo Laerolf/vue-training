@@ -15,12 +15,12 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class SpaceShuttleTest {
     /**
-     * The builder to create {@link SpaceShuttle} instances with.
+     * The builder to create {@link SpaceShuttle}s with.
      */
     private final SpaceShuttleTestDataBuilder spaceShuttleBuilder = new SpaceShuttleTestDataBuilder();
 
     /**
-     * The builder to create {@link SpaceShuttleModel} instances with.
+     * The builder to create {@link SpaceShuttleModel}s with.
      */
     private final SpaceShuttleModelTestDataBuilder spaceShuttleModelBuilder = new SpaceShuttleModelTestDataBuilder();
 

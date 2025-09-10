@@ -14,15 +14,15 @@ import jp.co.company.space.api.shared.exception.DomainException;
 import java.util.*;
 
 /**
- * A POJO representing a layout of a {@link SpaceShuttle} instance.
+ * A POJO representing a layout of a {@link SpaceShuttle}.
  */
 public class SpaceShuttleLayout {
 
     /**
-     * Creates a {@link SpaceShuttleLayout} instance.
+     * Creates a {@link SpaceShuttleLayout}.
      *
      * @param podsPerDeck The pods per deck of the space shuttle layout.
-     * @return A {@link SpaceShuttleLayout} instance.
+     * @return A {@link SpaceShuttleLayout}.
      */
     public static SpaceShuttleLayout create(Map<Integer, List<Pod>> podsPerDeck) throws SpaceShuttleException {
         return new SpaceShuttleLayout(podsPerDeck);
@@ -44,19 +44,19 @@ public class SpaceShuttleLayout {
     }
 
     /**
-     * Gets a {@link List} of all {@link Pod} instances in the space shuttle layout.
+     * Gets a {@link List} of all {@link Pod}s in the space shuttle layout.
      *
-     * @return A {@link List} of {@link Pod} instances.
+     * @return A {@link List} of {@link Pod}s.
      */
     public List<Pod> getAllPods() {
         return podsPerDeck.values().stream().flatMap(Collection::stream).toList();
     }
 
     /**
-     * Gets a {@link List} of all {@link Pod} instances in the space shuttle layout for the provided {@link PackageType} instance.
+     * Gets a {@link List} of all {@link Pod}s in the space shuttle layout for the provided {@link PackageType}.
      *
-     * @param packageType The {@link PackageType} instance to search with.
-     * @return A {@link List} of {@link Pod} instances.
+     * @param packageType The {@link PackageType} to search with.
+     * @return A {@link List} of {@link Pod}s.
      */
     public List<Pod> getAllPodsByPackageType(PackageType packageType) throws SpaceShuttleException {
         try {
@@ -68,10 +68,10 @@ public class SpaceShuttleLayout {
     }
 
     /**
-     * Gets a {@link List} of all {@link Pod} instances in the space shuttle layout.
+     * Gets a {@link List} of all {@link Pod}s in the space shuttle layout.
      *
      * @param podReservations A list of reserved pods.
-     * @return A {@link List} of all {@link Pod} instances.
+     * @return A {@link List} of all {@link Pod}s.
      */
     public List<Pod> getAllPodsWithAvailability(List<PodReservation> podReservations) throws SpaceShuttleException {
         if (podReservations == null) {
@@ -86,17 +86,17 @@ public class SpaceShuttleLayout {
     }
 
     /**
-     * Gets a {@link List} of all {@link Pod} instances on the provided deck in the space shuttle layout.
+     * Gets a {@link List} of all {@link Pod}s on the provided deck in the space shuttle layout.
      *
      * @param deck The deck to search for pods.
-     * @return A {@link List} of {@link Pod} instances.
+     * @return A {@link List} of {@link Pod}s.
      */
     public List<Pod> getAllPodsByDeck(int deck) {
         return podsPerDeck.get(deck);
     }
 
     /**
-     * Tests whether a {@link PodReservation} instance exists for the provided pod code.
+     * Tests whether a {@link PodReservation} exists for the provided pod code.
      *
      * @param podCode      The pod code to search for.
      * @param reservations The existing pod reservations.
@@ -113,11 +113,11 @@ public class SpaceShuttleLayout {
     }
 
     /**
-     * Tests whether a {@link Pod} instance matching the provided pod code is available for the provided {@link Passenger} instance.
+     * Tests whether a {@link Pod} matching the provided pod code is available for the provided {@link Passenger}.
      *
      * @param podCode   The pod code to search for.
-     * @param passenger The {@link Passenger} instance to search with.
-     * @return True when the provided pod code matches a {@link Pod} instance that is available for the provided {@link PackageType} instance, false otherwise.
+     * @param passenger The {@link Passenger} to search with.
+     * @return True when the provided pod code matches a {@link Pod} that is available for the provided {@link PackageType}, false otherwise.
      */
     public boolean isPodAvailableForPassenger(String podCode, Passenger passenger) throws SpaceShuttleException {
         if (podCode == null) {
@@ -130,11 +130,11 @@ public class SpaceShuttleLayout {
     }
 
     /**
-     * Returns the next available {@link Pod} instance.
+     * Returns the next available {@link Pod}.
      *
-     * @param passenger    The {@link Passenger} instance to search for.
+     * @param passenger    The {@link Passenger} to search for.
      * @param reservations A list of reserved pods.
-     * @return An {@link Optional} {@link Pod} instance.
+     * @return An {@link Optional} {@link Pod}.
      */
     public Optional<Pod> findFirstAvailablePodFor(Passenger passenger, List<PodReservation> reservations) throws SpaceShuttleException {
         try {

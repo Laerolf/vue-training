@@ -22,7 +22,7 @@ import java.util.UUID;
 public class Passenger {
 
     /**
-     * Creates a {@link Passenger} instance.
+     * Creates a {@link Passenger}.
      *
      * @param mealPreference      The meal preference of a passenger.
      * @param packageType         The package type assigned to a passenger.
@@ -30,27 +30,27 @@ public class Passenger {
      * @param personalInformation The personal information of a passenger.
      * @param booking             The booking of a passenger.
      * @param voyage              The voyage of a passenger.
-     * @return A {@link Passenger} instance.
+     * @return A {@link Passenger}.
      */
     public static Passenger create(MealPreference mealPreference, PackageType packageType, PodReservation podReservation, PersonalInformation personalInformation, Booking booking, Voyage voyage) throws PassengerException {
         return new Passenger(UUID.randomUUID().toString(), ZonedDateTime.now(), mealPreference, packageType, podReservation, personalInformation, booking, voyage);
     }
 
     /**
-     * Creates a {@link Passenger} instance.
+     * Creates a {@link Passenger}.
      *
      * @param mealPreference The meal preference of a passenger.
      * @param packageType    The package type assigned to a passenger.
      * @param booking        The booking of a passenger.
      * @param voyage         The voyage of a passenger.
-     * @return A {@link Passenger} instance.
+     * @return A {@link Passenger}.
      */
     public static Passenger create(MealPreference mealPreference, PackageType packageType, Booking booking, Voyage voyage) throws PassengerException {
         return new Passenger(UUID.randomUUID().toString(), ZonedDateTime.now(), mealPreference, packageType, null, null, booking, voyage);
     }
 
     /**
-     * Reconstructs a {@link Passenger} instance.
+     * Reconstructs a {@link Passenger}.
      *
      * @param id                  The ID of a passenger.
      * @param creationDate        The creation date of a passenger.
@@ -60,7 +60,7 @@ public class Passenger {
      * @param personalInformation The personal information of a passenger.
      * @param booking             The booking of a passenger.
      * @param voyage              The voyage of a passenger.
-     * @return A {@link Passenger} instance.
+     * @return A {@link Passenger}.
      */
     public static Passenger reconstruct(String id, ZonedDateTime creationDate, MealPreference mealPreference, PackageType packageType, PodReservation podReservation, PersonalInformation personalInformation, Booking booking, Voyage voyage) throws PassengerException {
         return new Passenger(id, creationDate, mealPreference, packageType, podReservation, personalInformation, booking, voyage);
@@ -173,7 +173,7 @@ public class Passenger {
     }
 
     /**
-     * Sets a {@link PodReservation} instance as the reservation of this passenger.
+     * Sets a {@link PodReservation} as the reservation of this passenger.
      *
      * @param podReservation The pod reservation to set.
      */

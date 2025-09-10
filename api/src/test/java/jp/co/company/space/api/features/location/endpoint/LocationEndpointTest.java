@@ -28,7 +28,7 @@ public class LocationEndpointTest {
     private WebTarget target;
 
     /**
-     * Tests the properties of a {@link LocationDto} instance.
+     * Tests the properties of a {@link LocationDto}.
      * @param locationDto The location to test.
      */
     private void testLocationDto(LocationDto locationDto) {

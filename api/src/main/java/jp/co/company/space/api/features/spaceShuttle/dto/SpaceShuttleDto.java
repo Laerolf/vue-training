@@ -8,16 +8,16 @@ import static jp.co.company.space.api.shared.openApi.Examples.SPACE_SHUTTLE_ID_E
 import static jp.co.company.space.api.shared.openApi.Examples.SPACE_SHUTTLE_NAME_EXAMPLE;
 
 /**
- * A POJO representing a DTO of a {@link SpaceShuttle} instance.
+ * A POJO representing a DTO of a {@link SpaceShuttle}.
  */
 @Schema(name = "SpaceShuttle", description = "The details of a space shuttle.")
 public class SpaceShuttleDto {
 
     /**
-     * Creates a new {@link SpaceShuttleDto} instance based on a {@link SpaceShuttle} instance.
+     * Creates a new {@link SpaceShuttleDto} based on a {@link SpaceShuttle}.
      *
-     * @param spaceShuttle The base {@link SpaceShuttle} instance.
-     * @return a new {@link SpaceShuttleDto} instance.
+     * @param spaceShuttle The base {@link SpaceShuttle}.
+     * @return a new {@link SpaceShuttleDto}.
      */
     public static SpaceShuttleDto create(SpaceShuttle spaceShuttle) {
         return new SpaceShuttleDto(spaceShuttle.getId(), spaceShuttle.getName(), SpaceShuttleModelDto.create(spaceShuttle.getModel()));

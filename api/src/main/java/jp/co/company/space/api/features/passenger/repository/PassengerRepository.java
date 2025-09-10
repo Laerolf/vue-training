@@ -28,10 +28,10 @@ public class PassengerRepository {
     }
 
     /**
-     * Gets an {@link Optional} {@link Passenger} instance matching an ID.
+     * Gets an {@link Optional} {@link Passenger} matching an ID.
      *
      * @param id The ID to search with.
-     * @return An {@link Optional} {@link Passenger} instance.
+     * @return An {@link Optional} {@link Passenger}.
      */
     public Optional<Passenger> findById(String id) throws PassengerException {
         try {
@@ -42,10 +42,10 @@ public class PassengerRepository {
     }
 
     /**
-     * Saves a {@link Passenger} instance.
+     * Saves a {@link Passenger}.
      *
-     * @param passenger The {@link Passenger} instance to save.
-     * @return The saved {@link Passenger} instance.
+     * @param passenger The {@link Passenger} to save.
+     * @return The saved {@link Passenger}.
      */
     @Transactional(Transactional.TxType.REQUIRED)
     public Passenger save(Passenger passenger) throws PassengerException {
@@ -62,10 +62,10 @@ public class PassengerRepository {
     }
 
     /**
-     * Merges a persisted {@link Passenger} instance with the provided instance.
+     * Merges a persisted {@link Passenger}.
      *
-     * @param passenger The {@link Passenger} instance to merge.
-     * @return The merged {@link Passenger} instance.
+     * @param passenger The {@link Passenger} to merge.
+     * @return The merged {@link Passenger}.
      */
     public Passenger merge(Passenger passenger) throws PassengerException {
         try {
@@ -76,10 +76,10 @@ public class PassengerRepository {
     }
 
     /**
-     * Persists a {@link List} of {@link Passenger} instances.
+     * Persists a {@link List} of {@link Passenger}s.
      *
-     * @param passengers The {@link List} of {@link Passenger} instances to save.
-     * @return A {@link List} of persisted {@link Passenger} instances
+     * @param passengers The {@link List} of {@link Passenger}s to save.
+     * @return A {@link List} of persisted {@link Passenger}s
      */
     public List<Passenger> save(List<Passenger> passengers) throws PassengerException {
         try {

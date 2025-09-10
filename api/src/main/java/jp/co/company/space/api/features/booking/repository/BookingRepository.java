@@ -25,10 +25,10 @@ public class BookingRepository {
     }
 
     /**
-     * Returns an {@link Optional} persisted {@link Booking} instance matching the provided booking ID.
+     * Returns an {@link Optional} persisted {@link Booking} matching the provided booking ID.
      *
      * @param id The booking ID to search with.
-     * @return An {@link Optional} persisted {@link Booking} instance.
+     * @return An {@link Optional} persisted {@link Booking}.
      */
     public Optional<Booking> findById(String id) throws BookingException {
         try {
@@ -40,10 +40,10 @@ public class BookingRepository {
     }
 
     /**
-     * Returns a {@link List} of persisted {@link Booking} instances matching the provided user ID.
+     * Returns a {@link List} of persisted {@link Booking}s matching the provided user ID.
      *
      * @param userId The user ID to search with.
-     * @return A {@link List} of persisted {@link Booking} instances.
+     * @return A {@link List} of persisted {@link Booking}s.
      */
     public List<Booking> getAllByUserId(String userId) throws BookingException {
         try {
@@ -55,10 +55,10 @@ public class BookingRepository {
     }
 
     /**
-     * Returns a {@link List} of persisted {@link Booking} instances matching the provided voyage ID.
+     * Returns a {@link List} of persisted {@link Booking}s matching the provided voyage ID.
      *
      * @param voyageId The voyage ID to search with.
-     * @return A {@link List} of persisted {@link Booking} instances.
+     * @return A {@link List} of persisted {@link Booking}s.
      */
     public List<Booking> getAllByVoyageId(String voyageId) throws BookingException {
         try {
@@ -70,10 +70,10 @@ public class BookingRepository {
     }
 
     /**
-     * Persists a {@link Booking} instance.
+     * Persists a {@link Booking}.
      *
-     * @param booking The {@link Booking} instance to persist.
-     * @return A persisted {@link Booking} instance.
+     * @param booking The {@link Booking} to persist.
+     * @return A persisted {@link Booking}.
      */
     @Transactional(Transactional.TxType.REQUIRED)
     public Booking save(Booking booking) throws BookingException {
@@ -90,10 +90,10 @@ public class BookingRepository {
     }
 
     /**
-     * Merges a {@link Booking} instance with a persisted {@link Booking}.
+     * Merges a {@link Booking} with a persisted {@link Booking}.
      *
-     * @param booking The {@link Booking} instance to merge.
-     * @return A persisted {@link Booking} instance.
+     * @param booking The {@link Booking} to merge.
+     * @return A persisted {@link Booking}.
      */
     public Booking merge(Booking booking) throws BookingException {
         try {
@@ -104,10 +104,10 @@ public class BookingRepository {
     }
 
     /**
-     * Saves a {@link List} of {@link Booking} instances.
+     * Saves a {@link List} of {@link Booking}s.
      *
      * @param bookings The {@link List} of {@link Booking} to save.
-     * @return A {@link List} of persisted {@link Booking} instances.
+     * @return A {@link List} of persisted {@link Booking}s.
      */
     public List<Booking> save(List<Booking> bookings) throws BookingException {
         try {

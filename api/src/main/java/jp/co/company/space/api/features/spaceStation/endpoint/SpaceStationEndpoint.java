@@ -56,7 +56,7 @@ public class SpaceStationEndpoint {
     /**
      * Returns all existing space stations.
      *
-     * @return A {@link List} of all existing {@link SpaceStationBasicDto} instances.
+     * @return A {@link List} of all existing {@link SpaceStationBasicDto}s.
      */
     @GET
     @PermitAll
@@ -80,7 +80,7 @@ public class SpaceStationEndpoint {
      * Returns an optional space station for the provided ID.
      *
      * @param id The ID to search with.
-     * @return an {@link Optional} {@link SpaceStationDto} instance.
+     * @return an {@link Optional} {@link SpaceStationDto}.
      */
     @Path("{id}")
     @GET

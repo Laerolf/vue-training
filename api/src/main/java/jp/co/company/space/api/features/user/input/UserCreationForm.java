@@ -8,19 +8,19 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
- * A POJO representing a form for creating a new {@link User} instance.
+ * A POJO representing a form for creating a new {@link User}.
  */
 @Schema(description = "A form with details for a new user.")
 public class UserCreationForm {
 
     /**
-     * Creates a new {@link UserCreationForm} instance based on the provided values.
+     * Creates a new {@link UserCreationForm} based on the provided values.
      *
      * @param lastName     The last name of the user to create.
      * @param firstName    The first name of the user to create.
      * @param emailAddress The email address of the user to create.
      * @param password     The password of the user to create.
-     * @return A new {@link UserCreationForm} instance.
+     * @return A new {@link UserCreationForm}.
      */
     public static UserCreationForm create(String lastName, String firstName, String emailAddress, String password) throws UserException {
         return new UserCreationForm(lastName, firstName, emailAddress, password);

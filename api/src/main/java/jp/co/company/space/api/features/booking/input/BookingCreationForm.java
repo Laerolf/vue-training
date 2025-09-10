@@ -9,7 +9,7 @@ import java.util.List;
 import static jp.co.company.space.api.shared.openApi.Examples.VOYAGE_ID_EXAMPLE;
 
 /**
- * A POJO representing a form for creating a new {@link Booking} instance.
+ * A POJO representing a form for creating a new {@link Booking}.
  */
 @Schema(description = "A form with details for a new booking.")
 public class BookingCreationForm {

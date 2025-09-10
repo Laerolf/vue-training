@@ -12,15 +12,15 @@ import java.util.List;
 import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
- * A POJO representing a DTO of a {@link Booking} instance.
+ * A POJO representing a DTO of a {@link Booking}.
  */
 @Schema(name = "Booking", description = "The details of a booking.")
 public class BookingDto {
     /**
-     * Creates a {@link BookingDto} instance based on a {@link Booking} instance.
+     * Creates a {@link BookingDto} based on a {@link Booking}.
      *
-     * @param booking The base booking instance.
-     * @return A {@link BookingDto} instance.
+     * @param booking The base booking.
+     * @return A {@link BookingDto}.
      * @throws BookingException When the booking is missing or the user, voyage or passengers of the booking are missing.
      */
     public static BookingDto create(Booking booking) throws BookingException {

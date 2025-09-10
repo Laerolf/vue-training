@@ -28,7 +28,7 @@ public class CatalogService {
     /**
      * Gets a {@link List} of all possible {@link PackageType} values.
      *
-     * @return A {@link List} of {@link PackageType} instances.
+     * @return A {@link List} of {@link PackageType}s.
      */
     public List<CatalogItem> getAllPackageTypes() {
         return List.of(PackageType.values());
@@ -37,7 +37,7 @@ public class CatalogService {
     /**
      * Gets a {@link List} of all possible {@link PodType} values.
      *
-     * @return A {@link List} of {@link PodType} instances.
+     * @return A {@link List} of {@link PodType}s.
      */
     public List<CatalogItem> getAllPodTypes() {
         return List.of(PodType.values());
@@ -46,7 +46,7 @@ public class CatalogService {
     /**
      * Gets a {@link List} of all possible {@link Nationality} values.
      *
-     * @return A {@link List} of {@link Nationality} instances.
+     * @return A {@link List} of {@link Nationality}s.
      */
     public List<CatalogItem> getAllNationalities() {
         return Nationality.getAllNationalities();
@@ -55,7 +55,7 @@ public class CatalogService {
     /**
      * Gets a {@link List} of all possible {@link Gender} values.
      *
-     * @return A {@link List} of {@link Gender} instances.
+     * @return A {@link List} of {@link Gender}s.
      */
     public List<CatalogItem> getAllGenders() {
         return List.of(Gender.values());

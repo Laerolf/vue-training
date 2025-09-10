@@ -8,16 +8,16 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
- * A POJO representing a brief DTO of a {@link Route} instance.
+ * A POJO representing a brief DTO of a {@link Route}.
  */
 @Schema(name = "BasicRoute", description = "The brief details of a route between a space station and another space station.")
 public class RouteBasicDto {
 
     /**
-     * Creates a new {@link RouteBasicDto} instance based on a {@link Route} instance.
+     * Creates a new {@link RouteBasicDto} based on a {@link Route}.
      *
-     * @param route The base {@link Route} instance.
-     * @return a new {@link RouteBasicDto} instance.
+     * @param route The base {@link Route}.
+     * @return a new {@link RouteBasicDto}.
      */
     public static RouteBasicDto create(Route route) throws RouteException {
         if (route == null) {

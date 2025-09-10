@@ -6,7 +6,7 @@ import jp.co.company.space.api.features.spaceShuttleModel.exception.SpaceShuttle
 import java.util.Optional;
 
 /**
- * A test data builder that creates a {@link SpaceShuttleModel} instance for testing purposes.
+ * A test data builder that creates a {@link SpaceShuttleModel} for testing purposes.
  */
 public class SpaceShuttleModelTestDataBuilder {
 
@@ -42,9 +42,9 @@ public class SpaceShuttleModelTestDataBuilder {
     }
 
     /**
-     * Creates a new {@link SpaceShuttleModel} instance.
+     * Creates a new {@link SpaceShuttleModel}.
      *
-     * @return a new {@link SpaceShuttleModel} instance
+     * @return a new {@link SpaceShuttleModel}
      */
     public SpaceShuttleModel create() throws SpaceShuttleModelException {
         return SpaceShuttleModel.create(

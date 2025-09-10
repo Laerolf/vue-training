@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 /**
- * An entity class representing a space shuttle model.
+ * A class representing a space shuttle model.
  */
 @Entity
 @Table(name = "space_shuttle_models")
@@ -19,25 +19,25 @@ import java.util.UUID;
 public class SpaceShuttleModel {
 
     /**
-     * Creates a new {@link SpaceShuttleModel} entity.
+     * Creates a new {@link SpaceShuttleModel}.
      *
      * @param name        The name of the space shuttle model.
      * @param maxCapacity The maximum seating capacity of the space shuttle model.
      * @param maxSpeed    The maximum speed of the space shuttle model in kilometers.
-     * @return a new {@link SpaceShuttleModel} entity.
+     * @return a new {@link SpaceShuttleModel}.
      */
     public static SpaceShuttleModel create(String name, int maxCapacity, long maxSpeed) throws SpaceShuttleModelException {
         return new SpaceShuttleModel(UUID.randomUUID().toString(), name, maxCapacity, maxSpeed);
     }
 
     /**
-     * Reconstructs a {@link SpaceShuttleModel} entity.
+     * Reconstructs a {@link SpaceShuttleModel}.
      *
      * @param id          The ID of the space shuttle model.
      * @param name        The name of the space shuttle model.
      * @param maxCapacity The maximum seating capacity of the space shuttle model.
      * @param maxSpeed    The maximum speed of the space shuttle model in kilometers.
-     * @return a {@link SpaceShuttleModel} entity.
+     * @return a {@link SpaceShuttleModel}.
      */
     public static SpaceShuttleModel reconstruct(String id, String name, int maxCapacity, long maxSpeed) throws SpaceShuttleModelException {
         return new SpaceShuttleModel(id, name, maxCapacity, maxSpeed);

@@ -16,10 +16,10 @@ import static jp.co.company.space.api.shared.openApi.Examples.PACKAGE_TYPE_LABEL
 public class PackageTypeDto extends CatalogItemDto {
 
     /**
-     * Creates a {@link PackageTypeDto} instance based on a {@link PackageType} instance.
+     * Creates a {@link PackageTypeDto} based on a {@link PackageType}.
      *
-     * @param packageType The base for the {@link PackageTypeDto} instance.
-     * @return A {@link PackageTypeDto} instance.
+     * @param packageType The base for the {@link PackageTypeDto}.
+     * @return A {@link PackageTypeDto}.
      */
     public static PackageTypeDto create(PackageType packageType) throws CatalogException {
         if (packageType == null) {
@@ -30,10 +30,10 @@ public class PackageTypeDto extends CatalogItemDto {
     }
 
     /**
-     * Creates a {@link PackageTypeDto} instance based on a {@link CatalogItem} instance.
+     * Creates a {@link PackageTypeDto} based on a {@link CatalogItem}.
      *
-     * @param catalogItem The base for the {@link PackageTypeDto} instance.
-     * @return A {@link PackageTypeDto} instance.
+     * @param catalogItem The base for the {@link PackageTypeDto}.
+     * @return A {@link PackageTypeDto}.
      */
     public static PackageTypeDto fromCatalogItem(CatalogItem catalogItem) throws CatalogException {
         if (!(catalogItem instanceof PackageType)) {

@@ -22,26 +22,26 @@ import java.util.UUID;
 public class PodReservation {
 
     /**
-     * Creates a new {@link PodReservation} instance.
+     * Creates a new {@link PodReservation}.
      *
      * @param podCode   The pod code of the pod reservation.
      * @param passenger The passenger of the pod reservation.
      * @param voyage    The voyage of the pod the reservation.
-     * @return A new {@link PodReservation} instance.
+     * @return A new {@link PodReservation}.
      */
     public static PodReservation create(String podCode, Passenger passenger, Voyage voyage) throws PodReservationException {
         return new PodReservation(UUID.randomUUID().toString(), podCode, ZonedDateTime.now(), passenger, voyage);
     }
 
     /**
-     * Reconstructs a new {@link PodReservation} instance.
+     * Reconstructs a new {@link PodReservation}.
      *
      * @param id           The ID of the pod reservation.
      * @param podCode      The pod code of the pod reservation.
      * @param creationDate The creation date of the pod reservation.
      * @param passenger    The passenger of the pod reservation.
      * @param voyage       The voyage of the pod the reservation.
-     * @return A new {@link PodReservation} instance.
+     * @return A new {@link PodReservation}.
      */
     public static PodReservation reconstruct(String id, String podCode, ZonedDateTime creationDate, Passenger passenger, Voyage voyage) throws PodReservationException {
         return new PodReservation(id, podCode, creationDate, passenger, voyage);

@@ -36,7 +36,7 @@ public class AuthenticationService {
      * Registers a new user by creating it.
      *
      * @param form The details of the user registration.
-     * @return A {@link User} instance.
+     * @return A {@link User}.
      */
     public User registerUser(UserCreationForm form) throws AuthenticationException {
         try {

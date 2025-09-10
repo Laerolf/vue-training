@@ -24,10 +24,10 @@ public class PodReservationRepository {
     }
 
     /**
-     * Returns a {@link PodReservation} instance matching the provided ID.
+     * Returns a {@link PodReservation} matching the provided ID.
      *
-     * @param id The ID of the {@link PodReservation} instance to search for.
-     * @return An {@link Optional} {@link PodReservation} instance.
+     * @param id The ID of the {@link PodReservation} to search for.
+     * @return An {@link Optional} {@link PodReservation}.
      */
     public Optional<PodReservation> findById(String id) throws PodReservationException {
         try {
@@ -38,10 +38,10 @@ public class PodReservationRepository {
     }
 
     /**
-     * Returns a {@link List} of all existing {@link PodReservation} instances matching the provided {@link Voyage} instance.
+     * Returns a {@link List} of all existing {@link PodReservation}s matching the provided {@link Voyage}.
      *
      * @param voyage The voyage to search for.
-     * @return A {@link List} of {@link PodReservation} instances.
+     * @return A {@link List} of {@link PodReservation}s.
      */
     public List<PodReservation> getAllBySpaceShuttleAndVoyage(Voyage voyage) throws PodReservationException {
         try {
@@ -55,10 +55,10 @@ public class PodReservationRepository {
     }
 
     /**
-     * Saves a {@link PodReservation} instance.
+     * Saves a {@link PodReservation}.
      *
-     * @param podReservation The {@link PodReservation} instance to save.
-     * @return The saved {@link PodReservation} instance.
+     * @param podReservation The {@link PodReservation} to save.
+     * @return The saved {@link PodReservation}.
      */
     @Transactional(Transactional.TxType.REQUIRED)
     public PodReservation save(PodReservation podReservation) throws PodReservationException {
@@ -75,10 +75,10 @@ public class PodReservationRepository {
     }
 
     /**
-     * Merges a persisted {@link PodReservation} instance with the provided instance.
+     * Merges a persisted {@link PodReservation}.
      *
-     * @param podReservation The {@link PodReservation} instance to merge.
-     * @return The merged {@link PodReservation} instance.
+     * @param podReservation The {@link PodReservation} to merge.
+     * @return The merged {@link PodReservation}.
      */
     public PodReservation merge(PodReservation podReservation) throws PodReservationException {
         try {
@@ -89,10 +89,10 @@ public class PodReservationRepository {
     }
 
     /**
-     * Persists a {@link List} of {@link PodReservation} instances.
+     * Persists a {@link List} of {@link PodReservation}s.
      *
-     * @param podReservations The {@link List} of {@link PodReservation} instances to save.
-     * @return A {@link List} of persisted {@link PodReservation} instances
+     * @param podReservations The {@link List} of {@link PodReservation}s to save.
+     * @return A {@link List} of persisted {@link PodReservation}s
      */
     public List<PodReservation> save(List<PodReservation> podReservations) {
         try {

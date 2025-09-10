@@ -42,20 +42,20 @@ public enum PodType implements CatalogItem {
     }
 
     /**
-     * Finds a {@link PodType} instance by a {@link PackageType} instance.
+     * Finds a {@link PodType} by a {@link PackageType}.
      *
      * @param packageType The package type to search with.
-     * @return An {@link Optional} {@link PodType} instance.
+     * @return An {@link Optional} {@link PodType}.
      */
     public static Optional<PodType> findByPackageType(PackageType packageType) {
         return Arrays.stream(values()).filter(podType -> podType.availableFrom.equals(packageType)).findFirst();
     }
 
     /**
-     * Finds a {@link PodType} instance by its key.
+     * Finds a {@link PodType} by its key.
      *
      * @param key The key to search with.
-     * @return An {@link Optional} {@link PodType} instance.
+     * @return An {@link Optional} {@link PodType}.
      */
     public static Optional<PodType> findByKey(String key) {
         return Arrays.stream(values()).filter(podType -> podType.key.equals(key)).findFirst();

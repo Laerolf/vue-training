@@ -40,7 +40,7 @@ public class JwtTokenCreationFactory {
     private final RSAPrivateKey privateKey;
 
     /**
-     * Creates a new {@link JwtTokenCreationFactory} instance.
+     * Creates a new {@link JwtTokenCreationFactory}.
      *
      * @param subject    The subject of the JWT authentication token.
      * @param issuer     The issuer of the JWT authentication token.

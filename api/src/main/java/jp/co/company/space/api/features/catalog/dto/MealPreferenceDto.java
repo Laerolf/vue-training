@@ -15,10 +15,10 @@ import static jp.co.company.space.api.shared.openApi.Examples.*;
 public class MealPreferenceDto extends CatalogItemDto {
 
     /**
-     * Creates a {@link MealPreferenceDto} instance based on a {@link MealPreference} instance.
+     * Creates a {@link MealPreferenceDto} based on a {@link MealPreference}.
      *
-     * @param mealPreference The base for the {@link MealPreferenceDto} instance.
-     * @return A {@link MealPreferenceDto} instance.
+     * @param mealPreference The base for the {@link MealPreferenceDto}.
+     * @return A {@link MealPreferenceDto}.
      */
     public static MealPreferenceDto create(MealPreference mealPreference) throws CatalogException {
         if (mealPreference == null) {
@@ -29,10 +29,10 @@ public class MealPreferenceDto extends CatalogItemDto {
     }
 
     /**
-     * Creates a {@link MealPreferenceDto} instance based on a {@link CatalogItem} instance.
+     * Creates a {@link MealPreferenceDto} based on a {@link CatalogItem}.
      *
-     * @param catalogItem The base for the {@link MealPreferenceDto} instance.
-     * @return A {@link MealPreferenceDto} instance.
+     * @param catalogItem The base for the {@link MealPreferenceDto}.
+     * @return A {@link MealPreferenceDto}.
      */
     public static MealPreferenceDto fromCatalogItem(CatalogItem catalogItem) throws CatalogException {
         if (!(catalogItem instanceof MealPreference)) {

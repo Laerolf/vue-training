@@ -60,7 +60,7 @@ public class SpaceShuttleModelEndpoint {
     /**
      * Returns all existing space shuttle models.
      *
-     * @return A {@link List} of all existing {@link SpaceShuttleModelDto} instances.
+     * @return A {@link List} of all existing {@link SpaceShuttleModelDto}s.
      */
     @GET
     @PermitAll
@@ -84,7 +84,7 @@ public class SpaceShuttleModelEndpoint {
      * Returns an optional space shuttle model for the provided ID.
      *
      * @param id The ID to search with.
-     * @return an {@link Optional} {@link SpaceShuttleModelDto} instance.
+     * @return an {@link Optional} {@link SpaceShuttleModelDto}.
      */
     @Path("{id}")
     @GET
@@ -112,7 +112,7 @@ public class SpaceShuttleModelEndpoint {
      * Returns all space shuttles with the space shuttle model matching the provided ID.
      *
      * @param modelId The ID to search with.
-     * @return A {@link List} of {@link SpaceShuttle} instances.
+     * @return A {@link List} of {@link SpaceShuttle}s.
      */
     @Path("{modelId}/space-shuttles")
     @GET

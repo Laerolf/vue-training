@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 /**
- * A factory that creates a {@link SpaceShuttleLayout} instance.
+ * A factory that creates a {@link SpaceShuttleLayout}.
  */
 public class SpaceShuttleLayoutFactory {
 
@@ -42,18 +42,18 @@ public class SpaceShuttleLayoutFactory {
     }
 
     /**
-     * Creates a {@link SpaceShuttleLayout} instance.
+     * Creates a {@link SpaceShuttleLayout}.
      *
-     * @return A {@link SpaceShuttleLayout} instance.
+     * @return A {@link SpaceShuttleLayout}.
      */
     public SpaceShuttleLayout create() throws SpaceShuttleException {
         return SpaceShuttleLayout.create(createPodsMapByDeck());
     }
 
     /**
-     * Creates a {@link Map} of {@link Pod} instances for each deck of a space shuttle layout.
+     * Creates a {@link Map} of {@link Pod}s for each deck of a space shuttle layout.
      *
-     * @return A {@link Map} of {@link Pod} instances.
+     * @return A {@link Map} of {@link Pod}s.
      */
     private Map<Integer, List<Pod>> createPodsMapByDeck() throws SpaceShuttleException {
         try {
@@ -89,13 +89,13 @@ public class SpaceShuttleLayoutFactory {
     }
 
     /**
-     * Creates a {@link List} of {@link Pod} instances for a deck.
+     * Creates a {@link List} of {@link Pod}s for a deck.
      *
      * @param podType    The type of pods.
      * @param deckNumber The current deck number.
      * @param podCount   The current pod count.
      * @param podsPerRow The max amount of pods per row.
-     * @return A {@link List} of {@link Pod} instances.
+     * @return A {@link List} of {@link Pod}s.
      */
     private List<Pod> createPodsForDeck(PodType podType, int deckNumber, int podCount, int podsPerRow) throws SpaceShuttleException {
         try {

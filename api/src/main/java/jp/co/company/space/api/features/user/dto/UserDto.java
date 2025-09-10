@@ -9,15 +9,15 @@ import java.util.List;
 import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
- * A POJO representing a DTO of a {@link User} instance.
+ * A POJO representing a DTO of a {@link User}.
  */
 @Schema(name = "User", description = "The details of a user.")
 public class UserDto {
 
     /**
-     * Creates a {@link UserDto} instance based on a {@link User} instance.
+     * Creates a {@link UserDto} based on a {@link User}.
      * @param user The base user.
-     * @return A {@link UserDto} instance.
+     * @return A {@link UserDto}.
      */
     public static UserDto create(User user) {
         return new UserDto(user.getId(), user.getLastName(), user.getFirstName(), user.getBookings().stream().map(BookingDto::create).toList());

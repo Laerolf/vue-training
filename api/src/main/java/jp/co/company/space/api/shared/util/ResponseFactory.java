@@ -3,7 +3,7 @@ package jp.co.company.space.api.shared.util;
 import jakarta.ws.rs.core.Response;
 
 /**
- * Utility methods creating additional {@link Response.ResponseBuilder} instances.
+ * Utility methods creating additional {@link Response.ResponseBuilder}s.
  */
 public class ResponseFactory {
 

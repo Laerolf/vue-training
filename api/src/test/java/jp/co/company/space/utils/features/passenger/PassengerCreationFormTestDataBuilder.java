@@ -14,7 +14,7 @@ import jp.co.company.space.api.shared.exception.DomainException;
 import java.util.Optional;
 
 /**
- * A test data builder that creates a {@link PassengerCreationForm} instance for testing purposes.
+ * A test data builder that creates a {@link PassengerCreationForm} for testing purposes.
  */
 public class PassengerCreationFormTestDataBuilder {
 
@@ -41,9 +41,9 @@ public class PassengerCreationFormTestDataBuilder {
     }
 
     /**
-     * Creates a new test {@link PassengerCreationForm} instance.
+     * Creates a new test {@link PassengerCreationForm}.
      *
-     * @return A {@link PassengerCreationForm} instance.
+     * @return A {@link PassengerCreationForm}.
      */
     public PassengerCreationForm create() throws PassengerException {
         try {

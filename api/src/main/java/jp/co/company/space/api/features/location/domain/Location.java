@@ -22,7 +22,7 @@ import java.util.UUID;
 public class Location {
 
     /**
-     * Creates a new {@link Location} instance.
+     * Creates a new {@link Location}.
      *
      * @param name            The name of the location.
      * @param latitude        The ecliptic latitude of the location.
@@ -36,7 +36,7 @@ public class Location {
     }
 
     /**
-     * Reconstructs a {@link Location} instance.
+     * Reconstructs a {@link Location}.
      *
      * @param id              The ID of the location.
      * @param name            The name of the location.

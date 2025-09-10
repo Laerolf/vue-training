@@ -1,7 +1,7 @@
 package jp.co.company.space.api.shared.exception;
 
 /**
- * An abstract class representing a domain specific {@link IllegalArgumentException} instance.
+ * An abstract class representing a domain specific {@link IllegalArgumentException}.
  */
 public abstract class DomainException extends ApplicationException {
 

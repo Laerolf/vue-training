@@ -8,9 +8,9 @@ import jp.co.company.space.api.features.location.service.LocationService;
 public class LocationServiceInit {
 
     /**
-     * Creates a new {@link LocationServiceInit} instance.
+     * Creates a new {@link LocationServiceInit}.
      *
-     * @return a new {@link LocationServiceInit} instance
+     * @return a new {@link LocationServiceInit}
      */
     public static LocationServiceInit create() {
         return new LocationServiceInit();

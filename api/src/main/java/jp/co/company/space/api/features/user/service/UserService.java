@@ -32,10 +32,10 @@ public class UserService {
     }
 
     /**
-     * Gets an {@link Optional} {@link User} instance for the provided ID.
+     * Gets an {@link Optional} {@link User} for the provided ID.
      *
      * @param userPrincipal The user principal of the session.
-     * @return An {@link Optional} {@link User} instance.
+     * @return An {@link Optional} {@link User}.
      */
     public Optional<User> findByUserPrincipal(Principal userPrincipal) throws UserException {
         try {
@@ -47,10 +47,10 @@ public class UserService {
     }
 
     /**
-     * Gets an {@link Optional} {@link User} instance for the provided ID.
+     * Gets an {@link Optional} {@link User} for the provided ID.
      *
      * @param id The ID to search with.
-     * @return An {@link Optional} {@link User} instance.
+     * @return An {@link Optional} {@link User}.
      */
     public Optional<User> findById(String id) throws UserException {
         try {
@@ -62,10 +62,10 @@ public class UserService {
     }
 
     /**
-     * Gets an {@link Optional} {@link User} instance for the provided email address.
+     * Gets an {@link Optional} {@link User} for the provided email address.
      *
      * @param emailAddress The email address to search with.
-     * @return An {@link Optional} {@link User} instance.
+     * @return An {@link Optional} {@link User}.
      */
     public Optional<User> findByEmailAddress(String emailAddress) throws UserException {
         try {
@@ -77,10 +77,10 @@ public class UserService {
     }
 
     /**
-     * Returns a new {@link User} instance based on a {@link UserCreationForm} instance.
+     * Returns a new {@link User} based on a {@link UserCreationForm}.
      *
      * @param creationForm The base of the user.
-     * @return A new {@link User} instance.
+     * @return A new {@link User}.
      */
     public User create(UserCreationForm creationForm) throws UserException {
         try {

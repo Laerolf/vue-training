@@ -10,7 +10,7 @@ import jp.co.company.space.api.shared.openApi.Examples;
 import java.time.LocalDate;
 
 /**
- * A test data builder that creates a {@link PersonalInformationCreationForm} instance for testing purposes.
+ * A test data builder that creates a {@link PersonalInformationCreationForm} for testing purposes.
  */
 public class PersonalInformationFormTestDataBuilder {
 
@@ -26,9 +26,9 @@ public class PersonalInformationFormTestDataBuilder {
     }
 
     /**
-     * Creates a new test {@link PersonalInformationCreationForm} instance.
+     * Creates a new test {@link PersonalInformationCreationForm}.
      *
-     * @return A {@link PersonalInformationCreationForm} instance.
+     * @return A {@link PersonalInformationCreationForm}.
      */
     public PersonalInformationCreationForm create() throws PassengerException {
         try {

@@ -15,10 +15,10 @@ public enum PackageType implements CatalogItem {
     private static final String CATALOG_PREFIX = "packageType";
 
     /**
-     * Searches a {@link PackageType} instance by its key.
+     * Searches a {@link PackageType} by its key.
      *
      * @param key The key search for a package type.
-     * @return An {@link Optional} {@link PackageType} instance.
+     * @return An {@link Optional} {@link PackageType}.
      */
     public static Optional<PackageType> findByKey(String key) {
         return Arrays.stream(PackageType.values()).filter(packageType -> packageType.key.equals(key)).findFirst();

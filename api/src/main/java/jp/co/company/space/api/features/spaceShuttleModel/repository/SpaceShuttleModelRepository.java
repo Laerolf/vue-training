@@ -22,7 +22,7 @@ public class SpaceShuttleModelRepository {
     }
 
     /**
-     * Searches an {@link Optional} instance of the {@link SpaceShuttleModel} class by its ID.
+     * Searches an {@link Optional} of the {@link SpaceShuttleModel} class by its ID.
      *
      * @param id The ID of the space shuttle model to search for.
      * @return An {@link Optional} {@link SpaceShuttleModel}.
@@ -36,9 +36,9 @@ public class SpaceShuttleModelRepository {
     }
 
     /**
-     * Gets all the saved {@link SpaceShuttleModel} instances.
+     * Gets all the saved {@link SpaceShuttleModel}s.
      *
-     * @return A {@link List} of {@link SpaceShuttleModel} instances.
+     * @return A {@link List} of {@link SpaceShuttleModel}s.
      */
     public List<SpaceShuttleModel> getAll() throws SpaceShuttleModelException {
         try {
@@ -50,10 +50,10 @@ public class SpaceShuttleModelRepository {
     }
 
     /**
-     * Saves a {@link SpaceShuttleModel} instance.
+     * Saves a {@link SpaceShuttleModel}.
      *
-     * @param spaceShuttleModel The {@link SpaceShuttleModel} instance to save.
-     * @return The saved {@link SpaceShuttleModel} instance.
+     * @param spaceShuttleModel The {@link SpaceShuttleModel} to save.
+     * @return The saved {@link SpaceShuttleModel}.
      */
     public SpaceShuttleModel save(SpaceShuttleModel spaceShuttleModel) throws SpaceShuttleModelException {
         if (findById(spaceShuttleModel.getId()).isEmpty()) {
@@ -69,10 +69,10 @@ public class SpaceShuttleModelRepository {
     }
 
     /**
-     * Merges a persisted {@link SpaceShuttleModel} instance with the provided instance.
+     * Merges a persisted {@link SpaceShuttleModel}.
      *
-     * @param spaceShuttleModel The {@link SpaceShuttleModel} instance to merge.
-     * @return The merged {@link SpaceShuttleModel} instance.
+     * @param spaceShuttleModel The {@link SpaceShuttleModel} to merge.
+     * @return The merged {@link SpaceShuttleModel}.
      */
     public SpaceShuttleModel merge(SpaceShuttleModel spaceShuttleModel) throws SpaceShuttleModelException {
         try {
@@ -83,10 +83,10 @@ public class SpaceShuttleModelRepository {
     }
 
     /**
-     * Saves a {@link List} of {@link SpaceShuttleModel} instances.
+     * Saves a {@link List} of {@link SpaceShuttleModel}s.
      *
      * @param spaceShuttleModels The {@link List} of {@link SpaceShuttleModel} to save.
-     * @return The {@link List} of saved {@link SpaceShuttleModel} instances.
+     * @return The {@link List} of saved {@link SpaceShuttleModel}s.
      */
     public List<SpaceShuttleModel> save(List<SpaceShuttleModel> spaceShuttleModels) throws SpaceShuttleModelException {
         try {

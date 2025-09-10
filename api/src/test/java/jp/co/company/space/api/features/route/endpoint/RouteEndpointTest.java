@@ -30,7 +30,7 @@ public class RouteEndpointTest {
     private WebTarget target;
 
     /**
-     * Tests the properties of a {@link RouteBasicDto} instance.
+     * Tests the properties of a {@link RouteBasicDto}.
      * @param routeDto The route to test.
      */
     private void testBasicRouteDto(RouteBasicDto routeDto) {

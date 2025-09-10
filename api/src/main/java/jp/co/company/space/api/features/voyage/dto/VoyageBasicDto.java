@@ -9,15 +9,15 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
- * A POJO representing a brief DTO of a {@link Voyage} instance.
+ * A POJO representing a brief DTO of a {@link Voyage}.
  */
 @Schema(name = "BasicVoyage", description = "The brief details of a voyage.")
 public class VoyageBasicDto {
     /**
-     * Returns a new {@link VoyageBasicDto} instance based on a {@link Voyage} instance.
+     * Returns a new {@link VoyageBasicDto} based on a {@link Voyage}.
      *
-     * @param voyage The base {@link Voyage} instance.
-     * @return A new {@link VoyageBasicDto} instance.
+     * @param voyage The base {@link Voyage}.
+     * @return A new {@link VoyageBasicDto}.
      */
     public static VoyageBasicDto create(Voyage voyage) throws VoyageException {
         if (voyage == null) {

@@ -22,7 +22,7 @@ public class ApplicationErrorDtoBuilder {
     private final String errorMessage;
 
     /**
-     * The error causing the {@link ApplicationException} instance.
+     * The error causing the {@link ApplicationException}.
      */
     private ApplicationException errorCause;
 
@@ -55,7 +55,7 @@ public class ApplicationErrorDtoBuilder {
      *
      * @param key   The key of the property to use.
      * @param value The value of the property to use.
-     * @return A {@link ApplicationErrorDtoBuilder} instance.
+     * @return A {@link ApplicationErrorDtoBuilder}.
      */
     public ApplicationErrorDtoBuilder withProperty(String key, String value) {
         properties.put(key, value);
@@ -63,9 +63,9 @@ public class ApplicationErrorDtoBuilder {
     }
 
     /**
-     * Makes sure the cause of a {@link ApplicationException} instance is included into the properties if there is any exception.
+     * Makes sure the cause of a {@link ApplicationException} is included into the properties if there is any exception.
      *
-     * @return A {@link ApplicationErrorDtoBuilder} instance.
+     * @return A {@link ApplicationErrorDtoBuilder}.
      */
     public ApplicationErrorDtoBuilder withCause() {
         this.includeCause = true;
@@ -73,9 +73,9 @@ public class ApplicationErrorDtoBuilder {
     }
 
     /**
-     * Creates a {@link ApplicationErrorDto} instance based on the provided values.
+     * Creates a {@link ApplicationErrorDto} based on the provided values.
      *
-     * @return A {@link ApplicationErrorDto} instance.
+     * @return A {@link ApplicationErrorDto}.
      */
     public ApplicationErrorDto build() {
         ApplicationErrorDto errorDto = ApplicationErrorDto.create(errorKey, errorMessage);

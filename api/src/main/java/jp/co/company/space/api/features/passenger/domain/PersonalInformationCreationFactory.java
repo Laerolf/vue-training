@@ -7,7 +7,7 @@ import jp.co.company.space.api.features.passenger.exception.PersonalInformationE
 import jp.co.company.space.api.features.passenger.input.PersonalInformationCreationForm;
 
 /**
- * A POJO representing a factory creating {@link PersonalInformation} instances.
+ * A POJO representing a factory creating {@link PersonalInformation}s.
  */
 public class PersonalInformationCreationFactory {
 
@@ -26,9 +26,9 @@ public class PersonalInformationCreationFactory {
     }
 
     /**
-     * Creates a new {@link PersonalInformation} instance.
+     * Creates a new {@link PersonalInformation}.
      *
-     * @return A {@link PersonalInformation} instance.
+     * @return A {@link PersonalInformation}.
      */
     public PersonalInformation create() throws PersonalInformationException {
         return PersonalInformation.create(

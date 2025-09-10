@@ -5,7 +5,7 @@ import jp.co.company.space.api.features.spaceStation.domain.SpaceStation;
 import jp.co.company.space.api.features.spaceStation.exception.SpaceStationException;
 
 /**
- * A test data builder that creates a {@link SpaceStation} instance for testing purposes.
+ * A test data builder that creates a {@link SpaceStation} for testing purposes.
  */
 public class SpaceStationTestDataBuilder {
     /**
@@ -22,10 +22,10 @@ public class SpaceStationTestDataBuilder {
     }
 
     /**
-     * Creates a new {@link SpaceStation} instance.
+     * Creates a new {@link SpaceStation}.
      *
      * @param location The location of the space station
-     * @return a new {@link SpaceStation} instance
+     * @return a new {@link SpaceStation}
      */
     public SpaceStation create(Location location) throws SpaceStationException {
         return SpaceStation.create(DEFAULT_NAME, DEFAULT_NAME, DEFAULT_COUNTRY, location);

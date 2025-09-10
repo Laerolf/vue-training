@@ -17,7 +17,7 @@ import java.time.ZonedDateTime;
 import java.util.Optional;
 
 /**
- * A test data builder that creates a {@link Voyage} instance for testing purposes.
+ * A test data builder that creates a {@link Voyage} for testing purposes.
  */
 public class VoyageTestDataBuilder {
 

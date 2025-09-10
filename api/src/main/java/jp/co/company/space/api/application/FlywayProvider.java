@@ -7,7 +7,7 @@ import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.FlywayException;
 
 /**
- * This class provides methods to interact with the {@link Flyway} instance.
+ * This class provides methods to interact with {@link Flyway}.
  */
 @Provider
 public class FlywayProvider {

@@ -8,16 +8,16 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
- * A POJO representing a DTO of a newly created {@link User} instance.
+ * A POJO representing a DTO of a newly created {@link User}.
  */
 @Schema(name = "NewUser", description = "The details of a newly created user.")
 public class NewUserDto {
 
     /**
-     * Creates a {@link NewUserDto} instance based on a {@link User} instance.
+     * Creates a {@link NewUserDto} based on a {@link User}.
      *
      * @param user The base user.
-     * @return A {@link NewUserDto} instance.
+     * @return A {@link NewUserDto}.
      */
     public static NewUserDto create(User user) throws UserException {
         return new NewUserDto(user.getId(), user.getLastName(), user.getFirstName(), user.getEmailAddress());

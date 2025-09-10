@@ -67,10 +67,10 @@ public class PassengerService {
     }
 
     /**
-     * Gets an {@link Optional} {@link Passenger} instance matching an ID.
+     * Gets an {@link Optional} {@link Passenger} matching an ID.
      *
      * @param id The ID to search with.
-     * @return An {@link Optional} {@link Passenger} instance.
+     * @return An {@link Optional} {@link Passenger}.
      */
     public Optional<Passenger> findById(String id) throws PassengerException {
         try {
@@ -82,11 +82,11 @@ public class PassengerService {
     }
 
     /**
-     * Creates a {@link List} of {@link Passenger} instances.
+     * Creates a {@link List} of {@link Passenger}s.
      *
      * @param booking        The booking for all passengers.
      * @param passengerForms The details of the passengers to create.
-     * @return A {@link List} of {@link Passenger} instances.
+     * @return A {@link List} of {@link Passenger}s.
      */
     public List<Passenger> create(Booking booking, List<PassengerCreationForm> passengerForms) throws PassengerException, PodReservationException {
         try {

@@ -22,7 +22,7 @@ public class SpaceStationRepository {
     }
 
     /**
-     * Searches an {@link Optional} instance of the {@link SpaceStation} class by its ID.
+     * Searches an {@link Optional} of the {@link SpaceStation} class by its ID.
      *
      * @param id The ID of the space station to search for.
      * @return An {@link Optional} {@link SpaceStation}.
@@ -39,9 +39,9 @@ public class SpaceStationRepository {
     }
 
     /**
-     * Gets all the saved {@link SpaceStation} instances.
+     * Gets all the saved {@link SpaceStation}s.
      *
-     * @return A {@link List} of {@link SpaceStation} instances.
+     * @return A {@link List} of {@link SpaceStation}s.
      */
     public List<SpaceStation> getAll() throws SpaceStationException {
         try {
@@ -53,10 +53,10 @@ public class SpaceStationRepository {
     }
 
     /**
-     * Saves a {@link SpaceStation} instance.
+     * Saves a {@link SpaceStation}.
      *
-     * @param spaceStation The {@link SpaceStation} instance to save.
-     * @return The saved {@link SpaceStation} instance.
+     * @param spaceStation The {@link SpaceStation} to save.
+     * @return The saved {@link SpaceStation}.
      */
     public SpaceStation save(SpaceStation spaceStation) throws SpaceStationException {
         if (findById(spaceStation.getId()).isEmpty()) {
@@ -72,10 +72,10 @@ public class SpaceStationRepository {
     }
 
     /**
-     * Merges a persisted {@link SpaceStation} instance with the provided instance.
+     * Merges a persisted {@link SpaceStation}.
      *
-     * @param spaceStation The {@link SpaceStation} instance to merge.
-     * @return The merged {@link SpaceStation} instance.
+     * @param spaceStation The {@link SpaceStation} to merge.
+     * @return The merged {@link SpaceStation}.
      */
     public SpaceStation merge(SpaceStation spaceStation) throws SpaceStationException {
         try {
@@ -86,10 +86,10 @@ public class SpaceStationRepository {
     }
 
     /**
-     * Saves a {@link List} of {@link SpaceStation} instances.
+     * Saves a {@link List} of {@link SpaceStation}s.
      *
      * @param spaceStations The {@link List} of {@link SpaceStation} to save.
-     * @return The {@link List} of saved {@link SpaceStation} instances.
+     * @return The {@link List} of saved {@link SpaceStation}s.
      */
     public List<SpaceStation> save(List<SpaceStation> spaceStations) throws SpaceStationException {
         try {

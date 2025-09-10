@@ -26,7 +26,7 @@ public class UserRepository {
     }
 
     /**
-     * Searches a {@link User} instance by its ID.
+     * Searches a {@link User} by its ID.
      *
      * @param id The ID of the user to search for.
      * @return An {@link Optional} {@link User}.
@@ -41,7 +41,7 @@ public class UserRepository {
     }
 
     /**
-     * Searches a {@link User} instance by its email address.
+     * Searches a {@link User} by its email address.
      *
      * @param emailAddress The email address of the user to search for.
      * @return An {@link Optional} {@link User}.
@@ -56,10 +56,10 @@ public class UserRepository {
     }
 
     /**
-     * Saves a {@link User} instance.
+     * Saves a {@link User}.
      *
-     * @param user The {@link User} instance to save.
-     * @return The saved {@link User} instance.
+     * @param user The {@link User} to save.
+     * @return The saved {@link User}.
      */
     @Transactional(Transactional.TxType.REQUIRED)
     public User save(User user) throws UserException {
@@ -83,10 +83,10 @@ public class UserRepository {
     }
 
     /**
-     * Merges a persisted {@link User} instance with the provided instance.
+     * Merges a persisted {@link User}.
      *
-     * @param user The {@link User} instance to merge.
-     * @return The merged {@link User} instance.
+     * @param user The {@link User} to merge.
+     * @return The merged {@link User}.
      */
     public User merge(User user) throws UserException {
         try {
@@ -97,10 +97,10 @@ public class UserRepository {
     }
 
     /**
-     * Persists a {@link List} of {@link User} instances.
+     * Persists a {@link List} of {@link User}s.
      *
-     * @param users The {@link List} of {@link User} instances to save.
-     * @return A {@link List} of persisted {@link User} instances
+     * @param users The {@link List} of {@link User}s to save.
+     * @return A {@link List} of persisted {@link User}s
      */
     public List<User> save(List<User> users) throws UserException {
         try {

@@ -79,7 +79,7 @@ public class LocationService {
     }
 
     /**
-     * Loads all initial {@link Location} instances into the database.
+     * Loads all initial {@link Location}s into the database.
      */
     private void loadLocations() throws LocationException {
         try (JsonReader reader = Json
@@ -111,9 +111,9 @@ public class LocationService {
     }
 
     /**
-     * Gets a {@link List} of existing {@link Location} instances
+     * Gets a {@link List} of existing {@link Location}s
      *
-     * @return The {@link List} of existing {@link Location} instances.
+     * @return The {@link List} of existing {@link Location}s.
      */
     public List<Location> getAll() throws LocationException {
         try {
@@ -125,10 +125,10 @@ public class LocationService {
     }
 
     /**
-     * Gets an {@link Optional} {@link Location} instance for the provided ID.
+     * Gets an {@link Optional} {@link Location} for the provided ID.
      *
      * @param id The ID to search with.
-     * @return An {@link Optional} {@link Location} instance.
+     * @return An {@link Optional} {@link Location}.
      */
     public Optional<Location> findById(String id) throws LocationException {
         try {

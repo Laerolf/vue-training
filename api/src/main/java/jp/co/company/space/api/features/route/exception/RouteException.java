@@ -3,7 +3,7 @@ package jp.co.company.space.api.features.route.exception;
 import jp.co.company.space.api.shared.exception.DomainException;
 
 /**
- * A {@link DomainException} instance for route exceptions.
+ * A {@link DomainException} for route exceptions.
  */
 public class RouteException extends DomainException {
     public RouteException(RouteError error) {

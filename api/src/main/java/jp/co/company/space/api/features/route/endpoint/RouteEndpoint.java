@@ -49,7 +49,7 @@ public class RouteEndpoint {
     /**
      * Returns all existing routes.
      *
-     * @return A {@link List} of all existing {@link RouteBasicDto} instances.
+     * @return A {@link List} of all existing {@link RouteBasicDto}s.
      */
     @GET
     @PermitAll
@@ -72,7 +72,7 @@ public class RouteEndpoint {
      * Returns an {@link Optional} {@link RouteDto} for the provided ID.
      *
      * @param id The ID to search with.
-     * @return an {@link Optional} {@link RouteDto} instance.
+     * @return an {@link Optional} {@link RouteDto}.
      */
     @Path("{id}")
     @GET

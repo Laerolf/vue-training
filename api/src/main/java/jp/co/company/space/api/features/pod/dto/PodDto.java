@@ -14,10 +14,10 @@ import static jp.co.company.space.api.shared.openApi.Examples.*;
 public class PodDto {
 
     /**
-     * Creates a {@link PodDto} instance based on a {@link Pod} instance.
+     * Creates a {@link PodDto} based on a {@link Pod}.
      *
-     * @param pod The base of the {@link PodDto} instance.
-     * @return A {@link PodDto} instance.
+     * @param pod The base of the {@link PodDto}.
+     * @return A {@link PodDto}.
      */
     public static PodDto create(Pod pod) throws PodException {
         return new PodDto(pod.getCode(), pod.getType().getKey(), pod.getDeck(), pod.getRow(), pod.getColumn(), pod.getStatus().getKey());

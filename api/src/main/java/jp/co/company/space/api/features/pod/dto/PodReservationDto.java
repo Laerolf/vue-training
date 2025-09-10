@@ -10,16 +10,16 @@ import java.time.ZonedDateTime;
 import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
- * A POJO representing a DTO of {@link PodReservation} instance.
+ * A POJO representing a DTO of {@link PodReservation}.
  */
 @Schema(name = "PodReservation", description = "The details of a pod reservation.")
 public class PodReservationDto {
 
     /**
-     * Creates a {@link PodReservationDto} instance based on a {@link PodReservation} instance.
+     * Creates a {@link PodReservationDto} based on a {@link PodReservation}.
      *
-     * @param podReservation The base of the {@link PodReservationDto} instance.
-     * @return A {@link PodReservationDto} instance.
+     * @param podReservation The base of the {@link PodReservationDto}.
+     * @return A {@link PodReservationDto}.
      */
     public static PodReservationDto create(PodReservation podReservation) throws PodReservationException {
         if (podReservation == null) {

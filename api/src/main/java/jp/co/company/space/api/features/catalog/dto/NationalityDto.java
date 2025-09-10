@@ -16,10 +16,10 @@ import static jp.co.company.space.api.shared.openApi.Examples.NATIONALITY_LABEL_
 public class NationalityDto extends CatalogItemDto {
 
     /**
-     * Creates a {@link NationalityDto} instance based on a {@link Nationality} instance.
+     * Creates a {@link NationalityDto} based on a {@link Nationality}.
      *
-     * @param nationality The base for the {@link NationalityDto} instance.
-     * @return A {@link NationalityDto} instance.
+     * @param nationality The base for the {@link NationalityDto}.
+     * @return A {@link NationalityDto}.
      */
     public static NationalityDto create(Nationality nationality) throws CatalogException {
         if (nationality == null) {
@@ -30,10 +30,10 @@ public class NationalityDto extends CatalogItemDto {
     }
 
     /**
-     * Creates a {@link NationalityDto} instance based on a {@link CatalogItem} instance.
+     * Creates a {@link NationalityDto} based on a {@link CatalogItem}.
      *
-     * @param catalogItem The base for the {@link NationalityDto} instance.
-     * @return A {@link NationalityDto} instance.
+     * @param catalogItem The base for the {@link NationalityDto}.
+     * @return A {@link NationalityDto}.
      */
     public static NationalityDto fromCatalogItem(CatalogItem catalogItem) throws CatalogException {
         if (!(catalogItem instanceof Nationality)) {

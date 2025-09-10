@@ -8,9 +8,9 @@ import jp.co.company.space.api.features.spaceStation.service.SpaceStationService
 public class SpaceStationServiceInit {
 
     /**
-     * Creates a new {@link SpaceStationServiceInit} instance.
+     * Creates a new {@link SpaceStationServiceInit}.
      *
-     * @return a new {@link SpaceStationServiceInit} instance
+     * @return a new {@link SpaceStationServiceInit}
      */
     public static SpaceStationServiceInit create() {
         return new SpaceStationServiceInit();

@@ -1,7 +1,7 @@
 package jp.co.company.space.api.features.booking.domain;
 
 /**
- * The status of a {@link Booking} instance.
+ * The status of a {@link Booking}.
  */
 public enum BookingStatus {
     /**

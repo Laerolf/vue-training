@@ -58,7 +58,7 @@ public class VoyageEndpoint {
     /**
      * Returns all existing space voyages.
      *
-     * @return A {@link List} of all existing {@link Voyage} instances.
+     * @return A {@link List} of all existing {@link Voyage}.
      */
     @GET
     @PermitAll
@@ -111,10 +111,10 @@ public class VoyageEndpoint {
     }
 
     /**
-     * Returns a {@link List} of all {@link Voyage} instances with an origin space station matching the provided
+     * Returns a {@link List} of all {@link Voyage}s with an origin space station matching the provided
      * {@link SpaceStation} ID.
      *
-     * @return A {@link List} of {@link Voyage} instances.
+     * @return A {@link List} of {@link Voyage}s.
      */
     @Path("/from/{originId}")
     @GET
@@ -142,10 +142,10 @@ public class VoyageEndpoint {
     }
 
     /**
-     * Returns a {@link List} of all {@link Voyage} instances with a destination space station matching the provided
+     * Returns a {@link List} of all {@link Voyage}s with a destination space station matching the provided
      * {@link SpaceStation} ID.
      *
-     * @return A {@link List} of {@link Voyage} instances.
+     * @return A {@link List} of {@link Voyage}s.
      */
     @Path("/to/{destinationId}")
     @GET
@@ -173,10 +173,10 @@ public class VoyageEndpoint {
     }
 
     /**
-     * Returns a {@link List} of all {@link Voyage} instances with an origin space station matching the provided
+     * Returns a {@link List} of all {@link Voyage}s with an origin space station matching the provided
      * {@link SpaceStation} ID.
      *
-     * @return A {@link List} of {@link Voyage} instances.
+     * @return A {@link List} of {@link Voyage}s.
      */
     @Path("/from/{originId}/to/{destinationId}")
     @GET
@@ -216,7 +216,7 @@ public class VoyageEndpoint {
      * Returns all pods for the voyage matching the provided ID.
      *
      * @param id The ID to search with for a voyage.
-     * @return A {@link List} of all {@link PodDto} instances.
+     * @return A {@link List} of all {@link PodDto}s.
      */
     @Path("{id}/pods")
     @GET

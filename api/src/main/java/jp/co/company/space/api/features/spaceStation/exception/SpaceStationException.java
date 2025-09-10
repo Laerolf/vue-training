@@ -3,7 +3,7 @@ package jp.co.company.space.api.features.spaceStation.exception;
 import jp.co.company.space.api.shared.exception.DomainException;
 
 /**
- * A {@link DomainException} instance for space station exceptions.
+ * A {@link DomainException} for space station exceptions.
  */
 public class SpaceStationException extends DomainException {
     public SpaceStationException(SpaceStationError error) {

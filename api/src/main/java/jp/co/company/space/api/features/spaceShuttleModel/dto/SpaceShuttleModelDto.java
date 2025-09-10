@@ -8,16 +8,16 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
- * A POJO representing a DTO of a {@link SpaceShuttleModel} instance.
+ * A POJO representing a DTO of a {@link SpaceShuttleModel}.
  */
 @Schema(name = "SpaceShuttleModel", description = "The details of a space shuttle model.")
 public class SpaceShuttleModelDto {
 
     /**
-     * Creates a {@link SpaceShuttleModelDto} entity based on a {@link SpaceShuttleModel} instance.
+     * Creates a {@link SpaceShuttleModelDto} based on a {@link SpaceShuttleModel}.
      *
-     * @param spaceShuttleModel The base {@link SpaceShuttleModel} instance.
-     * @return a {@link SpaceShuttleModelDto} entity.
+     * @param spaceShuttleModel The base {@link SpaceShuttleModel}.
+     * @return a {@link SpaceShuttleModelDto}.
      */
     public static SpaceShuttleModelDto create(SpaceShuttleModel spaceShuttleModel) throws SpaceShuttleModelException {
         return new SpaceShuttleModelDto(spaceShuttleModel.getId(), spaceShuttleModel.getName(), spaceShuttleModel.getMaxCapacity(), spaceShuttleModel.getMaxSpeed());

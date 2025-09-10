@@ -56,7 +56,7 @@ public class AuthenticationEndpoint {
      * Registers a new user and returns the newly created user information.
      *
      * @param form A form with details about the user registration request.
-     * @return A {@link NewUserDto} instance if the request was successful.
+     * @return A {@link NewUserDto} if the request was successful.
      */
     @Path("register")
     @POST

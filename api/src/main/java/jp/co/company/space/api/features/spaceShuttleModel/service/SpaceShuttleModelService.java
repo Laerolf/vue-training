@@ -91,9 +91,9 @@ public class SpaceShuttleModelService {
     }
 
     /**
-     * Gets a {@link List} of existing {@link SpaceShuttleModel} instances
+     * Gets a {@link List} of existing {@link SpaceShuttleModel}s
      *
-     * @return The {@link List} of existing {@link SpaceShuttleModel} instances.
+     * @return The {@link List} of existing {@link SpaceShuttleModel}s.
      */
     public List<SpaceShuttleModel> getAll() throws SpaceShuttleModelException {
         try {
@@ -105,10 +105,10 @@ public class SpaceShuttleModelService {
     }
 
     /**
-     * Gets an {@link Optional} {@link SpaceShuttleModel} instance for the provided ID.
+     * Gets an {@link Optional} {@link SpaceShuttleModel} for the provided ID.
      *
      * @param id The ID to search with.
-     * @return An {@link Optional} {@link SpaceShuttleModel} instance.
+     * @return An {@link Optional} {@link SpaceShuttleModel}.
      */
     public Optional<SpaceShuttleModel> findById(String id) throws SpaceShuttleModelException {
         try {

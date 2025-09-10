@@ -23,11 +23,11 @@ import java.util.*;
 })
 public class Booking {
     /**
-     * Creates a new {@link Booking} instance for a {@link User} instance and {@link Voyage} instance.
+     * Creates a new {@link Booking} for a {@link User} and {@link Voyage}.
      *
      * @param user   The user who made the booking.
      * @param voyage The voyage of the booking.
-     * @return A new {@link Booking} instance.
+     * @return A new {@link Booking}.
      * @throws BookingException When the user or voyage of the booking are missing.
      */
     public static Booking create(User user, Voyage voyage) throws BookingException {
@@ -35,14 +35,14 @@ public class Booking {
     }
 
     /**
-     * Returns a {@link Booking} instance.
+     * Returns a {@link Booking}.
      *
      * @param id           The ID of the booking.
      * @param creationDate The creation date of the booking.
      * @param status       The status of the booking.
      * @param user         The user who made the booking.
      * @param voyage       The voyage of the booking.
-     * @return A {@link Booking} instance.
+     * @return A {@link Booking}.
      * @throws BookingException When the id, creation date, status, user or voyage of the booking are missing.
      */
     public static Booking reconstruct(String id, ZonedDateTime creationDate, BookingStatus status, User user, Voyage voyage) throws BookingException {
@@ -129,7 +129,7 @@ public class Booking {
     }
 
     /**
-     * Assigns the provided {@link List} of {@link Passenger} instances to this booking.
+     * Assigns the provided {@link List} of {@link Passenger}s to this booking.
      *
      * @param passengerList The passengers to assign to this voyage.
      * @throws BookingException When the passengers are missing.
@@ -143,7 +143,7 @@ public class Booking {
     }
 
     /**
-     * Changes the {@link Booking} instance's status to "created".
+     * Changes the {@link Booking}'s status to "created".
      */
     public void setCreated() {
         status = BookingStatus.CREATED;

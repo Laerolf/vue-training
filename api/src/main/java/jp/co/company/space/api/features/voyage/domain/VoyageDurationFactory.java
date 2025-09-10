@@ -15,11 +15,11 @@ import java.time.Duration;
 public class VoyageDurationFactory {
 
     /**
-     * Returns a new {@link VoyageDurationFactory} instance.
+     * Returns a new {@link VoyageDurationFactory}.
      *
      * @param route        The route to calculate the duration with.
      * @param spaceShuttle The space shuttle to calculate the duration with.
-     * @return A new {@link VoyageDurationFactory} instance.
+     * @return A new {@link VoyageDurationFactory}.
      * @throws IllegalArgumentException When the provided route is null.
      * @throws IllegalArgumentException When the provided space shuttle is null.
      */

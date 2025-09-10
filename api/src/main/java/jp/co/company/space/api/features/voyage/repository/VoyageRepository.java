@@ -22,10 +22,10 @@ public class VoyageRepository {
     }
 
     /**
-     * Returns an {@link Optional} {@link Voyage} instance for the provided ID.
+     * Returns an {@link Optional} {@link Voyage} for the provided ID.
      *
      * @param id The ID to search with.
-     * @return An {@link Optional} {@link Voyage} instance.
+     * @return An {@link Optional} {@link Voyage}.
      */
     public Optional<Voyage> findById(String id) throws VoyageException {
         try {
@@ -36,9 +36,9 @@ public class VoyageRepository {
     }
 
     /**
-     * Returns a {@link List} of all existing {@link Voyage} instances.
+     * Returns a {@link List} of all existing {@link Voyage}s.
      *
-     * @return A {@link List} of {@link Voyage} instances.
+     * @return A {@link List} of {@link Voyage}s.
      */
     public List<Voyage> getAll() throws VoyageException {
         try {
@@ -50,11 +50,11 @@ public class VoyageRepository {
     }
 
     /**
-     * Returns a {@link List} of {@link Voyage} instances having an origin space station matching the provided space station
+     * Returns a {@link List} of {@link Voyage}s having an origin space station matching the provided space station
      * ID.
      *
      * @param originId The space station ID to search with.
-     * @return A {@link List} of {@link Voyage} instances.
+     * @return A {@link List} of {@link Voyage}s.
      */
     public List<Voyage> getAllVoyagesByOriginId(String originId) throws VoyageException {
         try {
@@ -68,11 +68,11 @@ public class VoyageRepository {
     }
 
     /**
-     * Returns a {@link List} of {@link Voyage} instances having an destination space station matching the provided space
+     * Returns a {@link List} of {@link Voyage}s having a destination space station matching the provided space
      * station ID.
      *
      * @param destinationId The space station ID to search with.
-     * @return A {@link List} of {@link Voyage} instances.
+     * @return A {@link List} of {@link Voyage}s.
      */
     public List<Voyage> getAllVoyagesByDestinationId(String destinationId) throws VoyageException {
         try {
@@ -86,12 +86,12 @@ public class VoyageRepository {
     }
 
     /**
-     * Returns a {@link List} of {@link Voyage} instances having an origin space station matching the provided origin space
+     * Returns a {@link List} of {@link Voyage}s having an origin space station matching the provided origin space
      * station ID and a destination space station matching the provided destination space station ID.
      *
      * @param originId      The origin space station ID to search with.
      * @param destinationId The destination space station ID to search with.
-     * @return A {@link List} of {@link Voyage} instances.
+     * @return A {@link List} of {@link Voyage}s.
      */
     public List<Voyage> getAllVoyagesByOriginIdAndDestinationId(String originId, String destinationId) throws VoyageException {
         try {
@@ -106,10 +106,10 @@ public class VoyageRepository {
     }
 
     /**
-     * Persists a {@link Voyage} instance.
+     * Persists a {@link Voyage}.
      *
-     * @param voyage The voyage instance to persist.
-     * @return A persisted {@link Voyage} instance.
+     * @param voyage The voyage to persist.
+     * @return A persisted {@link Voyage}.
      */
     public Voyage save(Voyage voyage) throws VoyageException {
         if (findById(voyage.getId()).isEmpty()) {
@@ -125,10 +125,10 @@ public class VoyageRepository {
     }
 
     /**
-     * Merges a {@link Voyage} instance.
+     * Merges a {@link Voyage}.
      *
-     * @param voyage The voyage instance to merge.
-     * @return A merged {@link Voyage} instance.
+     * @param voyage The voyage to merge.
+     * @return A merged {@link Voyage}.
      */
     public Voyage merge(Voyage voyage) throws VoyageException {
         try {
@@ -139,10 +139,10 @@ public class VoyageRepository {
     }
 
     /**
-     * Persists a {@link List} of {@link Voyage} instance.
+     * Persists a {@link List} of {@link Voyage}s.
      *
-     * @param voyages The list of voyage instances to persist.
-     * @return A persisted {@link List} of {@link Voyage} instances.
+     * @param voyages The list of voyages to persist.
+     * @return A persisted {@link List} of {@link Voyage}s.
      */
     public List<Voyage> save(List<Voyage> voyages) throws VoyageException {
         try {

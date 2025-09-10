@@ -55,7 +55,7 @@ class UserEndpointTest {
     }
 
     /**
-     * Tests the properties of a {@link UserDto} instance.
+     * Tests the properties of a {@link UserDto}.
      *
      * @param userDto The user to test.
      */

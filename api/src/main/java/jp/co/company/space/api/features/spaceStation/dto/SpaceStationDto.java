@@ -7,16 +7,16 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
- * A POJO representing a DTO of a {@link SpaceStation} instance.
+ * A POJO representing a DTO of a {@link SpaceStation}.
  */
 @Schema(name = "SpaceStation", description = "The details of a space station.")
 public class SpaceStationDto {
 
     /**
-     * Creates a {@link SpaceStationDto} entity from a base {@link SpaceStation} instance.
+     * Creates a {@link SpaceStationDto} from a base {@link SpaceStation}.
      *
-     * @param spaceStation The base {@link SpaceStation} instance.
-     * @return A {@link SpaceStationDto} entity.
+     * @param spaceStation The base {@link SpaceStation}.
+     * @return A {@link SpaceStationDto}.
      */
     public static SpaceStationDto create(SpaceStation spaceStation) {
         if (spaceStation == null) {

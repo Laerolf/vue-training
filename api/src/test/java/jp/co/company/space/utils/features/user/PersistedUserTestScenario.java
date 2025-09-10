@@ -78,7 +78,7 @@ public class PersistedUserTestScenario implements TestScenario {
     /**
      * Returns the authentication token's private key.
      *
-     * @return A {@link RSAPrivateKey} instance.
+     * @return A {@link RSAPrivateKey}.
      */
     private RSAPrivateKey loadPrivateKey() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
         try (InputStream privateKeyStream = PersistedUserTestScenario.class.getClassLoader().getResourceAsStream(tokenPrivateKeyFilePath)) {
@@ -98,10 +98,10 @@ public class PersistedUserTestScenario implements TestScenario {
     }
 
     /**
-     * Reads the content of a .pem file from the provided {@link InputStream} instance.
+     * Reads the content of a .pem file from the provided {@link InputStream}.
      *
      * @param keyInputStream The stream to read from.
-     * @return A {@link String} instance representing the content of a .pem file.
+     * @return A {@link String} representing the content of a .pem file.
      */
     private String readPemFile(InputStream keyInputStream) {
         try (Scanner scanner = new Scanner(keyInputStream, StandardCharsets.UTF_8)) {

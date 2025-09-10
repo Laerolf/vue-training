@@ -16,10 +16,10 @@ import static jp.co.company.space.api.shared.openApi.Examples.GENDER_LABEL_EXAMP
 public class GenderDto extends CatalogItemDto {
 
     /**
-     * Creates a {@link GenderDto} instance based on a {@link Gender} instance.
+     * Creates a {@link GenderDto} based on a {@link Gender}.
      *
-     * @param gender The base for the {@link GenderDto} instance.
-     * @return A {@link GenderDto} instance.
+     * @param gender The base for the {@link GenderDto}.
+     * @return A {@link GenderDto}.
      */
     public static GenderDto create(Gender gender) throws CatalogException {
         if (gender == null) {
@@ -30,10 +30,10 @@ public class GenderDto extends CatalogItemDto {
     }
 
     /**
-     * Creates a {@link GenderDto} instance based on a {@link CatalogItem} instance.
+     * Creates a {@link GenderDto} based on a {@link CatalogItem}.
      *
-     * @param catalogItem The base for the {@link GenderDto} instance.
-     * @return A {@link GenderDto} instance.
+     * @param catalogItem The base for the {@link GenderDto}.
+     * @return A {@link GenderDto}.
      */
     public static GenderDto fromCatalogItem(CatalogItem catalogItem) throws CatalogException {
         if (!(catalogItem instanceof Gender)) {

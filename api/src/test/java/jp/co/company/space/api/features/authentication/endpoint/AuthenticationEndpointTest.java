@@ -51,7 +51,7 @@ class AuthenticationEndpointTest {
     }
 
     /**
-     * Tests the properties of a {@link NewUserDto} instance.
+     * Tests the properties of a {@link NewUserDto}.
      *
      * @param userDto The user to test.
      */

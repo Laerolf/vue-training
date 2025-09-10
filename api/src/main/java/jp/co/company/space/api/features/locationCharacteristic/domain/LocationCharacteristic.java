@@ -20,7 +20,7 @@ import java.util.UUID;
 public class LocationCharacteristic {
 
     /**
-     * Creates a new {@link LocationCharacteristic} instance.
+     * Creates a new {@link LocationCharacteristic}.
      *
      * @param characteristic The characteristic of the location characteristic.
      * @return A new {@link LocationCharacteristic}.
@@ -30,7 +30,7 @@ public class LocationCharacteristic {
     }
 
     /**
-     * Reconstructs a {@link LocationCharacteristic} instance.
+     * Reconstructs a {@link LocationCharacteristic}.
      *
      * @param id             The ID of the location characteristic.
      * @param characteristic The characteristic of the location characteristic.

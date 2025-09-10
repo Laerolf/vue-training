@@ -166,7 +166,7 @@ public class AuthenticationTokenService {
     /**
      * Returns the authentication token's private key.
      *
-     * @return A {@link RSAPrivateKey} instance.
+     * @return A {@link RSAPrivateKey}.
      */
     private RSAPrivateKey loadPrivateKey() throws AuthenticationException {
         try (InputStream privateKeyStream = AuthenticationTokenService.class.getClassLoader().getResourceAsStream(tokenPrivateKeyFilePath)) {
@@ -191,10 +191,10 @@ public class AuthenticationTokenService {
     }
 
     /**
-     * Reads the content of a .pem file from the provided {@link InputStream} instance.
+     * Reads the content of a .pem file from the provided {@link InputStream}.
      *
      * @param keyInputStream The stream to read from.
-     * @return A {@link String} instance representing the content of a .pem file.
+     * @return A {@link String} representing the content of a .pem file.
      */
     private String readPemFile(InputStream keyInputStream) {
         try (Scanner scanner = new Scanner(keyInputStream, StandardCharsets.UTF_8)) {

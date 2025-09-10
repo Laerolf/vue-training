@@ -27,10 +27,10 @@ public class PersonalInformationRepository {
     }
 
     /**
-     * Gets an {@link Optional} {@link PersonalInformation} instance matching an ID.
+     * Gets an {@link Optional} {@link PersonalInformation} matching an ID.
      *
      * @param id The ID to search with.
-     * @return An {@link Optional} {@link PersonalInformation} instance.
+     * @return An {@link Optional} {@link PersonalInformation}.
      */
     public Optional<PersonalInformation> findById(String id) throws PersonalInformationException {
         try {
@@ -41,10 +41,10 @@ public class PersonalInformationRepository {
     }
 
     /**
-     * Saves a {@link PersonalInformation} instance.
+     * Saves a {@link PersonalInformation}.
      *
-     * @param personalInformation The {@link PersonalInformation} instance to save.
-     * @return The saved {@link PersonalInformation} instance.
+     * @param personalInformation The {@link PersonalInformation} to save.
+     * @return The saved {@link PersonalInformation}.
      */
     @Transactional(Transactional.TxType.REQUIRED)
     public PersonalInformation save(PersonalInformation personalInformation) throws PersonalInformationException {
@@ -61,10 +61,10 @@ public class PersonalInformationRepository {
     }
 
     /**
-     * Merges a persisted {@link PersonalInformation} instance with the provided instance.
+     * Merges a persisted {@link PersonalInformation}.
      *
-     * @param personalInformation The {@link PersonalInformation} instance to merge.
-     * @return The merged {@link PersonalInformation} instance.
+     * @param personalInformation The {@link PersonalInformation} to merge.
+     * @return The merged {@link PersonalInformation}.
      */
     public PersonalInformation merge(PersonalInformation personalInformation) throws PersonalInformationException {
         try {

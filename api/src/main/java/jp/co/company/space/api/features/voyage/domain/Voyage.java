@@ -27,12 +27,12 @@ import java.util.UUID;
 public class Voyage {
 
     /**
-     * Returns a new {@link Voyage} instance.
+     * Returns a new {@link Voyage}.
      *
      * @param departureDate The departure date of the voyage.
      * @param route         The route of the voyage.
      * @param spaceShuttle  The space shuttle of the voyage.
-     * @return A new {@link Voyage} instance.
+     * @return A new {@link Voyage}.
      */
     public static Voyage create(ZonedDateTime departureDate, Route route, SpaceShuttle spaceShuttle) throws VoyageException {
         if (departureDate == null) {
@@ -50,7 +50,7 @@ public class Voyage {
     }
 
     /**
-     * Returns a {@link Voyage} instance.
+     * Returns a {@link Voyage}.
      *
      * @param id            The ID of the voyage.
      * @param departureDate The departure date of the voyage.
@@ -58,7 +58,7 @@ public class Voyage {
      * @param status        The status of the voyage.
      * @param route         The route of the voyage.
      * @param spaceShuttle  The space shuttle of the voyage.
-     * @return A {@link Voyage} instance.
+     * @return A {@link Voyage}.
      * @throws DomainException When the arrival date is before the departure date of the voyage.
      */
     public static Voyage reconstruct(String id, ZonedDateTime departureDate, ZonedDateTime arrivalDate, VoyageStatus status, Route route, SpaceShuttle spaceShuttle) throws VoyageException {

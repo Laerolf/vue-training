@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 /**
- * An entity class representing a space shuttle.
+ * A class representing a space shuttle.
  */
 @Entity
 @Table(name = "space_shuttles")
@@ -21,23 +21,23 @@ import java.util.UUID;
 public class SpaceShuttle {
 
     /**
-     * Creates a new {@link SpaceShuttle} entity.
+     * Creates a new {@link SpaceShuttle}.
      *
      * @param name         The name of the space shuttle.
      * @param shuttleModel The model of the space shuttle.
-     * @return A new {@link SpaceShuttle} entity.
+     * @return A new {@link SpaceShuttle}.
      */
     public static SpaceShuttle create(String name, SpaceShuttleModel shuttleModel) throws SpaceShuttleException {
         return new SpaceShuttle(UUID.randomUUID().toString(), name, shuttleModel);
     }
 
     /**
-     * Reconstructs a {@link SpaceShuttle} entity.
+     * Reconstructs a {@link SpaceShuttle}.
      *
      * @param id           The ID of the space shuttle.
      * @param name         The name of the space shuttle.
      * @param shuttleModel The model of the space shuttle.
-     * @return A {@link SpaceShuttle} entity.
+     * @return A {@link SpaceShuttle}.
      */
     public static SpaceShuttle reconstruct(String id, String name, SpaceShuttleModel shuttleModel) throws SpaceShuttleException {
         return new SpaceShuttle(id, name, shuttleModel);
@@ -94,9 +94,9 @@ public class SpaceShuttle {
     }
 
     /**
-     * Gets the {@link SpaceShuttleLayout} instance for this {@link SpaceShuttle} instance.
+     * Gets the {@link SpaceShuttleLayout} for this {@link SpaceShuttle}.
      *
-     * @return A {@link SpaceShuttleLayout} instance.
+     * @return A {@link SpaceShuttleLayout}.
      */
     public SpaceShuttleLayout getLayout() {
         return new SpaceShuttleLayoutFactory(model).create();

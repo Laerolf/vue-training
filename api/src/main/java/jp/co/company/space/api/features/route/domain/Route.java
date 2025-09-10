@@ -18,19 +18,19 @@ import java.util.UUID;
 @NamedQueries({@NamedQuery(name = "Route.selectAll", query = "SELECT r FROM Route r")})
 public class Route {
     /**
-     * Creates a new {@link Route} instance.
+     * Creates a new {@link Route}.
      *
      * @param origin       The origin of the route.
      * @param destination  The destination of the route.
      * @param shuttleModel The space shuttle model for the route.
-     * @return a new {@link Route} instance.
+     * @return a new {@link Route}.
      */
     public static Route create(SpaceStation origin, SpaceStation destination, SpaceShuttleModel shuttleModel) throws RouteException {
         return new Route(UUID.randomUUID().toString(), origin, destination, shuttleModel);
     }
 
     /**
-     * Reconstructs a {@link Route} instance.
+     * Reconstructs a {@link Route}.
      *
      * @param id           The ID of the route.
      * @param origin       The origin of the route.

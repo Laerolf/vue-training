@@ -46,10 +46,10 @@ public class BookingService {
     }
 
     /**
-     * Creates a new {@link Booking} instance.
+     * Creates a new {@link Booking}.
      *
-     * @param creationForm The form with the details for the new {@link Booking} instance.
-     * @return A new {@link Booking} instance.
+     * @param creationForm The form with the details for the new {@link Booking}.
+     * @return A new {@link Booking}.
      * @throws BookingException When the form is missing or the form's passengers are missing or invalid.
      */
     public Booking create(Principal userPrincipal, BookingCreationForm creationForm) throws BookingException {
@@ -83,10 +83,10 @@ public class BookingService {
     }
 
     /**
-     * Returns an {@link Optional} saved {@link Booking} instance matching the provided booking ID.
+     * Returns an {@link Optional} saved {@link Booking} matching the provided booking ID.
      *
      * @param id The booking ID to search with.
-     * @return An {@link Optional} saved {@link Booking} instance.
+     * @return An {@link Optional} saved {@link Booking}.
      */
     public Optional<Booking> findById(String id) throws BookingException {
         try {
@@ -98,10 +98,10 @@ public class BookingService {
     }
 
     /**
-     * Returns a {@link List} of saved {@link Booking} instances matching the provided user ID.
+     * Returns a {@link List} of saved {@link Booking}s matching the provided user ID.
      *
      * @param userId The user ID to search with.
-     * @return A {@link List} of saved {@link Booking} instances.
+     * @return A {@link List} of saved {@link Booking}s.
      */
     public List<Booking> getAllByUserId(String userId) throws BookingException {
         try {
@@ -113,10 +113,10 @@ public class BookingService {
     }
 
     /**
-     * Returns a {@link List} of saved {@link Booking} instances matching the provided voyage ID.
+     * Returns a {@link List} of saved {@link Booking}s matching the provided voyage ID.
      *
      * @param voyageId The voyage ID to search with.
-     * @return A {@link List} of saved {@link Booking} instances.
+     * @return A {@link List} of saved {@link Booking}s.
      */
     public List<Booking> getAllByVoyageId(String voyageId) throws BookingException {
         try {
@@ -128,31 +128,31 @@ public class BookingService {
     }
 
     /**
-     * Saves a {@link Booking} instance.
+     * Saves a {@link Booking}.
      *
-     * @param booking The {@link Booking} instance to save.
-     * @return A saved {@link Booking} instance.
+     * @param booking The {@link Booking} to save.
+     * @return A saved {@link Booking}.
      */
     public Booking save(Booking booking) throws BookingException {
         try {
             return bookingRepository.save(booking);
         } catch (DomainException exception) {
-            LOGGER.warning(new LogBuilder("Failed to save a booking").withException(exception).withProperty("booking.id", booking.getId()).build());
+            LOGGER.warning(new LogBuilder(BookingError.SAVE).withException(exception).withProperty("booking.id", booking.getId()).build());
             throw exception;
         }
     }
 
     /**
-     * Saves a {@link List} of {@link Booking} instances.
+     * Saves a {@link List} of {@link Booking}s.
      *
-     * @param bookings The a {@link List} of {@link Booking} instances to save.
-     * @return A {@link List} of saved {@link Booking} instances.
+     * @param bookings The a {@link List} of {@link Booking}s to save.
+     * @return A {@link List} of saved {@link Booking}s.
      */
     public List<Booking> save(List<Booking> bookings) throws BookingException {
         try {
             return bookingRepository.save(bookings);
         } catch (DomainException exception) {
-            LOGGER.warning(new LogBuilder("Failed to save bookings").withException(exception).build());
+            LOGGER.warning(new LogBuilder(BookingError.SAVE_LIST).withException(exception).build());
             throw exception;
         }
     }

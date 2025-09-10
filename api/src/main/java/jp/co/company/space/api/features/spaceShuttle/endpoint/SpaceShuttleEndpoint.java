@@ -56,7 +56,7 @@ public class SpaceShuttleEndpoint {
     /**
      * Returns all existing space shuttles.
      *
-     * @return A {@link List} of all existing {@link SpaceShuttleBasicDto} instances.
+     * @return A {@link List} of all existing {@link SpaceShuttleBasicDto}s.
      */
     @GET
     @PermitAll
@@ -80,7 +80,7 @@ public class SpaceShuttleEndpoint {
      * Returns an optional space shuttle for the provided ID.
      *
      * @param id The ID to search with.
-     * @return an {@link Optional} {@link SpaceShuttleDto} instance.
+     * @return an {@link Optional} {@link SpaceShuttleDto}.
      */
     @Path("{id}")
     @GET

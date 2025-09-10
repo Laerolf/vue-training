@@ -8,7 +8,7 @@ import jp.co.company.space.api.features.authentication.exception.AuthenticationE
 import java.text.ParseException;
 
 /**
- * A factory creating a new {@link NewCookie} instance for authentication purposes.
+ * A factory creating a new {@link NewCookie} for authentication purposes.
  */
 public class AuthenticationTokenCookieCreationFactory {
 
@@ -21,9 +21,9 @@ public class AuthenticationTokenCookieCreationFactory {
     }
 
     /**
-     * Creates a new {@link NewCookie} instance for authentication purposes based on the provided values.
+     * Creates a new {@link NewCookie} for authentication purposes based on the provided values.
      *
-     * @return A {@link NewCookie} instance for authentication purposes.
+     * @return A {@link NewCookie} for authentication purposes.
      */
     public NewCookie generate() throws AuthenticationException {
         try {

@@ -12,7 +12,7 @@ import java.util.Objects;
 public class Pod {
 
     /**
-     * Creates a {@link Pod} instance.
+     * Creates a {@link Pod}.
      *
      * @param code   The code of the pod.
      * @param type   The type of the pod.
@@ -20,7 +20,7 @@ public class Pod {
      * @param row    The row of the pod.
      * @param column The column of the pod.
      * @param status The status of the pod.
-     * @return A {@link Pod} instance.
+     * @return A {@link Pod}.
      */
     public static Pod create(String code, PodType type, int deck, int row, int column, PodStatus status) throws PodException {
         return new Pod(code, type, deck, row, column, status);
@@ -105,12 +105,9 @@ public class Pod {
 
     /**
      * Set the status of this pod to unavailable.
-     *
-     * @return A {@link Pod} instance.
      */
-    public Pod markAsUnavailable() {
+    public void markAsUnavailable() {
         status = PodStatus.UNAVAILABLE;
-        return this;
     }
 
     @Override

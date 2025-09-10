@@ -3,7 +3,7 @@ package jp.co.company.space.api.features.location.exception;
 import jp.co.company.space.api.shared.exception.DomainException;
 
 /**
- * A {@link DomainException} instance for location exceptions.
+ * A {@link DomainException} for location exceptions.
  */
 public class LocationException extends DomainException {
     public LocationException(LocationError error) {

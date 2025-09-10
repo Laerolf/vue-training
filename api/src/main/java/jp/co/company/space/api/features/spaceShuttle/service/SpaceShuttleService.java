@@ -76,7 +76,7 @@ public class SpaceShuttleService {
     }
 
     /**
-     * Loads all initial {@link SpaceShuttle} instances into the database.
+     * Loads all initial {@link SpaceShuttle}s into the database.
      */
     private void loadSpaceShuttles() throws LocationException {
         try (JsonReader reader = Json.createReader(SpaceShuttleService.class.getResourceAsStream("/static/space-shuttles.json"))) {
@@ -100,9 +100,9 @@ public class SpaceShuttleService {
     }
 
     /**
-     * Gets a {@link List} of existing {@link SpaceShuttle} instances
+     * Gets a {@link List} of existing {@link SpaceShuttle}s
      *
-     * @return The {@link List} of existing {@link SpaceShuttle} instances.
+     * @return The {@link List} of existing {@link SpaceShuttle}s.
      */
     public List<SpaceShuttle> getAll() throws SpaceShuttleException {
         try {
@@ -114,21 +114,20 @@ public class SpaceShuttleService {
     }
 
     /**
-     * Returns a {@link List} of all {@link SpaceShuttle} instances with the {@link SpaceShuttleModel} matching the provided
-     * ID.
+     * Returns a {@link List} of all {@link SpaceShuttle}s with the {@link SpaceShuttleModel} matching the provided ID.
      *
      * @param id The ID to search with.
-     * @return A {@link List} of {@link SpaceShuttle} instances.
+     * @return A {@link List} of {@link SpaceShuttle}s.
      */
     public List<SpaceShuttle> getAllSpaceShuttlesByModelId(String id) throws SpaceShuttleException {
         return repository.getAllSpaceShuttlesByModelId(id);
     }
 
     /**
-     * Gets an {@link Optional} {@link SpaceShuttle} instance for the provided ID.
+     * Gets an {@link Optional} {@link SpaceShuttle} for the provided ID.
      *
      * @param id The ID to search with.
-     * @return An {@link Optional} {@link SpaceShuttle} instance.
+     * @return An {@link Optional} {@link SpaceShuttle}.
      */
     public Optional<SpaceShuttle> findById(String id) throws SpaceShuttleException {
         try {

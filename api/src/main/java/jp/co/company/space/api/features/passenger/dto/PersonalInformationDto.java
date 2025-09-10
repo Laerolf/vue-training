@@ -16,10 +16,10 @@ import static jp.co.company.space.api.shared.openApi.Examples.*;
 public class PersonalInformationDto {
 
     /**
-     * Creates {@link PersonalInformationDto} based on a {@link PersonalInformation} instance.
+     * Creates {@link PersonalInformationDto} based on a {@link PersonalInformation}.
      *
      * @param personalInformation The base for the personal information DTO.
-     * @return A {@link PersonalInformationDto} instance.
+     * @return A {@link PersonalInformationDto}.
      */
     public static PersonalInformationDto create(PersonalInformation personalInformation) throws PersonalInformationException {
         if (personalInformation == null) {

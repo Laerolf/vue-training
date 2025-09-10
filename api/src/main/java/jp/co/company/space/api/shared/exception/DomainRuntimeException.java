@@ -1,7 +1,7 @@
 package jp.co.company.space.api.shared.exception;
 
 /**
- * An abstract class representing a domain specific {@link RuntimeException} instance.
+ * An abstract class representing a domain specific {@link RuntimeException}.
  */
 public abstract class DomainRuntimeException extends ApplicationRuntimeException {
 

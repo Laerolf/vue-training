@@ -21,27 +21,27 @@ import java.util.UUID;
 public class SpaceStation {
 
     /**
-     * Creates a new {@link SpaceStation} entity.
+     * Creates a new {@link SpaceStation}.
      *
      * @param name     The name of the space station.
      * @param code     The code of the space station.
      * @param country  The country of the space station.
      * @param location The location of the space station.
-     * @return A new {@link SpaceStation} entity.
+     * @return A new {@link SpaceStation}.
      */
     public static SpaceStation create(String name, String code, String country, Location location) throws SpaceStationException {
         return new SpaceStation(UUID.randomUUID().toString(), name, code, country, location);
     }
 
     /**
-     * Reconstructs a {@link SpaceStation} entity.
+     * Reconstructs a {@link SpaceStation}.
      *
      * @param id       The ID of the space station.
      * @param name     The name of the space station.
      * @param code     The code of the space station.
      * @param country  The country of the space station.
      * @param location The location of the space station.
-     * @return A {@link SpaceStation} entity.
+     * @return A {@link SpaceStation}.
      */
     public static SpaceStation reconstruct(String id, String name, String code, String country, Location location) throws SpaceStationException {
         return new SpaceStation(id, name, code, country, location);

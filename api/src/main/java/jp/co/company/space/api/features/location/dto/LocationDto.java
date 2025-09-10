@@ -11,16 +11,16 @@ import java.util.List;
 import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
- * A POJO representing a brief DTO of a {@link Location} instance.
+ * A POJO representing a brief DTO of a {@link Location}.
  */
 @Schema(name = "Location", description = "The details of a location.")
 public class LocationDto {
 
     /**
-     * Creates a new {@link LocationDto} instance based on a {@link Location} instance.
+     * Creates a new {@link LocationDto} based on a {@link Location}.
      *
-     * @param location The base {@link Location} instance.
-     * @return A new {@link LocationDto} instance.
+     * @param location The base {@link Location}.
+     * @return A new {@link LocationDto}.
      */
     public static LocationDto create(Location location) throws LocationException {
         List<LocationCharacteristicDto> characteristics = location.getCharacteristics().stream().map(LocationCharacteristicDto::create).toList();

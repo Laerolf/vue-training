@@ -8,7 +8,7 @@ import jp.co.company.space.utils.features.spaceShuttleModel.SpaceShuttleModelTes
 import java.util.Optional;
 
 /**
- * A test data builder that creates a {@link SpaceShuttle} instance for testing purposes.
+ * A test data builder that creates a {@link SpaceShuttle} for testing purposes.
  */
 public class SpaceShuttleTestDataBuilder {
 
@@ -40,9 +40,9 @@ public class SpaceShuttleTestDataBuilder {
     }
 
     /**
-     * Creates a new {@link SpaceShuttle} instance.
+     * Creates a new {@link SpaceShuttle}.
      *
-     * @return a new {@link SpaceShuttle} instance
+     * @return a new {@link SpaceShuttle}
      */
     public SpaceShuttle create() throws SpaceShuttleException {
         return SpaceShuttle.create(

@@ -72,7 +72,7 @@ public class SpaceStationService {
     }
 
     /**
-     * Loads all initial {@link SpaceStation} instances into the database.
+     * Loads all initial {@link SpaceStation}s into the database.
      */
     private void loadSpaceStations() throws SpaceStationException {
         try (JsonReader reader = Json.createReader(SpaceStationService.class.getResourceAsStream("/static/space-stations.json"))) {
@@ -99,9 +99,9 @@ public class SpaceStationService {
     }
 
     /**
-     * Gets a {@link List} of existing {@link SpaceStation} instances
+     * Gets a {@link List} of existing {@link SpaceStation}s
      *
-     * @return The {@link List} of existing {@link SpaceStation} instances.
+     * @return The {@link List} of existing {@link SpaceStation}s.
      */
     public List<SpaceStation> getAll() throws SpaceStationException {
         try {
@@ -113,10 +113,10 @@ public class SpaceStationService {
     }
 
     /**
-     * Gets an {@link Optional} {@link SpaceStation} instance for the provided ID.
+     * Gets an {@link Optional} {@link SpaceStation} for the provided ID.
      *
      * @param id The ID to search with.
-     * @return An {@link Optional} {@link SpaceStation} instance.
+     * @return An {@link Optional} {@link SpaceStation}.
      */
     public Optional<SpaceStation> findById(String id) throws SpaceStationException {
         try {

@@ -23,7 +23,7 @@ public class SpaceShuttleRepository {
     }
 
     /**
-     * Searches an {@link Optional} instance of the {@link SpaceShuttle} class by its ID.
+     * Searches an {@link Optional} of the {@link SpaceShuttle} class by its ID.
      *
      * @param id The ID of the space shuttle to search for.
      * @return An {@link Optional} {@link SpaceShuttle}.
@@ -37,9 +37,9 @@ public class SpaceShuttleRepository {
     }
 
     /**
-     * Gets all the saved {@link SpaceShuttle} instances.
+     * Gets all the saved {@link SpaceShuttle}s.
      *
-     * @return A {@link List} of {@link SpaceShuttle} instances.
+     * @return A {@link List} of {@link SpaceShuttle}s.
      */
     public List<SpaceShuttle> getAll() throws SpaceShuttleException {
         try {
@@ -51,10 +51,10 @@ public class SpaceShuttleRepository {
     }
 
     /**
-     * Returns a {@link List} of {@link SpaceShuttle} instances matching the space shuttle model with the provided ID.
+     * Returns a {@link List} of {@link SpaceShuttle}s matching the space shuttle model with the provided ID.
      *
      * @param id The ID to search with.
-     * @return A {@link List} of {@link SpaceShuttle} instances.
+     * @return A {@link List} of {@link SpaceShuttle}s.
      */
     public List<SpaceShuttle> getAllSpaceShuttlesByModelId(String id) throws SpaceShuttleException {
         try {
@@ -66,10 +66,10 @@ public class SpaceShuttleRepository {
     }
 
     /**
-     * Saves a {@link SpaceStation} instance.
+     * Saves a {@link SpaceStation}.
      *
-     * @param spaceShuttle The {@link SpaceStation} instance to save.
-     * @return The saved {@link SpaceStation} instance.
+     * @param spaceShuttle The {@link SpaceStation} to save.
+     * @return The saved {@link SpaceStation}.
      */
     public SpaceShuttle save(SpaceShuttle spaceShuttle) throws SpaceShuttleException {
         if (findById(spaceShuttle.getId()).isEmpty()) {
@@ -85,10 +85,10 @@ public class SpaceShuttleRepository {
     }
 
     /**
-     * Merges a persisted {@link SpaceShuttle} instance with the provided instance.
+     * Merges a persisted {@link SpaceShuttle}.
      *
-     * @param spaceShuttle The {@link SpaceShuttle} instance to merge.
-     * @return The merged {@link SpaceShuttle} instance.
+     * @param spaceShuttle The {@link SpaceShuttle} to merge.
+     * @return The merged {@link SpaceShuttle}.
      */
     public SpaceShuttle merge(SpaceShuttle spaceShuttle) throws SpaceShuttleException {
         try {
@@ -99,10 +99,10 @@ public class SpaceShuttleRepository {
     }
 
     /**
-     * Saves a {@link List} of {@link SpaceShuttle} instances.
+     * Saves a {@link List} of {@link SpaceShuttle}s.
      *
      * @param spaceShuttles The {@link List} of {@link SpaceShuttle} to save.
-     * @return The {@link List} of saved {@link SpaceShuttle} instances.
+     * @return The {@link List} of saved {@link SpaceShuttle}s.
      */
     public List<SpaceShuttle> save(List<SpaceShuttle> spaceShuttles) throws SpaceShuttleException {
         try {

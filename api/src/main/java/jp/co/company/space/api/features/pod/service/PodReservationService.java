@@ -31,12 +31,12 @@ public class PodReservationService {
     }
 
     /**
-     * Creates a new {@link PodReservation} instance for the provided {@link Voyage} based on the provided {@link Passenger} instance and pod code.
+     * Creates a new {@link PodReservation} for the provided {@link Voyage} based on the provided {@link Passenger} and pod code.
      *
      * @param voyage           The voyage of the new pod reservation.
      * @param passenger        The passenger of the new pod reservation.
      * @param requestedPodCode The pod code of the requested pod.
-     * @return A {@link PodReservation} instance.
+     * @return A {@link PodReservation}.
      */
     public PodReservation reservePodForPassenger(Voyage voyage, Passenger passenger, String requestedPodCode) throws PodReservationException {
         try {
@@ -58,10 +58,10 @@ public class PodReservationService {
     }
 
     /**
-     * Returns a {@link List} of all {@link PodReservation} instances matching a {@link Voyage} instance.
+     * Returns a {@link List} of all {@link PodReservation}s matching a {@link Voyage}.
      *
      * @param voyage The voyage search for.
-     * @return A {@link List} of {@link PodReservation} instances.
+     * @return A {@link List} of {@link PodReservation}s.
      */
     public List<PodReservation> getAllPodReservationsByVoyage(Voyage voyage) throws PodReservationException {
         try {

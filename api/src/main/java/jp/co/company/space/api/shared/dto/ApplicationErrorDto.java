@@ -16,31 +16,31 @@ import java.util.Map;
 public class ApplicationErrorDto {
 
     /**
-     * Creates a {@link ApplicationErrorDto} instance based on a {@link ApplicationException} instance.
+     * Creates a {@link ApplicationErrorDto} based on a {@link ApplicationException}.
      *
-     * @param exception The base for the {@link ApplicationErrorDto} instance.
-     * @return A {@link ApplicationErrorDto} instance.
+     * @param exception The base for the {@link ApplicationErrorDto}.
+     * @return A {@link ApplicationErrorDto}.
      */
     public static ApplicationErrorDto create(@Nonnull ApplicationException exception) {
         return new ApplicationErrorDto(exception.getKey(), exception.getMessage());
     }
 
     /**
-     * Creates a {@link ApplicationErrorDto} instance based on a {@link ApplicationError} instance.
+     * Creates a {@link ApplicationErrorDto} based on a {@link ApplicationError}.
      *
-     * @param error The base for the {@link ApplicationErrorDto} instance.
-     * @return A {@link ApplicationErrorDto} instance.
+     * @param error The base for the {@link ApplicationErrorDto}.
+     * @return A {@link ApplicationErrorDto}.
      */
     public static ApplicationErrorDto create(@Nonnull ApplicationError error) {
         return new ApplicationErrorDto(error.getKey(), error.getDescription());
     }
 
     /**
-     * Creates a {@link ApplicationErrorDto} instance based on the provided error key and error message.
+     * Creates a {@link ApplicationErrorDto} based on the provided error key and error message.
      *
      * @param errorKey     The key of the error.
      * @param errorMessage The message of the error.
-     * @return A {@link ApplicationErrorDto} instance.
+     * @return A {@link ApplicationErrorDto}.
      */
     public static ApplicationErrorDto create(@Nonnull String errorKey, @Nonnull String errorMessage) {
         return new ApplicationErrorDto(errorKey, errorMessage);

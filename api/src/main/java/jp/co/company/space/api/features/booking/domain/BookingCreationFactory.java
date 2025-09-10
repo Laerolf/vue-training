@@ -6,7 +6,7 @@ import jp.co.company.space.api.features.user.domain.User;
 import jp.co.company.space.api.features.voyage.domain.Voyage;
 
 /**
- * A factory creating a new {@link Booking} instance.
+ * A factory creating a new {@link Booking}.
  */
 public class BookingCreationFactory {
 
@@ -25,9 +25,9 @@ public class BookingCreationFactory {
     }
 
     /**
-     * Creates a new {@link Booking} instance based on the provided {@link User} and {@link Voyage} instance.
+     * Creates a new {@link Booking} based on the provided {@link User} and {@link Voyage}.
      *
-     * @return A new {@link Booking} instance.
+     * @return A new {@link Booking}.
      * @throws BookingException When the user or voyage of the booking are missing.
      */
     public Booking create() throws BookingException {

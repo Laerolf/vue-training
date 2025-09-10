@@ -24,10 +24,10 @@ public class RouteDistanceFactory {
     private static final MathContext MATH_CONTEXT = new MathContext(25, RoundingMode.HALF_UP);
 
     /**
-     * Returns a new {@link RouteDistanceFactory} instance.
+     * Returns a new {@link RouteDistanceFactory}.
      *
      * @param route The route to calculate the distance for.
-     * @return A new {@link RouteDistanceFactory} instance.
+     * @return A new {@link RouteDistanceFactory}.
      * @throws RouteException if the provided route is null.
      */
     public static RouteDistanceFactory create(final Route route) throws RouteException {

@@ -3,7 +3,7 @@ package jp.co.company.space.api.features.pod.exception;
 import jp.co.company.space.api.shared.exception.DomainException;
 
 /**
- * A {@link DomainException} instance for pod code exceptions.
+ * A {@link DomainException} for pod code exceptions.
  */
 public class PodCodeException extends DomainException {
     public PodCodeException(PodCodeError error) {

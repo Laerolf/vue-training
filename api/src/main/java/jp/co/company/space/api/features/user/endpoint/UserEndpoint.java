@@ -62,7 +62,7 @@ public class UserEndpoint {
      * Returns a user for the provided ID.
      *
      * @param context The security context of the request.
-     * @return a {@link UserDto} instance.
+     * @return a {@link UserDto}.
      */
     @GET
     @SecurityRequirement(name = "jwt")
@@ -90,7 +90,7 @@ public class UserEndpoint {
      * Returns a user for the provided ID.
      *
      * @param context The security context of the request.
-     * @return a {@link UserDto} instance.
+     * @return a {@link UserDto}.
      */
     @Path("{userId}/bookings")
     @GET

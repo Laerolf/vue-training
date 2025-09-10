@@ -10,16 +10,16 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import static jp.co.company.space.api.shared.openApi.Examples.*;
 
 /**
- * A POJO representing a DTO of a {@link Voyage} instance.
+ * A POJO representing a DTO of a {@link Voyage}.
  */
 @Schema(name = "Voyage", description = "The details of a voyage.")
 public class VoyageDto {
 
     /**
-     * Returns a new {@link VoyageDto} instance based on a {@link Voyage} instance.
+     * Returns a new {@link VoyageDto} based on a {@link Voyage}.
      *
-     * @param voyage The base {@link Voyage} instance.
-     * @return A new {@link VoyageDto} instance.
+     * @param voyage The base {@link Voyage}.
+     * @return A new {@link VoyageDto}.
      */
     public static VoyageDto create(Voyage voyage) throws VoyageException {
         if (voyage == null) {

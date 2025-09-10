@@ -22,7 +22,7 @@ public class RouteRepository {
     }
 
     /**
-     * Searches an {@link Optional} instance of the {@link Route} class by its ID.
+     * Searches an {@link Optional} of the {@link Route} class by its ID.
      *
      * @param id The ID of the route to search for.
      * @return An {@link Optional} {@link Route}.
@@ -36,9 +36,9 @@ public class RouteRepository {
     }
 
     /**
-     * Gets all the saved {@link Route} instances.
+     * Gets all the saved {@link Route}s.
      *
-     * @return A {@link List} of {@link Route} instances.
+     * @return A {@link List} of {@link Route}s.
      */
     public List<Route> getAll() throws RouteException {
         try {
@@ -50,10 +50,10 @@ public class RouteRepository {
     }
 
     /**
-     * Saves a {@link Route} instance.
+     * Saves a {@link Route}.
      *
-     * @param route The {@link Route} instance to save.
-     * @return The saved {@link Route} instance.
+     * @param route The {@link Route} to save.
+     * @return The saved {@link Route}.
      */
     public Route save(Route route) throws RouteException {
         if (findById(route.getId()).isEmpty()) {
@@ -69,10 +69,10 @@ public class RouteRepository {
     }
 
     /**
-     * Merges a persisted {@link Route} instance with the provided instance.
+     * Merges a persisted {@link Route}.
      *
-     * @param route The {@link Route} instance to merge.
-     * @return The merged {@link Route} instance.
+     * @param route The {@link Route} to merge.
+     * @return The merged {@link Route}.
      */
     public Route merge(Route route) throws RouteException {
         try {
@@ -83,10 +83,10 @@ public class RouteRepository {
     }
 
     /**
-     * Saves a {@link List} of {@link Route} instances.
+     * Saves a {@link List} of {@link Route}s.
      *
      * @param routes The {@link List} of {@link Route} to save.
-     * @return The {@link List} of saved {@link Route} instances.
+     * @return The {@link List} of saved {@link Route}s.
      */
     public List<Route> save(List<Route> routes) throws RouteException {
         try {

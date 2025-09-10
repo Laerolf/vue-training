@@ -3,7 +3,7 @@ package jp.co.company.space.api.features.spaceShuttleModel.exception;
 import jp.co.company.space.api.shared.exception.DomainException;
 
 /**
- * A {@link DomainException} instance for space shuttle model exceptions.
+ * A {@link DomainException} for space shuttle model exceptions.
  */
 public class SpaceShuttleModelException extends DomainException {
     public SpaceShuttleModelException(SpaceShuttleModelError error) {

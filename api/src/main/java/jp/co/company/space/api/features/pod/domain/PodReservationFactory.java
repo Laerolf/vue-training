@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * A POJO representing a factory creating {@link PodReservation} instances.
+ * A POJO representing a factory creating {@link PodReservation}s.
  */
 public class PodReservationFactory {
 
@@ -36,9 +36,9 @@ public class PodReservationFactory {
     }
 
     /**
-     * Creates a new {@link PodReservation} instance.
+     * Creates a new {@link PodReservation}.
      *
-     * @return A {@link PodReservation} instance.
+     * @return A {@link PodReservation}.
      */
     public PodReservation create() throws PodReservationException {
         try {

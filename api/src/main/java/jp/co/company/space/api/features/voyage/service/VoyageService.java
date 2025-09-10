@@ -118,7 +118,7 @@ public class VoyageService {
     }
 
     /**
-     * Loads the initial {@link Voyage} instances into the database.
+     * Loads the initial {@link Voyage}s into the database.
      */
     private void loadVoyages() throws VoyageException {
         try (JsonReader reader = Json.createReader(VoyageService.class.getResourceAsStream("/static/voyages.json"))) {
@@ -149,9 +149,9 @@ public class VoyageService {
     }
 
     /**
-     * Gets all existing {@link Voyage} instances.
+     * Gets all existing {@link Voyage}s.
      *
-     * @return A {@link List} of all {@link Voyage} instances.
+     * @return A {@link List} of all {@link Voyage}s.
      */
     public List<Voyage> getAll() throws VoyageException {
         try {
@@ -163,10 +163,10 @@ public class VoyageService {
     }
 
     /**
-     * Returns an {@link Optional} {@link Voyage} instance for the provided ID.
+     * Returns an {@link Optional} {@link Voyage} for the provided ID.
      *
      * @param id The ID to search with.
-     * @return An {@link Optional} {@link Voyage} instance.
+     * @return An {@link Optional} {@link Voyage}.
      */
     public Optional<Voyage> findById(String id) throws VoyageException {
         try {
@@ -178,10 +178,10 @@ public class VoyageService {
     }
 
     /**
-     * Returns a {@link List} of {@link Voyage} instances having an origin space station matching the provided space station ID.
+     * Returns a {@link List} of {@link Voyage}s having an origin space station matching the provided space station ID.
      *
      * @param originId The space station ID to search with.
-     * @return A {@link List} of {@link Voyage} instances.
+     * @return A {@link List} of {@link Voyage}s.
      */
     public List<Voyage> getAllFrom(String originId) throws VoyageException {
         try {
@@ -193,10 +193,10 @@ public class VoyageService {
     }
 
     /**
-     * Returns a {@link List} of {@link Voyage} instances having a destination space station matching the provided space station ID.
+     * Returns a {@link List} of {@link Voyage}s having a destination space station matching the provided space station ID.
      *
      * @param destinationId The space station ID to search with.
-     * @return A {@link List} of {@link Voyage} instances.
+     * @return A {@link List} of {@link Voyage}s.
      */
     public List<Voyage> getAllTo(String destinationId) throws VoyageException {
         try {
@@ -208,12 +208,12 @@ public class VoyageService {
     }
 
     /**
-     * Returns a {@link List} of {@link Voyage} instances having an origin space station matching the provided origin space
+     * Returns a {@link List} of {@link Voyage}s having an origin space station matching the provided origin space
      * station ID and a destination space station matching the provided destination space station ID.
      *
      * @param originId      The origin space station ID to search with.
      * @param destinationId The destination space station ID to search with.
-     * @return A {@link List} of {@link Voyage} instances.
+     * @return A {@link List} of {@link Voyage}s.
      */
     public List<Voyage> getAllFromTo(String originId, String destinationId) throws VoyageException {
         try {
@@ -231,10 +231,10 @@ public class VoyageService {
     }
 
     /**
-     * Gets a {@link List} of all {@link Pod} instances for a {@link Voyage} instance if any {@link Voyage} instance matches the provided ID.
+     * Gets a {@link List} of all {@link Pod}s for a {@link Voyage} if any {@link Voyage} matches the provided ID.
      *
      * @param id The ID to search for.
-     * @return A {@link List} of {@link Pod} instances.
+     * @return A {@link List} of {@link Pod}s.
      */
     public List<Pod> getAllPodsByVoyageId(String id) throws VoyageException {
         try {
@@ -252,10 +252,10 @@ public class VoyageService {
     }
 
     /**
-     * Gets a {@link List} of all {@link Pod} instances for a {@link Voyage} instance if any {@link Voyage} instance matches the provided voyage instance.
+     * Gets a {@link List} of all {@link Pod}s for a {@link Voyage} if any {@link Voyage} matches the provided voyage.
      *
      * @param voyage The voyage to search for.
-     * @return A {@link List} of {@link Pod} instances.
+     * @return A {@link List} of {@link Pod}s.
      */
     public List<Pod> getAllPodsByVoyage(Voyage voyage) throws VoyageException {
         try {

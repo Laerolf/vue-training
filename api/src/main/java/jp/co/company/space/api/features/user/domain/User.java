@@ -23,27 +23,27 @@ import java.util.UUID;
 public class User {
 
     /**
-     * Creates a new {@link User} instance.
+     * Creates a new {@link User}.
      *
      * @param lastName     The last name of the user.
      * @param firstName    The first name of the user.
      * @param emailAddress The email address of the user.
      * @param password     The password of the user.
-     * @return A new {@link User} instance.
+     * @return A new {@link User}.
      */
     public static User create(String lastName, String firstName, String emailAddress, String password) throws UserException {
         return new User(UUID.randomUUID().toString(), lastName, firstName, emailAddress, password);
     }
 
     /**
-     * Reconstructs a {@link User} instance.
+     * Reconstructs a {@link User}.
      *
      * @param id           The ID of the user.
      * @param lastName     The last name of the user.
      * @param firstName    The first name of the user.
      * @param emailAddress The email address of the user.
      * @param password     The password of the user.
-     * @return A {@link User} instance.
+     * @return A {@link User}.
      */
     public static User reconstruct(String id, String lastName, String firstName, String emailAddress, String password) throws UserException {
         return new User(id, lastName, firstName, emailAddress, password);

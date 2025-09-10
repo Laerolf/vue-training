@@ -49,11 +49,11 @@ public class BookingEndpoint {
     }
 
     /**
-     * Creates a new {@link Booking} instance and returns it as a {@link BookingDto} instance.
+     * Creates a new {@link Booking} and returns it as a {@link BookingDto}.
      *
      * @param context The context of the request.
-     * @param form A form with details about the new {@link Booking} instance.
-     * @return A new {@link BookingDto} instance
+     * @param form A form with details about the new {@link Booking}.
+     * @return A new {@link BookingDto}
      */
     @POST
     @SecurityRequirement(name = "jwt")
