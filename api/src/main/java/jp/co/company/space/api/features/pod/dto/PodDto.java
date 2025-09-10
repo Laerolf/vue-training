@@ -39,19 +39,19 @@ public class PodDto {
      * The deck of the pod in the space shuttle layout.
      */
     @Schema(description = "The deck of the pod.", example = POD_DECK_NUMBER_EXAMPLE)
-    public int deck;
+    public Integer deck;
 
     /**
      * The row of the pod in the space shuttle layout.
      */
     @Schema(description = "The row of the pod.", example = POD_ROW_NUMBER_EXAMPLE)
-    public int row;
+    public Integer row;
 
     /**
      * The column of the pod in the space shuttle layout.
      */
     @Schema(description = "The column of the pod.", example = POD_COLUMN_NUMBER_EXAMPLE)
-    public int column;
+    public Integer column;
 
     /**
      * The status of the pod.
@@ -62,16 +62,16 @@ public class PodDto {
     protected PodDto() {
     }
 
-    protected PodDto(String code, String type, int deck, int row, int column, String status) throws PodException {
+    protected PodDto(String code, String type, Integer deck, Integer row, Integer column, String status) throws PodException {
         if (code == null) {
             throw new PodException(PodError.MISSING_CODE);
         } else if (type == null) {
             throw new PodException(PodError.MISSING_TYPE);
-        } else if (deck <= 0) {
+        } else if (deck == null) {
             throw new PodException(PodError.INVALID_DECK_NUMBER);
-        } else if (row <= 0) {
+        } else if (row == null) {
             throw new PodException(PodError.INVALID_ROW_NUMBER);
-        } else if (column <= 0) {
+        } else if (column == null) {
             throw new PodException(PodError.INVALID_COLUMN_NUMBER);
         } else if (status == null) {
             throw new PodException(PodError.MISSING_STATUS);

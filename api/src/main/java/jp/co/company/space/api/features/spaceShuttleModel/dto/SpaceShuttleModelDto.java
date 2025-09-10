@@ -39,22 +39,26 @@ public class SpaceShuttleModelDto {
      * The maximum seating capacity of a space shuttle model.
      */
     @Schema(description = "The maximum seating capacity of the space shuttle model", example = SPACE_SHUTTLE_MODEL_MAX_CAPACITY_EXAMPLE)
-    public int maxCapacity;
+    public Integer maxCapacity;
 
     /**
      * The maximum speed of a space shuttle model in kilometers per hour.
      */
     @Schema(description = "The maximum speed of the space shuttle model in kilometers per hour", example = SPACE_SHUTTLE_MODEL_MAX_SPEED_EXAMPLE)
-    public long maxSpeed;
+    public Long maxSpeed;
 
     protected SpaceShuttleModelDto() {
     }
 
-    protected SpaceShuttleModelDto(String id, String name, int maxCapacity, long maxSpeed) {
+    protected SpaceShuttleModelDto(String id, String name, Integer maxCapacity, Long maxSpeed) {
         if (id == null) {
             throw new SpaceShuttleModelException(SpaceShuttleModelError.MISSING_ID);
         } else if (name == null) {
             throw new SpaceShuttleModelException(SpaceShuttleModelError.MISSING_NAME);
+        } else if (maxCapacity == null) {
+            throw new SpaceShuttleModelException(SpaceShuttleModelError.MISSING_MAX_CAPACITY);
+        } else if (maxSpeed == null) {
+            throw new SpaceShuttleModelException(SpaceShuttleModelError.MISSING_MAX_SPEED);
         }
 
         this.id = id;

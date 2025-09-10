@@ -8,6 +8,8 @@ import jp.co.company.space.api.shared.exception.DomainError;
 public enum SpaceShuttleModelError implements DomainError {
     MISSING_ID("spaceShuttleModel.missingId", "The ID of a space shuttle model is missing."),
     MISSING_NAME("spaceShuttleModel.missingName", "The name of a space shuttle model is missing."),
+    MISSING_MAX_CAPACITY("spaceShuttleModel.missingMaxCapacity", "The max capacity of a space shuttle model is missing."),
+    MISSING_MAX_SPEED("spaceShuttleModel.missingMaxSpeed", "The max speed of a space shuttle model is missing."),
 
     FIND_BY_ID("spaceShuttleModel.findById", "Failed to find a space shuttle model with the provided ID."),
     GET_ALL("spaceShuttleModel.getAll", "Failed to get all existing space shuttle models."),

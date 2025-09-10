@@ -58,7 +58,7 @@ public class VoyageBasicDto {
      * The duration of the voyage in seconds.
      */
     @Schema(description = "The duration of the voyage in seconds.", example = VOYAGE_DURATION_EXAMPLE)
-    public long duration;
+    public Long duration;
 
     /**
      * The status of the voyage.
