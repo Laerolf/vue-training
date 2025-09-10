@@ -87,7 +87,7 @@ public class User {
     /**
      * The bookings of the user.
      */
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Booking> bookings = new HashSet<>();
 
     protected User() {

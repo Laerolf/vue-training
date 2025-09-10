@@ -115,7 +115,7 @@ public class PersonalInformation {
     /**
      * The passenger about this information.
      */
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "passenger_id", table = "passenger_personal_information", nullable = false)
     private Passenger passenger;
 

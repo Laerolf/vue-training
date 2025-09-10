@@ -48,9 +48,7 @@ public class PodReservationService {
 
             List<PodReservation> reservations = getAllPodReservationsByVoyage(voyage);
 
-            PodReservation newPodReservation = new PodReservationFactory(voyage, passenger, requestedPodCode, reservations).create();
-
-            return repository.save(newPodReservation);
+            return new PodReservationFactory(voyage, passenger, requestedPodCode, reservations).create();
         } catch (PodException | PodReservationException | PodCodeException exception) {
             LOGGER.warning(new LogBuilder("Failed to reserve a pod for a passenger").withException(exception).build());
             throw exception;

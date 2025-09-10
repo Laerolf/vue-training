@@ -94,14 +94,13 @@ public class Passenger {
     @Column(name = "package_type", nullable = false)
     private PackageType packageType;
 
-    // TODO: add unit tests for domain models
     /**
      * The pod assigned to the passenger on a space shuttle.
      */
-    @OneToOne(mappedBy = "passenger")
+    @OneToOne(mappedBy = "passenger", cascade = CascadeType.ALL)
     private PodReservation podReservation;
 
-    @OneToOne(mappedBy = "passenger")
+    @OneToOne(mappedBy = "passenger", cascade = CascadeType.ALL)
     private PersonalInformation personalInformation;
 
     @ManyToOne(optional = false)

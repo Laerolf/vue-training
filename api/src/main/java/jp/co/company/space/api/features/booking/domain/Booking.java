@@ -31,7 +31,7 @@ public class Booking {
      * @throws BookingException When the user or voyage of the booking are missing.
      */
     public static Booking create(User user, Voyage voyage) throws BookingException {
-        return new Booking(UUID.randomUUID().toString(), ZonedDateTime.now(), BookingStatus.DRAFT, user, voyage);
+        return new Booking(UUID.randomUUID().toString(), ZonedDateTime.now(), BookingStatus.CREATED, user, voyage);
     }
 
     /**
@@ -140,13 +140,6 @@ public class Booking {
         }
 
         this.passengers = new HashSet<>(passengerList);
-    }
-
-    /**
-     * Changes the {@link Booking}'s status to "created".
-     */
-    public void setCreated() {
-        status = BookingStatus.CREATED;
     }
 
     @Override

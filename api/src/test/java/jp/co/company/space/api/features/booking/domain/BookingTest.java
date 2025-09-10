@@ -36,7 +36,7 @@ class BookingTest {
             assertNotNull(booking.getId());
             assertNotNull(booking.getCreationDate());
             assertEquals(ZonedDateTime.now().getDayOfYear(), booking.getCreationDate().getDayOfYear());
-            assertEquals(BookingStatus.DRAFT, booking.getStatus());
+            assertEquals(BookingStatus.CREATED, booking.getStatus());
             assertEquals(USER, booking.getUser());
             assertEquals(VOYAGE, booking.getVoyage());
         }

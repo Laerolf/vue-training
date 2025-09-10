@@ -53,7 +53,6 @@ public class BookingService {
      * @throws BookingException When the form is missing or the form's passengers are missing or invalid.
      */
     public Booking create(Principal userPrincipal, BookingCreationForm creationForm) throws BookingException {
-        // TODO: it should not be possible to adjust a booking with the status "created"
         try {
             if (creationForm == null) {
                 throw new BookingException(BookingError.NEW_MISSING_CREATION_FORM);
@@ -67,11 +66,10 @@ public class BookingService {
             Voyage selectedVoyage = voyageService.findById(creationForm.voyageId).orElseThrow(() -> new BookingException(BookingError.NEW_VOYAGE_NOT_FOUND));
 
             Booking newBooking = new BookingCreationFactory(selectedUser, selectedVoyage).create();
-            newBooking.setCreated();
-            newBooking = repository.save(newBooking);
-
             List<Passenger> passengers = passengerService.create(newBooking, creationForm.passengers);
             newBooking.assignPassengers(passengers);
+
+            newBooking = repository.save(newBooking);
 
             LOGGER.info(new LogBuilder("A new booking has been saved to the database.").build());
 
