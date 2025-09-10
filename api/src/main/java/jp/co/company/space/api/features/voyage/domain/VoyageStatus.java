@@ -58,15 +58,30 @@ public enum VoyageStatus {
     ABORTED("aborted");
 
     /**
+     * The prefix used for the status's label.
+     */
+    public final static String LABEL_PREFIX = "voyageStatus";
+
+    /**
      * The key for the status.
      */
     private final String key;
 
+    /**
+     * The label of the status.
+     */
+    private final String label;
+
     VoyageStatus(String key) {
         this.key = key;
+        this.label = String.join(".", LABEL_PREFIX, this.key);
     }
 
     public String getKey() {
         return key;
+    }
+
+    public String getLabel() {
+        return label;
     }
 }

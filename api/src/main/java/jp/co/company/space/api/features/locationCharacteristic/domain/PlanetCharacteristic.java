@@ -30,9 +30,9 @@ public enum PlanetCharacteristic {
     COLD("cold");
 
     /**
-     * The prefix used for the characteristic's locale code.
+     * The prefix used for the characteristic's label.
      */
-    public final static String LOCALE_CODE_PREFIX = "planetCharacteristic";
+    public final static String LABEL_PREFIX = "planetCharacteristic";
 
     public final static Map<String, PlanetCharacteristic> BY_KEY = new HashMap<>();
 
@@ -66,20 +66,20 @@ public enum PlanetCharacteristic {
     private final String key;
 
     /**
-     * The locale code of the characteristic, used for translating.
+     * The label of the characteristic, used for translating.
      */
-    private final String localeCode;
+    private final String label;
 
     PlanetCharacteristic(String key) {
         this.key = key;
-        this.localeCode = String.join(".", LOCALE_CODE_PREFIX, this.key);
+        this.label = String.join(".", LABEL_PREFIX, this.key);
     }
 
     public String getKey() {
         return key;
     }
 
-    public String getLocaleCode() {
-        return localeCode;
+    public String getLabel() {
+        return label;
     }
 }

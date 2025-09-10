@@ -14,7 +14,7 @@ public enum Gender implements CatalogItem {
     OTHER("other");
 
     private static final Map<String, Gender> BY_KEY = new HashMap<>();
-    private static final String CATALOG_PREFIX = "podType";
+    private static final String LABEL_PREFIX = "gender";
 
     static {
         for (Gender gender : values()) {
@@ -37,7 +37,7 @@ public enum Gender implements CatalogItem {
 
     Gender(String key) {
         this.key = key;
-        this.label = new StringJoiner(".").add(CATALOG_PREFIX).add(key).toString();
+        this.label = new StringJoiner(".").add(LABEL_PREFIX).add(key).toString();
     }
 
     @Override

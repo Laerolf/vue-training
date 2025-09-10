@@ -17,7 +17,7 @@ public class Examples {
 
     // Location characteristics
     public static final String LOCATION_CHARACTERISTICS_KEY_EXAMPLE = "silent";
-    public static final String LOCATION_CHARACTERISTICS_LOCALE_CODE_EXAMPLE = "planetCharacteristic.silent";
+    public static final String LOCATION_CHARACTERISTICS_LABEL_EXAMPLE = "planetCharacteristic.silent";
 
     // Space station
     public static final String SPACE_STATION_ORIGIN_ID_EXAMPLE = "00000000-0000-1000-8000-000000000003";
@@ -27,7 +27,7 @@ public class Examples {
     public static final String SPACE_STATION_COUNTRY_EXAMPLE = "Japan";
 
     // Booking
-    public static final String BOOKING_STATUS_EXAMPLE = "created";
+    public static final String BOOKING_STATUS_EXAMPLE = "bookingStatus.created";
     public static final String BOOKING_PASSENGER_ID_EXAMPLE = "[1]";
 
     // Voyage
@@ -35,7 +35,7 @@ public class Examples {
     public static final String VOYAGE_DEPARTURE_DATE_EXAMPLE = "2050-02-22T08:49:20.507334+09:00";
     public static final String VOYAGE_ARRIVAL_DATE_EXAMPLE = "2050-03-21T17:49:20.507334+09:00";
     public static final String VOYAGE_DURATION_EXAMPLE = "2365200";
-    public static final String VOYAGE_STATUS_EXAMPLE = "scheduled";
+    public static final String VOYAGE_STATUS_EXAMPLE = "voyageStatus.scheduled";
 
     // Route
     public static final String ROUTE_ID_EXAMPLE = "08bd4df1-97eb-4a9a-aa21-d9b7bed299a3";
@@ -60,7 +60,7 @@ public class Examples {
     public static final String POD_DECK_NUMBER_EXAMPLE = "1";
     public static final String POD_ROW_NUMBER_EXAMPLE = "1";
     public static final String POD_COLUMN_NUMBER_EXAMPLE = "1";
-    public static final String POD_STATUS_EXAMPLE = "available";
+    public static final String POD_STATUS_EXAMPLE = "podStatus.available";
 
     // User
     public static final String USER_LAST_NAME_EXAMPLE = "Jekyll";

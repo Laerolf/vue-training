@@ -20,7 +20,7 @@ public class PodDto {
      * @return A {@link PodDto}.
      */
     public static PodDto create(Pod pod) throws PodException {
-        return new PodDto(pod.getCode(), pod.getType().getKey(), pod.getDeck(), pod.getRow(), pod.getColumn(), pod.getStatus().getKey());
+        return new PodDto(pod.getCode(), pod.getType().getKey(), pod.getDeck(), pod.getRow(), pod.getColumn(), pod.getStatus().getLabel());
     }
 
     /**

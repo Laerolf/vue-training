@@ -23,7 +23,7 @@ public enum MealPreference implements CatalogItem {
     HYDRATION_BOOST("hydrationBoost", 500, PackageType.BUSINESS, PackageType.FIRST_CLASS),
     STASIS_READY("stasisReady", 250, PackageType.BUSINESS, PackageType.FIRST_CLASS);
 
-    private static final String CATALOG_PREFIX = "mealPreference";
+    private static final String LABEL_PREFIX = "mealPreference";
 
     /**
      * Searches a {@link MealPreference} by its key.
@@ -69,7 +69,7 @@ public enum MealPreference implements CatalogItem {
 
     MealPreference(String key, double additionalCostPerDay, PackageType availableFrom, PackageType freeFrom) {
         this.key = key;
-        this.label = new StringJoiner(".").add(CATALOG_PREFIX).add(key).toString();
+        this.label = new StringJoiner(".").add(LABEL_PREFIX).add(key).toString();
         this.additionalCostPerDay = additionalCostPerDay;
         this.availableFrom = availableFrom;
         this.freeFrom = freeFrom;

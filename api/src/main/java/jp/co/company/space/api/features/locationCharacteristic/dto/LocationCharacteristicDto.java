@@ -21,7 +21,7 @@ public class LocationCharacteristicDto {
      * @return A new {@link LocationCharacteristicDto}.
      */
     public static LocationCharacteristicDto create(LocationCharacteristic locationCharacteristic) throws LocationException {
-        return new LocationCharacteristicDto(locationCharacteristic.getId(), locationCharacteristic.getCharacteristic().getKey(), locationCharacteristic.getCharacteristic().getLocaleCode());
+        return new LocationCharacteristicDto(locationCharacteristic.getId(), locationCharacteristic.getCharacteristic().getLabel(), locationCharacteristic.getCharacteristic().getLabel());
     }
 
     /**
@@ -39,7 +39,7 @@ public class LocationCharacteristicDto {
     /**
      * The locale code of the location characteristic.
      */
-    @Schema(description = "The locale code of the location characteristic.", example = LOCATION_CHARACTERISTICS_LOCALE_CODE_EXAMPLE)
+    @Schema(description = "The locale code of the location characteristic.", example = LOCATION_CHARACTERISTICS_LABEL_EXAMPLE)
     public String localeCode;
 
     protected LocationCharacteristicDto() {

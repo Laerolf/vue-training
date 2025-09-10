@@ -12,7 +12,7 @@ public enum PodType implements CatalogItem {
     ENHANCED_POD("enhancedPod", "E", PackageType.FIRST_CLASS),
     PRIVATE_SUITE_POD("privateSuitePod", "PS", PackageType.BUSINESS);
 
-    private static final String CATALOG_PREFIX = "podType";
+    private static final String LABEL_PREFIX = "podType";
 
     /**
      * The key of the package type.
@@ -36,7 +36,7 @@ public enum PodType implements CatalogItem {
 
     PodType(String key, String podCodePrefix, PackageType availableFrom) {
         this.key = key;
-        this.label = new StringJoiner(".").add(CATALOG_PREFIX).add(key).toString();
+        this.label = new StringJoiner(".").add(LABEL_PREFIX).add(key).toString();
         this.podCodePrefix = podCodePrefix;
         this.availableFrom = availableFrom;
     }

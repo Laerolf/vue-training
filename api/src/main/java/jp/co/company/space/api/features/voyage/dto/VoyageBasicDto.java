@@ -30,7 +30,7 @@ public class VoyageBasicDto {
                 voyage.getId(),
                 voyage.getDepartureDate().toString(), voyage.getArrivalDate().toString(),
                 voyage.getDuration().toSeconds(),
-                voyage.getStatus().getKey(),
+                voyage.getStatus().getLabel(),
                 voyageRoute.getId(), voyageRoute.getOrigin().getId(), voyageRoute.getDestination().getId(),
                 voyage.getSpaceShuttle().getId()
         );

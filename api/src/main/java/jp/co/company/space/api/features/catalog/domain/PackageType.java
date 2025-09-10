@@ -12,7 +12,7 @@ public enum PackageType implements CatalogItem {
     BUSINESS("business"),
     FIRST_CLASS("firstClass");
 
-    private static final String CATALOG_PREFIX = "packageType";
+    private static final String LABEL_PREFIX = "packageType";
 
     /**
      * Searches a {@link PackageType} by its key.
@@ -36,7 +36,7 @@ public enum PackageType implements CatalogItem {
 
     PackageType(String key) {
         this.key = key;
-        this.label = new StringJoiner(".").add(CATALOG_PREFIX).add(key).toString();
+        this.label = new StringJoiner(".").add(LABEL_PREFIX).add(key).toString();
     }
 
     @Override

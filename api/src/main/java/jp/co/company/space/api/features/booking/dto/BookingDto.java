@@ -37,7 +37,7 @@ public class BookingDto {
         return new BookingDto(
                 booking.getId(),
                 booking.getCreationDate(),
-                booking.getStatus().getKey(),
+                booking.getStatus().getLabel(),
                 booking.getUser().getId(),
                 booking.getVoyage().getId(),
                 booking.getPassengers().stream().map(Passenger::getId).toList()

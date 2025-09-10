@@ -30,7 +30,7 @@ public class VoyageDto {
                 voyage.getId(),
                 voyage.getDepartureDate().toString(), voyage.getArrivalDate().toString(),
                 voyage.getDuration().toSeconds(),
-                voyage.getStatus().getKey(),
+                voyage.getStatus().getLabel(),
                 RouteDto.create(voyage.getRoute()),
                 SpaceShuttleDto.create(voyage.getSpaceShuttle())
         );
