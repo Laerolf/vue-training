@@ -5,19 +5,19 @@
              version="3.1">
 
     <persistence-unit name="domain" transaction-type="JTA">
-        <jta-data-source>spaceApiDs</jta-data-source>
-        <class>jp.co.company.space.api.features.spaceShuttle.domain.SpaceShuttle</class>
-        <class>jp.co.company.space.api.features.spaceShuttleModel.domain.SpaceShuttleModel</class>
-        <class>jp.co.company.space.api.features.location.domain.Location</class>
-        <class>jp.co.company.space.api.features.spaceStation.domain.SpaceStation</class>
-        <class>jp.co.company.space.api.features.route.domain.Route</class>
-        <class>jp.co.company.space.api.features.user.domain.User</class>
-        <class>jp.co.company.space.api.features.voyage.domain.Voyage</class>
-        <class>jp.co.company.space.api.features.booking.domain.Booking</class>
-        <class>jp.co.company.space.api.features.pod.domain.PodReservation</class>
-        <class>jp.co.company.space.api.features.passenger.domain.Passenger</class>
-        <class>jp.co.company.space.api.features.passenger.domain.PersonalInformation</class>
-        <class>jp.co.company.space.api.features.locationCharacteristic.domain.LocationCharacteristic</class>
+        <jta-data-source>novaGateApiDs</jta-data-source>
+        <class>jp.co.nova.gate.api.features.spaceShuttle.domain.SpaceShuttle</class>
+        <class>jp.co.nova.gate.api.features.spaceShuttleModel.domain.SpaceShuttleModel</class>
+        <class>jp.co.nova.gate.api.features.location.domain.Location</class>
+        <class>jp.co.nova.gate.api.features.spaceStation.domain.SpaceStation</class>
+        <class>jp.co.nova.gate.api.features.route.domain.Route</class>
+        <class>jp.co.nova.gate.api.features.user.domain.User</class>
+        <class>jp.co.nova.gate.api.features.voyage.domain.Voyage</class>
+        <class>jp.co.nova.gate.api.features.booking.domain.Booking</class>
+        <class>jp.co.nova.gate.api.features.pod.domain.PodReservation</class>
+        <class>jp.co.nova.gate.api.features.passenger.domain.Passenger</class>
+        <class>jp.co.nova.gate.api.features.passenger.domain.PersonalInformation</class>
+        <class>jp.co.nova.gate.api.features.locationCharacteristic.domain.LocationCharacteristic</class>
         <properties>
             <property name="hibernate.column_ordering_strategy" value="legacy"/>
         </properties>

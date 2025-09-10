@@ -1,0 +1,23 @@
+package jp.co.nova.gate.utils.features.route;
+
+import jp.co.nova.gate.api.features.route.domain.Route;
+import jp.co.nova.gate.api.features.route.exception.RouteException;
+import jp.co.nova.gate.api.features.spaceShuttleModel.domain.SpaceShuttleModel;
+import jp.co.nova.gate.api.features.spaceStation.domain.SpaceStation;
+
+/**
+ * A test data builder that creates a {@link Route} for testing purposes.
+ */
+public class RouteTestDataBuilder {
+    /**
+     * Creates a new {@link Route}.
+     *
+     * @param origin       The origin of the route.
+     * @param destination  The destination of the route.
+     * @param shuttleModel The space shuttle model for the route.
+     * @return a new {@link Route}.
+     */
+    public Route create(SpaceStation origin, SpaceStation destination, SpaceShuttleModel shuttleModel) throws RouteException {
+        return Route.create(origin, destination, shuttleModel);
+    }
+}

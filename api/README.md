@@ -1,6 +1,6 @@
 # api
 
-A Helidon MP application representing the Company Space API for booking space shuttles accross the galaxy.
+A Helidon MP application representing the NovaGate API for booking space shuttles accross the galaxy.
 
 ## Build and run
 
