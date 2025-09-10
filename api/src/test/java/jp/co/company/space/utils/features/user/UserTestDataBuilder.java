@@ -6,7 +6,7 @@ import jp.co.company.space.api.features.user.domain.User;
 import java.util.Optional;
 
 /**
- * A test data builder that creates a {@link User} instance for testing purposes.
+ * A test data builder that creates a {@link User} for testing purposes.
  */
 public class UserTestDataBuilder {
     private static final String DEFAULT_ID = "test";

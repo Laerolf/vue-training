@@ -36,7 +36,7 @@ public class PassengerService {
     private static final Logger LOGGER = Logger.getLogger(PassengerService.class.getName());
 
     @Inject
-    private PassengerRepository passengerRepository;
+    private PassengerRepository repository;
 
     @Inject
     private PersonalInformationRepository personalInformationRepository;
@@ -74,7 +74,7 @@ public class PassengerService {
      */
     public Optional<Passenger> findById(String id) throws PassengerException {
         try {
-            return passengerRepository.findById(id);
+            return repository.findById(id);
         } catch (PassengerException exception) {
             LOGGER.warning(new LogBuilder(PassengerError.FIND_BY_ID).withException(exception).withProperty("id", id).build());
             throw exception;
@@ -102,7 +102,7 @@ public class PassengerService {
                         MealPreference selectedMealPreference = MealPreference.findByKey(passengerForm.mealPreference).orElseThrow(() -> new CatalogException(CatalogError.MEAL_PREFERENCE_MISSING));
 
                         Passenger newPassenger = new PassengerCreationFactory(booking, selectedPackageType, selectedMealPreference).create();
-                        newPassenger = passengerRepository.save(newPassenger);
+                        newPassenger = repository.save(newPassenger);
 
                         addPersonalInformation(newPassenger, passengerForm.personalInformation);
 

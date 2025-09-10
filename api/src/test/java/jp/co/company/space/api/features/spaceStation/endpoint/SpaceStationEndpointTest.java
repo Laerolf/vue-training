@@ -26,7 +26,7 @@ public class SpaceStationEndpointTest {
     private WebTarget target;
 
     /**
-     * Tests the properties of a {@link SpaceStationBasicDto} instance.
+     * Tests the properties of a {@link SpaceStationBasicDto}.
      *
      * @param spaceStationDto The space station to test.
      */

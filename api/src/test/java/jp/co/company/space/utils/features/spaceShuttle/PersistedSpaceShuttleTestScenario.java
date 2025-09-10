@@ -18,7 +18,7 @@ public class PersistedSpaceShuttleTestScenario implements TestScenario {
     private PersistedSpaceShuttleModelTestScenario persistedSpaceShuttleModelTestScenario;
 
     @Inject
-    private SpaceShuttleRepository spaceShuttleRepository;
+    private SpaceShuttleRepository repository;
 
     private SpaceShuttle persistedSpaceShuttle;
 
@@ -31,7 +31,7 @@ public class PersistedSpaceShuttleTestScenario implements TestScenario {
             persistedSpaceShuttleModelTestScenario.setup();
 
             SpaceShuttle spaceShuttle = new SpaceShuttleTestDataBuilder().withModel(persistedSpaceShuttleModelTestScenario.getPersistedSpaceShuttleModel()).create();
-            persistedSpaceShuttle = spaceShuttleRepository.save(spaceShuttle);
+            persistedSpaceShuttle = repository.save(spaceShuttle);
         } catch (TestScenarioException | SpaceShuttleException exception) {
             throw new TestScenarioException("Failed to setup a space shuttle test scenario", exception);
         }

@@ -44,7 +44,7 @@ public class RouteService {
     private static final Logger LOGGER = Logger.getLogger(RouteService.class.getName());
 
     @Inject
-    private RouteRepository routeRepository;
+    private RouteRepository repository;
 
     @Inject
     private SpaceStationService spaceStationService;
@@ -149,7 +149,7 @@ public class RouteService {
                 return Route.reconstruct(id, origin, destination, shuttleModel);
             }).collect(Collectors.toList());
 
-            routeRepository.save(parsedRoutes);
+            repository.save(parsedRoutes);
             LOGGER.info(new LogBuilder(String.format("Created %d routes.", parsedRoutes.size())).build());
         } catch (JsonException | ObserverException | ClassCastException | DomainException |
                  NullPointerException exception) {
@@ -165,7 +165,7 @@ public class RouteService {
      */
     public List<Route> getAll() throws RouteException {
         try {
-            return routeRepository.getAll();
+            return repository.getAll();
         } catch (RouteException exception) {
             LOGGER.warning(new LogBuilder(RouteError.GET_ALL).withException(exception).build());
             throw exception;
@@ -180,7 +180,7 @@ public class RouteService {
      */
     public Optional<Route> findById(String id) throws RouteException {
         try {
-            return routeRepository.findById(id);
+            return repository.findById(id);
         } catch (RouteException exception) {
             LOGGER.warning(new LogBuilder(RouteError.FIND_BY_ID).withException(exception).build());
             throw exception;

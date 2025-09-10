@@ -23,7 +23,7 @@ public class PersistedVoyageTestScenario implements TestScenario {
     private PersistedRouteTestScenario persistedRouteTestScenario;
 
     @Inject
-    private VoyageRepository voyageRepository;
+    private VoyageRepository repository;
 
     private Voyage persistedVoyage;
 
@@ -41,7 +41,7 @@ public class PersistedVoyageTestScenario implements TestScenario {
                     .withRoute(persistedRouteTestScenario.getPersistedRoute())
                     .create();
 
-            persistedVoyage = voyageRepository.save(voyage);
+            persistedVoyage = repository.save(voyage);
         } catch (VoyageException exception) {
             throw new TestScenarioException("Failed to setup a voyage test scenario", exception);
         }

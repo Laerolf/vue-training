@@ -31,7 +31,7 @@ public class BookingService {
     private static final Logger LOGGER = Logger.getLogger(BookingService.class.getName());
 
     @Inject
-    private BookingRepository bookingRepository;
+    private BookingRepository repository;
 
     @Inject
     private UserService userService;
@@ -68,7 +68,7 @@ public class BookingService {
 
             Booking newBooking = new BookingCreationFactory(selectedUser, selectedVoyage).create();
             newBooking.setCreated();
-            newBooking = bookingRepository.save(newBooking);
+            newBooking = repository.save(newBooking);
 
             List<Passenger> passengers = passengerService.create(newBooking, creationForm.passengers);
             newBooking.assignPassengers(passengers);
@@ -90,7 +90,7 @@ public class BookingService {
      */
     public Optional<Booking> findById(String id) throws BookingException {
         try {
-            return bookingRepository.findById(id);
+            return repository.findById(id);
         } catch (DomainException exception) {
             LOGGER.warning(new LogBuilder("Failed to find the booking with the provided ID").withException(exception).withProperty("id", id).build());
             throw exception;
@@ -105,7 +105,7 @@ public class BookingService {
      */
     public List<Booking> getAllByUserId(String userId) throws BookingException {
         try {
-            return bookingRepository.getAllByUserId(userId);
+            return repository.getAllByUserId(userId);
         } catch (DomainException exception) {
             LOGGER.warning(new LogBuilder("Failed to find the booking with the provided user ID").withException(exception).withProperty("userId", userId).build());
             throw exception;
@@ -120,7 +120,7 @@ public class BookingService {
      */
     public List<Booking> getAllByVoyageId(String voyageId) throws BookingException {
         try {
-            return bookingRepository.getAllByVoyageId(voyageId);
+            return repository.getAllByVoyageId(voyageId);
         } catch (DomainException exception) {
             LOGGER.warning(new LogBuilder("Failed to find the booking with the provided voyage ID").withException(exception).withProperty("voyageId", voyageId).build());
             throw exception;
@@ -135,7 +135,7 @@ public class BookingService {
      */
     public Booking save(Booking booking) throws BookingException {
         try {
-            return bookingRepository.save(booking);
+            return repository.save(booking);
         } catch (DomainException exception) {
             LOGGER.warning(new LogBuilder(BookingError.SAVE).withException(exception).withProperty("booking.id", booking.getId()).build());
             throw exception;
@@ -150,7 +150,7 @@ public class BookingService {
      */
     public List<Booking> save(List<Booking> bookings) throws BookingException {
         try {
-            return bookingRepository.save(bookings);
+            return repository.save(bookings);
         } catch (DomainException exception) {
             LOGGER.warning(new LogBuilder(BookingError.SAVE_LIST).withException(exception).build());
             throw exception;

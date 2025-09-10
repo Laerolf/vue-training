@@ -39,7 +39,7 @@ public class LocationService {
      * The location repository.
      */
     @Inject
-    private LocationRepository locationRepository;
+    private LocationRepository repository;
 
     /**
      * The location characteristics service.
@@ -102,7 +102,7 @@ public class LocationService {
                 return Location.reconstruct(id, name, latitude, longitude, radialDistance, locationCharacteristics);
             }).collect(Collectors.toList());
 
-            locationRepository.save(parsedLocations);
+            repository.save(parsedLocations);
             LOGGER.info(new LogBuilder(String.format("Created %d locations.", parsedLocations.size())).build());
         } catch (JsonException | NullPointerException | DomainException exception) {
             LOGGER.warning(new LogBuilder(LocationError.LOAD_INITIAL_DATA).withException(exception).build());
@@ -117,7 +117,7 @@ public class LocationService {
      */
     public List<Location> getAll() throws LocationException {
         try {
-            return locationRepository.getAll();
+            return repository.getAll();
         } catch (DomainException exception) {
             LOGGER.warning(new LogBuilder(LocationError.GET_ALL).withException(exception).build());
             throw exception;
@@ -132,7 +132,7 @@ public class LocationService {
      */
     public Optional<Location> findById(String id) throws LocationException {
         try {
-            return locationRepository.findById(id);
+            return repository.findById(id);
         } catch (DomainException exception) {
             LOGGER.warning(new LogBuilder(LocationError.FIND_BY_ID).withException(exception).withProperty("id", id).build());
             throw exception;

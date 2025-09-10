@@ -25,7 +25,7 @@ public class PodReservationService {
     private static final Logger LOGGER = Logger.getLogger(PodReservationService.class.getName());
 
     @Inject
-    private PodReservationRepository podReservationRepository;
+    private PodReservationRepository repository;
 
     protected PodReservationService() {
     }
@@ -50,7 +50,7 @@ public class PodReservationService {
 
             PodReservation newPodReservation = new PodReservationFactory(voyage, passenger, requestedPodCode, reservations).create();
 
-            return podReservationRepository.save(newPodReservation);
+            return repository.save(newPodReservation);
         } catch (PodException | PodReservationException | PodCodeException exception) {
             LOGGER.warning(new LogBuilder("Failed to reserve a pod for a passenger").withException(exception).build());
             throw exception;
@@ -65,7 +65,7 @@ public class PodReservationService {
      */
     public List<PodReservation> getAllPodReservationsByVoyage(Voyage voyage) throws PodReservationException {
         try {
-            return podReservationRepository.getAllBySpaceShuttleAndVoyage(voyage);
+            return repository.getAllBySpaceShuttleAndVoyage(voyage);
         } catch (PodReservationException exception) {
             LOGGER.warning(new LogBuilder("Failed to get all pod reservations of the provided voyage").withException(exception).build());
             throw exception;

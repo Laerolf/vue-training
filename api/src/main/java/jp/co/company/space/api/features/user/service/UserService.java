@@ -26,7 +26,7 @@ public class UserService {
      * The user repository.
      */
     @Inject
-    private UserRepository userRepository;
+    private UserRepository repository;
 
     protected UserService() {
     }
@@ -39,7 +39,7 @@ public class UserService {
      */
     public Optional<User> findByUserPrincipal(Principal userPrincipal) throws UserException {
         try {
-            return userRepository.findById(userPrincipal.getName());
+            return repository.findById(userPrincipal.getName());
         } catch (UserException exception) {
             LOGGER.warning(new LogBuilder(UserError.FIND_BY_REQUEST_CONTEXT).withException(exception).build());
             throw exception;
@@ -54,7 +54,7 @@ public class UserService {
      */
     public Optional<User> findById(String id) throws UserException {
         try {
-            return userRepository.findById(id);
+            return repository.findById(id);
         } catch (UserException exception) {
             LOGGER.warning(new LogBuilder(UserError.FIND_BY_ID).withException(exception).withProperty("id", id).build());
             throw exception;
@@ -69,7 +69,7 @@ public class UserService {
      */
     public Optional<User> findByEmailAddress(String emailAddress) throws UserException {
         try {
-            return userRepository.findByEmailAddress(emailAddress);
+            return repository.findByEmailAddress(emailAddress);
         } catch (UserException exception) {
             LOGGER.warning(new LogBuilder(UserError.FIND_BY_EMAIL_ADDRESS).withException(exception).withProperty("emailAddress", emailAddress).build());
             throw exception;
@@ -85,7 +85,7 @@ public class UserService {
     public User create(UserCreationForm creationForm) throws UserException {
         try {
             User newUser = new UserCreationFactory(creationForm).create();
-            newUser = userRepository.save(newUser);
+            newUser = repository.save(newUser);
 
             LOGGER.info(new LogBuilder("Created a new user").withProperty("user.id", newUser.getId()).build());
             return newUser;

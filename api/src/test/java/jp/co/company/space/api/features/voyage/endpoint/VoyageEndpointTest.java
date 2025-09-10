@@ -61,7 +61,7 @@ public class VoyageEndpointTest {
     }
 
     /**
-     * Tests the properties of a {@link VoyageBasicDto} instance.
+     * Tests the properties of a {@link VoyageBasicDto}.
      *
      * @param voyageDto The voyage to test.
      */
@@ -80,7 +80,7 @@ public class VoyageEndpointTest {
     }
 
     /**
-     * Tests the sizes of a collection of {@link PodDto} instances.
+     * Tests the sizes of a collection of {@link PodDto}s.
      *
      * @param pods    The pod DTOs to test.
      * @param podType The type of pods to test.

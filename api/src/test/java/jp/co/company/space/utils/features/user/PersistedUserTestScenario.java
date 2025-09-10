@@ -28,7 +28,7 @@ import java.util.Scanner;
 public class PersistedUserTestScenario implements TestScenario {
 
     @Inject
-    private UserRepository userRepository;
+    private UserRepository repository;
 
     @Inject
     @ConfigProperty(name = "mp.jwt.create.privatekey.location")
@@ -69,7 +69,7 @@ public class PersistedUserTestScenario implements TestScenario {
                     .withPassword(unpersistedUser.getPassword())
                     .withHashPassword()
                     .create();
-            persistedUser = userRepository.save(userToPersist);
+            persistedUser = repository.save(userToPersist);
         } catch (UserException | IOException | NoSuchAlgorithmException | InvalidKeySpecException exception) {
             throw new TestScenarioException("Failed to setup a registered user test scenario", exception);
         }

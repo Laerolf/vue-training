@@ -18,7 +18,7 @@ public class SpaceStationTestScenario implements TestScenario {
     public PersistedLocationTestScenario persistedLocationTestScenario;
 
     @Inject
-    public SpaceStationRepository spaceStationRepository;
+    public SpaceStationRepository repository;
 
     private SpaceStation persistedSpaceStation;
 
@@ -31,7 +31,7 @@ public class SpaceStationTestScenario implements TestScenario {
             persistedLocationTestScenario.setup();
 
             SpaceStation spaceStation = new SpaceStationTestDataBuilder().create(persistedLocationTestScenario.getPersistedLocation());
-            persistedSpaceStation = spaceStationRepository.save(spaceStation);
+            persistedSpaceStation = repository.save(spaceStation);
         } catch (TestScenarioException | SpaceStationException exception) {
             throw new TestScenarioException("Failed to setup a space station test scenario", exception);
         }

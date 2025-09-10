@@ -27,7 +27,7 @@ public class SpaceShuttleEndpointTest {
     private WebTarget target;
 
     /**
-     * Tests the properties of a {@link SpaceShuttleBasicDto} instance.
+     * Tests the properties of a {@link SpaceShuttleBasicDto}.
      * @param spaceShuttleDto The space shuttle to test.
      */
     private void testSpaceShuttleBasicDto(SpaceShuttleBasicDto spaceShuttleDto) {

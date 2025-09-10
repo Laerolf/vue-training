@@ -29,7 +29,7 @@ public class PersistedRouteTestScenario implements TestScenario {
     private PersistedSpaceShuttleModelTestScenario persistedSpaceShuttleModelTestScenario;
 
     @Inject
-    private RouteRepository routeRepository;
+    private RouteRepository repository;
 
     @Inject
     private SpaceStationRepository spaceStationRepository;
@@ -68,7 +68,7 @@ public class PersistedRouteTestScenario implements TestScenario {
                     destinationStation,
                     persistedSpaceShuttleModelTestScenario.getPersistedSpaceShuttleModel()
             );
-            persistedRoute = routeRepository.save(route);
+            persistedRoute = repository.save(route);
         } catch (TestScenarioException | DomainException exception) {
             throw new TestScenarioException("Failed to setup a route test scenario", exception);
         }

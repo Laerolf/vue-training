@@ -13,7 +13,7 @@ import jp.co.company.space.utils.shared.testScenario.TestScenarioException;
 public class PersistedLocationTestScenario implements TestScenario {
 
     @Inject
-    private LocationRepository locationRepository;
+    private LocationRepository repository;
 
     private Location persistedLocation;
 
@@ -25,7 +25,7 @@ public class PersistedLocationTestScenario implements TestScenario {
         try {
             Location location = new LocationTestDataBuilder().create();
 
-            persistedLocation = locationRepository.save(location);
+            persistedLocation = repository.save(location);
         } catch (LocationException exception) {
             throw new TestScenarioException("Failed to setup a location test scenario", exception);
         }

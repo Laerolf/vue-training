@@ -13,7 +13,7 @@ import jp.co.company.space.utils.shared.testScenario.TestScenarioException;
 public class PersistedSpaceShuttleModelTestScenario implements TestScenario {
 
     @Inject
-    private SpaceShuttleModelRepository spaceShuttleModelRepository;
+    private SpaceShuttleModelRepository repository;
 
     private SpaceShuttleModel persistedSpaceShuttleModel;
 
@@ -24,7 +24,7 @@ public class PersistedSpaceShuttleModelTestScenario implements TestScenario {
     public void setup() {
         try {
             SpaceShuttleModel spaceShuttleModel = new SpaceShuttleModelTestDataBuilder().create();
-            persistedSpaceShuttleModel = spaceShuttleModelRepository.save(spaceShuttleModel);
+            persistedSpaceShuttleModel = repository.save(spaceShuttleModel);
         } catch (TestScenarioException | SpaceShuttleModelException exception) {
             throw new TestScenarioException("Failed to setup a space shuttle model test scenario", exception);
         }

@@ -24,7 +24,7 @@ public class PersistedBookingTestScenario implements TestScenario {
     private PersistedVoyageTestScenario persistedVoyageTestScenario;
 
     @Inject
-    private BookingRepository bookingRepository;
+    private BookingRepository repository;
 
     private Booking persistedBooking;
 
@@ -42,7 +42,7 @@ public class PersistedBookingTestScenario implements TestScenario {
                     persistedVoyageTestScenario.getPersistedVoyage()
             );
 
-            persistedBooking = bookingRepository.save(booking);
+            persistedBooking = repository.save(booking);
         } catch (TestScenarioException | BookingException exception) {
             throw new TestScenarioException("Failed to setup a booking test scenario", exception);
         }
